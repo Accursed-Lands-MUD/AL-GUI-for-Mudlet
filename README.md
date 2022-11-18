@@ -15,8 +15,8 @@ Enjoy!
 - Mud enabled GA by default so functions like isPrompt() work.
 - Sends IAC GA at the end of every prompt and when done sending data.
 - Mapping scripts for both the wilderness and in points of interest.
- - (Pending) Includes the map of the newbie training area
-  - Method to be determined:  MMP or via downloadFile() + loadMap().
+  - (Pending) Includes the map of the newbie training area
+    - Method to be determined:  MMP or via downloadFile() + loadMap().
 - Interface tracks player vital stats, player combat styles and inventory
 - Tabbed chat included as well for MUD channels.
 - This page and its releases are updated regularily and using the GMCP extension that Mudlet makes use of.
