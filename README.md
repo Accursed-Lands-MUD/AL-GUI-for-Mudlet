@@ -26,7 +26,7 @@ Enjoy!
 After creating a Mudlet profile to connect to Accursed Lands, add the package by:
 
 1.    Downloading a release of this package (the .mpackage file) from the [releases page](https://github.com/Accursed-Lands-MUD/AL-GUI-for-Mudlet/releases)
-2.    Open the Package Manager in Mudlet
+2.    Open the Package Manager in Mudlet (alt-o)
 - If present, uninstall the generic-mapper package. It may conflict with the one provided here.
 
   <img src="https://user-images.githubusercontent.com/59232016/202616813-7b79b6d0-9510-4ba9-a0e1-7b3c5b769b4b.png" width="200" />
@@ -36,8 +36,8 @@ After creating a Mudlet profile to connect to Accursed Lands, add the package by
   <img src="https://user-images.githubusercontent.com/59232016/202617253-70fa4f6e-8cc3-4d9d-a08f-66cd551e85bd.png" width="200" />
 
 
-3.    Restart Mudlet and reconnect. The UI will populate fully once you log in with your account.
-- Perform commands such as info, inventory, look, style and survey.
+3.    Restart Mudlet and reconnect. The UI will start to populate once you log in with your account.
+- Perform in game MUD commands such as info, inventory, look, style and survey to speed up the discovery process.
 
 
 # Version 2 mock up for where this is going:
