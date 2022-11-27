@@ -41,8 +41,10 @@ After creating a Mudlet profile to connect to Accursed Lands, add the package by
 
 
 # Version 2 mock up for where this is going:
+  
   <img src="https://user-images.githubusercontent.com/59232016/202612971-754f0c50-549e-4b5b-86d5-d1bd703c49a7.png" width="200" />
 
 # Notes and Best Practices
 If you are getting weird characters such as �, your Mudlet client is probably configured for ASCII server encoding.  Change it to UTF-8 (recommended) 
+  
 <img src="https://user-images.githubusercontent.com/59232016/204164475-f4bdfb9e-f4db-4da4-bbde-7e7e3ee17870.png" width="200" />
