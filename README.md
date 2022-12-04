@@ -48,3 +48,12 @@ After creating a Mudlet profile to connect to Accursed Lands, add the package by
 If you are getting weird characters such as �, your Mudlet client is probably configured for ASCII server encoding.  Change it to UTF-8 (recommended) 
   
 <img src="https://user-images.githubusercontent.com/59232016/204164475-f4bdfb9e-f4db-4da4-bbde-7e7e3ee17870.png" width="200" />
+
+
+For Points of Interest that have multiple/different exits or are larger than 1 wilderness tile...
+
+- The auto-mapper will work fine if you have the wilderness area mapped around the exits ahead of time. 
+
+- However, if you exit a POI into an unmapped wilderness area, it will create a new room in a weird place causing a visually disjointed map. 
+
+- This has to be manually fixed by the player experiencing the problem.
