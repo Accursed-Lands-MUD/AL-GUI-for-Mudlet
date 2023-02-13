@@ -1,0 +1,38 @@
+[
+  {
+    "name": "says",
+    "patterns": [
+      {
+        "pattern": "^.+ (?:say|ask|exclaim)s?",
+        "type": "regex"
+      }
+    ]
+  },
+  {
+    "name": "chat channel",
+    "patterns": [
+      {
+        "pattern": "[chat]",
+        "type": "startOfLine"
+      }
+    ]
+  },
+  {
+    "name": "mentor channel",
+    "patterns": [
+      {
+        "pattern": "[mentor]",
+        "type": "startOfLine"
+      }
+    ]
+  },
+  {
+    "name": "Newbie Channel",
+    "patterns": [
+      {
+        "pattern": "[newbie]",
+        "type": "startOfLine"
+      }
+    ]
+  }
+]
