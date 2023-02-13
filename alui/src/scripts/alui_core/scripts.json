@@ -1,0 +1,44 @@
+[
+  {
+    "name": "style_update",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Char.Style"
+    ]
+  },
+  {
+    "name": "status_update",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Char.Status"
+    ]
+  },
+  {
+    "name": "vitals_update",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Char.Vitals"
+    ]
+  },
+  {
+    "name": "status_window",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "alui status window"
+    ]
+  },
+  {
+    "name": "room_update",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Room.Info"
+    ]
+  },
+  {
+    "name": "survey_update",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Room.survey"
+    ]
+  }
+]
