@@ -1,0 +1,25 @@
+name: Build project using muddler and upload artifact
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3.3.0
+
+      - name: Muddle
+        uses: demonnic/build-with-muddler@main
+        with:
+          workingDir: ${{ github.workspace }}/alui
+      
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: alui-package
+          path: alui/build/tmp/
