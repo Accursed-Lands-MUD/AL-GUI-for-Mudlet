@@ -22,9 +22,35 @@ local terrain_types = {
     -- each id value must be unique, terrain types not listed here will use mapper default color
     -- not used if you define these in a map XML file
     ["Inside"] = {id = 1, r = 255, g = 0, b = 0},
-    ["light forest"] = {id = 17, r = 0, g = 122, b = 0},
-    ["heavy forest"] = {id = 18, r = 50, g = 255, b = 50},
+    ["ocean"] = {id = 20, r = 0, g = 0, b = 128}, -- 'navy'
     ["plains"] = {id = 19, r = 0, g = 255, b = 0},
+    ["light forest"] = {id = 17, r = 34, g = 139, b = 34}, -- 'forestgreen'
+    ["dense forest"] = {id = 18, r = 0, g = 100, b = 0}, -- 'darkgreen'
+    ["hills"] = {id = 21, r = 218, g = 165, b = 32}, -- 'goldenrod'
+    ["mountains"] = {id = 22, r = 160, g = 82, b = 45}, -- 'sienna'
+    ["lake"] = {id = 23, r = 0, g = 25, b = 167},
+    ["swamp"] = {id = 24, r = 128, g = 0, b = 128}, -- 'purple'
+    ["desert"] = {id = 25, r = 240, g = 230, b = 140}, -- 'khaki'
+    ["min river"] = {id = 26, r = 0, g = 25, b = 167},
+    ["river"] = {id = 27, r = 0, g = 25, b = 167},
+    ["sw river"] = {id = 28, r = 0, g = 25, b = 167},
+    ["w river"] = {id = 29, r = 0, g = 25, b = 167},
+    ["nw river"] = {id = 30, r = 0, g = 25, b = 167},
+    ["n river"] = {id = 31, r = 0, g = 25, b = 167},
+    ["ne river"] = {id = 32, r = 0, g = 25, b = 167},
+    ["e river"] = {id = 33, r = 0, g = 25, b = 167},
+    ["se river"] = {id = 34, r = 0, g = 25, b = 167},
+    ["s river"] = {id = 35, r = 0, g = 25, b = 167},
+    ["max river"] = {id = 36, r = 0, g = 25, b = 167},
+    ["under ocean"] = {id = 37, r = 0, g = 0, b = 128},
+    ["under lake"] = {id = 38, r = 0, g = 25, b = 167},
+    ["under river"] = {id = 39, r = 0, g = 25, b = 167},
+    ["sky"] = {id = 40, r = 135, g = 206, b = 235}, -- 'skyblue'
+    ["road"] = {id = 41, r = 211, g = 211, b = 211}, -- 'lightgrey'
+    ["bridge"] = {id = 42, r = 211, g = 211, b = 211},-- 'lightgrey'
+    ["beach"] = {id = 43, r = 255, g = 239, b = 213}, -- 'papayawhip'
+    ["pond"] = {id = 44, r = 0, g = 25, b = 167},
+    ["tundra"] = {id = 45, r = 245, g = 245, b = 245}, -- 'whitesmoke'
 }
 
 -- list of possible movement directions and appropriate coordinate changes
