@@ -1,6 +1,6 @@
 # alui Mudlet package
 
-The package source is built with Muddler (link) and more information about how the build system works can be found in the project wiki (link)
+The package source is built with [Muddler](https://github.com/demonnic/muddler) and more information about how the build system works can be found in [the project wiki](https://github.com/demonnic/muddler/wiki/Usage#usage)
 
 # Building
 

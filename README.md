@@ -4,7 +4,7 @@ Excited to share with you the work of a Mudlet UI for Accursed Lands:
 - telnet://mud.accursed-lands.com:8000 or you can use a browser to
 - http://mud.accursed-lands.com:7878
 
-![Ongoing version 1.x releases page](https://github.com/Accursed-Lands-MUD/AL-GUI-for-Mudlet/releases); please see the chat in our discord for updates - https://discord.gg/yZ6uNSM
+[Ongoing version 1.x releases page](https://github.com/Accursed-Lands-MUD/AL-GUI-for-Mudlet/releases); please see the chat in our discord for updates - https://discord.gg/yZ6uNSM
 
 Enjoy!
 
@@ -26,12 +26,12 @@ Enjoy!
 After creating a Mudlet profile to connect to Accursed Lands, add the package by:
 
 1.    Downloading a release of this package (the .mpackage file) from the [releases page](https://github.com/Accursed-Lands-MUD/AL-GUI-for-Mudlet/releases)
-2.    Open the Package Manager in Mudlet (alt-o)
+2.    Open the Package Manager in Mudlet (<kbd>Alt</kbd>+<kbd>o</kbd>)
 - If present, uninstall the generic-mapper package. It may conflict with the one provided here.
 
   <img src="https://user-images.githubusercontent.com/59232016/202616813-7b79b6d0-9510-4ba9-a0e1-7b3c5b769b4b.png" width="200" />
 
-- Select the alui_<version>.mpackage file downloaded in step 1 for installation
+- Select the alui_\<version>.mpackage file downloaded in step 1 for installation
 
   <img src="https://user-images.githubusercontent.com/59232016/202617253-70fa4f6e-8cc3-4d9d-a08f-66cd551e85bd.png" width="200" />
 
