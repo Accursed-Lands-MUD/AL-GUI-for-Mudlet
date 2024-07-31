@@ -24,7 +24,7 @@ function vitals_update(e)
         [0] = "broken",
     })
 
-    if type(vit.List) ~= "table" then
+    if type(vit.List) == "table" then
         for k, v in pairs(vit.List) do
             alui.health[k] = c[v] or 0
         end
