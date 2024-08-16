@@ -40,5 +40,9 @@
     "eventHandlerList": [
       "gmcp.Room.survey"
     ]
+  },
+  {
+    "name": "alui_chat_cap",
+    "isActive": "yes"
   }
 ]
