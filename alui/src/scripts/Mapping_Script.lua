@@ -145,14 +145,18 @@ local function shift_room(dir)
     if type(map.room_info.vnum) ~= "string" then
         return
     end
-    local ID = getRoomIDbyHash(map.room_info.vnum)
-    local x, y, z = getRoomCoordinates(ID)
-    local x1, y1, z1 = table.unpack(move_vectors[dir])
-    x = x + x1
-    y = y + y1
-    z = z + z1
-    setRoomCoordinates(ID, x, y, z)
-    updateMap()
+
+    if type(map.room_info.vnum) == "string" then
+        local ID = getRoomIDbyHash(map.room_info.vnum)
+        local x, y, z = getRoomCoordinates(ID)
+        local x1, y1, z1 = table.unpack(move_vectors[dir])
+        x = x + x1
+        y = y + y1
+        z = z + z1
+        setRoomCoordinates(ID, x, y, z)
+        updateMap()
+
+    end
 
 end
 
@@ -161,19 +165,22 @@ local function handle_move()
     if type(info.vnum) ~= "string" then
         return
     end
-    local rnum = getRoomIDbyHash(info.vnum)
-    if rnum < 1 then
-        make_room()
-    else
-        local stubs = getExitStubs1(rnum)
-        if stubs then
-            for _, n in ipairs(stubs) do
-                local dir = table.flip(stubmap)[n]
-                if type(info.exits[dir]) == "string" then
-                    local id = getRoomIDbyHash(info.exits[dir])
-                    -- need to see how special exits are represented to handle those properly here
-                    if (id > 0) and getRoomName(id) then
-                        connectExitStub(rnum, id, dir)
+
+    if type(info.vnum) == "string" then
+        local rnum = getRoomIDbyHash(info.vnum)
+        if rnum < 1 then
+            make_room()
+        else
+            local stubs = getExitStubs1(rnum)
+            if stubs then
+                for _, n in ipairs(stubs) do
+                    local dir = table.flip(stubmap)[n]
+                    if type(info.exits[dir]) == "string" then
+                        local id = getRoomIDbyHash(info.exits[dir])
+                        -- need to see how special exits are represented to handle those properly here
+                        if (id > 0) and getRoomName(id) then
+                            connectExitStub(rnum, id, dir)
+                        end
                     end
                 end
             end
