@@ -138,7 +138,9 @@ local function make_room()
             end
         end
     end
-    centerview(thisRoom)
+    if thisRoom ~= nil then
+        centerview(thisRoom)
+    end
 end
 
 local function shift_room(dir)
@@ -186,7 +188,9 @@ local function handle_move()
             end
         end
     end
-    centerview(rnum)
+    if rnum ~= nil then
+        centerview(rnum)
+    end
 end
 
 local function config()
