@@ -10,26 +10,27 @@ function room_update(e)
     local m = alui.roommini
     m:clear()
     if r.brief then
-        m:echo(r.brief)
+        m:cecho(r.brief)
     end
     if r.heat then
-        m:echo(f "\n{r.heat}")
+        m:cecho("\nIt is " .. r.heat .. '.')
     end
     if r.height and (r.height ~= "") then
-        m:echo(f "\nThere is {r.height}.")
+        m:cecho("\nThere is " .. r.height .. ".")
+
     end
     if r.light and (r.light ~= "") then
-        m:echo(f "\nIt is {r.light}\.")
+        m:cecho("\nIt is " .. r.light .. ".")
     end
 
-    m:echo("\n\nCreatures:")
+    m:cecho("\n\nCreatures:")
     if type(r.creatures) == "table" then
         for k, v in ipairs(r.creatures) do
-            m:echo(f "\n {v}")
+            m:cecho("\n " .. v)
         end
     end
 
-    m:echo("\n\nItems:")
+    m:cecho("\n\nItems:")
     if type(r.inventory) == "table" then
         local count = {}
         for k, v in ipairs(r.inventory) do
@@ -37,9 +38,9 @@ function room_update(e)
         end
         for k, v in pairs(count) do
             if v > 1 then
-                m:echo(f "\n {v}x {k}")
+                m:cecho("\n " .. v .. "x " .. k)
             else
-                m:echo(f "\n {k}")
+                m:cecho("\n " .. k)
             end
         end
     end
