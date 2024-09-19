@@ -1,7 +1,7 @@
 alui.status = alui.status or {}
 
 local fatigue_levels = {
-    ["well rested"] = "<ansi_cyan>well rested<reset>",
+    ["well rested"] = "<ansi_light_cyan>well rested<reset>",
     ["barely tired"] = "<ansi_green>barely tired<reset>",
     ["somewhat tired"] = "<ansi_green>somewhat tired<reset>",
     ["winded"] = "<ansi_green>winded<reset>",
@@ -24,7 +24,7 @@ function status_update(e)
 
     alui.status.fatigue = fatigue_levels[status.Fatigue]
     alui.status.posture = status.Posture
-    alui.status.meline = f "You are {status.Name:title()}, a {status.Age} year old {status.Race}."
+    alui.status.meline = "You are " .. status.Name:title() .. ", a " .. status.Age .. " year old " .. status.Race .. "."
 
     raiseEvent("alui status window")
 end
