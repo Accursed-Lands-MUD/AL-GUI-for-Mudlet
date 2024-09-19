@@ -6,47 +6,127 @@ function status_window(e)
     alui.combatmini:clear()
     local status = alui.status
     if status.hunger then
-        alui.combatmini:cecho(f "You are {status.hunger} and {status.thirst}.\n")
+        alui.combatmini:cecho("You are " .. status.hunger .. " and " .. status.thirst .. ".\n")
     end
     if status.fatigue then
-        alui.combatmini:cecho(f "You are {status.fatigue}.\n")
+        alui.combatmini:cecho("You are " .. status.fatigue .. ".\n")
     end
     if status.posture then
-        alui.combatmini:cecho(f "You are {status.posture}.\n")
+        alui.combatmini:cecho("You are " .. status.posture .. ".\n")
     end
 
     local m = alui.combatmini
 
     if alui.health then
-        m:cecho(f [[
 
-      Body: {alui.health.body}/9
-      Head: {alui.health.head}/9
-  Left Arm: {alui.health["left arm"]}/9
-  Left Leg: {alui.health["left leg"]}/9]])
-        if alui.health["left wing"] then
-            m:cecho(f [[
+        m:cecho("\n")
 
- Left Wing: {alui.health["left wing"]}/9]])
+        if alui.health.body then
+            m:cecho("      Body: " .. alui.health.body .. "/9\n")
         end
 
-        m:cecho(f [[
+        if alui.health.head then
+            m:cecho("      Head: " .. alui.health.head .. "/9\n")
+        end
 
- Right Arm: {alui.health["right arm"]}/9
- Right Leg: {alui.health["right leg"]}/9]])
+        if alui.health["left arm"] then
+            m:cecho("  Left Arm: " .. alui.health["left arm"] .. "/9\n")
+        end
+
+        if alui.health["left leg"] then
+            m:cecho("  Left Leg: " .. alui.health["left leg"] .. "/9\n")
+        end
+
+        if alui.health["left wing"] then
+            m:cecho("Left Wing: " .. alui.health["left wing"] .. "/9\n")
+        end
+
+        if alui.health["right arm"] then
+            m:cecho(" Right Arm: " .. alui.health["right arm"] .. "/9\n")
+        end
+
+        if alui.health["right leg"] then
+            m:cecho(" Right Leg: " .. alui.health["right leg"] .. "/9\n")
+        end
 
         if alui.health["right wing"] then
-            m:cecho(f [[
-
-Right Wing: {alui.health["right wing"]}/9]])
+            m:cecho("Right Wing: " .. alui.health["right wing"] .. "/9\n")
         end
 
+        if alui.health.tail then
+            m:cecho("      Tail: " .. alui.health.tail .. "/9\n")
+        end
 
-    end
+        if alui.health["left front leg"] then
+            m:cecho("Left Front Leg: " .. alui.health["left front leg"] .. "/9\n")
+        end
 
-    if alui.health.tail then
-        m:cecho(f [[
+        if alui.health["left hind leg"] then
+            m:cecho("Left Hind Leg: " .. alui.health["left hind leg"] .. "/9\n")
+        end
 
-      Tail: {alui.health.tail}/9]])
+        if alui.health["left rear leg"] then
+            m:cecho("Left Rear Leg: " .. alui.health["left rear leg"] .. "/9\n")
+        end
+
+        if alui.health["lower left arm"] then
+            m:cecho("Lower Left Arm: " .. alui.health["lower left arm"] .. "/9\n")
+        end
+
+        if alui.health["lower right arm"] then
+            m:cecho("Lower Right Arm: " .. alui.health["lower right arm"] .. "/9\n")
+        end
+
+        if alui.health["lower torso"] then
+            m:cecho("Lower Torso: " .. alui.health["lower torso"] .. "/9\n")
+        end
+
+        if alui.health["right front leg"] then
+            m:cecho("Right Front Leg: " .. alui.health["right front leg"] .. "/9\n")
+        end
+
+        if alui.health["right hind leg"] then
+            m:cecho("Right Hind Leg: " .. alui.health["right hind leg"] .. "/9\n")
+        end
+
+        if alui.health["right rear leg"] then
+            m:cecho("Right Rear Leg: " .. alui.health["right rear leg"] .. "/9\n")
+        end
+
+        if alui.health["upper left arm"] then
+            m:cecho("Upper Left Arm: " .. alui.health["upper left arm"] .. "/9\n")
+        end
+
+        if alui.health["upper right arm"] then
+            m:cecho("Upper Right Arm: " .. alui.health["upper right arm"] .. "/9\n")
+        end
+
+        if alui.health["upper torso"] then
+            m:cecho("Upper Torso: " .. alui.health["upper torso"] .. "/9\n")
+        end
+
+        if alui.health["lower left tentacle"] then
+            m:cecho("Lower Left Tentacle: " .. alui.health["lower left tentacle"] .. "/9\n")
+        end
+
+        if alui.health["lower right tentacle"] then
+            m:cecho("Lower Right Tentacle: " .. alui.health["lower right tentacle"] .. "/9\n")
+        end
+
+        if alui.health["primary tentacle"] then
+            m:cecho("Primary Tentacle: " .. alui.health["primary tentacle"] .. "/9\n")
+        end
+
+        if alui.health.torso then
+            m:cecho("Torso: " .. alui.health.torso .. "/9\n")
+        end
+
+        if alui.health["upper left tentacle"] then
+            m:cecho("Upper Left Tentacle: " .. alui.health["upper left tentacle"] .. "/9\n")
+        end
+
+        if alui.health["upper right tentacle"] then
+            m:cecho("Upper Right Tentacle: " .. alui.health["upper right tentacle"] .. "/9\n")
+        end
     end
 end
