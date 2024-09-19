@@ -12,7 +12,7 @@ function room_update(e)
     if r.brief then
         m:cecho(r.brief)
     end
-    if r.heat then
+    if r.heat and r.heat:len() > 0 then
         m:cecho("\nIt is " .. r.heat .. '.')
     end
     if r.height and (r.height ~= "") then
