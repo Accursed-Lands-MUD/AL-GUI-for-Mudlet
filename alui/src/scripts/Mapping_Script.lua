@@ -186,10 +186,8 @@ local function handle_move()
                     end
                 end
             end
+            centerview(rnum)
         end
-    end
-    if rnum ~= nil then
-        centerview(rnum)
     end
 end
 
