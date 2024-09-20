@@ -15,8 +15,6 @@ function style_update(event)
 
     end
 
-    echo(yajl.to_string(alui.style))
-
     alui.stylemini:clear()
 
     alui.stylemini:cecho("You are aiming at the " .. alui.style.Aim .. ".\n")
