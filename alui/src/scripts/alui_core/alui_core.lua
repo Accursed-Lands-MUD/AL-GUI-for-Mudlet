@@ -9,7 +9,6 @@ end
 --end util funcs
 
 alui = alui or {}
-alui.utils = alui.utils or {}
 alui.mapcon = Adjustable.Container:new({
     name = "alui map con",
     x = 0, y = 0,
@@ -97,21 +96,3 @@ alui.chatcon = Adjustable.Container:new({
     height = "75%",
 })
 
-
-
--- util funcs
-
-alui.utils.splitOnAnd = function(input)
-    local parts = {}
-    local start = 1
-    local splitStart, splitEnd = string.find(input, "%sand%s", start)
-
-    while splitStart do
-        table.insert(parts, string.sub(input, start, splitStart - 1))
-        start = splitEnd + 1
-        splitStart, splitEnd = string.find(input, "%sand%s", start)
-    end
-
-    table.insert(parts, string.sub(input, start))
-    return parts
-end
