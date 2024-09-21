@@ -56,14 +56,18 @@ function vitals_update(e)
     --handle healths
     if type(vit.List) == "table" then
         for part, health_and_bleading in pairs(vit.List) do
-            
+
             local health_ends, _ = string.find(health_and_bleading, " and ")
 
+            -- if there is a " and " in the string, then the health is followed by a bleeding status
             if health_ends then
+                -- get the health status without the bleeding status
                 health_and_bleading = string.sub(health_and_bleading, 1, health_ends - 1)
+                -- set the bleeding status for this part to true
                 alui.bleeding[part] = true
             end
 
+            -- set the health status for this part
             alui.health[part] = health_levels[health_and_bleading]
 
         end
