@@ -1,5 +1,8 @@
+alui = alui or {}
+alui.utils = alui.utils or {}
 alui.status = alui.status or {}
 alui.health = alui.health or {}
+alui.bleeding = alui.bleeding or {}
 
 local thirst_colors = {
     ["bloated"] = "<ansi_green>bloated<reset>",
@@ -48,13 +51,45 @@ function vitals_update(e)
     end
     local vit = gmcp.Char.Vitals
 
+    echo('\nvitals_update\n')
+    echo(yajl.to_string(vit))
+    echo('\n\n')
+
     alui.status.hunger = hunger_colors[vit.Hunger]
     alui.status.thirst = thirst_colors[vit.Thirst]
 
     --handle healths
     if type(vit.List) == "table" then
-        for part, health in pairs(vit.List) do
-            alui.health[part] = health_levels[health]
+        for part, health_and_bleading in pairs(vit.List) do
+
+            echo('\n\n')
+
+            echo('part: ' .. part .. '\n')
+
+            echo('health_and_bleading: ' .. health_and_bleading .. '\n')
+
+            echo('\n\n')
+
+            local health_and_bleading_separated = alui.utils.splitOnAnd(health_and_bleading)
+
+            echo('\n\n')
+
+            echo('health_and_bleading_separated: ' .. yajl.to_string(health_and_bleading_separated) .. '\n')
+
+            echo('\n\n')
+
+            for bleeding, health in ipairs(health_and_bleading_separated) do
+
+                echo('\n\n')
+                echo('part: ' .. part .. '\n')
+                echo('health: ' .. health .. '\n')
+                echo('bleeding: ' .. bleeding .. '\n')
+                echo('\n\n')
+
+                alui.health[part] = health_levels[health]
+                alui.bleeding[part] = bleeding
+
+            end
         end
     end
 
