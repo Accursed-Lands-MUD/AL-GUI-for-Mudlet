@@ -65,8 +65,10 @@ function vitals_update(e)
                 health_and_bleading = string.sub(health_and_bleading, 1, health_ends - 1)
                 -- set the bleeding status for this part to true
                 alui.bleeding[part] = true
+            else
+                -- set the bleeding status for this part to false
+                alui.bleeding[part] = false
             end
-
             -- set the health status for this part
             alui.health[part] = health_levels[health_and_bleading]
 
