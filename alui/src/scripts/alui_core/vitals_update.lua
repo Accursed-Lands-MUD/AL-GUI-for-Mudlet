@@ -61,6 +61,8 @@ function vitals_update(e)
 
             -- if there is a " and " in the string, then the health is followed by a bleeding status
             if health_ends then
+
+                echo("health_and_bleading: " .. health_and_bleading .. "\n")
                 -- get the health status without the bleeding status
                 health_and_bleading = string.sub(health_and_bleading, 1, health_ends - 1)
                 -- set the bleeding status for this part to true
