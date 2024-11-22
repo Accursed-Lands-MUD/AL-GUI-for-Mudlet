@@ -86,9 +86,9 @@ function status_window(e)
 
         if alui.health.tail then
             if alui.bleeding.tail then
-                m:cecho("     Tail: " .. alui.health.tail .. "/9 <red>bleeding<reset>\n")
+                m:cecho("      Tail: " .. alui.health.tail .. "/9 <red>bleeding<reset>\n")
             else
-                m:cecho("     Tail: " .. alui.health.tail .. "/9\n")
+                m:cecho("      Tail: " .. alui.health.tail .. "/9\n")
             end
         end
 
