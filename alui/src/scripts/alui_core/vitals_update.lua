@@ -1,5 +1,7 @@
+alui = alui or {}
 alui.status = alui.status or {}
 alui.health = alui.health or {}
+alui.bleeding = alui.bleeding or {}
 
 local thirst_colors = {
     ["bloated"] = "<ansi_green>bloated<reset>",
@@ -22,7 +24,7 @@ local hunger_colors = {
     ["peckish"] = "<yellow>peckish<reset>",
     ["slightly hungry"] = "<yellow>sightly hungry<reset>",
     ["hungry"] = "<yellow>hungry<reset>",
-    ["very hungry"] = "<red>vry hungry<reset>",
+    ["very hungry"] = "<yellow>very hungry<reset>",
     ["famished"] = "<red>famished<reset>",
     ["starving"] = "<red>starving<reset>",
     ["dying of hunger"] = "<red>dying of hunger<reset>",
@@ -53,8 +55,24 @@ function vitals_update(e)
 
     --handle healths
     if type(vit.List) == "table" then
-        for part, health in pairs(vit.List) do
-            alui.health[part] = health_levels[health]
+        for part, health_and_bleading in pairs(vit.List) do
+
+            local health_ends, _ = string.find(health_and_bleading, " and ")
+
+            -- if there is a " and " in the string, then the health is followed by a bleeding status
+            if health_ends then
+
+                -- get the health status without the bleeding status
+                health_and_bleading = string.sub(health_and_bleading, 1, health_ends - 1)
+                -- set the bleeding status for this part to true
+                alui.bleeding[part] = true
+            else
+                -- set the bleeding status for this part to false
+                alui.bleeding[part] = false
+            end
+            -- set the health status for this part
+            alui.health[part] = health_levels[health_and_bleading]
+
         end
     end
 

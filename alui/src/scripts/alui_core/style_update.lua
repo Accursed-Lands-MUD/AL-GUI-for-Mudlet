@@ -1,5 +1,15 @@
 alui.style = alui.style or {}
 
+--- Creates a bar for the style window when given the two values to compare.
+--- @param x1 number
+--- @param x2 number
+local function bar(x1, x2)
+    local space1 = x2 / 2
+    local space2 = x1 / 2
+    local out = "<green>[<red>" .. string.rep(" ", space1) .. "*" .. string.rep(" ", space2) .. "<green>]"
+    return out
+end
+
 function style_update(event)
     if event ~= "gmcp.Char.Style" then
         return
@@ -11,8 +21,6 @@ function style_update(event)
         else
             alui.style[f] = v
         end
-
-
     end
 
     alui.stylemini:clear()
@@ -27,9 +35,3 @@ function style_update(event)
 
 end
 
-function bar(x1, x2)
-    local space1 = x2 / 2
-    local space2 = x1 / 2
-    local out = "<green>[<red>" .. string.rep(" ", space1) .. "*" .. string.rep(" ", space2) .. "<green>]"
-    return out
-end
