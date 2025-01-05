@@ -30,6 +30,8 @@ GUI.IconCSS = CSSMan.new([[
 
 
 local function createMenuItem(name, updateFunction, parent)
+
+
     local item = Geyser.Label:new({
         name = 'GUI.Menu.' .. name,
     }, parent)
@@ -227,6 +229,24 @@ GUI.Menu.CommonSense:setClickCallback(function()
     setLabelToolTip("GUI.Menu.CommonSense", toolTip)
 end)
 
+GUI.Menu.Help = createMenuItem("Help", function(self)
+    local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/help_2.png)"
+
+    GUI.IconCSS:set("background-image", iconPath)
+
+    GUI.IconCSS:set("background-color", "rgba(0,0,0,100)")
+
+    self:setStyleSheet(GUI.IconCSS:getCSS())
+end,
+        GUI.Header)
+
+setLabelToolTip("GUI.Menu.Help", 'Help')
+
+GUI.Menu.Help:setClickCallback(function()
+
+
+    send(gameCommand, false)
+end)
 
 
 
@@ -234,26 +254,3 @@ end)
 
 
 
-
-
-
-
-
-
-
-
-
---GUI.Menu.Menu = createMenuItem("Menu", function(self)
---    local iconPath = "url(" .. Package_Root .. "/alui/icons/menuIcon.png)"
---
---
---
---
---    GUI.IconCSS:set("background-image", iconPath)
---
---    GUI.IconCSS:set("background-color", "rgba(0,0,0,100)")
---
---
---    self:setStyleSheet(GUI.IconCSS:getCSS())
---  end,
---  GUI.Header)
