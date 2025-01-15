@@ -212,10 +212,23 @@ GUI.setBoxes = function()
         height = "100%",
     }, GUI.Box2)
 
+    --local survey_width = GUI.Survey_Container:get_width()
+    --local survey_height = GUI.Survey_Container:get_height()
+
+
+    local posX, posY, width, height = GUI.Survey_Container:get_constraints()
+    --echo(string.format("Container Width: %d", width))
+
+    local survey_width = width - (20 * 2)
+    local survey_height = height - (20 * 2)
+
     alui.surveymini = Geyser.MiniConsole:new({
         name = "alui survey mini",
         x = Gui_Padding,
         y = Gui_Padding,
+
+        width = survey_width,
+        height = survey_height,
 
 
         color = "black",
