@@ -216,11 +216,17 @@ GUI.setBoxes = function()
     --local survey_height = GUI.Survey_Container:get_height()
 
 
-    local posX, posY, width, height = GUI.Survey_Container:get_constraints()
+
+    --local posX, posY, width, height = GUI.Survey_Container:get_constraints()
+    local widthString = GUI.Survey_Container.width
+    local heightString = GUI.Survey_Container.height
     --echo(string.format("Container Width: %d", width))
 
-    local survey_width = width - (20 * 2)
-    local survey_height = height - (20 * 2)
+    local width = tonumber(widthString)
+    local height = tonumber(heightString)
+
+    local survey_width = '90%' -- width - (20 * 2)
+    local survey_height = '90%'-- height - (20 * 2)
 
     alui.surveymini = Geyser.MiniConsole:new({
         name = "alui survey mini",
