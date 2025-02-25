@@ -1,5 +1,12 @@
 [
   {
+    "name": "logEvent",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Room.survey"
+    ]
+  },
+  {
     "name": "style_update",
     "isActive": "yes",
     "eventHandlerList": [
@@ -40,9 +47,5 @@
     "eventHandlerList": [
       "gmcp.Room.survey"
     ]
-  },
-  {
-    "name": "alui_chat_cap",
-    "isActive": "yes"
   }
 ]

@@ -1,0 +1,29 @@
+function logEvent(e)
+
+
+    --echo('\nEvent:\n' .. e .. '\n')
+    --echo('\ngmcp:\n' .. yajl.to_string(gmcp) .. '\n')
+
+    -- Format the current date and time
+    local timestamp = os.date("%Y-%m-%d_%H-%M-%S") -- Example: 2025-01-16_14-00-00
+
+    -- Define the file path
+    local filePath = getMudletHomeDir() .. "/alui/logs/" .. timestamp .. "_event_" .. e .. ".log"
+
+    -- Open the file for writing
+    local file = io.open(filePath, "w")
+
+    if file then
+        -- Write some content to the file
+        file:write(yajl.to_string(gmcp))
+        -- Close the file
+        file:close()
+        --echo("File created: " .. filePath .. "\n")
+    else
+        --echo("Failed to create file: " .. filePath .. "\n")
+    end
+
+end
+
+registerAnonymousEventHandler("*", "logEvent")
+

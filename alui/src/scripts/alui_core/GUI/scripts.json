@@ -1,38 +1,38 @@
 [
-       {
-              "isActive": "yes",
-              "isFolder": "no",
-              "name": "Set_Borders",
-              "script": ""
-       },
-       {
-              "isActive": "yes",
-              "isFolder": "no",
-              "name": "Create_Background",
-              "script": ""
-       },
-       {
-              "isActive": "yes",
-              "isFolder": "no",
-              "name": "Header_Icons",
-              "script": ""
-       },
-       {
-              "isActive": "yes",
-              "isFolder": "no",
-              "name": "Gauges",
-              "script": ""
-       },
-       {
-              "isActive": "yes",
-              "isFolder": "no",
-              "name": "Boxes",
-              "script": ""
-       },
-       {
-              "isActive": "yes",
-              "isFolder": "no",
-              "name": "CSSMan",
-              "script": ""
-       }
+  {
+    "isActive": "yes",
+    "isFolder": "no",
+    "name": "CSSMan",
+    "script": ""
+  },
+  {
+    "isActive": "yes",
+    "isFolder": "no",
+    "name": "Create_Background",
+    "script": ""
+  },
+  {
+    "isActive": "yes",
+    "isFolder": "no",
+    "name": "Set_Borders",
+    "script": ""
+  },
+  {
+    "isActive": "yes",
+    "isFolder": "no",
+    "name": "Boxes",
+    "script": ""
+  },
+  {
+    "isActive": "yes",
+    "isFolder": "no",
+    "name": "Header_Icons",
+    "script": ""
+  },
+  {
+    "isActive": "yes",
+    "isFolder": "no",
+    "name": "Gauges",
+    "script": ""
+  }
 ]

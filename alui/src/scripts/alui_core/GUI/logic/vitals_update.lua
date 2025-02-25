@@ -52,12 +52,8 @@ local hunger_colors = {
     ["dying of hunger"] = red,
 }
 
-
-
-
-
 local health_levels = {
-    ["destroyed"] = "<ansi_light_yellow:ansi_light_red>-1<reset>",
+    ["missing"] = "<ansi_light_yellow:ansi_light_red>missing<reset>",
     ["broken"] = "<ansi_light_yellow:ansi_light_red>0<reset>",
     ["massively injured"] = "<ansi_red:ansi_light_yellow>1<reset>",
     ["horribly injured"] = "<ansi_light_red>2<reset>",

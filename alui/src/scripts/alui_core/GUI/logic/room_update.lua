@@ -1,4 +1,6 @@
 function room_update(e)
+
+
     if e ~= "gmcp.Room.Info" then
         return
     end
