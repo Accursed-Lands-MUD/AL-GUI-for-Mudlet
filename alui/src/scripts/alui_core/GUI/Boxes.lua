@@ -295,10 +295,13 @@ GUI.resizeBoxes = function()
     GUI.Style_Attack_Increase:show()
     GUI.Style_Gauge_Attack_Defense:show()
     GUI.Style_Defense_Increase:show()
+    GUI.Style.update()
     GUI.Survey_Container:show()
     alui.surveymini:show()
     GUI.Chat_Container:show()
     alui.chat_cap:show()
+
+
 end
 
 GUI.setBoxes()

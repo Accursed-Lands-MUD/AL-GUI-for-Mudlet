@@ -11,15 +11,16 @@ end
 
 local profileName = getProfileName()
 
-alui              = alui or {}
-alui.style        = alui.style or {}
-alui.status       = alui.status or {}
-alui.health       = alui.health or {}
-alui.bleeding     = alui.bleeding or {}
-GUI               = GUI or {}
-GUI.Menu          = GUI.Menu or {}
-GUI.Events        = GUI.Events or {}
-GUI.Timers        = GUI.Timers or {}
+alui = alui or {}
+alui.style = alui.style or {}
+alui.status = alui.status or {}
+alui.health = alui.health or {}
+alui.bleeding = alui.bleeding or {}
+GUI = GUI or {}
+GUI.Menu = GUI.Menu or {}
+GUI.Events = GUI.Events or {}
+GUI.Timers = GUI.Timers or {}
+GUI.Style = GUI.Style or {}
 
 GUI.Colors = {
     blue = '#2A768C',
@@ -28,8 +29,6 @@ GUI.Colors = {
     orange = '#C3701C',
     red = '#830000',
 }
-
-
 
 GUI.Events.resize = registerNamedEventHandler(profileName, 'alui.events.resize', "sysWindowResizeEvent", function()
     if GUI.Timers.resize then
