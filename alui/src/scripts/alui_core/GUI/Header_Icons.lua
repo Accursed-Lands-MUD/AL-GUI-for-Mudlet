@@ -255,20 +255,9 @@ end,
 setLabelToolTip("GUI.Menu.Help", 'Help')
 
 GUI.Menu.Help:setClickCallback(function()
-    --openUserWindow("Help", false, false, "f")
-    --
-    --help = createMiniConsole('Help', 0, 0)
-    --
-    --help:clear()
-    --help:cecho('<center>ALUI Help<</reset>')
-    --help:cecho('<center>Commands')
-
-    --cinsertText('Help', [[<center><h1>ALUI Help</h1>]])
 
     openUrl("https://github.com/BrettMN/AL-GUI-for-Mudlet/wiki")
 
-    echo('\nHelp Clicked\n')
-    --send(gameCommand, false)
 end)
 
 
