@@ -255,7 +255,7 @@ end,
 setLabelToolTip("GUI.Menu.Help", 'Help')
 
 GUI.Menu.Help:setClickCallback(function()
-    openUserWindow("Help")
+    openUserWindow("Help", false, false, "f")
 
     echo('\nHelp Clicked\n')
     --send(gameCommand, false)
