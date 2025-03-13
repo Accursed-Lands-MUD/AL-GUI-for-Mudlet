@@ -56,7 +56,7 @@ GUI.setBackground = function()
 
     local lineWidth = width / fontWidth
 
-    local lineWidthAdjusted = lineWidth / 2
+    local lineWidthAdjusted = (lineWidth / 2) - (fontWidth / 4)
 
     setWindowWrap("main", lineWidthAdjusted)
 end
