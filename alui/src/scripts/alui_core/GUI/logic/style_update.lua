@@ -1,3 +1,4 @@
+alui = alui or {}
 alui.style = alui.style or {}
 
 function style_update(event)
@@ -12,21 +13,12 @@ function style_update(event)
             alui.style[f] = v
         end
     end
-
-
-    ---- echo('\nstyle:\n' .. yajl.to_string(alui.style) .. '\n')
-    --
-    --GUI.Style_Gauge_Aim_Control:setValue(alui.style.control)
-    --GUI.Style_Gauge_Offensive_Dodge:setValue(alui.style.dodge)
-    --GUI.Style_Gauge_Daring_Parry:setValue(alui.style.parry)
-    --GUI.Style_Gauge_Power_Speed:setValue(alui.style.speed)
-    --GUI.Style_Gauge_Attack_Defense:setValue(alui.style.defense)
-
+    
     GUI.Style.update()
-
 end
 
 GUI.Style.update = function()
+    alui = alui or {}
     if alui.style then
         if alui.style.control then
             GUI.Style_Gauge_Aim_Control:setValue(alui.style.control)
