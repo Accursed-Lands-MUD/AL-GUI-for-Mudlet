@@ -22,15 +22,15 @@ local terrain_types = {
     -- each id value must be unique, terrain types not listed here will use mapper default color
     -- not used if you define these in a map XML file
     ["Inside"] = { id = 1, r = 255, g = 0, b = 0 },
-    ["ocean"] = { id = 20, r = 0, g = 0, b = 128 }, -- 'navy'
+    ["ocean"] = { id = 20, r = 0, g = 0, b = 128 },          -- 'navy'
     ["plains"] = { id = 19, r = 0, g = 255, b = 0 },
     ["light forest"] = { id = 17, r = 34, g = 139, b = 34 }, -- 'forestgreen'
-    ["dense forest"] = { id = 18, r = 0, g = 100, b = 0 }, -- 'darkgreen'
-    ["hills"] = { id = 21, r = 218, g = 165, b = 32 }, -- 'goldenrod'
-    ["mountains"] = { id = 22, r = 160, g = 82, b = 45 }, -- 'sienna'
+    ["dense forest"] = { id = 18, r = 0, g = 100, b = 0 },   -- 'darkgreen'
+    ["hills"] = { id = 21, r = 218, g = 165, b = 32 },       -- 'goldenrod'
+    ["mountains"] = { id = 22, r = 160, g = 82, b = 45 },    -- 'sienna'
     ["lake"] = { id = 23, r = 0, g = 25, b = 167 },
-    ["swamp"] = { id = 24, r = 128, g = 0, b = 128 }, -- 'purple'
-    ["desert"] = { id = 25, r = 240, g = 230, b = 140 }, -- 'khaki'
+    ["swamp"] = { id = 24, r = 128, g = 0, b = 128 },        -- 'purple'
+    ["desert"] = { id = 25, r = 240, g = 230, b = 140 },     -- 'khaki'
     ["min river"] = { id = 26, r = 0, g = 25, b = 167 },
     ["river"] = { id = 27, r = 0, g = 25, b = 167 },
     ["sw river"] = { id = 28, r = 0, g = 25, b = 167 },
@@ -45,31 +45,53 @@ local terrain_types = {
     ["under ocean"] = { id = 37, r = 0, g = 0, b = 128 },
     ["under lake"] = { id = 38, r = 0, g = 25, b = 167 },
     ["under river"] = { id = 39, r = 0, g = 25, b = 167 },
-    ["sky"] = { id = 40, r = 135, g = 206, b = 235 }, -- 'skyblue'
-    ["road"] = { id = 41, r = 211, g = 211, b = 211 }, -- 'lightgrey'
+    ["sky"] = { id = 40, r = 135, g = 206, b = 235 },    -- 'skyblue'
+    ["road"] = { id = 41, r = 211, g = 211, b = 211 },   -- 'lightgrey'
     ["bridge"] = { id = 42, r = 211, g = 211, b = 211 }, -- 'lightgrey'
-    ["beach"] = { id = 43, r = 255, g = 239, b = 213 }, -- 'papayawhip'
+    ["beach"] = { id = 43, r = 255, g = 239, b = 213 },  -- 'papayawhip'
     ["pond"] = { id = 44, r = 0, g = 25, b = 167 },
     ["tundra"] = { id = 45, r = 245, g = 245, b = 245 }, -- 'whitesmoke'
 }
 
 -- list of possible movement directions and appropriate coordinate changes
 local move_vectors = {
-    north = { 0, 1, 0 }, south = { 0, -1, 0 }, east = { 1, 0, 0 }, west = { -1, 0, 0 },
-    northwest = { -1, 1, 0 }, northeast = { 1, 1, 0 }, southwest = { -1, -1, 0 }, southeast = { 1, -1, 0 },
-    up = { 0, 0, 1 }, down = { 0, 0, -1 }
+    north = { 0, 1, 0 },
+    south = { 0, -1, 0 },
+    east = { 1, 0, 0 },
+    west = { -1, 0, 0 },
+    northwest = { -1, 1, 0 },
+    northeast = { 1, 1, 0 },
+    southwest = { -1, -1, 0 },
+    southeast = { 1, -1, 0 },
+    up = { 0, 0, 1 },
+    down = { 0, 0, -1 }
 }
 
 local exitmap = {
-    n = 'north', ne = 'northeast', nw = 'northwest', e = 'east',
-    w = 'west', s = 'south', se = 'southeast', sw = 'southwest',
-    u = 'up', d = 'down', ["in"] = 'in', out = 'out',
+    n = 'north',
+    ne = 'northeast',
+    nw = 'northwest',
+    e = 'east',
+    w = 'west',
+    s = 'south',
+    se = 'southeast',
+    sw = 'southwest',
+    u = 'up',
+    d = 'down',
+    ["in"] = 'in',
+    out = 'out',
     l = 'look'
 }
 
 local stubmap = {
-    north = 1, northeast = 2, northwest = 3, east = 4,
-    west = 5, south = 6, southeast = 7, southwest = 8,
+    north = 1,
+    northeast = 2,
+    northwest = 3,
+    east = 4,
+    west = 5,
+    south = 6,
+    southeast = 7,
+    southwest = 8,
     up = 9,
 }
 
@@ -157,9 +179,7 @@ local function shift_room(dir)
         z = z + z1
         setRoomCoordinates(ID, x, y, z)
         updateMap()
-
     end
-
 end
 
 local function handle_move()
@@ -177,7 +197,7 @@ local function handle_move()
             if stubs then
                 for _, n in ipairs(stubs) do
                     local dir = table.flip(stubmap)[n]
-                    if type(info.exits[dir]) == "string" then
+                    if info.exits and type(info.exits[dir]) == "string" then
                         local id = getRoomIDbyHash(info.exits[dir])
                         -- need to see how special exits are represented to handle those properly here
                         if (id > 0) and getRoomName(id) then
@@ -192,7 +212,6 @@ local function handle_move()
 end
 
 local function config()
-
     -- setting terrain colors
     for k, v in pairs(terrain_types) do
         setCustomEnvColor(v.id, v.r, v.g, v.b, 255)
@@ -366,4 +385,3 @@ end
 registerAnonymousEventHandler("gmcp.Room.Info", "map.eventHandler")
 registerAnonymousEventHandler("shiftRoom", "map.eventHandler")
 registerAnonymousEventHandler("sysConnectionEvent", "map.eventHandler")
-
