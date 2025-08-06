@@ -108,44 +108,49 @@ local function make_room()
     local thisRoom = createRoomID()
     addRoom(thisRoom)
     setRoomIDbyHash(thisRoom, info.vnum)
-    setRoomName(thisRoom, info.name)
+
+    local roomName = info.name or ''
+    setRoomName(thisRoom, roomName)
+    setRoomName(thisRoom, roomName)
     local areas = getAreaTable()
-    local areaID = areas[info.area]
-    if not areaID then
-        areaID = addAreaName(info.area)
-    else
-        if type(map.prev_info.vnum) == "string" then
-            coords = { getRoomCoordinates(getRoomIDbyHash(map.prev_info.vnum)) }
-            local shift = { 0, 0, 0 }
-            if type(info.exists) then
-                for k, v in pairs(info.exits) do
-                    if v == map.prev_info.vnum and move_vectors[k] then
-                        shift = move_vectors[k]
-                        break
-                    end
-                end
-            end
-            for n = 1, 3 do
-                coords[n] = coords[n] - shift[n]
-            end
-            -- map stretching
-            local overlap = getRoomsByPosition(areaID, coords[1], coords[2], coords[3])
-            if not table.is_empty(overlap) then
-                local rooms = getAreaRooms(areaID)
-                local rcoords
-                for _, id in ipairs(rooms) do
-                    rcoords = { getRoomCoordinates(id) }
-                    for n = 1, 3 do
-                        if shift[n] ~= 0 and (rcoords[n] - coords[n]) * shift[n] <= 0 then
-                            rcoords[n] = rcoords[n] - shift[n]
+    if info.area then
+        local areaID = areas[info.area]
+        if not areaID then
+            areaID = addAreaName(info.area)
+        else
+            if type(map.prev_info.vnum) == "string" then
+                coords = { getRoomCoordinates(getRoomIDbyHash(map.prev_info.vnum)) }
+                local shift = { 0, 0, 0 }
+                if type(info.exists) then
+                    for k, v in pairs(info.exits) do
+                        if v == map.prev_info.vnum and move_vectors[k] then
+                            shift = move_vectors[k]
+                            break
                         end
                     end
-                    setRoomCoordinates(id, rcoords[1], rcoords[2], rcoords[3])
+                end
+                for n = 1, 3 do
+                    coords[n] = coords[n] - shift[n]
+                end
+                -- map stretching
+                local overlap = getRoomsByPosition(areaID, coords[1], coords[2], coords[3])
+                if not table.is_empty(overlap) then
+                    local rooms = getAreaRooms(areaID)
+                    local rcoords
+                    for _, id in ipairs(rooms) do
+                        rcoords = { getRoomCoordinates(id) }
+                        for n = 1, 3 do
+                            if shift[n] ~= 0 and (rcoords[n] - coords[n]) * shift[n] <= 0 then
+                                rcoords[n] = rcoords[n] - shift[n]
+                            end
+                        end
+                        setRoomCoordinates(id, rcoords[1], rcoords[2], rcoords[3])
+                    end
                 end
             end
         end
+        setRoomArea(thisRoom, areaID)
     end
-    setRoomArea(thisRoom, areaID)
     setRoomCoordinates(thisRoom, coords[1], coords[2], coords[3])
     if terrain_types[info.terrain] then
         setRoomEnv(thisRoom, terrain_types[info.terrain].id)
