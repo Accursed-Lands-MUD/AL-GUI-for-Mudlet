@@ -155,13 +155,15 @@ local function make_room()
     if terrain_types[info.terrain] then
         setRoomEnv(thisRoom, terrain_types[info.terrain].id)
     end
-    for dir, id in pairs(info.exits) do
-        -- need to see how special exits are represented to handle those properly here
-        if type(id) == "string" then
-            local rid = getRoomIDbyHash(id)
-            setExitStub(thisRoom, dir, true)
-            if rid > 0 then
-                connectExitStub(thisRoom, rid, dir)
+    if info.exists then
+        for dir, id in pairs(info.exits) do
+            -- need to see how special exits are represented to handle those properly here
+            if type(id) == "string" then
+                local rid = getRoomIDbyHash(id)
+                setExitStub(thisRoom, dir, true)
+                if rid > 0 then
+                    connectExitStub(thisRoom, rid, dir)
+                end
             end
         end
     end
