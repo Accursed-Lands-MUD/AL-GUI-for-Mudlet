@@ -40,5 +40,6 @@ GUI.Events.resize = registerNamedEventHandler(profileName, 'alui.events.resize',
         GUI.setBackground()
         GUI.resizeBoxes()
         GUI.setBoxes()
+        GUI.Style.update()
     end)
 end, false)
