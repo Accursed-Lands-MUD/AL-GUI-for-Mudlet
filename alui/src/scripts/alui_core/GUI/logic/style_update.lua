@@ -19,6 +19,7 @@ end
 
 GUI.Style.update = function()
     alui = alui or {}
+    alui.style = alui.style or {}
     if alui.style then
         if alui.style.control then
             GUI.Style_Gauge_Aim_Control:setValue(alui.style.control)
