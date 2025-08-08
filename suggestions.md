@@ -90,7 +90,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Implement path resolution helper functions
 
 **Status**: 
-
+Removed background image as it was a failed test
+ 
 ### 6. Global Namespace Pollution
 **Issue**: Multiple global variables and tables created without proper namespacing.
 
@@ -287,7 +288,7 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 
 ### High Priority (Performance Critical)
 1. ✅ Remove universal event logger (#1)  
-2. Fix hard-coded paths (#5)
+2. ✅ Fix hard-coded paths (#5)
 3. Optimize string concatenation in hot paths (#2)
 4. Implement proper timer management (#3)
 

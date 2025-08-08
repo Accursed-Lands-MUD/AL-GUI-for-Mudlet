@@ -1,6 +1,5 @@
 GUI.BackgroundCSS = CSSMan.new([[
   background-color: rgb(20,0,20);
-  background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.webp');
 ]])
 
 GUI.Left = Geyser.Label:new({
