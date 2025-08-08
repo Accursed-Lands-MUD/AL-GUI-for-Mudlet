@@ -17,18 +17,26 @@
 - Use a single rotating log file instead of creating new files per event
 - Add configuration to enable/disable logging
 
+**Status**:
+Disabled by default, left in for trouble shooting 
+
 ### 2. String Concatenation Optimization
 **Issue**: Multiple instances of inefficient string concatenation using `..` operator in hot paths.
 
 **Locations**:
-- `vitals_update.lua` (lines with health status concatenation)
-- `status_window.lua` (multiple cecho calls with string concatenation)
+- ~~`vitals_update.lua`~~ (~~lines with health status concatenation~~)✅ 
+- ~~`status_window.lua`~~ (~~multiple cecho calls with string concatenation~~) ✅
 - `Mapping_Script.lua` (error messages and path building)
 
 **Recommendation**:
 - Use `string.format()` for complex string formatting
 - Pre-calculate static strings where possible
 - Use table concatenation with `table.concat()` for multiple string operations
+
+**Status**: 
+`vitals_update.lua` and `status_window.lua` updated. 
+
+Waiting on doing `Mapping_Script.lua`
 
 ### 3. Timer Management Inefficiency
 **Issue**: Resize event handler creates and destroys timers frequently without proper cleanup checks.
@@ -51,6 +59,9 @@ if not GUI.Timers.resize then
 end
 ```
 
+**Status**: 
+
+
 ### 4. Table Iteration Optimization
 **Issue**: Multiple `pairs()` iterations over the same tables in mapping script without caching results.
 
@@ -60,6 +71,8 @@ end
 - Cache frequently accessed table keys
 - Use `ipairs()` where order matters and array is dense
 - Pre-calculate table sizes where needed
+
+**Status**: 
 
 ## Code Maintainability Improvements
 
@@ -76,6 +89,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Create a central configuration module for all file paths
 - Implement path resolution helper functions
 
+**Status**: 
+
 ### 6. Global Namespace Pollution
 **Issue**: Multiple global variables and tables created without proper namespacing.
 
@@ -88,6 +103,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Consolidate all globals under a single namespace (e.g., `ALUI`)
 - Use local variables where possible
 - Implement proper module pattern with `require()` and `return`
+
+**Status**: 
 
 ### 7. Inconsistent Error Handling
 **Issue**: Inconsistent or missing error handling throughout the codebase.
@@ -114,6 +131,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Create CSS variable system for easy theming
 - Consider using CSS preprocessor approach
 
+**Status**: 
+
 ### 9. Resource Path Management
 **Issue**: Inconsistent resource path handling and missing resource validation.
 
@@ -122,6 +141,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Implement resource path validation
 - Add fallback resources for missing files
 - Use consistent path separators across platforms
+
+**Status**: 
 
 ## Architecture Improvements
 
@@ -134,6 +155,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Use dependency injection where appropriate
 - Create proper initialization order
 
+**Status**: 
+
 ### 11. Configuration Management
 **Issue**: No centralized configuration system.
 
@@ -143,6 +166,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Add configuration validation
 - Support hot-reloading of configuration
 
+**Status**: 
+
 ### 12. Event System Architecture
 **Issue**: Event handlers are registered globally without proper lifecycle management.
 
@@ -151,6 +176,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Add event handler cleanup on module unload
 - Use named event handlers for better debugging
 - Consider implementing event namespacing
+
+**Status**: 
 
 ## Code Quality Improvements
 
@@ -167,6 +194,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Use configuration for user-adjustable values
 - Document the rationale behind specific values
 
+**Status**: 
+
 ### 14. Function Documentation
 **Issue**: Missing or inconsistent function documentation.
 
@@ -175,6 +204,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Document parameter types and return values
 - Include usage examples for complex functions
 - Document side effects and dependencies
+
+**Status**: 
 
 ### 15. Code Duplication
 **Issue**: Repeated code patterns, especially in UI creation.
@@ -186,6 +217,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Implement inheritance/composition for UI components
 - Extract common styling and layout logic
 - Use templates for repetitive UI structures
+
+**Status**: 
 
 ## Security Improvements
 
@@ -200,6 +233,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Implement proper file permission checks
 - Sanitize user input in file operations
 
+**Status**: 
+
 ## Testing and Development
 
 ### 17. Debug Code in Production
@@ -211,6 +246,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Use feature flags for experimental features
 - Clean up commented-out code
 
+**Status**: 
+
 ### 18. Version Management
 **Issue**: No clear version tracking or upgrade path.
 
@@ -219,6 +256,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Add migration scripts for configuration changes
 - Provide clear upgrade instructions
 - Include version information in UI
+
+**Status**: 
 
 ## Memory Management
 
@@ -231,6 +270,8 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Monitor memory usage patterns
 - Add garbage collection hints for large operations
 
+**Status**: 
+
 ### 20. Large Table Management
 **Issue**: GMCP data and mapping data stored without size limits.
 
@@ -240,10 +281,12 @@ background-image: url('C:\workspace\AL-GUI-for-Mudlet\alui\src\resources\banner.
 - Implement data compression for large datasets
 - Add memory usage monitoring
 
+**Status**: 
+
 ## Implementation Priority
 
 ### High Priority (Performance Critical)
-1. Remove universal event logger (#1)
+1. ✅ Remove universal event logger (#1)  
 2. Fix hard-coded paths (#5)
 3. Optimize string concatenation in hot paths (#2)
 4. Implement proper timer management (#3)
