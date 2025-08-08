@@ -52,6 +52,7 @@ local hunger_colors = {
     ["dying of hunger"] = red,
 }
 
+-- Pre-calculated health level strings for better performance
 local health_levels = {
     ["missing"] = "<ansi_light_yellow:ansi_light_red>missing<reset>",
     ["broken"] = "<ansi_light_yellow:ansi_light_red>0<reset>",
@@ -70,36 +71,49 @@ function vitals_update(e)
     if e ~= "gmcp.Char.Vitals" then
         return
     end
+
+    -- Validate GMCP data exists before proceeding
+    if not gmcp or not gmcp.Char or not gmcp.Char.Vitals then
+        return
+    end
+
     local vit = gmcp.Char.Vitals
 
 
-    -- local wounds = gmcp.Char.Wounds
-    -- echo('\n' .. yajl.to_string(wounds) .. '\n')
+    -- Update hunger status with validation
+    if vit.Hunger and hunger_colors[vit.Hunger] then
+        alui.status.hunger = hunger_colors[vit.Hunger]
+        if GUI.Menu and GUI.Menu.Hunger and GUI.Menu.Hunger.update then
+            GUI.Menu.Hunger:update()
+        end
+    end
 
-
-    alui.status.hunger = hunger_colors[vit.Hunger]
-    GUI.Menu.Hunger:update()
-
-    alui.status.thirst = thirst_colors[vit.Thirst]
-    GUI.Menu.Thirst:update()
+    -- Update thirst status with validation
+    if vit.Thirst and thirst_colors[vit.Thirst] then
+        alui.status.thirst = thirst_colors[vit.Thirst]
+        if GUI.Menu and GUI.Menu.Thirst and GUI.Menu.Thirst.update then
+            GUI.Menu.Thirst:update()
+        end
+    end
 
     --handle healths
     if type(vit.List) == "table" then
         for part, health_and_bleading in pairs(vit.List) do
-            local health_ends, _ = string.find(health_and_bleading, " and ")
+            -- Use pattern matching instead of string.find and string.sub for better performance
+            local health_status, has_bleeding = health_and_bleading:match("^(.+) and ")
 
-            -- if there is a " and " in the string, then the health is followed by a bleeding status
-            if health_ends then
-                -- get the health status without the bleeding status
-                health_and_bleading = string.sub(health_and_bleading, 1, health_ends - 1)
-                -- set the bleeding status for this part to true
+            echo('\nhealth part update: ' ..
+                part .. ' - ' .. health_and_bleading .. ', health_status: ' .. (health_status or "unknown"))
+
+            if health_status then
+                -- There is bleeding
                 alui.bleeding[part] = true
+                alui.health[part] = health_levels[health_status]
             else
-                -- set the bleeding status for this part to false
+                -- No bleeding, use the full string as health status
                 alui.bleeding[part] = false
+                alui.health[part] = health_levels[health_and_bleading]
             end
-            -- set the health status for this part
-            alui.health[part] = health_levels[health_and_bleading]
         end
     end
 

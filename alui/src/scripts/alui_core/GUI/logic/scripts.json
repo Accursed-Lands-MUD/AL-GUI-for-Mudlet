@@ -1,7 +1,7 @@
 [
   {
     "name": "logEvent",
-    "isActive": "yes",
+    "isActive": "no",
     "eventHandlerList": [
       "gmcp.Room.survey"
     ]
