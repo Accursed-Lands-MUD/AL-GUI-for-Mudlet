@@ -1,7 +1,7 @@
 # Copilot Instructions for AL-GUI Mudlet Plugin
 
 ## Project Overview
-This is a Lua-based GUI plugin for Mudlet, a cross-platform, open-source MUD client. The plugin creates an advanced user interface with adjustable containers, windows, and interactive elements for enhanced gameplay experience.
+This is a Lua-based GUI plugin for Mudlet, a cross-platform, open-source MUD client. The plugin creates an advanced user interface with adjustable containers, windows, and interactive elements for enhanced gameplay experience.  All the code that we will be customizing is in the `alui` directory.  This project uses Muddler to build. 
 
 ## Technology Stack
 - **Language**: Lua 5.1+ (Mudlet's embedded Lua interpreter)
@@ -124,4 +124,4 @@ end
 
 ## References
 - [Mudlet Wiki](https://wiki.mudlet.org)
--
+- [Muddler Wiki](https://github.com/demonnic/muddler/wiki)
