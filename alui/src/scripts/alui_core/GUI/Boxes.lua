@@ -1,42 +1,42 @@
+-- Boxes.lua - Migrated to ALUI namespace structure  
+-- Handles UI box creation and management with new namespace while maintaining backward compatibility
+
 local EMCO = require("alui.emco")
 
-GUI.setBoxes = function()
-    GUI.BoxCSS = CSSMan.new([[
+-- Use ALUI namespace if available, with fallbacks for compatibility
+local GUI_NS = (ALUI and ALUI.GUI) or GUI or {}
+local Config = (ALUI and ALUI.Config) or {}
+local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or GUI.Colors or {}
+
+-- Core box setup function
+local function setBoxes()
+    -- Use configuration values for styling with fallbacks
+    local guiPadding = 10
+    local borderRadius = 10
+    local transparentBg = "rgba(0,0,0,0)"
+    
+    if Config.get then
+        guiPadding = Config.get("ui.guiPadding", 10)
+        borderRadius = Config.get("ui.borderRadius", 10)
+        transparentBg = Config.get("colors.status.transparent", "rgba(0,0,0,0)")
+    end
+    
+    GUI.BoxCSS = CSSMan.new(string.format([[
   background-color: black;
   border-style: solid;
   border-width: 1px;
-  border-radius: 10px;
+  border-radius: %dpx;
   border-color: white;
-  margin: 10px;
-  board
-]])
+  margin: %dpx;
+]], borderRadius, guiPadding))
 
-
-    -- GUI.GaugeBackCSS = CSSMan.new([[
-    --   background-color: rgba(0,0,0,0);
-    --   border-style: solid;
-    --   border-color: white;
-    --   border-width: 1px;
-    --   border-radius: 1px;
-    --   margin: 5px;
-    -- ]])
-
-    GUI.GaugeBackCSS = CSSMan.new([[
-  background-color: rgba(0,0,0,0);
+    GUI.GaugeBackCSS = CSSMan.new(string.format([[
+  background-color: %s;
   margin-top: 5px;
   margin-bottom: 5px;
   border-style: solid;
   border-color: white;
-]])
-
-    -- GUI.GaugeFrontCSS = CSSMan.new([[
-    --   background-color: rgba(0,0,0,0);
-    --   border-style: solid;
-    --   border-color: white;
-    --   border-width: 1px;
-    --   border-radius: 1px;
-    --   margin: 5px;
-    -- ]])
+]], transparentBg))
 
     GUI.GaugeFrontCSS = CSSMan.new([[
   background-color: rgba(0,0,0,0);
@@ -46,12 +46,20 @@ GUI.setBoxes = function()
   border-color: white;
 ]])
 
+    -- Configuration-driven styling values
     local Style_Button_Width = '10%'
     local Style_Gauge_Width = "40%"
     local Package_Root = getMudletHomeDir()
-    local Gui_Padding = 20
+    local Gui_Padding = guiPadding  -- Use configured padding
 
-    local aggressiveColor = '#830000'
+    -- Use configured colors with fallbacks
+    local aggressiveColor = Colors.red or '#830000'
+    local defensiveColor = Colors.blue or '#2A768C'
+    
+    if Config.get then
+        aggressiveColor = Config.get("colors.status.aggressive", aggressiveColor)
+        defensiveColor = Config.get("colors.status.defensive", defensiveColor)
+    end
     local defensiveColor = '#2A768C'
 
     -- Function to create a new box
@@ -300,8 +308,21 @@ GUI.resizeBoxes = function()
     alui.surveymini:show()
     GUI.Chat_Container:show()
     alui.chat_cap:show()
+end
 
+-- Register function in both old and new namespaces for compatibility
+GUI.setBoxes = setBoxes
 
+-- Register in new ALUI namespace if available
+if ALUI and ALUI.GUI then
+    ALUI.GUI.setBoxes = setBoxes
+    ALUI.GUI.Components = ALUI.GUI.Components or {}
+    ALUI.GUI.Components.boxes = setBoxes
+end
+
+-- Mark this file as migrated
+if ALUI and ALUI.migration and ALUI.migration.markComplete then
+    ALUI.migration.markComplete("Boxes.lua")
 end
 
 GUI.setBoxes()

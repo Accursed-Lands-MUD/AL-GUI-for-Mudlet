@@ -1,38 +1,42 @@
 function room_update(e)
-
-
     if e ~= "gmcp.Room.Info" then
         return
     end
+    
     local r = {}
     for k, v in pairs(gmcp.Room.Info) do
         r[k:lower()] = v
     end
 
-    local m = alui.roommini
-    m:clear()
+    -- Use ALUI namespace for room mini with fallback
+    local roommini = (ALUI and ALUI.roommini) or alui.roommini
+    if not roommini then
+        return
+    end
+    
+    roommini:clear()
     if r.brief then
-        m:cecho(r.brief)
+        roommini:cecho(r.brief)
     end
     if r.heat and r.heat:len() > 0 then
-        m:cecho("\nIt is " .. r.heat .. '.')
+        roommini:cecho("\nIt is " .. r.heat .. '.')
     end
     if r.height and (r.height ~= "") then
-        m:cecho("\nThere is " .. r.height .. ".")
+        roommini:cecho("\nThere is " .. r.height .. ".")
 
     end
     if r.light and (r.light ~= "") then
-        m:cecho("\nIt is " .. r.light .. ".")
+        roommini:cecho("\nIt is " .. r.light .. ".")
     end
 
-    m:cecho("\n\nCreatures:")
+    roommini:cecho("\n\nCreatures:")
     if type(r.creatures) == "table" then
         for k, v in ipairs(r.creatures) do
-            m:cecho("\n " .. v)
+            roommini:cecho("\n " .. v)
         end
     end
 
-    m:cecho("\n\nItems:")
+    roommini:cecho("\n\nItems:")
     if type(r.inventory) == "table" then
         local count = {}
         for k, v in ipairs(r.inventory) do
@@ -40,11 +44,22 @@ function room_update(e)
         end
         for k, v in pairs(count) do
             if v > 1 then
-                m:cecho("\n " .. v .. "x " .. k)
+                roommini:cecho("\n " .. v .. "x " .. k)
             else
-                m:cecho("\n " .. k)
+                roommini:cecho("\n " .. k)
             end
         end
     end
+end
+
+-- Register with ALUI namespace if available
+if ALUI and ALUI.GUI then
+    ALUI.GUI.Logic = ALUI.GUI.Logic or {}
+    ALUI.GUI.Logic.room_update = room_update
+end
+
+-- Mark this file as migrated
+if ALUI and ALUI.migration and ALUI.migration.markComplete then
+    ALUI.migration.markComplete("room_update.lua")
 end
   

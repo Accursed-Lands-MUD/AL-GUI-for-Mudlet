@@ -1,15 +1,52 @@
---[[Blizzard's GMCP mapping script, edited]]
+--[[Blizzard's GMCP mapping script, edited for ALUI namespace]]
 -- generic GMCP mapping script for Mudlet
 -- by Blizzard. https://worldofpa.in
 -- based upon an MSDP script from the Mudlet forums in the generic mapper thread
 -- with pieces from the generic mapper script and the mmpkg mapper by breakone9r
+-- Migrated to ALUI namespace structure while maintaining backward compatibility
 
+-- Initialize both old and new namespace structures
 map = map or {}
 map.room_info = map.room_info or {}
 map.prev_info = map.prev_info or {}
 map.aliases = map.aliases or {}
 map.configs = map.configs or {}
 map.configs.speedwalk_delay = 0
+
+-- Use ALUI namespace if available, with map fallback for compatibility
+local Map = (ALUI and ALUI.Map) or map
+local Config = (ALUI and ALUI.Config) or {}
+
+-- Initialize ALUI.Map structure if available
+if ALUI and ALUI.Map then
+    ALUI.Map.room_info = ALUI.Map.room_info or {}
+    ALUI.Map.prev_info = ALUI.Map.prev_info or {}
+    ALUI.Map.aliases = ALUI.Map.aliases or {}
+    ALUI.Map.configs = ALUI.Map.configs or {}
+    
+    -- Set default speedwalk delay from configuration or fallback
+    if Config.get then
+        ALUI.Map.configs.speedwalk_delay = Config.get("mapping.speedwalkDelay", 0)
+        ALUI.Map.configs.speedwalk_wait = Config.get("mapping.speedwalkWait", false)
+    else
+        ALUI.Map.configs.speedwalk_delay = 0
+        ALUI.Map.configs.speedwalk_wait = false
+    end
+    
+    -- Copy existing values to new structure
+    for key, value in pairs(map.room_info) do
+        ALUI.Map.room_info[key] = value
+    end
+    for key, value in pairs(map.prev_info) do
+        ALUI.Map.prev_info[key] = value
+    end
+    for key, value in pairs(map.aliases) do
+        ALUI.Map.aliases[key] = value
+    end
+    for key, value in pairs(map.configs) do
+        ALUI.Map.configs[key] = value
+    end
+end
 
 local defaults = {
     -- using Geyser to handle the mapper in this, since this is a totally new script
@@ -363,6 +400,7 @@ function map.eventHandler(event, ...)
         gmcp.Room.Info = t
         --end fix
 
+        -- Update both old and new namespace structures
         map.prev_info = map.room_info
         map.room_info = {
             vnum = gmcp.Room.Info.vnum,
@@ -371,6 +409,13 @@ function map.eventHandler(event, ...)
             terrain = gmcp.Room.Info.terrain,
             exits = gmcp.Room.Info.exits
         }
+        
+        -- Sync to ALUI namespace if available
+        if ALUI and ALUI.Map then
+            ALUI.Map.prev_info = map.prev_info
+            ALUI.Map.room_info = map.room_info
+        end
+        
         if type(map.room_info.exits) == "table" then
             for k, v in pairs(map.room_info.exits) do
                 map.room_info.exits[k] = v
@@ -389,6 +434,32 @@ function map.eventHandler(event, ...)
     end
 end
 
+-- Register event handlers
 registerAnonymousEventHandler("gmcp.Room.Info", "map.eventHandler")
 registerAnonymousEventHandler("shiftRoom", "map.eventHandler")
 registerAnonymousEventHandler("sysConnectionEvent", "map.eventHandler")
+
+-- Namespace integration: Register functions in ALUI namespace if available
+if ALUI and ALUI.Map then
+    -- Copy all map functions to ALUI.Map
+    ALUI.Map.speedwalk = map.speedwalk
+    ALUI.Map.eventHandler = map.eventHandler
+    ALUI.Map.echo = map.echo
+    
+    -- Create handlers table for organized function storage
+    ALUI.Map.handlers = ALUI.Map.handlers or {}
+    ALUI.Map.handlers.eventHandler = map.eventHandler
+    ALUI.Map.handlers.speedwalk = map.speedwalk
+    
+    -- Register ALUI event handler as well
+    if ALUI.Events and ALUI.Events.registerHandler then
+        ALUI.Events.registerHandler("gmcp.Room.Info", "alui.map.roomInfo", map.eventHandler)
+        ALUI.Events.registerHandler("shiftRoom", "alui.map.shiftRoom", map.eventHandler)
+        ALUI.Events.registerHandler("sysConnectionEvent", "alui.map.connection", map.eventHandler)
+    end
+end
+
+-- Mark this file as migrated
+if ALUI and ALUI.migration and ALUI.migration.markComplete then
+    ALUI.migration.markComplete("Mapping_Script.lua")
+end

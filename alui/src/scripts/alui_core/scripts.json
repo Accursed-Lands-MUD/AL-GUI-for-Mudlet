@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Config",
+    "isActive": "yes"
+  },
+  {
+    "name": "ConfigCommands", 
+    "isActive": "yes"
+  },
+  {
+    "name": "ConfigGUI",
+    "isActive": "yes"
+  },
+  {
+    "name": "Themes",
+    "isActive": "yes"
+  },
+  {
+    "name": "ConfigAnalytics",
+    "isActive": "yes"
+  },
+  {
+    "name": "GUI",
+    "isActive": "yes",
+    "isFolder": "yes"
+  }
+]

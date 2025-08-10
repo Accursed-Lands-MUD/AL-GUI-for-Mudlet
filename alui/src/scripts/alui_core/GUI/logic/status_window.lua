@@ -25,46 +25,60 @@ function status_window(e)
         return
     end
 
-    local m = alui.combatmini
-    if not m then
+    -- Use ALUI namespace for combat mini with fallback
+    local combatmini = (ALUI and ALUI.combatmini) or alui.combatmini
+    if not combatmini then
         return
     end
 
-    m:clear()
+    combatmini:clear()
 
-    if alui.health then
-        m:cecho(NEWLINE)
+    -- Use ALUI namespace for health data with fallback
+    local healthData = (ALUI and ALUI.Health) or alui.health
+    if healthData then
+        combatmini:cecho(NEWLINE)
 
-        local health = alui.health
-        local bleeding = alui.bleeding
+        local health = healthData
+        local bleeding = (ALUI and ALUI.Bleeding) or alui.bleeding
 
         -- Display all body parts using helper function
-        displayBodyPart(m, health, bleeding, "body", "      Body")
-        displayBodyPart(m, health, bleeding, "head", "      Head")
-        displayBodyPart(m, health, bleeding, "left arm", "  Left Arm")
-        displayBodyPart(m, health, bleeding, "left leg", "  Left Leg")
-        displayBodyPart(m, health, bleeding, "left wing", " Left Wing")
-        displayBodyPart(m, health, bleeding, "right arm", " Right Arm")
-        displayBodyPart(m, health, bleeding, "right leg", " Right Leg")
-        displayBodyPart(m, health, bleeding, "right wing", "Right Wing")
-        displayBodyPart(m, health, bleeding, "tail", "      Tail")
-        displayBodyPart(m, health, bleeding, "left front leg", "Left Front Leg")
-        displayBodyPart(m, health, bleeding, "left hind leg", "Left Hind Leg")
-        displayBodyPart(m, health, bleeding, "left rear leg", "Left Rear Leg")
-        displayBodyPart(m, health, bleeding, "lower left arm", "Lower Left Arm")
-        displayBodyPart(m, health, bleeding, "lower right arm", "Lower Right Arm")
-        displayBodyPart(m, health, bleeding, "lower torso", "Lower Torso")
-        displayBodyPart(m, health, bleeding, "right front leg", "Right Front Leg")
-        displayBodyPart(m, health, bleeding, "right hind leg", "Right Hind Leg")
-        displayBodyPart(m, health, bleeding, "right rear leg", "Right Rear Leg")
-        displayBodyPart(m, health, bleeding, "upper left arm", "Upper Left Arm")
-        displayBodyPart(m, health, bleeding, "upper right arm", "Upper Right Arm")
-        displayBodyPart(m, health, bleeding, "upper torso", "Upper Torso")
-        displayBodyPart(m, health, bleeding, "lower left tentacle", "Lower Left Tentacle")
-        displayBodyPart(m, health, bleeding, "lower right tentacle", "Lower Right Tentacle")
-        displayBodyPart(m, health, bleeding, "primary tentacle", "Primary Tentacle")
-        displayBodyPart(m, health, bleeding, "torso", "     Torso")
-        displayBodyPart(m, health, bleeding, "upper left tentacle", "Upper Left Tentacle")
-        displayBodyPart(m, health, bleeding, "upper right tentacle", "Upper Right Tentacle")
+        displayBodyPart(combatmini, health, bleeding, "body", "      Body")
+        displayBodyPart(combatmini, health, bleeding, "head", "      Head")
+        displayBodyPart(combatmini, health, bleeding, "left arm", "  Left Arm")
+        displayBodyPart(combatmini, health, bleeding, "left leg", "  Left Leg")
+        displayBodyPart(combatmini, health, bleeding, "left wing", " Left Wing")
+        displayBodyPart(combatmini, health, bleeding, "right arm", " Right Arm")
+        displayBodyPart(combatmini, health, bleeding, "right leg", " Right Leg")
+        displayBodyPart(combatmini, health, bleeding, "right wing", "Right Wing")
+        displayBodyPart(combatmini, health, bleeding, "tail", "      Tail")
+        displayBodyPart(combatmini, health, bleeding, "left front leg", "Left Front Leg")
+        displayBodyPart(combatmini, health, bleeding, "left hind leg", "Left Hind Leg")
+        displayBodyPart(combatmini, health, bleeding, "left rear leg", "Left Rear Leg")
+        displayBodyPart(combatmini, health, bleeding, "lower left arm", "Lower Left Arm")
+        displayBodyPart(combatmini, health, bleeding, "lower right arm", "Lower Right Arm")
+        displayBodyPart(combatmini, health, bleeding, "lower torso", "Lower Torso")
+        displayBodyPart(combatmini, health, bleeding, "right front leg", "Right Front Leg")
+        displayBodyPart(combatmini, health, bleeding, "right hind leg", "Right Hind Leg")
+        displayBodyPart(combatmini, health, bleeding, "right rear leg", "Right Rear Leg")
+        displayBodyPart(combatmini, health, bleeding, "upper left arm", "Upper Left Arm")
+        displayBodyPart(combatmini, health, bleeding, "upper right arm", "Upper Right Arm")
+        displayBodyPart(combatmini, health, bleeding, "upper torso", "Upper Torso")
+        displayBodyPart(combatmini, health, bleeding, "lower left tentacle", "Lower Left Tentacle")
+        displayBodyPart(combatmini, health, bleeding, "lower right tentacle", "Lower Right Tentacle")
+        displayBodyPart(combatmini, health, bleeding, "primary tentacle", "Primary Tentacle")
+        displayBodyPart(combatmini, health, bleeding, "torso", "     Torso")
+        displayBodyPart(combatmini, health, bleeding, "upper left tentacle", "Upper Left Tentacle")
+        displayBodyPart(combatmini, health, bleeding, "upper right tentacle", "Upper Right Tentacle")
     end
+end
+
+-- Register with ALUI namespace if available
+if ALUI and ALUI.GUI then
+    ALUI.GUI.Logic = ALUI.GUI.Logic or {}
+    ALUI.GUI.Logic.status_window = status_window
+end
+
+-- Mark this file as migrated
+if ALUI and ALUI.migration and ALUI.migration.markComplete then
+    ALUI.migration.markComplete("status_window.lua")
 end

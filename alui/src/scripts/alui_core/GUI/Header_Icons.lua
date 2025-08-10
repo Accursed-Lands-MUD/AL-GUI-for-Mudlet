@@ -1,7 +1,23 @@
+-- Header_Icons.lua - Migrated to ALUI namespace structure
+-- Handles status icon management with new namespace while maintaining backward compatibility
+
 local Package_Root = getMudletHomeDir()
 
-local blue = GUI.Colors.blue
-local red = GUI.Colors.red
+-- Use ALUI namespace if available, with fallbacks for compatibility
+local GUI_NS = (ALUI and ALUI.GUI) or GUI or {}
+local Config = (ALUI and ALUI.Config) or {}
+local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or GUI.Colors or {}
+
+-- Get colors with configuration support
+local function getColor(configPath, fallbackColor)
+    if Config.get then
+        return Config.get(configPath, fallbackColor)
+    end
+    return fallbackColor
+end
+
+local blue = getColor("colors.primary.blue", Colors.blue or '#2A768C')
+local red = getColor("colors.primary.red", Colors.red or '#830000')
 
 GUI.Header = Geyser.HBox:new({
     name = "GUI.Header",
@@ -11,8 +27,11 @@ GUI.Header = Geyser.HBox:new({
     height = "100%",
 }, GUI.Top)
 
-GUI.InfoCSS = CSSMan.new([[
-  background-color: rgba(0,0,0,100);
+-- Use configuration for styling if available
+local neutralBg = getColor("colors.status.neutral", "rgba(0,0,0,100)")
+
+GUI.InfoCSS = CSSMan.new(string.format([[
+  background-color: %s;
   border-style: solid;
   border-width: 1px;
   border-color: white;
@@ -21,11 +40,11 @@ GUI.InfoCSS = CSSMan.new([[
   qproperty-wordWrap: true;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: auto 50%;
-]])
+  background-size: auto 50%%;
+]], neutralBg))
 
-GUI.ActionCSS = CSSMan.new([[
-  background-color: rgba(0,0,0,100);
+GUI.ActionCSS = CSSMan.new(string.format([[
+  background-color: %s;
   border-style: solid;
   border-width: 1px;
   border-color: white;
@@ -33,14 +52,10 @@ GUI.ActionCSS = CSSMan.new([[
   qproperty-wordWrap: true;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: auto 50%;
-]])
+  background-size: auto 50%%;
+]], neutralBg))
 
-
--- background-repeat: no-repeat;
---   background-position: center;
-
-
+-- Core menu item creation function
 local function createMenuItem(name, updateFunction, parent)
 
 
@@ -246,7 +261,7 @@ GUI.Menu.Help = createMenuItem("Help", function(self)
 
     GUI.ActionCSS:set("background-image", iconPath)
 
-    GUI.ActionCSS:set("background-color", "rgba(0,0,0,100)")
+    GUI.ActionCSS:set("background-color", neutralBg)
 
     self:setStyleSheet(GUI.ActionCSS:getCSS())
 end,
@@ -255,10 +270,38 @@ end,
 setLabelToolTip("GUI.Menu.Help", 'Help')
 
 GUI.Menu.Help:setClickCallback(function()
-
     openUrl("https://github.com/BrettMN/AL-GUI-for-Mudlet/wiki")
-
 end)
+
+-- Register components in ALUI namespace if available
+if ALUI and ALUI.GUI then
+    ALUI.GUI.Components = ALUI.GUI.Components or {}
+    ALUI.GUI.Components.Header = GUI.Header
+    ALUI.GUI.Components.Menu = GUI.Menu
+    
+    ALUI.GUI.Styles = ALUI.GUI.Styles or {}
+    ALUI.GUI.Styles.InfoCSS = GUI.InfoCSS
+    ALUI.GUI.Styles.ActionCSS = GUI.ActionCSS
+    
+    -- Store menu items
+    if GUI.Menu then
+        ALUI.GUI.Components.MenuItems = {
+            Hunger = GUI.Menu.Hunger,
+            Thirst = GUI.Menu.Thirst,
+            Fatigue = GUI.Menu.Fatigue,
+            Posture = GUI.Menu.Posture,
+            Mercy = GUI.Menu.Mercy,
+            Travel = GUI.Menu.Travel,
+            CommonSense = GUI.Menu.CommonSense,
+            Help = GUI.Menu.Help
+        }
+    end
+end
+
+-- Mark this file as migrated
+if ALUI and ALUI.migration and ALUI.migration.markComplete then
+    ALUI.migration.markComplete("Header_Icons.lua")
+end
 
 
 
