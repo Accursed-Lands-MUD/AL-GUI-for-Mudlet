@@ -49,7 +49,7 @@ if Config.get then
             ["dying of thirst"] = vitalsConfig.thirst[4] or red,
         }
     end
-    
+
     if vitalsConfig.hunger then
         hunger_colors = {
             ["stuffed"] = vitalsConfig.hunger[1] or blue,
@@ -136,7 +136,7 @@ local function updateVitals(e)
         if Status.vitals then
             Status.vitals.hunger = hunger_colors[vit.Hunger]
         end
-        
+
         if GUI.Menu and GUI.Menu.Hunger and GUI.Menu.Hunger.update then
             GUI.Menu.Hunger:update()
         end
@@ -149,7 +149,7 @@ local function updateVitals(e)
         if Status.vitals then
             Status.vitals.thirst = thirst_colors[vit.Thirst]
         end
-        
+
         if GUI.Menu and GUI.Menu.Thirst and GUI.Menu.Thirst.update then
             GUI.Menu.Thirst:update()
         end
@@ -161,14 +161,11 @@ local function updateVitals(e)
             -- Use pattern matching instead of string.find and string.sub for better performance
             local health_status, has_bleeding = health_and_bleading:match("^(.+) and ")
 
-            echo('\nhealth part update: ' ..
-                part .. ' - ' .. health_and_bleading .. ', health_status: ' .. (health_status or "unknown"))
-
             if health_status then
                 -- There is bleeding - update both namespace structures
                 alui.bleeding[part] = true
                 alui.health[part] = health_levels[health_status]
-                
+
                 if Status.bleeding then
                     Status.bleeding[part] = true
                 end
@@ -179,7 +176,7 @@ local function updateVitals(e)
                 -- No bleeding, use the full string as health status
                 alui.bleeding[part] = false
                 alui.health[part] = health_levels[health_and_bleading]
-                
+
                 if Status.bleeding then
                     Status.bleeding[part] = false
                 end
