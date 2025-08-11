@@ -30,35 +30,42 @@ GUI.Header = Geyser.HBox:new({
 -- Use configuration for styling if available
 local neutralBg = getColor("colors.status.neutral", "rgba(0,0,0,100)")
 
-GUI.InfoCSS = CSSMan.new(string.format([[
-  background-color: %s;
-  border-style: solid;
-  border-width: 1px;
-  border-color: white;
-  border-radius: 5px;
-  margin: 5px;
-  qproperty-wordWrap: true;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: auto 50%%;
-]], neutralBg))
+-- Create individual CSS objects for each menu item to prevent shared state issues
+local function createInfoCSS()
+    return CSSMan.new(string.format([[
+      background-color: %s;
+      border-style: solid;
+      border-width: 1px;
+      border-color: white;
+      border-radius: 5px;
+      margin: 5px;
+      qproperty-wordWrap: true;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: auto 50%%;
+    ]], neutralBg))
+end
 
-GUI.ActionCSS = CSSMan.new(string.format([[
-  background-color: %s;
-  border-style: solid;
-  border-width: 1px;
-  border-color: white;
-  margin: 5px;
-  qproperty-wordWrap: true;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: auto 50%%;
-]], neutralBg))
+local function createActionCSS()
+    return CSSMan.new(string.format([[
+      background-color: %s;
+      border-style: solid;
+      border-width: 1px;
+      border-color: white;
+      margin: 5px;
+      qproperty-wordWrap: true;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: auto 50%%;
+    ]], neutralBg))
+end
+
+-- Legacy CSS objects for backward compatibility
+GUI.InfoCSS = createInfoCSS()
+GUI.ActionCSS = createActionCSS()
 
 -- Core menu item creation function
 local function createMenuItem(name, updateFunction, parent)
-
-
     local item = Geyser.Label:new({
         name = 'GUI.Menu.' .. name,
     }, parent)
@@ -89,98 +96,129 @@ local function createMenuButton(name, gameCommand, parent)
 end
 
 GUI.Menu.Hunger = createMenuItem("Hunger", function(self)
-    local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_hunger.png)"
-    local label = nil
-    local backgroundColor = alui.status.hunger
+        local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_hunger.png)"
+        local label = nil
+        local backgroundColor = alui.status.hunger
 
-    if iconPath then
-        GUI.InfoCSS:set("background-image", iconPath)
-    else
-        GUI.InfoCSS:set("background-image", "none")
-        if label then
-            self:echo("<center>" .. label)
+        -- Create individual CSS object for this item
+        local hungerCSS = createInfoCSS()
+
+        if iconPath then
+            hungerCSS:set("background-image", iconPath)
+        else
+            hungerCSS:set("background-image", "none")
+            if label then
+                self:echo("<center>" .. label)
+            end
         end
-    end
-    if backgroundColor then
-        GUI.InfoCSS:set("background-color", backgroundColor)
-    else
-        GUI.InfoCSS:set("background-color", "rgba(0,0,0,100)")
-    end
+        if backgroundColor then
+            hungerCSS:set("background-color", backgroundColor)
+        else
+            hungerCSS:set("background-color", "rgba(0,0,0,100)")
+        end
 
-    self:setStyleSheet(GUI.InfoCSS:getCSS())
-end,
-        GUI.Header)
+        self:setStyleSheet(hungerCSS:getCSS())
+    end,
+    GUI.Header)
 
 GUI.Menu.Thirst = createMenuItem("Thirst", function(self)
-    local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_thirst01.png)"
-    local backgroundColor = alui.status.thirst
+        local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_thirst01.png)"
+        local backgroundColor = alui.status.thirst
 
-    GUI.InfoCSS:set("background-image", iconPath)
+        -- Create individual CSS object for this item
+        local thirstCSS = createInfoCSS()
 
-    if backgroundColor then
-        GUI.InfoCSS:set("background-color", backgroundColor)
-    else
-        GUI.InfoCSS:set("background-color", "rgba(0,0,0,100)")
-    end
+        thirstCSS:set("background-image", iconPath)
 
-    self:setStyleSheet(GUI.InfoCSS:getCSS())
-end,
-        GUI.Header)
+        if backgroundColor then
+            thirstCSS:set("background-color", backgroundColor)
+        else
+            thirstCSS:set("background-color", "rgba(0,0,0,100)")
+        end
+
+        self:setStyleSheet(thirstCSS:getCSS())
+    end,
+    GUI.Header)
 
 GUI.Menu.Fatigue = createMenuItem("Fatigue", function(self)
-    local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_fatigue01.png)"
+        local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_fatigue01.png)"
+        local backgroundColor = alui.status.fatigue
 
-    local backgroundColor = alui.status.fatigue
+        -- Create individual CSS object for this item
+        local fatigueCSS = createInfoCSS()
 
-    GUI.InfoCSS:set("background-image", iconPath)
+        fatigueCSS:set("background-image", iconPath)
 
-    if backgroundColor then
-        GUI.InfoCSS:set("background-color", backgroundColor)
-    else
-        GUI.InfoCSS:set("background-color", "rgba(0,0,0,100)")
-    end
+        if backgroundColor then
+            fatigueCSS:set("background-color", backgroundColor)
+        else
+            fatigueCSS:set("background-color", "rgba(0,0,0,100)")
+        end
 
-    self:setStyleSheet(GUI.InfoCSS:getCSS())
-end,
-        GUI.Header)
+        self:setStyleSheet(fatigueCSS:getCSS())
+    end,
+    GUI.Header)
 
 GUI.Menu.Posture = createMenuItem("Posture", function(self)
-    local label = alui.status.posture
+        -- Check both ALUI namespace and legacy namespace for posture
+        local label = nil
+        if ALUI and ALUI.Status and ALUI.Status.posture then
+            label = ALUI.Status.posture
+        elseif alui and alui.status and alui.status.posture then
+            label = alui.status.posture
+        end
 
-    GUI.InfoCSS:set("background-image", "none")
+        -- Fallback: Try to get data directly from GMCP if not in status
+        if not label and gmcp and gmcp.Char and gmcp.Char.Status and gmcp.Char.Status.Posture then
+            label = gmcp.Char.Status.Posture
+            -- Update both status tables for next time
+            if ALUI and ALUI.Status then
+                ALUI.Status.posture = label
+            end
+            if alui and alui.status then
+                alui.status.posture = label
+            end
+        end
 
-    if label then
-        self:clear()
-        self:echo("<center>" .. label)
-    end
+        -- Create individual CSS object for this item
+        local postureCSS = createInfoCSS()
 
-    GUI.InfoCSS:set("background-color", "rgba(0,0,0,100)")
+        postureCSS:set("background-image", "none")
+        postureCSS:set("background-color", "rgba(0,0,0,100)")
 
-    self:setStyleSheet(GUI.InfoCSS:getCSS())
-end,
-        GUI.Header)
+        if label and label ~= "" then
+            self:clear()
+            self:echo("<center>" .. tostring(label))
+        else
+            self:clear()
+            self:echo("<center>Unknown")
+        end
+
+        self:setStyleSheet(postureCSS:getCSS())
+    end,
+    GUI.Header)
 
 GUI.Menu.Mercy = createMenuItem("Mercy", function(self)
-    local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_mercy01.png)"
+        local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_mercy01.png)"
 
-    local showMercy = alui.status.mercy
+        local showMercy = alui.status.mercy
 
-    GUI.ActionCSS:set("background-image", iconPath)
-
-
-    -- self:echo("<center> Mercy")
-
-    if showMercy then
-        GUI.ActionCSS:set("background-color", blue)
-    else
-        GUI.ActionCSS:set("background-color", red)
-    end
-
-    self:setStyleSheet(GUI.ActionCSS:getCSS())
-end,
+        GUI.ActionCSS:set("background-image", iconPath)
 
 
-        GUI.Header)
+        -- self:echo("<center> Mercy")
+
+        if showMercy then
+            GUI.ActionCSS:set("background-color", blue)
+        else
+            GUI.ActionCSS:set("background-color", red)
+        end
+
+        self:setStyleSheet(GUI.ActionCSS:getCSS())
+    end,
+
+
+    GUI.Header)
 
 GUI.Menu.Mercy:setClickCallback(function()
     local gameCommand = "mercy on"
@@ -196,22 +234,22 @@ GUI.Menu.Mercy:setClickCallback(function()
 end)
 
 GUI.Menu.Travel = createMenuItem("Travel", function(self)
-    local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_travel01.png)"
+        local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_travel01.png)"
 
-    local autoTravel = alui.status.travel
+        local autoTravel = alui.status.travel
 
-    GUI.ActionCSS:set("background-image", iconPath)
-    -- self:echo("<center>Travel")
+        GUI.ActionCSS:set("background-image", iconPath)
+        -- self:echo("<center>Travel")
 
-    if autoTravel then
-        GUI.ActionCSS:set("background-color", blue)
-    else
-        GUI.ActionCSS:set("background-color", red)
-    end
+        if autoTravel then
+            GUI.ActionCSS:set("background-color", blue)
+        else
+            GUI.ActionCSS:set("background-color", red)
+        end
 
-    self:setStyleSheet(GUI.ActionCSS:getCSS())
-end,
-        GUI.Header)
+        self:setStyleSheet(GUI.ActionCSS:getCSS())
+    end,
+    GUI.Header)
 
 GUI.Menu.Travel:setClickCallback(function()
     local gameCommand = "travel on"
@@ -227,21 +265,21 @@ GUI.Menu.Travel:setClickCallback(function()
 end)
 
 GUI.Menu.CommonSense = createMenuItem("CommonSense", function(self)
-    local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_commonsense.png)"
+        local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_commonsense.png)"
 
-    local useCommonSense = alui.status.commonsense
+        local useCommonSense = alui.status.commonsense
 
-    GUI.ActionCSS:set("background-image", iconPath)
-    -- self:echo("<center>CommonSense")
+        GUI.ActionCSS:set("background-image", iconPath)
+        -- self:echo("<center>CommonSense")
 
-    if useCommonSense then
-        GUI.ActionCSS:set("background-color", blue)
-    else
-        GUI.ActionCSS:set("background-color", red)
-    end
-    self:setStyleSheet(GUI.ActionCSS:getCSS())
-end,
-        GUI.Header)
+        if useCommonSense then
+            GUI.ActionCSS:set("background-color", blue)
+        else
+            GUI.ActionCSS:set("background-color", red)
+        end
+        self:setStyleSheet(GUI.ActionCSS:getCSS())
+    end,
+    GUI.Header)
 
 GUI.Menu.CommonSense:setClickCallback(function()
     local gameCommand = "commonsense on"
@@ -257,15 +295,15 @@ GUI.Menu.CommonSense:setClickCallback(function()
 end)
 
 GUI.Menu.Help = createMenuItem("Help", function(self)
-    local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/help_2.png)"
+        local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/help_2.png)"
 
-    GUI.ActionCSS:set("background-image", iconPath)
+        GUI.ActionCSS:set("background-image", iconPath)
 
-    GUI.ActionCSS:set("background-color", neutralBg)
+        GUI.ActionCSS:set("background-color", neutralBg)
 
-    self:setStyleSheet(GUI.ActionCSS:getCSS())
-end,
-        GUI.Header)
+        self:setStyleSheet(GUI.ActionCSS:getCSS())
+    end,
+    GUI.Header)
 
 setLabelToolTip("GUI.Menu.Help", 'Help')
 
@@ -278,11 +316,11 @@ if ALUI and ALUI.GUI then
     ALUI.GUI.Components = ALUI.GUI.Components or {}
     ALUI.GUI.Components.Header = GUI.Header
     ALUI.GUI.Components.Menu = GUI.Menu
-    
+
     ALUI.GUI.Styles = ALUI.GUI.Styles or {}
     ALUI.GUI.Styles.InfoCSS = GUI.InfoCSS
     ALUI.GUI.Styles.ActionCSS = GUI.ActionCSS
-    
+
     -- Store menu items
     if GUI.Menu then
         ALUI.GUI.Components.MenuItems = {
@@ -302,10 +340,3 @@ end
 if ALUI and ALUI.migration and ALUI.migration.markComplete then
     ALUI.migration.markComplete("Header_Icons.lua")
 end
-
-
-
-
-
-
-

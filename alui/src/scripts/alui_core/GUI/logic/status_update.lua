@@ -6,11 +6,11 @@ function status_update(e)
     else
         alui.status = alui.status or {}
     end
-    
+
     -- Use ALUI namespace for colors with fallback
     local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or GUI.Colors or {}
     local Config = (ALUI and ALUI.Config) or {}
-    
+
     local blue = Colors.blue
     local green = Colors.green
     local yellow = Colors.yellow
@@ -50,7 +50,7 @@ function status_update(e)
         else
             alui.status.mercy = status.Mercy == "On"
         end
-        
+
         -- Update GUI with namespace fallback
         local Menu = (ALUI and ALUI.GUI and ALUI.GUI.Components and ALUI.GUI.Components.Menu) or GUI.Menu
         if Menu and Menu.Mercy and Menu.Mercy.update then
@@ -64,7 +64,7 @@ function status_update(e)
         else
             alui.status.commonsense = status.CommonSense == "On"
         end
-        
+
         local Menu = (ALUI and ALUI.GUI and ALUI.GUI.Components and ALUI.GUI.Components.Menu) or GUI.Menu
         if Menu and Menu.CommonSense and Menu.CommonSense.update then
             Menu.CommonSense:update()
@@ -77,7 +77,7 @@ function status_update(e)
         else
             alui.status.travel = status.Travel == "On"
         end
-        
+
         local Menu = (ALUI and ALUI.GUI and ALUI.GUI.Components and ALUI.GUI.Components.Menu) or GUI.Menu
         if Menu and Menu.Travel and Menu.Travel.update then
             Menu.Travel:update()
@@ -92,7 +92,7 @@ function status_update(e)
         alui.status.fatigue = fatigue_levels[status.Fatigue]
         alui.status.posture = status.Posture
     end
-    
+
     local Menu = (ALUI and ALUI.GUI and ALUI.GUI.Components and ALUI.GUI.Components.Menu) or GUI.Menu
     if Menu then
         if Menu.Fatigue and Menu.Fatigue.update then
@@ -102,7 +102,6 @@ function status_update(e)
             Menu.Posture:update()
         end
     end
-
     if status.Name and status.Age and status.Race then
         if ALUI and ALUI.Status then
             ALUI.Status.meline = "You are " ..
@@ -112,7 +111,7 @@ function status_update(e)
                 status.Name:title() .. ", a " .. status.Age .. " year old " .. status.Race .. "."
         end
     end
-    
+
     raiseEvent("alui status window")
 end
 
