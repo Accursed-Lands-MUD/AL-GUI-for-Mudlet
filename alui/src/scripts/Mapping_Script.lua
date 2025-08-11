@@ -23,7 +23,7 @@ if ALUI and ALUI.Map then
     ALUI.Map.prev_info = ALUI.Map.prev_info or {}
     ALUI.Map.aliases = ALUI.Map.aliases or {}
     ALUI.Map.configs = ALUI.Map.configs or {}
-    
+
     -- Set default speedwalk delay from configuration or fallback
     if Config.get then
         ALUI.Map.configs.speedwalk_delay = Config.get("mapping.speedwalkDelay", 0)
@@ -32,7 +32,7 @@ if ALUI and ALUI.Map then
         ALUI.Map.configs.speedwalk_delay = 0
         ALUI.Map.configs.speedwalk_wait = false
     end
-    
+
     -- Copy existing values to new structure
     for key, value in pairs(map.room_info) do
         ALUI.Map.room_info[key] = value
@@ -409,13 +409,13 @@ function map.eventHandler(event, ...)
             terrain = gmcp.Room.Info.terrain,
             exits = gmcp.Room.Info.exits
         }
-        
+
         -- Sync to ALUI namespace if available
         if ALUI and ALUI.Map then
             ALUI.Map.prev_info = map.prev_info
             ALUI.Map.room_info = map.room_info
         end
-        
+
         if type(map.room_info.exits) == "table" then
             for k, v in pairs(map.room_info.exits) do
                 map.room_info.exits[k] = v
@@ -425,7 +425,7 @@ function map.eventHandler(event, ...)
     elseif event == "shiftRoom" then
         local dir = exitmap[arg[1]] or arg[1]
         if not table.contains(exits, dir) then
-            echo("Error: Invalid direction '" .. dir .. "'.")
+            echo(string.format("Error: Invalid direction '%s'.", dir))
         else
             shift_room(dir)
         end
@@ -445,12 +445,12 @@ if ALUI and ALUI.Map then
     ALUI.Map.speedwalk = map.speedwalk
     ALUI.Map.eventHandler = map.eventHandler
     ALUI.Map.echo = map.echo
-    
+
     -- Create handlers table for organized function storage
     ALUI.Map.handlers = ALUI.Map.handlers or {}
     ALUI.Map.handlers.eventHandler = map.eventHandler
     ALUI.Map.handlers.speedwalk = map.speedwalk
-    
+
     -- Register ALUI event handler as well
     if ALUI.Events and ALUI.Events.registerHandler then
         ALUI.Events.registerHandler("gmcp.Room.Info", "alui.map.roomInfo", map.eventHandler)
