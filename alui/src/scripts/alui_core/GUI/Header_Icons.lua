@@ -98,7 +98,13 @@ end
 GUI.Menu.Hunger = createMenuItem("Hunger", function(self)
         local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_hunger.png)"
         local label = nil
-        local backgroundColor = alui.status.hunger
+        -- Check both ALUI namespace and legacy namespace for hunger
+        local backgroundColor = nil
+        if ALUI and ALUI.Status and ALUI.Status.hunger then
+            backgroundColor = ALUI.Status.hunger
+        elseif alui and alui.status and alui.status.hunger then
+            backgroundColor = alui.status.hunger
+        end
 
         -- Create individual CSS object for this item
         local hungerCSS = createInfoCSS()
@@ -123,7 +129,13 @@ GUI.Menu.Hunger = createMenuItem("Hunger", function(self)
 
 GUI.Menu.Thirst = createMenuItem("Thirst", function(self)
         local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_thirst01.png)"
-        local backgroundColor = alui.status.thirst
+        -- Check both ALUI namespace and legacy namespace for thirst
+        local backgroundColor = nil
+        if ALUI and ALUI.Status and ALUI.Status.thirst then
+            backgroundColor = ALUI.Status.thirst
+        elseif alui and alui.status and alui.status.thirst then
+            backgroundColor = alui.status.thirst
+        end
 
         -- Create individual CSS object for this item
         local thirstCSS = createInfoCSS()
@@ -142,7 +154,13 @@ GUI.Menu.Thirst = createMenuItem("Thirst", function(self)
 
 GUI.Menu.Fatigue = createMenuItem("Fatigue", function(self)
         local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_fatigue01.png)"
-        local backgroundColor = alui.status.fatigue
+        -- Check both ALUI namespace and legacy namespace for fatigue
+        local backgroundColor = nil
+        if ALUI and ALUI.Status and ALUI.Status.fatigue then
+            backgroundColor = ALUI.Status.fatigue
+        elseif alui and alui.status and alui.status.fatigue then
+            backgroundColor = alui.status.fatigue
+        end
 
         -- Create individual CSS object for this item
         local fatigueCSS = createInfoCSS()
@@ -201,7 +219,13 @@ GUI.Menu.Posture = createMenuItem("Posture", function(self)
 GUI.Menu.Mercy = createMenuItem("Mercy", function(self)
         local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_mercy01.png)"
 
-        local showMercy = alui.status.mercy
+        -- Check both ALUI namespace and legacy namespace for mercy
+        local showMercy = nil
+        if ALUI and ALUI.Status and ALUI.Status.mercy ~= nil then
+            showMercy = ALUI.Status.mercy
+        elseif alui and alui.status and alui.status.mercy ~= nil then
+            showMercy = alui.status.mercy
+        end
 
         GUI.ActionCSS:set("background-image", iconPath)
 
@@ -224,7 +248,15 @@ GUI.Menu.Mercy:setClickCallback(function()
     local gameCommand = "mercy on"
     local toolTip = "Turn Mercy Off"
 
-    if alui.status.mercy then
+    -- Check both namespaces for mercy status
+    local currentMercy = nil
+    if ALUI and ALUI.Status and ALUI.Status.mercy ~= nil then
+        currentMercy = ALUI.Status.mercy
+    elseif alui and alui.status and alui.status.mercy ~= nil then
+        currentMercy = alui.status.mercy
+    end
+
+    if currentMercy then
         gameCommand = "mercy off"
         toolTip = "Turn Mercy On"
     end
@@ -236,7 +268,13 @@ end)
 GUI.Menu.Travel = createMenuItem("Travel", function(self)
         local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_travel01.png)"
 
-        local autoTravel = alui.status.travel
+        -- Check both ALUI namespace and legacy namespace for travel
+        local autoTravel = nil
+        if ALUI and ALUI.Status and ALUI.Status.travel ~= nil then
+            autoTravel = ALUI.Status.travel
+        elseif alui and alui.status and alui.status.travel ~= nil then
+            autoTravel = alui.status.travel
+        end
 
         GUI.ActionCSS:set("background-image", iconPath)
         -- self:echo("<center>Travel")
@@ -255,7 +293,15 @@ GUI.Menu.Travel:setClickCallback(function()
     local gameCommand = "travel on"
     local toolTip = "Turn Travel Off"
 
-    if alui.status.travel then
+    -- Check both namespaces for travel status
+    local currentTravel = nil
+    if ALUI and ALUI.Status and ALUI.Status.travel ~= nil then
+        currentTravel = ALUI.Status.travel
+    elseif alui and alui.status and alui.status.travel ~= nil then
+        currentTravel = alui.status.travel
+    end
+
+    if currentTravel then
         gameCommand = "travel off"
         toolTip = "Turn Travel On"
     end
@@ -267,7 +313,13 @@ end)
 GUI.Menu.CommonSense = createMenuItem("CommonSense", function(self)
         local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_commonsense.png)"
 
-        local useCommonSense = alui.status.commonsense
+        -- Check both ALUI namespace and legacy namespace for commonsense
+        local useCommonSense = nil
+        if ALUI and ALUI.Status and ALUI.Status.commonsense ~= nil then
+            useCommonSense = ALUI.Status.commonsense
+        elseif alui and alui.status and alui.status.commonsense ~= nil then
+            useCommonSense = alui.status.commonsense
+        end
 
         GUI.ActionCSS:set("background-image", iconPath)
         -- self:echo("<center>CommonSense")
@@ -285,7 +337,15 @@ GUI.Menu.CommonSense:setClickCallback(function()
     local gameCommand = "commonsense on"
     local toolTip = "Turn Commonsense Off"
 
-    if alui.status.commonsense then
+    -- Check both namespaces for commonsense status
+    local currentCommonSense = nil
+    if ALUI and ALUI.Status and ALUI.Status.commonsense ~= nil then
+        currentCommonSense = ALUI.Status.commonsense
+    elseif alui and alui.status and alui.status.commonsense ~= nil then
+        currentCommonSense = alui.status.commonsense
+    end
+
+    if currentCommonSense then
         gameCommand = "commonsense off"
         toolTip = "Turn Commonsense On"
     end
