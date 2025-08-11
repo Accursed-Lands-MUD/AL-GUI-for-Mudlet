@@ -24,7 +24,7 @@ containerConfig.topHeight = containerConfig.topHeight or (topBorderPercent .. "%
 containerConfig.fullHeight = containerConfig.fullHeight or "100%"
 
 GUI.BackgroundCSS = CSSMan.new([[
-  background-color: rgb(20,0,20);
+  background-color: #353535;
 ]])
 
 GUI.Left = Geyser.Label:new({
@@ -92,7 +92,7 @@ if ALUI and ALUI.GUI then
     ALUI.GUI.setBackground = setBackground
     ALUI.GUI.Components = ALUI.GUI.Components or {}
     ALUI.GUI.Components.background = setBackground
-    
+
     -- Store UI components in ALUI namespace
     ALUI.GUI.Components.Left = GUI.Left
     ALUI.GUI.Components.Right = GUI.Right
