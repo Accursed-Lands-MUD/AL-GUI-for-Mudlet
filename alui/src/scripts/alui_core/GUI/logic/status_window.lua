@@ -26,7 +26,7 @@ function status_window(e)
     end
 
     -- Use ALUI namespace for combat mini with fallback
-    local combatmini = (ALUI and ALUI.combatmini) or alui.combatmini
+    local combatmini = ALUI.GUI.Components.combatmini
     if not combatmini then
         return
     end

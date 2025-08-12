@@ -193,11 +193,11 @@ IntegrationFixes.enhanceBoxesLua = function()
             if GUI.Mapper then
                 RM.registerUIElement("mapper", GUI.Mapper, "boxes")
             end
-            if alui.roommini then
-                RM.registerUIElement("roomMini", alui.roommini, "boxes")
+            if ALUI.GUI.Components.roommini then
+                RM.registerUIElement("roomMini", ALUI.GUI.Components.roommini, "boxes")
             end
-            if alui.combatmini then
-                RM.registerUIElement("combatMini", alui.combatmini, "boxes")
+            if ALUI.GUI.Components.combatmini then
+                RM.registerUIElement("combatMini", ALUI.GUI.Components.combatmini, "boxes")
             end
             if GUI.Style_VBox then
                 RM.registerUIElement("styleVBox", GUI.Style_VBox, "boxes")
@@ -205,8 +205,8 @@ IntegrationFixes.enhanceBoxesLua = function()
             if GUI.Survey_Container then
                 RM.registerUIElement("surveyContainer", GUI.Survey_Container, "boxes")
             end
-            if alui.surveymini then
-                RM.registerUIElement("surveyMini", alui.surveymini, "boxes")
+            if ALUI.GUI.Components.surveymini then
+                RM.registerUIElement("surveyMini", ALUI.GUI.Components.surveymini, "boxes")
             end
             if GUI.Chat_Container then
                 RM.registerUIElement("chatContainer", GUI.Chat_Container, "boxes")
@@ -323,16 +323,16 @@ IntegrationFixes.migrateExistingUIElements = function()
 
     -- Check for existing GUI elements and register them
     local guiElements = {
-        { name = "header",          element = GUI.Header,           category = "header" },
-        { name = "mapper",          element = GUI.Mapper,           category = "boxes" },
-        { name = "roomMini",        element = alui.roommini,        category = "boxes" },
-        { name = "combatMini",      element = alui.combatmini,      category = "boxes" },
-        { name = "surveyMini",      element = alui.surveymini,      category = "boxes" },
-        { name = "styleVBox",       element = GUI.Style_VBox,       category = "boxes" },
-        { name = "surveyContainer", element = GUI.Survey_Container, category = "boxes" },
-        { name = "chatContainer",   element = GUI.Chat_Container,   category = "boxes" },
-        { name = "backgroundLeft",  element = GUI.Left,             category = "background" },
-        { name = "backgroundRight", element = GUI.Right,            category = "background" }
+        { name = "header",          element = GUI.Header,                     category = "header" },
+        { name = "mapper",          element = GUI.Mapper,                     category = "boxes" },
+        { name = "roomMini",        element = ALUI.GUI.Components.roommini,   category = "boxes" },
+        { name = "combatMini",      element = ALUI.GUI.Components.combatmini, category = "boxes" },
+        { name = "surveyMini",      element = ALUI.GUI.Components.surveymini, category = "boxes" },
+        { name = "styleVBox",       element = GUI.Style_VBox,                 category = "boxes" },
+        { name = "surveyContainer", element = GUI.Survey_Container,           category = "boxes" },
+        { name = "chatContainer",   element = GUI.Chat_Container,             category = "boxes" },
+        { name = "backgroundLeft",  element = GUI.Left,                       category = "background" },
+        { name = "backgroundRight", element = GUI.Right,                      category = "background" }
     }
 
     for _, item in ipairs(guiElements) do

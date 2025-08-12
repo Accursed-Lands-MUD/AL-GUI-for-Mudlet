@@ -191,8 +191,9 @@ local function setBoxes()
 
     GUI.Room_Container = createContainer("GUI.Room_Container", GUI.Box5)
 
-    alui.roommini = Geyser.MiniConsole:new({
-        name = "alui room miniconsole",
+    ALUI.GUI.Components = ALUI.GUI.Components or {}
+    ALUI.GUI.Components.roommini = Geyser.MiniConsole:new({
+        name = "ALUI room miniconsole",
         x = Gui_Padding,
         y = Gui_Padding,
         width = GUI.Room_Container:get_width() - (Gui_Padding * 2),
@@ -203,13 +204,13 @@ local function setBoxes()
 
     -- Register room mini console with ResourceManager
     if RM then
-        RM.registerUIElement("roomMini", alui.roommini, "interface")
+        RM.registerUIElement("roomMini", ALUI.GUI.Components.roommini, "interface")
     end
 
     GUI.Status_Container = createContainer("GUI.Status_Container", GUI.Box7)
 
-    alui.combatmini = Geyser.MiniConsole:new({
-        name = "alui combat console",
+    ALUI.GUI.Components.combatmini = Geyser.MiniConsole:new({
+        name = "ALUI combat console",
         x = Gui_Padding,
         y = Gui_Padding,
         height = GUI.Status_Container:get_height() - (Gui_Padding * 2),
@@ -220,7 +221,7 @@ local function setBoxes()
 
     -- Register combat mini console with ResourceManager
     if RM then
-        RM.registerUIElement("combatMini", alui.combatmini, "interface")
+        RM.registerUIElement("combatMini", ALUI.GUI.Components.combatmini, "interface")
     end
 
     GUI.Style_Container = createContainer("GUI.Style_Container", GUI.Box1)
@@ -298,8 +299,8 @@ local function setBoxes()
     local survey_width = '90%'  -- width - (20 * 2)
     local survey_height = '90%' -- height - (20 * 2)
 
-    alui.surveymini = Geyser.MiniConsole:new({
-        name = "alui survey mini",
+    ALUI.GUI.Components.surveymini = Geyser.MiniConsole:new({
+        name = "ALUI survey mini",
         x = Gui_Padding,
         y = Gui_Padding,
 
@@ -312,11 +313,11 @@ local function setBoxes()
 
     -- Register survey mini console with ResourceManager
     if RM then
-        RM.registerUIElement("surveyMini", alui.surveymini, "interface")
+        RM.registerUIElement("surveyMini", ALUI.GUI.Components.surveymini, "interface")
     end
 
     GUI.Chat_Container = Geyser.Container:new({
-        name = "alui chat con",
+        name = "ALUI chat container",
         x = 0,
         y = 0,
         width = "100%",
@@ -328,8 +329,8 @@ local function setBoxes()
         RM.registerUIElement("chatContainer", GUI.Chat_Container, "interface")
     end
 
-    alui.chat_cap = EMCO:new({
-        name = "alui chat cap",
+    ALUI.GUI.Components.chat_cap = EMCO:new({
+        name = "ALUI chat cap",
         allTab = true,
         consoles = { "All", "Say", "Chat", "Mentor", "Newbie" },
         x = Gui_Padding,
@@ -350,9 +351,9 @@ GUI.resizeBoxes = function()
     GUI.Map_Container:show()
     GUI.Mapper:show()
     GUI.Room_Container:show()
-    alui.roommini:show()
+    ALUI.GUI.Components.roommini:show()
     GUI.Status_Container:show()
-    alui.combatmini:show()
+    ALUI.GUI.Components.combatmini:show()
     GUI.Style_Container:show()
     GUI.Style_VBox:show()
     GUI.Style_HBox_Aim_Control:show()
@@ -377,7 +378,7 @@ GUI.resizeBoxes = function()
     GUI.Style_Defense_Increase:show()
     GUI.Style.update()
     GUI.Survey_Container:show()
-    alui.surveymini:show()
+    ALUI.GUI.Components.surveymini:show()
     GUI.Chat_Container:show()
     alui.chat_cap:show()
 end

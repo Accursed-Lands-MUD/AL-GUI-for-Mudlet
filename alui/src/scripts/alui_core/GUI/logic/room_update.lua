@@ -2,18 +2,18 @@ function room_update(e)
     if e ~= "gmcp.Room.Info" then
         return
     end
-    
+
     local r = {}
     for k, v in pairs(gmcp.Room.Info) do
         r[k:lower()] = v
     end
 
     -- Use ALUI namespace for room mini with fallback
-    local roommini = (ALUI and ALUI.roommini) or alui.roommini
+    local roommini = ALUI.GUI.Components.roommini
     if not roommini then
         return
     end
-    
+
     roommini:clear()
     if r.brief then
         roommini:cecho(r.brief)
@@ -23,7 +23,6 @@ function room_update(e)
     end
     if r.height and (r.height ~= "") then
         roommini:cecho("\nThere is " .. r.height .. ".")
-
     end
     if r.light and (r.light ~= "") then
         roommini:cecho("\nIt is " .. r.light .. ".")
@@ -62,4 +61,3 @@ end
 if ALUI and ALUI.migration and ALUI.migration.markComplete then
     ALUI.migration.markComplete("room_update.lua")
 end
-  
