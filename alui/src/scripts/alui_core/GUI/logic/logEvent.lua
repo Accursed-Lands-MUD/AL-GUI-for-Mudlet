@@ -22,18 +22,16 @@ function logEvent(e)
     end
 end
 
-registerAnonymousEventHandler("*", "logEvent")
-
 -- Register with ResourceManager if available
 local RM = ALUI and ALUI.ResourceManager
 if RM then
+    local handlerId = registerAnonymousEventHandler("*", "logEvent")
     RM.registerEventHandler(
         "globalLogEvent",
-        registerAnonymousEventHandler("*", "logEvent"),
+        handlerId,
         "*",
         "logging"
     )
-    print("ALUI: logEvent registered with ResourceManager")
 else
     -- Fallback to direct registration
     registerAnonymousEventHandler("*", "logEvent")

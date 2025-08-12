@@ -53,7 +53,7 @@ local function createInfoCSS()
 
     -- Register CSS with ResourceManager
     if RM then
-        RM.registerCSS("headerInfoCSS_" .. tostring(css), css, "header")
+        RM.registerCSS("headerInfoCSS", css, "header")
     end
 
     return css
@@ -74,7 +74,7 @@ local function createActionCSS()
 
     -- Register CSS with ResourceManager
     if RM then
-        RM.registerCSS("headerActionCSS_" .. tostring(css), css, "header")
+        RM.registerCSS("headerActionCSS", css, "header")
     end
 
     return css

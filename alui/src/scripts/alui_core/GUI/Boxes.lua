@@ -15,7 +15,6 @@ local function setBoxes()
     if RM then
         RM.cleanupByCategory("boxes")
         RM.cleanupByCategory("gauges")
-        RM.cleanupByCategory("mapping")
     end
 
     -- Use configuration values for styling with fallbacks
@@ -75,7 +74,6 @@ local function setBoxes()
         aggressiveColor = Config.get("colors.status.aggressive", aggressiveColor)
         defensiveColor = Config.get("colors.status.defensive", defensiveColor)
     end
-    local defensiveColor = '#2A768C'
 
     -- Function to create a new box with ResourceManager tracking
     local function createBox(name, x, y, width, height, parent)
