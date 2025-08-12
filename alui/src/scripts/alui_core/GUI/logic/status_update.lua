@@ -36,11 +36,22 @@ function status_update(e)
     local status = gmcp.Char.Status
 
     if status.Mercy then
-        ALUI.Status.vitals.mercy = status.Mercy == "On"
+        local mercyValue = status.Mercy == "On"
+        -- Store in both locations for compatibility
+        ALUI.Status.mercy = mercyValue
+        ALUI.Status.vitals.mercy = mercyValue
+
+        local Menu = ALUI.GUI.Components.Menu or GUI.Menu
+        if Menu and Menu.Mercy and Menu.Mercy.update then
+            Menu.Mercy:update()
+        end
     end
 
     if status.CommonSense then
-        ALUI.Status.vitals.commonsense = status.CommonSense == "On"
+        local commonsenseValue = status.CommonSense == "On"
+        -- Store in both locations for compatibility
+        ALUI.Status.commonsense = commonsenseValue
+        ALUI.Status.vitals.commonsense = commonsenseValue
 
         local Menu = ALUI.GUI.Components.Menu or GUI.Menu
         if Menu and Menu.CommonSense and Menu.CommonSense.update then
@@ -49,7 +60,10 @@ function status_update(e)
     end
 
     if status.Travel then
-        ALUI.Status.vitals.travel = status.Travel == "On"
+        local travelValue = status.Travel == "On"
+        -- Store in both locations for compatibility
+        ALUI.Status.travel = travelValue
+        ALUI.Status.vitals.travel = travelValue
 
         local Menu = ALUI.GUI.Components.Menu or GUI.Menu
         if Menu and Menu.Travel and Menu.Travel.update then
