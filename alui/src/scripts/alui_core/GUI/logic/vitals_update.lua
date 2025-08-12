@@ -5,6 +5,7 @@
 ALUI = ALUI or {}
 ALUI.Status = ALUI.Status or {}
 ALUI.Health = ALUI.Health or {}
+ALUI.Bleeding = ALUI.Bleeding or {}
 ALUI.Status.bleeding = ALUI.Status.bleeding or {}
 ALUI.Status.vitals = ALUI.Status.vitals or {}
 
@@ -173,6 +174,10 @@ local function updateVitals(e)
                     if ALUI.Health then
                         ALUI.Health[part] = health_levels[health_status]
                     end
+                    -- Also store in expected ALUI.Bleeding namespace for status window
+                    if ALUI.Bleeding then
+                        ALUI.Bleeding[part] = true
+                    end
                 end
             else
                 -- No bleeding, use the full string as health status
@@ -182,6 +187,10 @@ local function updateVitals(e)
                     end
                     if ALUI.Health then
                         ALUI.Health[part] = health_levels[health_and_bleading]
+                    end
+                    -- Also store in expected ALUI.Bleeding namespace for status window
+                    if ALUI.Bleeding then
+                        ALUI.Bleeding[part] = false
                     end
                 end
             end

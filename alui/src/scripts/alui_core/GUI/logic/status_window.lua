@@ -21,7 +21,7 @@ local function displayBodyPart(m, health, bleeding, part_name, display_label)
 end
 
 function status_window(e)
-    if e ~= "alui status window" then
+    if e ~= "ALUI status window" then
         return
     end
 

@@ -31,7 +31,7 @@
     "name": "status_window",
     "isActive": "yes",
     "eventHandlerList": [
-      "alui status window"
+      "ALUI status window"
     ]
   },
   {
