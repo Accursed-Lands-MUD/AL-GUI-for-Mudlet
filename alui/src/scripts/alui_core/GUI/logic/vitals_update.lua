@@ -198,8 +198,3 @@ vitals_update = updateVitals
 if ALUI and ALUI.Status then
     ALUI.Status.updateVitals = updateVitals
 end
-
--- Mark this file as migrated
-if ALUI and ALUI.migration and ALUI.migration.markComplete then
-    ALUI.migration.markComplete("vitals_update.lua")
-end

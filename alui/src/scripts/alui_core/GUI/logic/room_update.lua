@@ -56,8 +56,3 @@ if ALUI and ALUI.GUI then
     ALUI.GUI.Logic = ALUI.GUI.Logic or {}
     ALUI.GUI.Logic.room_update = room_update
 end
-
--- Mark this file as migrated
-if ALUI and ALUI.migration and ALUI.migration.markComplete then
-    ALUI.migration.markComplete("room_update.lua")
-end

@@ -11,10 +11,10 @@ local function setBorders()
 
     -- Use configuration values if available, otherwise defaults
     local sideBorderPercent = 0.25
-    local topBorderPercent = 1/20  -- h/20 = h * (1/20)
-    
+    local topBorderPercent = 1 / 20 -- h/20 = h * (1/20)
+
     if Config.get then
-        sideBorderPercent = Config.get("ui.sideBorderPercent", 25) / 100  -- Convert percentage to decimal
+        sideBorderPercent = Config.get("ui.sideBorderPercent", 25) / 100 -- Convert percentage to decimal
         topBorderPercent = Config.get("ui.topBorderPercent", 5) / 100
     end
 
@@ -38,9 +38,4 @@ end
 -- Register in new ALUI namespace if available
 if ALUI and ALUI.GUI then
     ALUI.GUI.setBorders = setBorders
-end
-
--- Mark this file as migrated to ALUI namespace
-if ALUI and ALUI.migration and ALUI.migration.markComplete then
-    ALUI.migration.markComplete("Set_Borders.lua")
 end

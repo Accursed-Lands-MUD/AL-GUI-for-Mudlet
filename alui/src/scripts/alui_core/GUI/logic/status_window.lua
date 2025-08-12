@@ -77,8 +77,3 @@ if ALUI and ALUI.GUI then
     ALUI.GUI.Logic = ALUI.GUI.Logic or {}
     ALUI.GUI.Logic.status_window = status_window
 end
-
--- Mark this file as migrated
-if ALUI and ALUI.migration and ALUI.migration.markComplete then
-    ALUI.migration.markComplete("status_window.lua")
-end

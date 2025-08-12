@@ -393,9 +393,4 @@ if ALUI and ALUI.GUI then
     ALUI.GUI.Components.boxes = setBoxes
 end
 
--- Mark this file as migrated
-if ALUI and ALUI.migration and ALUI.migration.markComplete then
-    ALUI.migration.markComplete("Boxes.lua")
-end
-
 GUI.setBoxes()

@@ -121,8 +121,3 @@ if ALUI and ALUI.GUI then
     ALUI.GUI.Styles = ALUI.GUI.Styles or {}
     ALUI.GUI.Styles.BackgroundCSS = GUI.BackgroundCSS
 end
-
--- Mark this file as migrated
-if ALUI and ALUI.migration and ALUI.migration.markComplete then
-    ALUI.migration.markComplete("Create_Background.lua")
-end

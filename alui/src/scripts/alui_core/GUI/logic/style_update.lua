@@ -6,16 +6,16 @@ function style_update(event)
     if event ~= "gmcp.Char.Style" then
         return
     end
-    
+
     local style = gmcp.Char.Style
-    
+
     -- Store in ALUI namespace with fallback
     local styleStorage = (ALUI and ALUI.Style) or alui.style
     if ALUI and not ALUI.Style then
         ALUI.Style = {}
         styleStorage = ALUI.Style
     end
-    
+
     for f, v in pairs(style) do
         if tonumber(v) then
             styleStorage[f] = tonumber(v)
@@ -26,7 +26,7 @@ function style_update(event)
             alui.style[f] = v
         end
     end
-    
+
     -- Update GUI with namespace fallback
     local StyleUpdate = (ALUI and ALUI.GUI and ALUI.GUI.Logic and ALUI.GUI.Logic.StyleUpdate) or GUI.Style.update
     if StyleUpdate then
@@ -37,14 +37,14 @@ end
 local function updateStyleGUI()
     -- Use ALUI namespace with fallback
     local styleData = (ALUI and ALUI.Style) or alui.style
-    
+
     if not styleData then
         return
     end
-    
+
     -- Get GUI components with namespace fallback
     local StyleGauges = (ALUI and ALUI.GUI and ALUI.GUI.Components and ALUI.GUI.Components.StyleGauges) or GUI
-    
+
     if styleData.control and StyleGauges.Style_Gauge_Aim_Control then
         StyleGauges.Style_Gauge_Aim_Control:setValue(styleData.control)
     end
@@ -72,9 +72,4 @@ if ALUI and ALUI.GUI then
     ALUI.GUI.Logic = ALUI.GUI.Logic or {}
     ALUI.GUI.Logic.style_update = style_update
     ALUI.GUI.Logic.StyleUpdate = updateStyleGUI
-end
-
--- Mark this file as migrated
-if ALUI and ALUI.migration and ALUI.migration.markComplete then
-    ALUI.migration.markComplete("style_update.lua")
 end

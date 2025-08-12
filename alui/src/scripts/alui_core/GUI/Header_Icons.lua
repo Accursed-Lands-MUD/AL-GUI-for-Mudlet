@@ -417,8 +417,3 @@ if ALUI and ALUI.GUI then
         }
     end
 end
-
--- Mark this file as migrated
-if ALUI and ALUI.migration and ALUI.migration.markComplete then
-    ALUI.migration.markComplete("Header_Icons.lua")
-end

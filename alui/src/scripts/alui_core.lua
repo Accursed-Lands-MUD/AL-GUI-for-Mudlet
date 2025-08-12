@@ -106,8 +106,3 @@ end
 -- Register the event handler in ALUI namespace
 ALUI.GUI.Events.resize = registerNamedEventHandler(profileName, 'ALUI.events.resize', "sysWindowResizeEvent",
     resizeHandler, false)
-
--- Mark this file as migrated
-if ALUI and ALUI.migration and ALUI.migration.markComplete then
-    ALUI.migration.markComplete("alui_core.lua")
-end

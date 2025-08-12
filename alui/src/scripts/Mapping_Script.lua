@@ -480,8 +480,3 @@ if ALUI and ALUI.Map then
         ALUI.Events.registerHandler("sysConnectionEvent", "alui.map.connection", map.eventHandler)
     end
 end
-
--- Mark this file as migrated
-if ALUI and ALUI.migration and ALUI.migration.markComplete then
-    ALUI.migration.markComplete("Mapping_Script.lua")
-end

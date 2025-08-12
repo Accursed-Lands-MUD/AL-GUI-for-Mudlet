@@ -232,42 +232,8 @@ ALUI.cleanup = function()
     end
 end
 
--- Migration status tracking
-ALUI.migration = {
-    status = "in-progress",
-    completedFiles = {},
-    remainingFiles = {
-        "alui_core.lua",
-        "Mapping_Script.lua",
-        "Create_Background.lua",
-        "Boxes.lua",
-        "vitals_update.lua",
-        "Header_Icons.lua",
-        "Gauges.lua",
-        "Set_Borders.lua"
-    },
-    backwardCompatibility = true
-}
-
--- Mark migration as complete
-ALUI.migration.status = "complete"
-ALUI.migration.completedFiles = {
-    "namespace.lua",
-    "alui_core.lua",
-    "Config.lua",
-    "GUI/Boxes.lua",
-    "GUI/Header_Icons.lua",
-    "GUI/Create_Background.lua",
-    "GUI/Set_Borders.lua",
-    "Mapping_Script.lua",
-    "ConfigAnalytics.lua",
-    "logEvent.lua"
-}
-ALUI.migration.remainingFiles = {}
-ALUI.migration.backwardCompatibility = false
-
 -- Initialize the completed namespace system
-print("ALUI Namespace migration completed successfully!")
+print("ALUI Namespace initialized successfully!")
 print("All files migrated to unified ALUI.* structure")
 print("Backward compatibility layer removed")
 
