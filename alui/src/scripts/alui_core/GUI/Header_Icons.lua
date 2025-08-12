@@ -245,8 +245,6 @@ GUI.Menu.Mercy = createMenuItem("Mercy", function(self)
         local showMercy = nil
         if ALUI and ALUI.Status and ALUI.Status.mercy ~= nil then
             showMercy = ALUI.Status.mercy
-        elseif alui and alui.status and alui.status.mercy ~= nil then
-            showMercy = alui.status.mercy
         end
 
         GUI.ActionCSS:set("background-image", iconPath)
@@ -274,8 +272,6 @@ GUI.Menu.Mercy:setClickCallback(function()
     local currentMercy = nil
     if ALUI and ALUI.Status and ALUI.Status.mercy ~= nil then
         currentMercy = ALUI.Status.mercy
-    elseif alui and alui.status and alui.status.mercy ~= nil then
-        currentMercy = alui.status.mercy
     end
 
     if currentMercy then
@@ -294,8 +290,6 @@ GUI.Menu.Travel = createMenuItem("Travel", function(self)
         local autoTravel = nil
         if ALUI and ALUI.Status and ALUI.Status.travel ~= nil then
             autoTravel = ALUI.Status.travel
-        elseif alui and alui.status and alui.status.travel ~= nil then
-            autoTravel = alui.status.travel
         end
 
         GUI.ActionCSS:set("background-image", iconPath)
@@ -319,8 +313,6 @@ GUI.Menu.Travel:setClickCallback(function()
     local currentTravel = nil
     if ALUI and ALUI.Status and ALUI.Status.travel ~= nil then
         currentTravel = ALUI.Status.travel
-    elseif alui and alui.status and alui.status.travel ~= nil then
-        currentTravel = alui.status.travel
     end
 
     if currentTravel then
@@ -339,8 +331,6 @@ GUI.Menu.CommonSense = createMenuItem("CommonSense", function(self)
         local useCommonSense = nil
         if ALUI and ALUI.Status and ALUI.Status.commonsense ~= nil then
             useCommonSense = ALUI.Status.commonsense
-        elseif alui and alui.status and alui.status.commonsense ~= nil then
-            useCommonSense = alui.status.commonsense
         end
 
         GUI.ActionCSS:set("background-image", iconPath)
@@ -363,8 +353,6 @@ GUI.Menu.CommonSense:setClickCallback(function()
     local currentCommonSense = nil
     if ALUI and ALUI.Status and ALUI.Status.commonsense ~= nil then
         currentCommonSense = ALUI.Status.commonsense
-    elseif alui and alui.status and alui.status.commonsense ~= nil then
-        currentCommonSense = alui.status.commonsense
     end
 
     if currentCommonSense then

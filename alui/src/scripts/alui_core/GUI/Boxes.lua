@@ -1,12 +1,11 @@
--- Boxes.lua - Migrated to ALUI namespace structure
 -- Handles UI box creation and management with new namespace while maintaining backward compatibility
 
 local EMCO = require("alui.emco")
 
 -- Use ALUI namespace if available, with fallbacks for compatibility
-local GUI_NS = (ALUI and ALUI.GUI) or GUI or {}
+local GUI_NS = (ALUI and ALUI.GUI) or {}
 local Config = (ALUI and ALUI.Config) or {}
-local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or GUI.Colors or {}
+local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or {}
 local RM = ALUI and ALUI.ResourceManager
 
 -- Core box setup function with ResourceManager integration

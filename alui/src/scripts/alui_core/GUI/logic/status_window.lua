@@ -33,13 +33,13 @@ function status_window(e)
 
     combatmini:clear()
 
-    -- Use ALUI namespace for health data with fallback
-    local healthData = (ALUI and ALUI.Health) or alui.health
+    -- Use ALUI namespace for health data
+    local healthData = (ALUI and ALUI.Health)
     if healthData then
         combatmini:cecho(NEWLINE)
 
         local health = healthData
-        local bleeding = (ALUI and ALUI.Bleeding) or alui.bleeding
+        local bleeding = (ALUI and ALUI.Bleeding)
 
         -- Display all body parts using helper function
         displayBodyPart(combatmini, health, bleeding, "body", "      Body")

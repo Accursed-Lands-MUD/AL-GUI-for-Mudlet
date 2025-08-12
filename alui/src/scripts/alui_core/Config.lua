@@ -452,12 +452,6 @@ function Config.apply()
         map.configs.speedwalk_wait = Config.get("mapping.speedwalkWait", false)
     end
 
-    -- Update existing alui globals (will proxy to ALUI.Status)
-    if alui then
-        -- These will be proxied through the namespace compatibility layer
-        alui.style = alui.style or {}
-    end
-
     -- Apply advanced features
     Config.applyAdvancedFeatures()
 

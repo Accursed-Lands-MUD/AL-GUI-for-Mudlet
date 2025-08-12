@@ -1,7 +1,3 @@
--- Initialize namespace
-alui = alui or {}
-alui.style = alui.style or {}
-
 function style_update(event)
     if event ~= "gmcp.Char.Style" then
         return
@@ -10,7 +6,7 @@ function style_update(event)
     local style = gmcp.Char.Style
 
     -- Store in ALUI namespace with fallback
-    local styleStorage = (ALUI and ALUI.Style) or alui.style
+    local styleStorage = (ALUI and ALUI.Style)
     if ALUI and not ALUI.Style then
         ALUI.Style = {}
         styleStorage = ALUI.Style
@@ -19,11 +15,8 @@ function style_update(event)
     for f, v in pairs(style) do
         if tonumber(v) then
             styleStorage[f] = tonumber(v)
-            -- Maintain backward compatibility
-            alui.style[f] = tonumber(v)
         else
             styleStorage[f] = v
-            alui.style[f] = v
         end
     end
 
@@ -36,7 +29,7 @@ end
 
 local function updateStyleGUI()
     -- Use ALUI namespace with fallback
-    local styleData = (ALUI and ALUI.Style) or alui.style
+    local styleData = (ALUI and ALUI.Style)
 
     if not styleData then
         return
@@ -62,10 +55,6 @@ local function updateStyleGUI()
     end
 end
 
--- Maintain backward compatibility
-GUI = GUI or {}
-GUI.Style = GUI.Style or {}
-GUI.Style.update = updateStyleGUI
 
 -- Register with ALUI namespace if available
 if ALUI and ALUI.GUI then

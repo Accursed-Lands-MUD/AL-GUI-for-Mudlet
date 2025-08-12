@@ -31,57 +31,12 @@ ALUI.Status.icons = ALUI.Status.icons or {}
 ALUI.Events.handlers = ALUI.Events.handlers or {}
 ALUI.Events.registered = ALUI.Events.registered or {}
 
--- Migrate existing color definitions from GUI.Colors if they exist
-if GUI and GUI.Colors then
-    for colorName, colorValue in pairs(GUI.Colors) do
-        ALUI.GUI.Colors[colorName] = colorValue
-    end
-end
-
 -- Set up default colors if not already defined
 ALUI.GUI.Colors.blue = ALUI.GUI.Colors.blue or '#2A768C'
 ALUI.GUI.Colors.green = ALUI.GUI.Colors.green or '#2EA652'
 ALUI.GUI.Colors.yellow = ALUI.GUI.Colors.yellow or '#E1B03E'
 ALUI.GUI.Colors.orange = ALUI.GUI.Colors.orange or '#C3701C'
 ALUI.GUI.Colors.red = ALUI.GUI.Colors.red or '#830000'
-
--- Migrate existing alui status if it exists
-if alui then
-    if alui.status then
-        for key, value in pairs(alui.status) do
-            ALUI.Status.vitals[key] = value
-        end
-    end
-
-    if alui.health then
-        for key, value in pairs(alui.health) do
-            ALUI.Health[key] = value
-        end
-    end
-
-    if alui.bleeding then
-        for key, value in pairs(alui.bleeding) do
-            ALUI.Status.bleeding[key] = value
-        end
-    end
-end
-
--- Migrate existing map configs if they exist
-if map and map.configs then
-    for key, value in pairs(map.configs) do
-        ALUI.Map.configs[key] = value
-    end
-end
-
--- Migrate existing GUI timers if they exist
-if GUI and GUI.Timers then
-    for key, value in pairs(GUI.Timers) do
-        ALUI.GUI.Timers[key] = value
-    end
-end
-
--- Migration completed - no backward compatibility layer needed
--- All code has been migrated to use ALUI namespace directly
 
 -- Utility functions for the ALUI namespace
 ALUI.Utils.getNamespaceInfo = function()
@@ -120,19 +75,6 @@ ALUI.Utils.debugNamespace = function()
     return info
 end
 
--- Helper function to migrate existing code patterns
-ALUI.Utils.migrateToNamespace = function(legacy, modern)
-    local migrationGuide = {
-        ["alui.status"] = "ALUI.Status.vitals",
-        ["alui.health"] = "ALUI.Health",
-        ["alui.bleeding"] = "ALUI.Status.bleeding",
-        ["GUI.Colors"] = "ALUI.GUI.Colors",
-        ["GUI.Timers"] = "ALUI.GUI.Timers",
-        ["map.configs"] = "ALUI.Map.configs"
-    }
-
-    return migrationGuide[legacy] or modern
-end
 
 -- Event system integration
 ALUI.Events.registerHandler = function(eventName, handlerName, callback)
@@ -234,7 +176,5 @@ end
 
 -- Initialize the completed namespace system
 print("ALUI Namespace initialized successfully!")
-print("All files migrated to unified ALUI.* structure")
-print("Backward compatibility layer removed")
 
 return ALUI

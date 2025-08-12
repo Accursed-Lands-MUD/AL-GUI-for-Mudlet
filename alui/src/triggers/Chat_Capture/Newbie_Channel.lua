@@ -1,4 +1,4 @@
 selectCurrentLine()
-alui.chat_cap:append("Newbie")
+ALUI.GUI.Components.chat_cap:append("Newbie")
 deselect()
 resetFormat()
