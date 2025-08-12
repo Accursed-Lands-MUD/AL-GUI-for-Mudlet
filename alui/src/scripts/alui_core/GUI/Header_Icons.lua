@@ -7,6 +7,7 @@ local Package_Root = getMudletHomeDir()
 local GUI_NS = (ALUI and ALUI.GUI) or GUI or {}
 local Config = (ALUI and ALUI.Config) or {}
 local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or GUI.Colors or {}
+local RM = ALUI and ALUI.ResourceManager
 
 -- Get colors with configuration support
 local function getColor(configPath, fallbackColor)
@@ -27,12 +28,17 @@ GUI.Header = Geyser.HBox:new({
     height = "100%",
 }, GUI.Top)
 
+-- Register Header with ResourceManager
+if RM then
+    RM.registerUIElement("mainHeader", GUI.Header, "header")
+end
+
 -- Use configuration for styling if available
 local neutralBg = getColor("colors.status.neutral", "rgba(0,0,0,100)")
 
 -- Create individual CSS objects for each menu item to prevent shared state issues
 local function createInfoCSS()
-    return CSSMan.new(string.format([[
+    local css = CSSMan.new(string.format([[
       background-color: %s;
       border-style: solid;
       border-width: 1px;
@@ -44,10 +50,17 @@ local function createInfoCSS()
       background-repeat: no-repeat;
       background-size: auto 50%%;
     ]], neutralBg))
+
+    -- Register CSS with ResourceManager
+    if RM then
+        RM.registerCSS("headerInfoCSS_" .. tostring(css), css, "header")
+    end
+
+    return css
 end
 
 local function createActionCSS()
-    return CSSMan.new(string.format([[
+    local css = CSSMan.new(string.format([[
       background-color: %s;
       border-style: solid;
       border-width: 1px;
@@ -58,21 +71,32 @@ local function createActionCSS()
       background-repeat: no-repeat;
       background-size: auto 50%%;
     ]], neutralBg))
+
+    -- Register CSS with ResourceManager
+    if RM then
+        RM.registerCSS("headerActionCSS_" .. tostring(css), css, "header")
+    end
+
+    return css
 end
 
 -- Legacy CSS objects for backward compatibility
 GUI.InfoCSS = createInfoCSS()
 GUI.ActionCSS = createActionCSS()
 
--- Core menu item creation function
+-- Core menu item creation function with ResourceManager integration
 local function createMenuItem(name, updateFunction, parent)
     local item = Geyser.Label:new({
         name = 'GUI.Menu.' .. name,
     }, parent)
 
     item.update = updateFunction
-
     item:update()
+
+    -- Register with ResourceManager
+    if RM then
+        RM.registerUIElement("menuItem_" .. name, item, "header")
+    end
 
     -- setLabelToolTip(item.name, name)
 
@@ -92,6 +116,12 @@ local function createMenuButton(name, gameCommand, parent)
     ]],
 
     }, parent)
+
+    -- Register with ResourceManager
+    if RM then
+        RM.registerUIElement("menuButton_" .. name, button, "header")
+    end
+
     return button
 end
 

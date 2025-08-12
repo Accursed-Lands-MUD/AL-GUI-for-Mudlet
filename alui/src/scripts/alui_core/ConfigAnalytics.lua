@@ -13,11 +13,11 @@ local Config = ALUI.Config
 
 -- Analytics data storage
 Analytics.data = {
-    configChanges = {},     -- Track configuration changes over time
-    performance = {},       -- Performance metrics
-    usage = {},            -- Feature usage statistics
-    errors = {},           -- Configuration-related errors
-    suggestions = {}       -- Optimization suggestions
+    configChanges = {}, -- Track configuration changes over time
+    performance = {},   -- Performance metrics
+    usage = {},         -- Feature usage statistics
+    errors = {},        -- Configuration-related errors
+    suggestions = {}    -- Optimization suggestions
 }
 
 -- Performance monitoring
@@ -42,15 +42,15 @@ Analytics.impacts = {
 function Analytics.startMonitoring()
     Analytics.monitoring = true
     Analytics.monitoringStart = getEpoch()
-    
+
     -- Monitor configuration changes
     Config.onChange("", function(value, path)
         Analytics.recordConfigChange(path, value)
     end)
-    
+
     -- Monitor UI performance
     Analytics.setupPerformanceMonitoring()
-    
+
     if Config.get("performance.enableDebugMode") then
         cecho("<green>ALUI Analytics: Performance monitoring started\n")
     end
@@ -64,12 +64,12 @@ function Analytics.recordConfigChange(path, value)
         timestamp = getEpoch(),
         session = Analytics.monitoringStart
     }
-    
+
     table.insert(Analytics.data.configChanges, change)
-    
+
     -- Analyze impact
     Analytics.analyzeConfigImpact(path, value)
-    
+
     -- Keep only last 1000 changes to prevent memory bloat
     if #Analytics.data.configChanges > 1000 then
         table.remove(Analytics.data.configChanges, 1)
@@ -80,28 +80,42 @@ end
 function Analytics.analyzeConfigImpact(path, value)
     local category = path:match("^([^%.]+)")
     if not category then return end
-    
+
     -- Record usage by category
     Analytics.data.usage[category] = (Analytics.data.usage[category] or 0) + 1
-    
+
     -- Analyze performance impact for UI changes
     if category == "ui" then
         local beforeTime = getEpoch()
-        -- Trigger a UI refresh to measure impact
-        tempTimer(0.1, function()
-            local afterTime = getEpoch()
-            local impactTime = afterTime - beforeTime
-            
-            Analytics.impacts.performanceImpact[path] = {
-                time = impactTime,
-                timestamp = getEpoch()
-            }
-        end)
+        -- Trigger a UI refresh to measure impact using ResourceManager
+        local RM = ALUI and ALUI.ResourceManager
+        if RM then
+            RM.createTimer("analyticsImpactTimer", 0.1, function()
+                local afterTime = getEpoch()
+                local impactTime = afterTime - beforeTime
+
+                Analytics.impacts.performanceImpact[path] = {
+                    time = impactTime,
+                    timestamp = getEpoch()
+                }
+            end, false, "analytics")
+        else
+            -- Fallback to direct timer
+            tempTimer(0.1, function()
+                local afterTime = getEpoch()
+                local impactTime = afterTime - beforeTime
+
+                Analytics.impacts.performanceImpact[path] = {
+                    time = impactTime,
+                    timestamp = getEpoch()
+                }
+            end)
+        end
     end
-    
+
     -- Track color changes
     if category == "colors" then
-        Analytics.impacts.featureUsage.colorCustomization = 
+        Analytics.impacts.featureUsage.colorCustomization =
             (Analytics.impacts.featureUsage.colorCustomization or 0) + 1
     end
 end
@@ -115,12 +129,12 @@ function Analytics.setupPerformanceMonitoring()
             local startTime = getEpoch()
             local result = originalResize(...)
             local endTime = getEpoch()
-            
+
             Analytics.recordPerformance("resize", endTime - startTime)
             return result
         end
     end
-    
+
     -- Monitor config load operations
     local originalLoad = Config.load
     if originalLoad then
@@ -128,7 +142,7 @@ function Analytics.setupPerformanceMonitoring()
             local startTime = getEpoch()
             local result = originalLoad(...)
             local endTime = getEpoch()
-            
+
             Analytics.recordPerformance("configLoad", endTime - startTime)
             return result
         end
@@ -140,17 +154,17 @@ function Analytics.recordPerformance(operation, duration)
     if not Analytics.monitors[operation] then
         Analytics.monitors[operation] = {}
     end
-    
+
     table.insert(Analytics.monitors[operation], {
         duration = duration,
         timestamp = getEpoch()
     })
-    
+
     -- Keep only last 100 measurements per operation
     if #Analytics.monitors[operation] > 100 then
         table.remove(Analytics.monitors[operation], 1)
     end
-    
+
     -- Check for performance issues
     Analytics.checkPerformanceThresholds(operation, duration)
 end
@@ -158,11 +172,11 @@ end
 -- Check performance thresholds and generate suggestions
 function Analytics.checkPerformanceThresholds(operation, duration)
     local thresholds = {
-        resize = 0.5,      -- 500ms for resize operations
-        configLoad = 1.0,  -- 1 second for config loading
-        uiUpdate = 0.1     -- 100ms for UI updates
+        resize = 0.5,     -- 500ms for resize operations
+        configLoad = 1.0, -- 1 second for config loading
+        uiUpdate = 0.1    -- 100ms for UI updates
     }
-    
+
     local threshold = thresholds[operation]
     if threshold and duration > threshold then
         Analytics.addSuggestion({
@@ -180,7 +194,7 @@ end
 -- Generate performance suggestions
 function Analytics.getPerformanceSuggestions(operation, duration)
     local suggestions = {}
-    
+
     if operation == "resize" then
         table.insert(suggestions, "Consider increasing ui.resizeTimerDelay to reduce frequent resize operations")
         table.insert(suggestions, "Check if ui.guiPadding is set too high causing layout complexity")
@@ -188,7 +202,7 @@ function Analytics.getPerformanceSuggestions(operation, duration)
         table.insert(suggestions, "Consider enabling performance.cacheSize to speed up config loading")
         table.insert(suggestions, "Check for corrupted configuration file")
     end
-    
+
     return suggestions
 end
 
@@ -197,12 +211,12 @@ function Analytics.addSuggestion(suggestion)
     suggestion.id = #Analytics.data.suggestions + 1
     suggestion.timestamp = getEpoch()
     suggestion.acknowledged = false
-    
+
     table.insert(Analytics.data.suggestions, suggestion)
-    
+
     -- Notify user if debug mode is enabled
     if Config.get("performance.enableDebugMode") then
-        cecho(f"<yellow>Analytics Suggestion: {suggestion.message}\n")
+        cecho(f "<yellow>Analytics Suggestion: {suggestion.message}\n")
     end
 end
 
@@ -215,7 +229,7 @@ function Analytics.getReport()
         suggestions = Analytics.getSuggestions(),
         patterns = Analytics.getPatterns()
     }
-    
+
     return report
 end
 
@@ -234,19 +248,19 @@ end
 -- Get performance report
 function Analytics.getPerformanceReport()
     local report = {}
-    
+
     for operation, measurements in pairs(Analytics.monitors) do
         if #measurements > 0 then
             local total = 0
             local min = math.huge
             local max = 0
-            
+
             for _, measurement in ipairs(measurements) do
                 total = total + measurement.duration
                 min = math.min(min, measurement.duration)
                 max = math.max(max, measurement.duration)
             end
-            
+
             report[operation] = {
                 count = #measurements,
                 average = total / #measurements,
@@ -256,24 +270,24 @@ function Analytics.getPerformanceReport()
             }
         end
     end
-    
+
     return report
 end
 
 -- Get usage report
 function Analytics.getUsageReport()
     local usage = {}
-    
+
     -- Configuration category usage
     for category, count in pairs(Analytics.data.usage) do
         usage[category] = count
     end
-    
+
     -- Feature usage
     for feature, count in pairs(Analytics.impacts.featureUsage) do
         usage[feature] = count
     end
-    
+
     return usage
 end
 
@@ -283,7 +297,7 @@ function Analytics.getSuggestions()
         active = {},
         acknowledged = {}
     }
-    
+
     for _, suggestion in ipairs(Analytics.data.suggestions) do
         if suggestion.acknowledged then
             table.insert(suggestions.acknowledged, suggestion)
@@ -291,28 +305,28 @@ function Analytics.getSuggestions()
             table.insert(suggestions.active, suggestion)
         end
     end
-    
+
     return suggestions
 end
 
 -- Get configuration patterns
 function Analytics.getPatterns()
     local patterns = {}
-    
+
     -- Most common configuration changes
     local changeCounts = {}
     for _, change in ipairs(Analytics.data.configChanges) do
         changeCounts[change.path] = (changeCounts[change.path] or 0) + 1
     end
-    
+
     patterns.mostChangedSettings = {}
     for path, count in pairs(changeCounts) do
-        table.insert(patterns.mostChangedSettings, {path = path, count = count})
+        table.insert(patterns.mostChangedSettings, { path = path, count = count })
     end
-    
+
     -- Sort by frequency
     table.sort(patterns.mostChangedSettings, function(a, b) return a.count > b.count end)
-    
+
     return patterns
 end
 
@@ -330,14 +344,14 @@ end
 function Analytics.getMostChangedCategory()
     local maxCount = 0
     local mostChanged = nil
-    
+
     for category, count in pairs(Analytics.data.usage) do
         if count > maxCount then
             maxCount = count
             mostChanged = category
         end
     end
-    
+
     return mostChanged
 end
 
@@ -366,52 +380,52 @@ end
 -- Display analytics report
 function Analytics.displayReport()
     local report = Analytics.getReport()
-    
+
     cecho("<cyan>ALUI Configuration Analytics Report\n")
     cecho("<white>=====================================\n")
-    
+
     -- Summary
     cecho("<yellow>Summary:\n")
-    cecho(f"<white>  Monitoring Duration: <green>{report.summary.monitoringDuration:.1f}s\n")
-    cecho(f"<white>  Total Config Changes: <green>{report.summary.totalConfigChanges}\n")
-    cecho(f"<white>  Active Suggestions: <green>{report.summary.unacknowledgedSuggestions}\n")
+    cecho(f "<white>  Monitoring Duration: <green>{report.summary.monitoringDuration:.1f}s\n")
+    cecho(f "<white>  Total Config Changes: <green>{report.summary.totalConfigChanges}\n")
+    cecho(f "<white>  Active Suggestions: <green>{report.summary.unacknowledgedSuggestions}\n")
     if report.summary.mostChangedCategory then
-        cecho(f"<white>  Most Changed Category: <green>{report.summary.mostChangedCategory}\n")
+        cecho(f "<white>  Most Changed Category: <green>{report.summary.mostChangedCategory}\n")
     end
-    
+
     -- Performance
     if next(report.performance) then
         cecho("<yellow>Performance:\n")
         for operation, stats in pairs(report.performance) do
-            cecho(f"<white>  {operation}: <green>{stats.average:.3f}s avg <dim_grey>({stats.count} samples)\n")
+            cecho(f "<white>  {operation}: <green>{stats.average:.3f}s avg <dim_grey>({stats.count} samples)\n")
         end
     end
-    
+
     -- Active suggestions
     if #report.suggestions.active > 0 then
         cecho("<yellow>Active Suggestions:\n")
         for i, suggestion in ipairs(report.suggestions.active) do
             if i <= 5 then -- Show only first 5
-                cecho(f"<white>  {suggestion.id}: <orange>{suggestion.message}\n")
+                cecho(f "<white>  {suggestion.id}: <orange>{suggestion.message}\n")
             end
         end
         if #report.suggestions.active > 5 then
-            cecho(f"<dim_grey>  ... and {#report.suggestions.active - 5} more\n")
+            cecho(f "<dim_grey>  ... and {#report.suggestions.active - 5} more\n")
         end
     end
-    
+
     -- Usage patterns
     if next(report.usage) then
         cecho("<yellow>Most Used Categories:\n")
         local sortedUsage = {}
         for category, count in pairs(report.usage) do
-            table.insert(sortedUsage, {category = category, count = count})
+            table.insert(sortedUsage, { category = category, count = count })
         end
         table.sort(sortedUsage, function(a, b) return a.count > b.count end)
-        
+
         for i = 1, math.min(5, #sortedUsage) do
             local item = sortedUsage[i]
-            cecho(f"<white>  {item.category}: <green>{item.count} changes\n")
+            cecho(f "<white>  {item.category}: <green>{item.count} changes\n")
         end
     end
 end
@@ -419,7 +433,7 @@ end
 -- Analytics command handler
 local function handleAnalyticsCommand(action, param)
     action = action and string.lower(action)
-    
+
     if not action or action == "help" then
         cecho("<cyan>ALUI Analytics Commands:\n")
         cecho("<white>  analytics report             <dim_grey>- Show analytics report\n")
@@ -430,7 +444,7 @@ local function handleAnalyticsCommand(action, param)
         cecho("<white>  analytics ack <id>           <dim_grey>- Acknowledge suggestion\n")
         return
     end
-    
+
     if action == "report" then
         Analytics.displayReport()
     elseif action == "start" then
@@ -453,10 +467,10 @@ local function handleAnalyticsCommand(action, param)
         if #suggestions.active > 0 then
             cecho("<cyan>Active Optimization Suggestions:\n")
             for _, suggestion in ipairs(suggestions.active) do
-                cecho(f"<white>  {suggestion.id}: <orange>{suggestion.message}\n")
+                cecho(f "<white>  {suggestion.id}: <orange>{suggestion.message}\n")
                 if suggestion.suggestions then
                     for _, tip in ipairs(suggestion.suggestions) do
-                        cecho(f"<dim_grey>    - {tip}\n")
+                        cecho(f "<dim_grey>    - {tip}\n")
                     end
                 end
             end
@@ -466,12 +480,12 @@ local function handleAnalyticsCommand(action, param)
     elseif action == "ack" then
         local id = tonumber(param)
         if id and Analytics.acknowledgeSuggestion(id) then
-            cecho(f"<green>Acknowledged suggestion {id}\n")
+            cecho(f "<green>Acknowledged suggestion {id}\n")
         else
             cecho("<red>Invalid suggestion ID\n")
         end
     else
-        cecho(f"<red>Unknown analytics action: <white>{action}\n")
+        cecho(f "<red>Unknown analytics action: <white>{action}\n")
     end
 end
 
@@ -480,11 +494,11 @@ if tempAlias then
     if ALUI.AnalyticsAlias then
         killAlias(ALUI.AnalyticsAlias)
     end
-    
+
     ALUI.AnalyticsAlias = tempAlias("^analytics\\s*(\\w*)\\s*(\\S*)$", function()
         local action = matches[2] and matches[2] ~= "" and matches[2] or nil
         local param = matches[3] and matches[3] ~= "" and matches[3] or nil
-        
+
         handleAnalyticsCommand(action, param)
     end)
 end
@@ -495,7 +509,7 @@ function Analytics.init()
     if Config.get("performance.enableDebugMode", false) then
         Analytics.startMonitoring()
     end
-    
+
     cecho("<green>ALUI Analytics System initialized. Type 'analytics help' for commands.\n")
 end
 

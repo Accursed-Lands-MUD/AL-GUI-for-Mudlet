@@ -94,15 +94,22 @@ GUI.Colors = Colors
 
 -- Timer cleanup function to prevent memory leaks (addressing suggestion #19)
 local function cleanupTimers()
-    -- Use ALUI timers if available, otherwise fall back to GUI
-    local timers = (ALUI and ALUI.GUI and ALUI.GUI.Timers) or GUI.Timers
-
-    if timers.resize then
-        killTimer(timers.resize)
-        timers.resize = nil
+    -- Use ResourceManager if available
+    local RM = ALUI and ALUI.ResourceManager
+    if RM then
+        RM.cleanupByCategory("resize")
+        RM.cleanupByCategory("ui")
+    else
+        -- Fallback to manual cleanup
+        local timers = (ALUI and ALUI.GUI and ALUI.GUI.Timers) or GUI.Timers
+        if timers.resize then
+            killTimer(timers.resize)
+            timers.resize = nil
+        end
     end
 
     -- Reset resize tracking
+    local timers = (ALUI and ALUI.GUI and ALUI.GUI.Timers) or GUI.Timers
     timers.lastResizeTime = 0
 end
 
@@ -114,7 +121,8 @@ end
 
 -- Improved resize event handler with debouncing and better timer management
 local resizeHandler = function()
-    -- Use ALUI timers if available, otherwise fall back to GUI
+    -- Use ResourceManager if available
+    local RM = ALUI and ALUI.ResourceManager
     local timers = (ALUI and ALUI.GUI and ALUI.GUI.Timers) or GUI.Timers
 
     -- Get current time for debouncing
@@ -122,8 +130,10 @@ local resizeHandler = function()
 
     -- Check if enough time has passed since last resize event (debouncing)
     if currentTime - timers.lastResizeTime < RESIZE_MIN_INTERVAL then
-        -- Too soon since last resize, extend the existing timer instead of creating new one
-        if timers.resize then
+        -- Too soon since last resize, kill existing timer and create new one
+        if RM then
+            RM.killTimer("resizeDebounce")
+        elseif timers.resize then
             killTimer(timers.resize)
         end
     else
@@ -131,36 +141,54 @@ local resizeHandler = function()
         timers.lastResizeTime = currentTime
     end
 
-    -- Clean up existing timer
-    if timers.resize then
-        killTimer(timers.resize)
-        timers.resize = nil
-    end
+    -- Create new debounced timer using ResourceManager if available
+    if RM then
+        RM.createTimer("resizeDebounce", RESIZE_TIMER_DELAY, function()
+            -- Execute resize logic with error handling
+            local success, error_msg = pcall(function()
+                GUI.setBorders()
+                GUI.setBackground()
+                GUI.resizeBoxes()
+                GUI.setBoxes()
+                GUI.Style.update()
+            end)
 
-    -- Create new debounced timer
-    timers.resize = tempTimer(RESIZE_TIMER_DELAY, function()
-        -- Execute resize logic with error handling
-        local success, error_msg = pcall(function()
-            GUI.setBorders()
-            GUI.setBackground()
-            GUI.resizeBoxes()
-            GUI.setBoxes()
-            GUI.Style.update()
-        end)
-
-        -- Clean up timer reference after execution
-        timers.resize = nil
-
-        -- Log any errors (addressing suggestion #5)
-        if not success then
-            echo(string.format("Error during resize operations: %s\n", tostring(error_msg)))
+            -- Log any errors (addressing suggestion #5)
+            if not success then
+                echo(string.format("Error during resize operations: %s\n", tostring(error_msg)))
+            end
+        end, false, "resize")
+    else
+        -- Fallback to manual timer management
+        if timers.resize then
+            killTimer(timers.resize)
+            timers.resize = nil
         end
-    end)
+
+        timers.resize = tempTimer(RESIZE_TIMER_DELAY, function()
+            -- Execute resize logic with error handling
+            local success, error_msg = pcall(function()
+                GUI.setBorders()
+                GUI.setBackground()
+                GUI.resizeBoxes()
+                GUI.setBoxes()
+                GUI.Style.update()
+            end)
+
+            -- Clean up timer reference after execution
+            timers.resize = nil
+
+            -- Log any errors (addressing suggestion #5)
+            if not success then
+                echo(string.format("Error during resize operations: %s\n", tostring(error_msg)))
+            end
+        end)
+    end
 end
 
 -- Register the event handler
 GUI.Events.resize = registerNamedEventHandler(profileName, 'alui.events.resize', "sysWindowResizeEvent", resizeHandler,
-false)
+    false)
 
 -- Also register in ALUI namespace if available
 if ALUI and ALUI.Events then

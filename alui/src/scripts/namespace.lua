@@ -52,13 +52,13 @@ if alui then
             ALUI.Status.vitals[key] = value
         end
     end
-    
+
     if alui.health then
         for key, value in pairs(alui.health) do
             ALUI.Health[key] = value
         end
     end
-    
+
     if alui.bleeding then
         for key, value in pairs(alui.bleeding) do
             ALUI.Status.bleeding[key] = value
@@ -133,7 +133,7 @@ ALUI.Utils.getNamespaceInfo = function()
         version = "1.0.0",
         namespaces = {
             "ALUI.Core",
-            "ALUI.GUI", 
+            "ALUI.GUI",
             "ALUI.Map",
             "ALUI.Chat",
             "ALUI.Status",
@@ -144,7 +144,7 @@ ALUI.Utils.getNamespaceInfo = function()
         compatibility = {
             "alui.* -> ALUI.Status.*",
             "GUI.Colors -> ALUI.GUI.Colors",
-            "GUI.Timers -> ALUI.GUI.Timers", 
+            "GUI.Timers -> ALUI.GUI.Timers",
             "map.configs -> ALUI.Map.configs"
         }
     }
@@ -161,7 +161,7 @@ ALUI.Utils.migrateToNamespace = function(legacy, modern)
         ["GUI.Timers"] = "ALUI.GUI.Timers",
         ["map.configs"] = "ALUI.Map.configs"
     }
-    
+
     return migrationGuide[legacy] or modern
 end
 
@@ -170,13 +170,13 @@ ALUI.Events.registerHandler = function(eventName, handlerName, callback)
     if not ALUI.Events.handlers[eventName] then
         ALUI.Events.handlers[eventName] = {}
     end
-    
+
     ALUI.Events.handlers[eventName][handlerName] = callback
-    
+
     -- Register with Mudlet's event system
     local mudletHandler = registerNamedEventHandler(profileName or "ALUI", handlerName, eventName, callback)
     ALUI.Events.registered[handlerName] = mudletHandler
-    
+
     return mudletHandler
 end
 
@@ -184,63 +184,83 @@ ALUI.Events.unregisterHandler = function(handlerName)
     if ALUI.Events.registered[handlerName] then
         killAnonymousEventHandler(ALUI.Events.registered[handlerName])
         ALUI.Events.registered[handlerName] = nil
-        
+
         -- Remove from our internal tracking
         for eventName, handlers in pairs(ALUI.Events.handlers) do
             if handlers[handlerName] then
                 handlers[handlerName] = nil
             end
         end
-        
+
         return true
     end
     return false
 end
 
--- Timer management utilities
+-- Timer management utilities (enhanced with ResourceManager integration)
 ALUI.GUI.createTimer = function(name, delay, callback, recurring)
-    -- Clean up existing timer if it exists
-    if ALUI.GUI.Timers[name] then
-        killTimer(ALUI.GUI.Timers[name])
-        ALUI.GUI.Timers[name] = nil
+    -- Use ResourceManager if available
+    local RM = ALUI and ALUI.ResourceManager
+    if RM then
+        return RM.createTimer(name, delay, callback, recurring, "gui")
+    else
+        -- Fallback to legacy timer management
+        if ALUI.GUI.Timers[name] then
+            killTimer(ALUI.GUI.Timers[name])
+            ALUI.GUI.Timers[name] = nil
+        end
+
+        local timerFunction = recurring and tempTimer or tempTimer
+        ALUI.GUI.Timers[name] = timerFunction(delay, callback)
+
+        return ALUI.GUI.Timers[name]
     end
-    
-    -- Create new timer
-    local timerFunction = recurring and tempTimer or tempTimer
-    ALUI.GUI.Timers[name] = timerFunction(delay, callback)
-    
-    return ALUI.GUI.Timers[name]
 end
 
 ALUI.GUI.killTimer = function(name)
-    if ALUI.GUI.Timers[name] then
-        killTimer(ALUI.GUI.Timers[name])
-        ALUI.GUI.Timers[name] = nil
-        return true
+    -- Use ResourceManager if available
+    local RM = ALUI and ALUI.ResourceManager
+    if RM then
+        return RM.killTimer(name)
+    else
+        -- Fallback to legacy timer management
+        if ALUI.GUI.Timers[name] then
+            killTimer(ALUI.GUI.Timers[name])
+            ALUI.GUI.Timers[name] = nil
+            return true
+        end
+        return false
     end
-    return false
 end
 
--- Cleanup function for proper resource management
+-- Enhanced cleanup function with ResourceManager integration
 ALUI.cleanup = function()
-    -- Clean up all timers
-    for name, timerId in pairs(ALUI.GUI.Timers) do
-        if timerId then
-            killTimer(timerId)
+    -- Use ResourceManager if available for comprehensive cleanup
+    local RM = ALUI and ALUI.ResourceManager
+    if RM then
+        local cleaned = RM.cleanupAll()
+        print(string.format("ALUI enhanced cleanup completed (%d resources)", cleaned))
+        return cleaned
+    else
+        -- Legacy cleanup fallback
+        for name, timerId in pairs(ALUI.GUI.Timers) do
+            if timerId then
+                killTimer(timerId)
+            end
         end
-    end
-    ALUI.GUI.Timers = {}
-    
-    -- Clean up all event handlers
-    for handlerName, handlerId in pairs(ALUI.Events.registered) do
-        if handlerId then
-            killAnonymousEventHandler(handlerId)
+        ALUI.GUI.Timers = {}
+
+        for handlerName, handlerId in pairs(ALUI.Events.registered) do
+            if handlerId then
+                killAnonymousEventHandler(handlerId)
+            end
         end
+        ALUI.Events.registered = {}
+        ALUI.Events.handlers = {}
+
+        print("ALUI namespace cleaned up successfully")
+        return 0
     end
-    ALUI.Events.registered = {}
-    ALUI.Events.handlers = {}
-    
-    print("ALUI namespace cleaned up successfully")
 end
 
 -- Migration status tracking
@@ -249,7 +269,7 @@ ALUI.migration = {
     completedFiles = {},
     remainingFiles = {
         "alui_core.lua",
-        "Mapping_Script.lua", 
+        "Mapping_Script.lua",
         "Create_Background.lua",
         "Boxes.lua",
         "vitals_update.lua",
@@ -263,7 +283,7 @@ ALUI.migration = {
 -- Mark a file as migrated
 ALUI.migration.markComplete = function(filename)
     table.insert(ALUI.migration.completedFiles, filename)
-    
+
     -- Remove from remaining files
     for i, file in ipairs(ALUI.migration.remainingFiles) do
         if file == filename then
@@ -271,7 +291,7 @@ ALUI.migration.markComplete = function(filename)
             break
         end
     end
-    
+
     -- Check if migration is complete
     if #ALUI.migration.remainingFiles == 0 then
         ALUI.migration.status = "complete"

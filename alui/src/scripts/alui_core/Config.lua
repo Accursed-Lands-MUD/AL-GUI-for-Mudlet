@@ -643,14 +643,22 @@ function Config.init()
 
     -- Set up auto-save on configuration changes
     Config.onChange("", function()
-        -- Debounced save - only save after 2 seconds of no changes
-        if Config.autoSaveTimer then
-            killTimer(Config.autoSaveTimer)
+        -- Debounced save - only save after 2 seconds of no changes using ResourceManager
+        local RM = ALUI and ALUI.ResourceManager
+        if RM then
+            RM.createTimer("configAutoSave", 2, function()
+                Config.save()
+            end, false, "config")
+        else
+            -- Fallback to direct timer management
+            if Config.autoSaveTimer then
+                killTimer(Config.autoSaveTimer)
+            end
+            Config.autoSaveTimer = tempTimer(2, function()
+                Config.save()
+                Config.autoSaveTimer = nil
+            end)
         end
-        Config.autoSaveTimer = tempTimer(2, function()
-            Config.save()
-            Config.autoSaveTimer = nil
-        end)
     end)
 
     print("ALUI Configuration System initialized")
@@ -658,9 +666,15 @@ end
 
 -- Cleanup function
 function Config.cleanup()
-    if Config.autoSaveTimer then
-        killTimer(Config.autoSaveTimer)
-        Config.autoSaveTimer = nil
+    local RM = ALUI and ALUI.ResourceManager
+    if RM then
+        RM.cleanupByCategory("config")
+    else
+        -- Fallback cleanup
+        if Config.autoSaveTimer then
+            killTimer(Config.autoSaveTimer)
+            Config.autoSaveTimer = nil
+        end
     end
 
     -- Save any pending changes

@@ -1,6 +1,4 @@
 function logEvent(e)
-
-
     --echo('\nEvent:\n' .. e .. '\n')
     --echo('\ngmcp:\n' .. yajl.to_string(gmcp) .. '\n')
 
@@ -22,10 +20,24 @@ function logEvent(e)
     else
         --echo("Failed to create file: " .. filePath .. "\n")
     end
-
 end
 
 registerAnonymousEventHandler("*", "logEvent")
+
+-- Register with ResourceManager if available
+local RM = ALUI and ALUI.ResourceManager
+if RM then
+    RM.registerEventHandler(
+        "globalLogEvent",
+        registerAnonymousEventHandler("*", "logEvent"),
+        "*",
+        "logging"
+    )
+    print("ALUI: logEvent registered with ResourceManager")
+else
+    -- Fallback to direct registration
+    registerAnonymousEventHandler("*", "logEvent")
+end
 
 -- Register with ALUI namespace if available
 if ALUI and ALUI.GUI then
@@ -37,4 +49,3 @@ end
 if ALUI and ALUI.migration and ALUI.migration.markComplete then
     ALUI.migration.markComplete("logEvent.lua")
 end
-

@@ -1,4 +1,4 @@
--- Boxes.lua - Migrated to ALUI namespace structure  
+-- Boxes.lua - Migrated to ALUI namespace structure
 -- Handles UI box creation and management with new namespace while maintaining backward compatibility
 
 local EMCO = require("alui.emco")
@@ -7,20 +7,28 @@ local EMCO = require("alui.emco")
 local GUI_NS = (ALUI and ALUI.GUI) or GUI or {}
 local Config = (ALUI and ALUI.Config) or {}
 local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or GUI.Colors or {}
+local RM = ALUI and ALUI.ResourceManager
 
--- Core box setup function
+-- Core box setup function with ResourceManager integration
 local function setBoxes()
+    -- Clean up existing box resources first
+    if RM then
+        RM.cleanupByCategory("boxes")
+        RM.cleanupByCategory("gauges")
+        RM.cleanupByCategory("mapping")
+    end
+
     -- Use configuration values for styling with fallbacks
     local guiPadding = 10
     local borderRadius = 10
     local transparentBg = "rgba(0,0,0,0)"
-    
+
     if Config.get then
         guiPadding = Config.get("ui.guiPadding", 10)
         borderRadius = Config.get("ui.borderRadius", 10)
         transparentBg = Config.get("colors.status.transparent", "rgba(0,0,0,0)")
     end
-    
+
     GUI.BoxCSS = CSSMan.new(string.format([[
   background-color: black;
   border-style: solid;
@@ -46,23 +54,30 @@ local function setBoxes()
   border-color: white;
 ]])
 
+    -- Register CSS objects with ResourceManager
+    if RM then
+        RM.registerCSS("boxCSS", GUI.BoxCSS, "boxes")
+        RM.registerCSS("gaugeBackCSS", GUI.GaugeBackCSS, "gauges")
+        RM.registerCSS("gaugeFrontCSS", GUI.GaugeFrontCSS, "gauges")
+    end
+
     -- Configuration-driven styling values
     local Style_Button_Width = '10%'
     local Style_Gauge_Width = "40%"
     local Package_Root = getMudletHomeDir()
-    local Gui_Padding = guiPadding  -- Use configured padding
+    local Gui_Padding = guiPadding -- Use configured padding
 
     -- Use configured colors with fallbacks
     local aggressiveColor = Colors.red or '#830000'
     local defensiveColor = Colors.blue or '#2A768C'
-    
+
     if Config.get then
         aggressiveColor = Config.get("colors.status.aggressive", aggressiveColor)
         defensiveColor = Config.get("colors.status.defensive", defensiveColor)
     end
     local defensiveColor = '#2A768C'
 
-    -- Function to create a new box
+    -- Function to create a new box with ResourceManager tracking
     local function createBox(name, x, y, width, height, parent)
         local box = Geyser.Label:new({
             name = name,
@@ -72,6 +87,12 @@ local function setBoxes()
             height = height,
         }, parent)
         box:setStyleSheet(GUI.BoxCSS:getCSS())
+
+        -- Register with ResourceManager
+        if RM then
+            RM.registerUIElement(name, box, "boxes")
+        end
+
         return box
     end
 
@@ -83,6 +104,12 @@ local function setBoxes()
             width = "100%",
             height = "100%",
         }, parent)
+
+        -- Register with ResourceManager
+        if RM then
+            RM.registerUIElement(name, container, "boxes")
+        end
+
         return container
     end
 
@@ -110,6 +137,12 @@ local function setBoxes()
         button:setClickCallback(function()
             send('increase ' .. string.lower(name) .. ' some', false)
         end)
+
+        -- Register with ResourceManager
+        if RM then
+            RM.registerUIElement("styleButton_" .. name, button, "buttons")
+        end
+
         return button
     end
 
@@ -124,6 +157,12 @@ local function setBoxes()
 
         gauge.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
         gauge.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
+
+        -- Register with ResourceManager
+        if RM then
+            RM.registerUIElement("styleGauge_" .. name, gauge, "gauges")
+        end
+
         return gauge
     end
 
@@ -147,6 +186,11 @@ local function setBoxes()
         height = GUI.Map_Container:get_height() - (Gui_Padding * 2),
     }, GUI.Map_Container)
 
+    -- Register Mapper with ResourceManager
+    if RM then
+        RM.registerUIElement("mapper", GUI.Mapper, "mapping")
+    end
+
     GUI.Room_Container = createContainer("GUI.Room_Container", GUI.Box5)
 
     alui.roommini = Geyser.MiniConsole:new({
@@ -158,6 +202,11 @@ local function setBoxes()
         color = "black",
         autoWrap = true,
     }, GUI.Room_Container)
+
+    -- Register room mini console with ResourceManager
+    if RM then
+        RM.registerUIElement("roomMini", alui.roommini, "interface")
+    end
 
     GUI.Status_Container = createContainer("GUI.Status_Container", GUI.Box7)
 
@@ -171,6 +220,11 @@ local function setBoxes()
         autoWrap = true,
     }, GUI.Status_Container)
 
+    -- Register combat mini console with ResourceManager
+    if RM then
+        RM.registerUIElement("combatMini", alui.combatmini, "interface")
+    end
+
     GUI.Style_Container = createContainer("GUI.Style_Container", GUI.Box1)
 
     GUI.Style_VBox = Geyser.VBox:new({
@@ -181,6 +235,11 @@ local function setBoxes()
         height = GUI.Style_Container:get_height() - (Gui_Padding * 2),
     }, GUI.Style_Container)
 
+    -- Register Style VBox with ResourceManager
+    if RM then
+        RM.registerUIElement("styleVBox", GUI.Style_VBox, "interface")
+    end
+
     GUI.Style_HBox_Aim_Control = createStyleHbox("GUI.Style_HBox_Aim_Control", GUI.Style_VBox)
     GUI.Style_HBox_Offensive_Dodge = createStyleHbox("GUI.Style_HBox_Offensive_Dodge", GUI.Style_VBox)
     GUI.Style_HBox_Darring_Parry = createStyleHbox("GUI.Style_HBox_Darring_Parry", GUI.Style_VBox)
@@ -189,27 +248,27 @@ local function setBoxes()
 
     GUI.Style_Aim_Increase = createStyleButton("Aim", GUI.Style_HBox_Aim_Control, aggressiveColor)
     GUI.Style_Gauge_Aim_Control = createStyleGauge("GUI.Style_Gauge_Aim_Control", GUI.Style_HBox_Aim_Control,
-            defensiveColor, aggressiveColor)
+        defensiveColor, aggressiveColor)
     GUI.Style_Control_Increase = createStyleButton("Control", GUI.Style_HBox_Aim_Control, defensiveColor)
 
     GUI.Style_Offensive_Increase = createStyleButton("Offensive", GUI.Style_HBox_Offensive_Dodge, aggressiveColor)
     GUI.Style_Gauge_Offensive_Dodge = createStyleGauge("Offensive_Dodge", GUI.Style_HBox_Offensive_Dodge, defensiveColor,
-            aggressiveColor)
+        aggressiveColor)
     GUI.Style_Dodge_Increase = createStyleButton("Dodge", GUI.Style_HBox_Offensive_Dodge, defensiveColor)
 
     GUI.Style_Daring_Increase = createStyleButton("Daring", GUI.Style_HBox_Darring_Parry, aggressiveColor)
     GUI.Style_Gauge_Daring_Parry = createStyleGauge("Daring_Parry", GUI.Style_HBox_Darring_Parry, defensiveColor,
-            aggressiveColor)
+        aggressiveColor)
     GUI.Style_Parry_Increase = createStyleButton("Parry", GUI.Style_HBox_Darring_Parry, defensiveColor)
 
     GUI.Style_Power_Increase = createStyleButton("Power", GUI.Style_HBox_Power_Speed, aggressiveColor)
     GUI.Style_Gauge_Power_Speed = createStyleGauge("Power_Speed", GUI.Style_HBox_Power_Speed, defensiveColor,
-            aggressiveColor)
+        aggressiveColor)
     GUI.Style_Speed_Increase = createStyleButton("Speed", GUI.Style_HBox_Power_Speed, defensiveColor)
 
     GUI.Style_Attack_Increase = createStyleButton("Attack", GUI.Style_HBox_Attack_Defense, aggressiveColor)
     GUI.Style_Gauge_Attack_Defense = createStyleGauge("Attack_Defense", GUI.Style_HBox_Attack_Defense, defensiveColor,
-            aggressiveColor)
+        aggressiveColor)
     GUI.Style_Defense_Increase = createStyleButton("Defense", GUI.Style_HBox_Attack_Defense, defensiveColor)
 
     GUI.Survey_Container = Geyser.Container:new({
@@ -219,6 +278,11 @@ local function setBoxes()
         width = "100%",
         height = "100%",
     }, GUI.Box2)
+
+    -- Register Survey Container with ResourceManager
+    if RM then
+        RM.registerUIElement("surveyContainer", GUI.Survey_Container, "interface")
+    end
 
     --local survey_width = GUI.Survey_Container:get_width()
     --local survey_height = GUI.Survey_Container:get_height()
@@ -233,8 +297,8 @@ local function setBoxes()
     local width = tonumber(widthString)
     local height = tonumber(heightString)
 
-    local survey_width = '90%' -- width - (20 * 2)
-    local survey_height = '90%'-- height - (20 * 2)
+    local survey_width = '90%'  -- width - (20 * 2)
+    local survey_height = '90%' -- height - (20 * 2)
 
     alui.surveymini = Geyser.MiniConsole:new({
         name = "alui survey mini",
@@ -248,6 +312,11 @@ local function setBoxes()
         color = "black",
     }, GUI.Survey_Container)
 
+    -- Register survey mini console with ResourceManager
+    if RM then
+        RM.registerUIElement("surveyMini", alui.surveymini, "interface")
+    end
+
     GUI.Chat_Container = Geyser.Container:new({
         name = "alui chat con",
         x = 0,
@@ -255,6 +324,11 @@ local function setBoxes()
         width = "100%",
         height = "100%",
     }, GUI.Box3)
+
+    -- Register Chat Container with ResourceManager
+    if RM then
+        RM.registerUIElement("chatContainer", GUI.Chat_Container, "interface")
+    end
 
     alui.chat_cap = EMCO:new({
         name = "alui chat cap",

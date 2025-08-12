@@ -4,6 +4,7 @@
 -- Use ALUI namespace if available, with fallbacks for compatibility
 local GUI_NS = (ALUI and ALUI.GUI) or GUI or {}
 local Config = (ALUI and ALUI.Config) or {}
+local RM = ALUI and ALUI.ResourceManager
 
 -- Get configuration values with fallbacks
 local sideBorderPercent = 25
@@ -27,6 +28,11 @@ GUI.BackgroundCSS = CSSMan.new([[
   background-color: #353535;
 ]])
 
+-- Register background CSS with ResourceManager
+if RM then
+    RM.registerCSS("backgroundCSS", GUI.BackgroundCSS, "background")
+end
+
 GUI.Left = Geyser.Label:new({
     name = "GUI.Left",
     x = 0,
@@ -35,6 +41,11 @@ GUI.Left = Geyser.Label:new({
     height = containerConfig.fullHeight,
 })
 GUI.Left:setStyleSheet(GUI.BackgroundCSS:getCSS())
+
+-- Register left background with ResourceManager
+if RM then
+    RM.registerUIElement("backgroundLeft", GUI.Left, "background")
+end
 
 GUI.Right = Geyser.Label:new({
     name = "GUI.Right",
@@ -46,6 +57,11 @@ GUI.Right = Geyser.Label:new({
 })
 GUI.Right:setStyleSheet(GUI.BackgroundCSS:getCSS())
 
+-- Register right background with ResourceManager
+if RM then
+    RM.registerUIElement("backgroundRight", GUI.Right, "background")
+end
+
 GUI.Top = Geyser.Label:new({
     name = "GUI.Top",
     x = containerConfig.leftWidth,
@@ -54,6 +70,11 @@ GUI.Top = Geyser.Label:new({
     height = containerConfig.topHeight,
 })
 GUI.Top:setStyleSheet(GUI.BackgroundCSS:getCSS())
+
+-- Register top background with ResourceManager
+if RM then
+    RM.registerUIElement("backgroundTop", GUI.Top, "background")
+end
 
 -- Core background setup function
 local function setBackground()

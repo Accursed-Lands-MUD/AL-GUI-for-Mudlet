@@ -318,14 +318,22 @@ continue_walk = function(new_room)
             walking = false
         end
     end
-    -- make tempTimer to send next command if necessary
+    -- make timer to send next command if necessary using ResourceManager
     if walking and (not map.configs.speedwalk_wait or (map.configs.speedwalk_wait and wait > 0)) then
-        if timerID then
-            killTimer(timerID)
+        local RM = ALUI and ALUI.ResourceManager
+        if RM then
+            RM.createTimer("mapSpeedwalk", wait, function()
+                continue_walk()
+            end, false, "mapping")
+        else
+            -- Fallback to direct timer management
+            if timerID then
+                killTimer(timerID)
+            end
+            timerID = tempTimer(wait, function()
+                continue_walk()
+            end)
         end
-        timerID = tempTimer(wait, function()
-            continue_walk()
-        end)
     end
 end
 
@@ -434,10 +442,24 @@ function map.eventHandler(event, ...)
     end
 end
 
--- Register event handlers
-registerAnonymousEventHandler("gmcp.Room.Info", "map.eventHandler")
-registerAnonymousEventHandler("shiftRoom", "map.eventHandler")
-registerAnonymousEventHandler("sysConnectionEvent", "map.eventHandler")
+-- Register event handlers using ResourceManager if available
+local RM = ALUI and ALUI.ResourceManager
+if RM then
+    RM.registerEventHandler("mapRoomInfo",
+        registerAnonymousEventHandler("gmcp.Room.Info", "map.eventHandler"),
+        "gmcp.Room.Info", "mapping")
+    RM.registerEventHandler("mapShiftRoom",
+        registerAnonymousEventHandler("shiftRoom", "map.eventHandler"),
+        "shiftRoom", "mapping")
+    RM.registerEventHandler("mapConnection",
+        registerAnonymousEventHandler("sysConnectionEvent", "map.eventHandler"),
+        "sysConnectionEvent", "mapping")
+else
+    -- Fallback to direct registration
+    registerAnonymousEventHandler("gmcp.Room.Info", "map.eventHandler")
+    registerAnonymousEventHandler("shiftRoom", "map.eventHandler")
+    registerAnonymousEventHandler("sysConnectionEvent", "map.eventHandler")
+end
 
 -- Namespace integration: Register functions in ALUI namespace if available
 if ALUI and ALUI.Map then
