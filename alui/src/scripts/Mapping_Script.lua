@@ -3,18 +3,9 @@
 -- by Blizzard. https://worldofpa.in
 -- based upon an MSDP script from the Mudlet forums in the generic mapper thread
 -- with pieces from the generic mapper script and the mmpkg mapper by breakone9r
--- Migrated to ALUI namespace structure while maintaining backward compatibility
-
--- Initialize both old and new namespace structures
-map = map or {}
-map.room_info = map.room_info or {}
-map.prev_info = map.prev_info or {}
-map.aliases = map.aliases or {}
-map.configs = map.configs or {}
-map.configs.speedwalk_delay = 0
 
 -- Use ALUI namespace if available, with map fallback for compatibility
-local Map = (ALUI and ALUI.Map) or map
+local Map = (ALUI and ALUI.Map) or {}
 local Config = (ALUI and ALUI.Config) or {}
 
 -- Initialize ALUI.Map structure if available
@@ -31,20 +22,6 @@ if ALUI and ALUI.Map then
     else
         ALUI.Map.configs.speedwalk_delay = 0
         ALUI.Map.configs.speedwalk_wait = false
-    end
-
-    -- Copy existing values to new structure
-    for key, value in pairs(map.room_info) do
-        ALUI.Map.room_info[key] = value
-    end
-    for key, value in pairs(map.prev_info) do
-        ALUI.Map.prev_info[key] = value
-    end
-    for key, value in pairs(map.aliases) do
-        ALUI.Map.aliases[key] = value
-    end
-    for key, value in pairs(map.configs) do
-        ALUI.Map.configs[key] = value
     end
 end
 
