@@ -1,15 +1,16 @@
 -- vitals_update.lua - Migrated to ALUI namespace structure
--- Handles game vitals processing with new namespace while maintaining backward compatibility
+-- Handles game vitals processing with ALUI namespace
 
--- Initialize both old and new namespace structures for compatibility
-alui = alui or {}
-alui.status = alui.status or {}
-alui.health = alui.health or {}
-alui.bleeding = alui.bleeding or {}
+-- Initialize ALUI namespace structure
+ALUI = ALUI or {}
+ALUI.Status = ALUI.Status or {}
+ALUI.Health = ALUI.Health or {}
+ALUI.Status.bleeding = ALUI.Status.bleeding or {}
+ALUI.Status.vitals = ALUI.Status.vitals or {}
 
--- Use ALUI namespace for new structure, with fallbacks for compatibility
-local Status = (ALUI and ALUI.Status) or {}
-local Health = (ALUI and ALUI.Health) or {}
+-- Use ALUI namespace
+local Status = ALUI.Status
+local Health = ALUI.Health
 local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or GUI.Colors or {}
 local Config = (ALUI and ALUI.Config) or {}
 
@@ -131,10 +132,11 @@ local function updateVitals(e)
 
     -- Update hunger status with validation
     if vit.Hunger and hunger_colors[vit.Hunger] then
-        -- Update both old and new namespace structures
-        alui.status.hunger = hunger_colors[vit.Hunger]
-        if Status.vitals then
-            Status.vitals.hunger = hunger_colors[vit.Hunger]
+        -- Update ALUI namespace structure
+        if ALUI and ALUI.Status then
+            if ALUI.Status.vitals then
+                ALUI.Status.vitals.hunger = hunger_colors[vit.Hunger]
+            end
         end
 
         if GUI.Menu and GUI.Menu.Hunger and GUI.Menu.Hunger.update then
@@ -144,10 +146,11 @@ local function updateVitals(e)
 
     -- Update thirst status with validation
     if vit.Thirst and thirst_colors[vit.Thirst] then
-        -- Update both old and new namespace structures
-        alui.status.thirst = thirst_colors[vit.Thirst]
-        if Status.vitals then
-            Status.vitals.thirst = thirst_colors[vit.Thirst]
+        -- Update ALUI namespace structure
+        if ALUI and ALUI.Status then
+            if ALUI.Status.vitals then
+                ALUI.Status.vitals.thirst = thirst_colors[vit.Thirst]
+            end
         end
 
         if GUI.Menu and GUI.Menu.Thirst and GUI.Menu.Thirst.update then
@@ -162,32 +165,30 @@ local function updateVitals(e)
             local health_status, has_bleeding = health_and_bleading:match("^(.+) and ")
 
             if health_status then
-                -- There is bleeding - update both namespace structures
-                alui.bleeding[part] = true
-                alui.health[part] = health_levels[health_status]
-
-                if Status.bleeding then
-                    Status.bleeding[part] = true
-                end
-                if Health then
-                    Health[part] = health_levels[health_status]
+                -- There is bleeding - update ALUI namespace structures
+                if ALUI and ALUI.Status then
+                    if ALUI.Status.bleeding then
+                        ALUI.Status.bleeding[part] = true
+                    end
+                    if ALUI.Health then
+                        ALUI.Health[part] = health_levels[health_status]
+                    end
                 end
             else
                 -- No bleeding, use the full string as health status
-                alui.bleeding[part] = false
-                alui.health[part] = health_levels[health_and_bleading]
-
-                if Status.bleeding then
-                    Status.bleeding[part] = false
-                end
-                if Health then
-                    Health[part] = health_levels[health_and_bleading]
+                if ALUI and ALUI.Status then
+                    if ALUI.Status.bleeding then
+                        ALUI.Status.bleeding[part] = false
+                    end
+                    if ALUI.Health then
+                        ALUI.Health[part] = health_levels[health_and_bleading]
+                    end
                 end
             end
         end
     end
 
-    raiseEvent("alui status window")
+    raiseEvent("ALUI status window")
 end
 
 -- Register the function in both old and new systems

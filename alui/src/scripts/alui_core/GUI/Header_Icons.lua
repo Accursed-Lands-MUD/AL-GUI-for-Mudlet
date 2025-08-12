@@ -28,6 +28,9 @@ GUI.Header = Geyser.HBox:new({
     height = "100%",
 }, GUI.Top)
 
+-- Initialize Menu namespace
+GUI.Menu = GUI.Menu or {}
+
 -- Register Header with ResourceManager
 if RM then
     RM.registerUIElement("mainHeader", GUI.Header, "header")
@@ -128,12 +131,10 @@ end
 GUI.Menu.Hunger = createMenuItem("Hunger", function(self)
         local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_hunger.png)"
         local label = nil
-        -- Check both ALUI namespace and legacy namespace for hunger
+        -- Check ALUI namespace for hunger status
         local backgroundColor = nil
-        if ALUI and ALUI.Status and ALUI.Status.hunger then
-            backgroundColor = ALUI.Status.hunger
-        elseif alui and alui.status and alui.status.hunger then
-            backgroundColor = alui.status.hunger
+        if ALUI and ALUI.Status and ALUI.Status.vitals.hunger then
+            backgroundColor = ALUI.Status.vitals.hunger
         end
 
         -- Create individual CSS object for this item
@@ -159,12 +160,10 @@ GUI.Menu.Hunger = createMenuItem("Hunger", function(self)
 
 GUI.Menu.Thirst = createMenuItem("Thirst", function(self)
         local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_thirst01.png)"
-        -- Check both ALUI namespace and legacy namespace for thirst
+        -- Check ALUI namespace for thirst status
         local backgroundColor = nil
-        if ALUI and ALUI.Status and ALUI.Status.thirst then
-            backgroundColor = ALUI.Status.thirst
-        elseif alui and alui.status and alui.status.thirst then
-            backgroundColor = alui.status.thirst
+        if ALUI and ALUI.Status and ALUI.Status.vitals.thirst then
+            backgroundColor = ALUI.Status.vitals.thirst
         end
 
         -- Create individual CSS object for this item
@@ -184,12 +183,10 @@ GUI.Menu.Thirst = createMenuItem("Thirst", function(self)
 
 GUI.Menu.Fatigue = createMenuItem("Fatigue", function(self)
         local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_fatigue01.png)"
-        -- Check both ALUI namespace and legacy namespace for fatigue
+        -- Check ALUI namespace for fatigue status
         local backgroundColor = nil
-        if ALUI and ALUI.Status and ALUI.Status.fatigue then
-            backgroundColor = ALUI.Status.fatigue
-        elseif alui and alui.status and alui.status.fatigue then
-            backgroundColor = alui.status.fatigue
+        if ALUI and ALUI.Status and ALUI.Status.vitals.fatigue then
+            backgroundColor = ALUI.Status.vitals.fatigue
         end
 
         -- Create individual CSS object for this item
@@ -212,8 +209,6 @@ GUI.Menu.Posture = createMenuItem("Posture", function(self)
         local label = nil
         if ALUI and ALUI.Status and ALUI.Status.posture then
             label = ALUI.Status.posture
-        elseif alui and alui.status and alui.status.posture then
-            label = alui.status.posture
         end
 
         -- Fallback: Try to get data directly from GMCP if not in status
@@ -222,9 +217,6 @@ GUI.Menu.Posture = createMenuItem("Posture", function(self)
             -- Update both status tables for next time
             if ALUI and ALUI.Status then
                 ALUI.Status.posture = label
-            end
-            if alui and alui.status then
-                alui.status.posture = label
             end
         end
 

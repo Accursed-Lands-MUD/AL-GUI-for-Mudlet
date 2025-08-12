@@ -380,7 +380,7 @@ GUI.resizeBoxes = function()
     GUI.Survey_Container:show()
     ALUI.GUI.Components.surveymini:show()
     GUI.Chat_Container:show()
-    alui.chat_cap:show()
+    ALUI.GUI.Components.chat_cap:show()
 end
 
 -- Register function in both old and new namespaces for compatibility
