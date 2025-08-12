@@ -336,12 +336,12 @@ function map.speedwalk(roomID, walkPath, walkDirs)
                 -- if locked, unlock door
                 if status == 3 then
                     table.insert(walkPath, k, id)
-                    table.insert(walkDirs, k, "unlock " .. (exitmap[dir] or dir))
+                    table.insert(walkDirs, k, string.format("unlock %s", exitmap[dir] or dir))
                     k = k + 1
                 end
                 -- if closed, open door
                 table.insert(walkPath, k, id)
-                table.insert(walkDirs, k, "open " .. (exitmap[dir] or dir))
+                table.insert(walkDirs, k, string.format("open %s", exitmap[dir] or dir))
                 k = k + 1
             end
         end
