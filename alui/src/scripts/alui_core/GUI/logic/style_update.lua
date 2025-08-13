@@ -35,23 +35,24 @@ local function updateStyleGUI()
         return
     end
 
-    -- Get GUI components with namespace fallback
-    local StyleGauges = (ALUI and ALUI.GUI and ALUI.GUI.Components and ALUI.GUI.Components.StyleGauges) or GUI
+    -- Get GUI components with namespace
+    local GUI = (ALUI and ALUI.GUI and ALUI.GUI) or {}
 
-    if styleData.control and StyleGauges.Style_Gauge_Aim_Control then
-        StyleGauges.Style_Gauge_Aim_Control:setValue(styleData.control)
+
+    if styleData.control and GUI.Style_Gauge_Aim_Control then
+        GUI.Style_Gauge_Aim_Control:setValue(styleData.control)
     end
-    if styleData.dodge and StyleGauges.Style_Gauge_Offensive_Dodge then
-        StyleGauges.Style_Gauge_Offensive_Dodge:setValue(styleData.dodge)
+    if styleData.dodge and GUI.Style_Gauge_Offensive_Dodge then
+        GUI.Style_Gauge_Offensive_Dodge:setValue(styleData.dodge)
     end
-    if styleData.parry and StyleGauges.Style_Gauge_Daring_Parry then
-        StyleGauges.Style_Gauge_Daring_Parry:setValue(styleData.parry)
+    if styleData.parry and GUI.Style_Gauge_Daring_Parry then
+        GUI.Style_Gauge_Daring_Parry:setValue(styleData.parry)
     end
-    if styleData.speed and StyleGauges.Style_Gauge_Power_Speed then
-        StyleGauges.Style_Gauge_Power_Speed:setValue(styleData.speed)
+    if styleData.speed and GUI.Style_Gauge_Power_Speed then
+        GUI.Style_Gauge_Power_Speed:setValue(styleData.speed)
     end
-    if styleData.defense and StyleGauges.Style_Gauge_Attack_Defense then
-        StyleGauges.Style_Gauge_Attack_Defense:setValue(styleData.defense)
+    if styleData.defense and GUI.Style_Gauge_Attack_Defense then
+        GUI.Style_Gauge_Attack_Defense:setValue(styleData.defense)
     end
 end
 
