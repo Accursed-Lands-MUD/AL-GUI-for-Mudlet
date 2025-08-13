@@ -2,7 +2,7 @@
 -- Handles background UI creation with new namespace while maintaining backward compatibility
 
 -- Use ALUI namespace if available, with fallbacks for compatibility
-local GUI_NS = (ALUI and ALUI.GUI) or GUI or {}
+local GUI = (ALUI and ALUI.GUI) or GUI or {}
 local Config = (ALUI and ALUI.Config) or {}
 local RM = ALUI and ALUI.ResourceManager
 

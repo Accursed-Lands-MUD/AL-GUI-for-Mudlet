@@ -3,7 +3,7 @@
 local EMCO = require("alui.emco")
 
 -- Use ALUI namespace if available, with fallbacks for compatibility
-local GUI_NS = (ALUI and ALUI.GUI) or {}
+local GUI = (ALUI and ALUI.GUI) or {}
 local Config = (ALUI and ALUI.Config) or {}
 local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or {}
 local RM = ALUI and ALUI.ResourceManager

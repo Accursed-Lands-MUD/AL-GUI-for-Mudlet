@@ -4,7 +4,7 @@
 local Package_Root = getMudletHomeDir()
 
 -- Use ALUI namespace if available, with fallbacks for compatibility
-local GUI_NS = (ALUI and ALUI.GUI) or GUI or {}
+local GUI = (ALUI and ALUI.GUI) or GUI or {}
 local Config = (ALUI and ALUI.Config) or {}
 local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or GUI.Colors or {}
 local RM = ALUI and ALUI.ResourceManager

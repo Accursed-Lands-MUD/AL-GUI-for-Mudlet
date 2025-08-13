@@ -12,7 +12,8 @@ ALUI.Status.vitals = ALUI.Status.vitals or {}
 -- Use ALUI namespace
 local Status = ALUI.Status
 local Health = ALUI.Health
-local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or GUI.Colors or {}
+local GUI = ALUI and ALUI.GUI or {}
+local Colors = (GUI and GUI.Colors) or GUI.Colors or {}
 local Config = (ALUI and ALUI.Config) or {}
 
 -- Get colors from configuration if available, otherwise use direct references

@@ -1,10 +1,10 @@
---[[Blizzard's GMCP mapping script, edited for ALUI namespace]]
--- generic GMCP mapping script for Mudlet
+--[[Blizzard's GMCP Mapping script, edited for ALUI namespace]]
+-- generic GMCP Mapping script for Mudlet
 -- by Blizzard. https://worldofpa.in
--- based upon an MSDP script from the Mudlet forums in the generic mapper thread
--- with pieces from the generic mapper script and the mmpkg mapper by breakone9r
+-- based upon an MSDP script from the Mudlet forums in the generic Mapper thread
+-- with pieces from the generic Mapper script and the mmpkg Mapper by breakone9r
 
--- Use ALUI namespace if available, with map fallback for compatibility
+-- Use ALUI namespace if available, with Map fallback for compatibility
 local Map = (ALUI and ALUI.Map) or {}
 local Config = (ALUI and ALUI.Config) or {}
 
@@ -17,8 +17,8 @@ if ALUI and ALUI.Map then
 
     -- Set default speedwalk delay from configuration or fallback
     if Config.get then
-        ALUI.Map.configs.speedwalk_delay = Config.get("mapping.speedwalkDelay", 0)
-        ALUI.Map.configs.speedwalk_wait = Config.get("mapping.speedwalkWait", false)
+        ALUI.Map.configs.speedwalk_delay = Config.get("Mapping.speedwalkDelay", 0)
+        ALUI.Map.configs.speedwalk_wait = Config.get("Mapping.speedwalkWait", false)
     else
         ALUI.Map.configs.speedwalk_delay = 0
         ALUI.Map.configs.speedwalk_wait = false
@@ -26,15 +26,15 @@ if ALUI and ALUI.Map then
 end
 
 local defaults = {
-    -- using Geyser to handle the mapper in this, since this is a totally new script
-    mapper = { x = 0, y = 0, width = "100%", height = "100%" }
+    -- using Geyser to handle the Mapper in this, since this is a totally new script
+    Mapper = { x = 0, y = 0, width = "100%", height = "100%" }
 }
 
 local terrain_types = {
     -- used to make rooms of different terrain types have different colors
     -- add a new entry for each terrain type, and set the color with RGB values
-    -- each id value must be unique, terrain types not listed here will use mapper default color
-    -- not used if you define these in a map XML file
+    -- each id value must be unique, terrain types not listed here will use Mapper default color
+    -- not used if you define these in a Map XML file
     ["Inside"] = { id = 1, r = 255, g = 0, b = 0 },
     ["ocean"] = { id = 20, r = 0, g = 0, b = 128 },          -- 'navy'
     ["plains"] = { id = 19, r = 0, g = 255, b = 0 },
@@ -81,7 +81,7 @@ local move_vectors = {
     down = { 0, 0, -1 }
 }
 
-local exitmap = {
+local exitMap = {
     n = 'north',
     ne = 'northeast',
     nw = 'northwest',
@@ -97,7 +97,7 @@ local exitmap = {
     l = 'look'
 }
 
-local stubmap = {
+local stubMap = {
     north = 1,
     northeast = 2,
     northwest = 3,
@@ -110,14 +110,14 @@ local stubmap = {
 }
 
 local short = {}
-if type(exitmap) == "table" then
-    for k, v in pairs(exitmap) do
+if type(exitMap) == "table" then
+    for k, v in pairs(exitMap) do
         short[v] = k
     end
 end
 
 local function make_room()
-    local info = map.room_info
+    local info = Map.room_info
     local coords = { 0, 0, 0 }
     local thisRoom = createRoomID()
     addRoom(thisRoom)
@@ -132,12 +132,12 @@ local function make_room()
         if not areaID then
             areaID = addAreaName(info.area)
         else
-            if type(map.prev_info.vnum) == "string" then
-                coords = { getRoomCoordinates(getRoomIDbyHash(map.prev_info.vnum)) }
+            if type(Map.prev_info.vnum) == "string" then
+                coords = { getRoomCoordinates(getRoomIDbyHash(Map.prev_info.vnum)) }
                 local shift = { 0, 0, 0 }
                 if type(info.exists) then
                     for k, v in pairs(info.exits) do
-                        if v == map.prev_info.vnum and move_vectors[k] then
+                        if v == Map.prev_info.vnum and move_vectors[k] then
                             shift = move_vectors[k]
                             break
                         end
@@ -146,7 +146,7 @@ local function make_room()
                 for n = 1, 3 do
                     coords[n] = coords[n] - shift[n]
                 end
-                -- map stretching
+                -- Map stretching
                 local overlap = getRoomsByPosition(areaID, coords[1], coords[2], coords[3])
                 if not table.is_empty(overlap) then
                     local rooms = getAreaRooms(areaID)
@@ -187,12 +187,12 @@ local function make_room()
 end
 
 local function shift_room(dir)
-    if type(map.room_info.vnum) ~= "string" then
+    if type(Map.room_info.vnum) ~= "string" then
         return
     end
 
-    if type(map.room_info.vnum) == "string" then
-        local ID = getRoomIDbyHash(map.room_info.vnum)
+    if type(Map.room_info.vnum) == "string" then
+        local ID = getRoomIDbyHash(Map.room_info.vnum)
         local x, y, z = getRoomCoordinates(ID)
         local x1, y1, z1 = table.unpack(move_vectors[dir])
         x = x + x1
@@ -204,7 +204,7 @@ local function shift_room(dir)
 end
 
 local function handle_move()
-    local info = map.room_info
+    local info = Map.room_info
     if type(info.vnum) ~= "string" then
         return
     end
@@ -217,7 +217,7 @@ local function handle_move()
             local stubs = getExitStubs1(rnum)
             if stubs then
                 for _, n in ipairs(stubs) do
-                    local dir = table.flip(stubmap)[n]
+                    local dir = table.flip(stubMap)[n]
                     if info.exits and type(info.exits[dir]) == "string" then
                         local id = getRoomIDbyHash(info.exits[dir])
                         -- need to see how special exits are represented to handle those properly here
@@ -237,17 +237,17 @@ local function config()
     for k, v in pairs(terrain_types) do
         setCustomEnvColor(v.id, v.r, v.g, v.b, 255)
     end
-    -- making mapper window
-    --local info = defaults.mapper
+    -- making Mapper window
+    --local info = defaults.Mapper
     --Geyser.Mapper:new({name = "myMap", x = info.x, y = info.y, width = info.width, height = info.height})
     -- clearing existing aliases if they exist
-    for k, v in pairs(map.aliases) do
+    for k, v in pairs(Map.aliases) do
         killAlias(v)
     end
-    map.aliases = {}
+    Map.aliases = {}
     -- making an alias to let the user shift a room around via command line
-    table.insert(map.aliases, tempAlias([[^shift (\w+)$]], [[raiseEvent("shiftRoom",matches[2])]]))
-    table.insert(map.aliases, tempAlias([[^make_room$]], [[make_room()]]))
+    table.insert(Map.aliases, tempAlias([[^shift (\w+)$]], [[raiseEvent("shiftRoom",matches[2])]]))
+    table.insert(Map.aliases, tempAlias([[^make_room$]], [[make_room()]]))
 end
 
 local function check_doors(roomID, exits)
@@ -262,7 +262,7 @@ local function check_doors(roomID, exits)
     for k, v in pairs(exits) do
         dir = short[k] or short[v]
         if table.contains({ 'u', 'd' }, dir) then
-            dir = exitmap[dir]
+            dir = exitMap[dir]
         end
         if not doors[dir] or doors[dir] == 0 then
             return false
@@ -279,29 +279,29 @@ continue_walk = function(new_room)
         return
     end
     -- calculate wait time until next command, with randomness
-    local wait = map.configs.speedwalk_delay or 0
-    if wait > 0 and map.configs.speedwalk_random then
+    local wait = Map.configs.speedwalk_delay or 0
+    if wait > 0 and Map.configs.speedwalk_random then
         wait = wait * (1 + math.random(0, 100) / 100)
     end
     -- if no wait after new room, move immediately
-    if new_room and map.configs.speedwalk_wait and wait == 0 then
+    if new_room and Map.configs.speedwalk_wait and wait == 0 then
         new_room = false
     end
     -- send command if we don't need to wait
     if not new_room then
-        send(table.remove(map.walkDirs, 1))
+        send(table.remove(Map.walkDirs, 1))
         -- check to see if we are done
-        if #map.walkDirs == 0 then
+        if #Map.walkDirs == 0 then
             walking = false
         end
     end
     -- make timer to send next command if necessary using ResourceManager
-    if walking and (not map.configs.speedwalk_wait or (map.configs.speedwalk_wait and wait > 0)) then
+    if walking and (not Map.configs.speedwalk_wait or (Map.configs.speedwalk_wait and wait > 0)) then
         local RM = ALUI and ALUI.ResourceManager
         if RM then
-            RM.createTimer("mapSpeedwalk", wait, function()
+            RM.createTimer("MapSpeedwalk", wait, function()
                 continue_walk()
-            end, false, "mapping")
+            end, false, "Mapping")
         else
             -- Fallback to direct timer management
             if timerID then
@@ -314,48 +314,48 @@ continue_walk = function(new_room)
     end
 end
 
-function map.speedwalk(roomID, walkPath, walkDirs)
+function Map.speedwalk(roomID, walkPath, walkDirs)
     roomID = roomID or speedWalkPath[#speedWalkPath]
-    getPath(map.room_info.vnum, roomID)
+    getPath(Map.room_info.vnum, roomID)
     walkPath = speedWalkPath
     walkDirs = speedWalkDir
     if #speedWalkPath == 0 then
-        map.echo("No path to chosen room found.", false, true)
+        Map.echo("No path to chosen room found.", false, true)
         return
     end
-    table.insert(walkPath, 1, map.room_info.vnum)
+    table.insert(walkPath, 1, Map.room_info.vnum)
     -- go through dirs to find doors that need opened, etc
     -- add in necessary extra commands to walkDirs table
     local k = 1
     repeat
         local id, dir = walkPath[k], walkDirs[k]
-        if exitmap[dir] or short[dir] then
-            local door = check_doors(id, exitmap[dir] or dir)
+        if exitMap[dir] or short[dir] then
+            local door = check_doors(id, exitMap[dir] or dir)
             local status = door and door[dir]
             if status and status > 1 then
                 -- if locked, unlock door
                 if status == 3 then
                     table.insert(walkPath, k, id)
-                    table.insert(walkDirs, k, string.format("unlock %s", exitmap[dir] or dir))
+                    table.insert(walkDirs, k, string.format("unlock %s", exitMap[dir] or dir))
                     k = k + 1
                 end
                 -- if closed, open door
                 table.insert(walkPath, k, id)
-                table.insert(walkDirs, k, string.format("open %s", exitmap[dir] or dir))
+                table.insert(walkDirs, k, string.format("open %s", exitMap[dir] or dir))
                 k = k + 1
             end
         end
         k = k + 1
     until k > #walkDirs
-    if map.configs.use_translation then
+    if Map.configs.use_translation then
         for k, v in ipairs(walkDirs) do
-            walkDirs[k] = map.configs.lang_dirs[v] or v
+            walkDirs[k] = Map.configs.lang_dirs[v] or v
         end
     end
     -- perform walk
     walking = true
-    if map.configs.speedwalk_wait or map.configs.speedwalk_delay > 0 then
-        map.walkDirs = walkDirs
+    if Map.configs.speedwalk_wait or Map.configs.speedwalk_delay > 0 then
+        Map.walkDirs = walkDirs
         continue_walk()
     else
         for _, dir in ipairs(walkDirs) do
@@ -367,13 +367,13 @@ end
 
 function doSpeedWalk()
     if #speedWalkPath ~= 0 then
-        map.speedwalk(nil, speedWalkPath, speedWalkDir)
+        Map.speedwalk(nil, speedWalkPath, speedWalkDir)
     else
-        map.echo("No path to chosen room found.", false, true)
+        Map.echo("No path to chosen room found.", false, true)
     end
 end
 
-function map.eventHandler(event, ...)
+function Map.eventHandler(event, ...)
     if event == "gmcp.Room.Info" then
         -- fix incorrect gmcp sending
         local t = {}
@@ -386,8 +386,8 @@ function map.eventHandler(event, ...)
         --end fix
 
         -- Update both old and new namespace structures
-        map.prev_info = map.room_info
-        map.room_info = {
+        Map.prev_info = Map.room_info
+        Map.room_info = {
             vnum = gmcp.Room.Info.vnum,
             area = gmcp.Room.Info.area,
             name = gmcp.Room.Info.brief,
@@ -397,18 +397,18 @@ function map.eventHandler(event, ...)
 
         -- Sync to ALUI namespace if available
         if ALUI and ALUI.Map then
-            ALUI.Map.prev_info = map.prev_info
-            ALUI.Map.room_info = map.room_info
+            ALUI.Map.prev_info = Map.prev_info
+            ALUI.Map.room_info = Map.room_info
         end
 
-        if type(map.room_info.exits) == "table" then
-            for k, v in pairs(map.room_info.exits) do
-                map.room_info.exits[k] = v
+        if type(Map.room_info.exits) == "table" then
+            for k, v in pairs(Map.room_info.exits) do
+                Map.room_info.exits[k] = v
             end
         end
         handle_move()
     elseif event == "shiftRoom" then
-        local dir = exitmap[arg[1]] or arg[1]
+        local dir = exitMap[arg[1]] or arg[1]
         if not table.contains(exits, dir) then
             echo(string.format("Error: Invalid direction '%s'.", dir))
         else
@@ -422,38 +422,38 @@ end
 -- Register event handlers using ResourceManager if available
 local RM = ALUI and ALUI.ResourceManager
 if RM then
-    RM.registerEventHandler("mapRoomInfo",
-        registerAnonymousEventHandler("gmcp.Room.Info", "map.eventHandler"),
-        "gmcp.Room.Info", "mapping")
-    RM.registerEventHandler("mapShiftRoom",
-        registerAnonymousEventHandler("shiftRoom", "map.eventHandler"),
-        "shiftRoom", "mapping")
-    RM.registerEventHandler("mapConnection",
-        registerAnonymousEventHandler("sysConnectionEvent", "map.eventHandler"),
-        "sysConnectionEvent", "mapping")
+    RM.registerEventHandler("MapRoomInfo",
+        registerAnonymousEventHandler("gmcp.Room.Info", "Map.eventHandler"),
+        "gmcp.Room.Info", "Mapping")
+    RM.registerEventHandler("MapShiftRoom",
+        registerAnonymousEventHandler("shiftRoom", "Map.eventHandler"),
+        "shiftRoom", "Mapping")
+    RM.registerEventHandler("MapConnection",
+        registerAnonymousEventHandler("sysConnectionEvent", "Map.eventHandler"),
+        "sysConnectionEvent", "Mapping")
 else
     -- Fallback to direct registration
-    registerAnonymousEventHandler("gmcp.Room.Info", "map.eventHandler")
-    registerAnonymousEventHandler("shiftRoom", "map.eventHandler")
-    registerAnonymousEventHandler("sysConnectionEvent", "map.eventHandler")
+    registerAnonymousEventHandler("gmcp.Room.Info", "Map.eventHandler")
+    registerAnonymousEventHandler("shiftRoom", "Map.eventHandler")
+    registerAnonymousEventHandler("sysConnectionEvent", "Map.eventHandler")
 end
 
 -- Namespace integration: Register functions in ALUI namespace if available
 if ALUI and ALUI.Map then
-    -- Copy all map functions to ALUI.Map
-    ALUI.Map.speedwalk = map.speedwalk
-    ALUI.Map.eventHandler = map.eventHandler
-    ALUI.Map.echo = map.echo
+    -- Copy all Map functions to ALUI.Map
+    ALUI.Map.speedwalk = Map.speedwalk
+    ALUI.Map.eventHandler = Map.eventHandler
+    ALUI.Map.echo = Map.echo
 
     -- Create handlers table for organized function storage
     ALUI.Map.handlers = ALUI.Map.handlers or {}
-    ALUI.Map.handlers.eventHandler = map.eventHandler
-    ALUI.Map.handlers.speedwalk = map.speedwalk
+    ALUI.Map.handlers.eventHandler = Map.eventHandler
+    ALUI.Map.handlers.speedwalk = Map.speedwalk
 
     -- Register ALUI event handler as well
     if ALUI.Events and ALUI.Events.registerHandler then
-        ALUI.Events.registerHandler("gmcp.Room.Info", "alui.map.roomInfo", map.eventHandler)
-        ALUI.Events.registerHandler("shiftRoom", "alui.map.shiftRoom", map.eventHandler)
-        ALUI.Events.registerHandler("sysConnectionEvent", "alui.map.connection", map.eventHandler)
+        ALUI.Events.registerHandler("gmcp.Room.Info", "alui.Map.roomInfo", Map.eventHandler)
+        ALUI.Events.registerHandler("shiftRoom", "alui.Map.shiftRoom", Map.eventHandler)
+        ALUI.Events.registerHandler("sysConnectionEvent", "alui.Map.connection", Map.eventHandler)
     end
 end
