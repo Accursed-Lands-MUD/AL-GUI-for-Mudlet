@@ -42,16 +42,17 @@ ALUI.GUI.Colors = {
 -- Timer cleanup function
 local function cleanupTimers()
     local RM = ALUI and ALUI.ResourceManager
+    local GUI = ALUI and ALUI.GUI
     if RM then
         RM.cleanupByCategory("resize")
         RM.cleanupByCategory("ui")
     else
-        if ALUI.GUI.Timers.resize then
-            killTimer(ALUI.GUI.Timers.resize)
-            ALUI.GUI.Timers.resize = nil
+        if GUI.Timers.resize then
+            killTimer(GUI.Timers.resize)
+            GUI.Timers.resize = nil
         end
     end
-    ALUI.GUI.Timers.lastResizeTime = 0
+    GUI.Timers.lastResizeTime = 0
 end
 
 ALUI.GUI.cleanupTimers = cleanupTimers
@@ -59,43 +60,50 @@ ALUI.GUI.cleanupTimers = cleanupTimers
 -- Improved resize event handler
 local resizeHandler = function()
     local RM = ALUI and ALUI.ResourceManager
+    local GUI = ALUI and ALUI.GUI
     local currentTime = getEpoch()
 
     -- Debouncing logic
-    if currentTime - ALUI.GUI.Timers.lastResizeTime < RESIZE_MIN_INTERVAL then
+    if currentTime - GUI.Timers.lastResizeTime < RESIZE_MIN_INTERVAL then
         return
     end
 
-    ALUI.GUI.Timers.lastResizeTime = currentTime
+    GUI.Timers.lastResizeTime = currentTime
 
     -- Use ResourceManager for timer if available
     if RM then
         RM.createTimer("resizeOperation", RESIZE_TIMER_DELAY, function()
             local success, error_msg = pcall(function()
-                GUI.setBorders()
-                GUI.setBackground()
-                GUI.resizeBoxes()
-                GUI.setBoxes()
-                GUI.Style.update()
+                -- Use ALUI namespace instead of global GUI
+                if GUI then
+                    if GUI.setBorders then GUI.setBorders() end
+                    if GUI.setBackground then GUI.setBackground() end
+                    if GUI.resizeBoxes then GUI.resizeBoxes() end
+                    if GUI.setBoxes then GUI.setBoxes() end
+                    if GUI.Style and GUI.Style.update then GUI.Style.update() end
+                end
             end)
             if not success then
                 echo(string.format("Error during resize operations: %s\n", tostring(error_msg)))
             end
         end, false, "resize")
     else
-        if ALUI.GUI.Timers.resize then
-            killTimer(ALUI.GUI.Timers.resize)
-            ALUI.GUI.Timers.resize = nil
+        if GUI.Timers.resize then
+            killTimer(GUI.Timers.resize)
+            GUI.Timers.resize = nil
         end
-        ALUI.GUI.Timers.resize = tempTimer(RESIZE_TIMER_DELAY, function()
+        GUI.Timers.resize = tempTimer(RESIZE_TIMER_DELAY, function()
             local success, error_msg = pcall(function()
-                GUI.setBorders()
-                GUI.setBackground()
-                GUI.resizeBoxes()
-                GUI.setBoxes()
-                GUI.Style.update()
+                -- Use ALUI namespace instead of global GUI
+                if ALUI and ALUI.GUI then
+                    if GUI.setBorders then GUI.setBorders() end
+                    if GUI.setBackground then GUI.setBackground() end
+                    if GUI.resizeBoxes then GUI.resizeBoxes() end
+                    if GUI.setBoxes then GUI.setBoxes() end
+                    if GUI.Style and GUI.Style.update then GUI.Style.update() end
+                end
             end)
-            ALUI.GUI.Timers.resize = nil
+            GUI.Timers.resize = nil
             if not success then
                 echo(string.format("Error during resize operations: %s\n", tostring(error_msg)))
             end

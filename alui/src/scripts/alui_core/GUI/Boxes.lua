@@ -375,7 +375,7 @@ GUI.resizeBoxes = function()
     GUI.Style_Attack_Increase:show()
     GUI.Style_Gauge_Attack_Defense:show()
     GUI.Style_Defense_Increase:show()
-    GUI.Style.update()
+    if GUI.Style.update then GUI.Style:update() end
     GUI.Survey_Container:show()
     ALUI.GUI.Components.surveymini:show()
     GUI.Chat_Container:show()
