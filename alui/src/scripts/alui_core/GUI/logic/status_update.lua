@@ -4,8 +4,12 @@ function status_update(e)
     ALUI.Status = ALUI.Status or {}
     ALUI.Status.vitals = ALUI.Status.vitals or {}
 
+    GUI = ALUI.GUI or {}
+
+    local Menu = GUI.Components.Menu or {}
+
     -- Use ALUI namespace for colors
-    local Colors = ALUI.GUI.Colors or {}
+    local Colors = GUI.Colors or {}
     local Config = ALUI.Config or {}
 
     local blue = Colors.blue
@@ -39,9 +43,8 @@ function status_update(e)
         local mercyValue = status.Mercy == "On"
         -- Store in both locations for compatibility
         ALUI.Status.mercy = mercyValue
-        ALUI.Status.vitals.mercy = mercyValue
 
-        local Menu = ALUI.GUI.Components.Menu or GUI.Menu
+
         if Menu and Menu.Mercy and Menu.Mercy.update then
             Menu.Mercy:update()
         end
@@ -51,9 +54,8 @@ function status_update(e)
         local commonsenseValue = status.CommonSense == "On"
         -- Store in both locations for compatibility
         ALUI.Status.commonsense = commonsenseValue
-        ALUI.Status.vitals.commonsense = commonsenseValue
 
-        local Menu = ALUI.GUI.Components.Menu or GUI.Menu
+
         if Menu and Menu.CommonSense and Menu.CommonSense.update then
             Menu.CommonSense:update()
         end
@@ -63,9 +65,7 @@ function status_update(e)
         local travelValue = status.Travel == "On"
         -- Store in both locations for compatibility
         ALUI.Status.travel = travelValue
-        ALUI.Status.vitals.travel = travelValue
 
-        local Menu = ALUI.GUI.Components.Menu or GUI.Menu
         if Menu and Menu.Travel and Menu.Travel.update then
             Menu.Travel:update()
         end
@@ -75,7 +75,6 @@ function status_update(e)
     ALUI.Status.vitals.fatigue = fatigue_levels[status.Fatigue]
     ALUI.Status.vitals.posture = status.Posture
 
-    local Menu = ALUI.GUI.Components.Menu or GUI.Menu
     if Menu then
         if Menu.Fatigue and Menu.Fatigue.update then
             Menu.Fatigue:update()

@@ -286,7 +286,7 @@ end)
 GUI.Menu.Travel = createMenuItem("Travel", function(self)
         local iconPath = "url(" .. Package_Root .. "/alui/icons/medium/AL_travel01.png)"
 
-        -- Check both ALUI namespace and legacy namespace for travel
+
         local autoTravel = nil
         if ALUI and ALUI.Status and ALUI.Status.travel ~= nil then
             autoTravel = ALUI.Status.travel
