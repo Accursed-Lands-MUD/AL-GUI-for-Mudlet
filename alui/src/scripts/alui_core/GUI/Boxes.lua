@@ -5,7 +5,7 @@ local EMCO = require("alui.emco")
 -- Use ALUI namespace if available, with fallbacks for compatibility
 local GUI = (ALUI and ALUI.GUI) or {}
 local Config = (ALUI and ALUI.Config) or {}
-local Colors = (ALUI and ALUI.GUI and ALUI.GUI.Colors) or {}
+local Colors = (ALUI and ALUI.GUI and GUI.Colors) or {}
 local RM = ALUI and ALUI.ResourceManager
 
 -- Core box setup function with ResourceManager integration
@@ -143,12 +143,17 @@ local function setBoxes()
         return button
     end
 
-    local function createStyleGauge(name, parent, leftColor, rightColor)
+    local function createStyleGauge(name, parent, leftColor, rightColor, value)
         local gauge = Geyser.Gauge:new({
             name = "GUI.Style_Gauge_" .. name,
             width = Style_Gauge_Width,
         }, parent)
-        gauge:setValue(5, 10)
+
+        if not value then
+            value = 5
+        end
+
+        gauge:setValue(value, 10)
         GUI.GaugeFrontCSS:set("background-color", leftColor)
         GUI.GaugeBackCSS:set("background-color", rightColor)
 
@@ -190,8 +195,8 @@ local function setBoxes()
 
     GUI.Room_Container = createContainer("GUI.Room_Container", GUI.Box5)
 
-    ALUI.GUI.Components = ALUI.GUI.Components or {}
-    ALUI.GUI.Components.roommini = Geyser.MiniConsole:new({
+    GUI.Components = GUI.Components or {}
+    GUI.Components.roommini = Geyser.MiniConsole:new({
         name = "ALUI room miniconsole",
         x = Gui_Padding,
         y = Gui_Padding,
@@ -203,12 +208,12 @@ local function setBoxes()
 
     -- Register room mini console with ResourceManager
     if RM then
-        RM.registerUIElement("roomMini", ALUI.GUI.Components.roommini, "interface")
+        RM.registerUIElement("roomMini", GUI.Components.roommini, "interface")
     end
 
     GUI.Status_Container = createContainer("GUI.Status_Container", GUI.Box7)
 
-    ALUI.GUI.Components.combatmini = Geyser.MiniConsole:new({
+    GUI.Components.combatmini = Geyser.MiniConsole:new({
         name = "ALUI combat console",
         x = Gui_Padding,
         y = Gui_Padding,
@@ -220,7 +225,7 @@ local function setBoxes()
 
     -- Register combat mini console with ResourceManager
     if RM then
-        RM.registerUIElement("combatMini", ALUI.GUI.Components.combatmini, "interface")
+        RM.registerUIElement("combatMini", GUI.Components.combatmini, "interface")
     end
 
     GUI.Style_Container = createContainer("GUI.Style_Container", GUI.Box1)
@@ -245,28 +250,34 @@ local function setBoxes()
     GUI.Style_HBox_Attack_Defense = createStyleHbox("GUI.Style_HBox_Attack_Defense", GUI.Style_VBox)
 
     GUI.Style_Aim_Increase = createStyleButton("Aim", GUI.Style_HBox_Aim_Control, aggressiveColor)
+
+
+
+    local styleData = (ALUI and ALUI.Style) or {}
+
+
     GUI.Style_Gauge_Aim_Control = createStyleGauge("GUI.Style_Gauge_Aim_Control", GUI.Style_HBox_Aim_Control,
-        defensiveColor, aggressiveColor)
+        defensiveColor, aggressiveColor, styleData.control)
     GUI.Style_Control_Increase = createStyleButton("Control", GUI.Style_HBox_Aim_Control, defensiveColor)
 
     GUI.Style_Offensive_Increase = createStyleButton("Offensive", GUI.Style_HBox_Offensive_Dodge, aggressiveColor)
     GUI.Style_Gauge_Offensive_Dodge = createStyleGauge("Offensive_Dodge", GUI.Style_HBox_Offensive_Dodge, defensiveColor,
-        aggressiveColor)
+        aggressiveColor, styleData.dodge)
     GUI.Style_Dodge_Increase = createStyleButton("Dodge", GUI.Style_HBox_Offensive_Dodge, defensiveColor)
 
     GUI.Style_Daring_Increase = createStyleButton("Daring", GUI.Style_HBox_Darring_Parry, aggressiveColor)
     GUI.Style_Gauge_Daring_Parry = createStyleGauge("Daring_Parry", GUI.Style_HBox_Darring_Parry, defensiveColor,
-        aggressiveColor)
+        aggressiveColor, styleData.parry)
     GUI.Style_Parry_Increase = createStyleButton("Parry", GUI.Style_HBox_Darring_Parry, defensiveColor)
 
     GUI.Style_Power_Increase = createStyleButton("Power", GUI.Style_HBox_Power_Speed, aggressiveColor)
     GUI.Style_Gauge_Power_Speed = createStyleGauge("Power_Speed", GUI.Style_HBox_Power_Speed, defensiveColor,
-        aggressiveColor)
+        aggressiveColor, styleData.speed)
     GUI.Style_Speed_Increase = createStyleButton("Speed", GUI.Style_HBox_Power_Speed, defensiveColor)
 
     GUI.Style_Attack_Increase = createStyleButton("Attack", GUI.Style_HBox_Attack_Defense, aggressiveColor)
     GUI.Style_Gauge_Attack_Defense = createStyleGauge("Attack_Defense", GUI.Style_HBox_Attack_Defense, defensiveColor,
-        aggressiveColor)
+        aggressiveColor, styleData.defense)
     GUI.Style_Defense_Increase = createStyleButton("Defense", GUI.Style_HBox_Attack_Defense, defensiveColor)
 
     GUI.Survey_Container = Geyser.Container:new({
@@ -298,7 +309,7 @@ local function setBoxes()
     local survey_width = '90%'  -- width - (20 * 2)
     local survey_height = '90%' -- height - (20 * 2)
 
-    ALUI.GUI.Components.surveymini = Geyser.MiniConsole:new({
+    GUI.Components.surveymini = Geyser.MiniConsole:new({
         name = "ALUI survey mini",
         x = Gui_Padding,
         y = Gui_Padding,
@@ -312,7 +323,7 @@ local function setBoxes()
 
     -- Register survey mini console with ResourceManager
     if RM then
-        RM.registerUIElement("surveyMini", ALUI.GUI.Components.surveymini, "interface")
+        RM.registerUIElement("surveyMini", GUI.Components.surveymini, "interface")
     end
 
     GUI.Chat_Container = Geyser.Container:new({
@@ -328,7 +339,7 @@ local function setBoxes()
         RM.registerUIElement("chatContainer", GUI.Chat_Container, "interface")
     end
 
-    ALUI.GUI.Components.chat_cap = EMCO:new({
+    GUI.Components.chat_cap = EMCO:new({
         name = "ALUI chat cap",
         allTab = true,
         consoles = { "All", "Say", "Chat", "Mentor", "Newbie" },
@@ -350,9 +361,9 @@ GUI.resizeBoxes = function()
     GUI.Map_Container:show()
     GUI.Mapper:show()
     GUI.Room_Container:show()
-    ALUI.GUI.Components.roommini:show()
+    GUI.Components.roommini:show()
     GUI.Status_Container:show()
-    ALUI.GUI.Components.combatmini:show()
+    GUI.Components.combatmini:show()
     GUI.Style_Container:show()
     GUI.Style_VBox:show()
     GUI.Style_HBox_Aim_Control:show()
@@ -375,21 +386,21 @@ GUI.resizeBoxes = function()
     GUI.Style_Attack_Increase:show()
     GUI.Style_Gauge_Attack_Defense:show()
     GUI.Style_Defense_Increase:show()
-    if GUI.Style.update then GUI.Style:update() end
+    GUI.Logic:StyleUpdate()
     GUI.Survey_Container:show()
-    ALUI.GUI.Components.surveymini:show()
+    GUI.Components.surveymini:show()
     GUI.Chat_Container:show()
-    ALUI.GUI.Components.chat_cap:show()
+    GUI.Components.chat_cap:show()
 end
 
 -- Register function in both old and new namespaces for compatibility
 GUI.setBoxes = setBoxes
 
 -- Register in new ALUI namespace if available
-if ALUI and ALUI.GUI then
-    ALUI.GUI.setBoxes = setBoxes
-    ALUI.GUI.Components = ALUI.GUI.Components or {}
-    ALUI.GUI.Components.boxes = setBoxes
+if GUI then
+    GUI.setBoxes = setBoxes
+    GUI.Components = GUI.Components or {}
+    GUI.Components.boxes = setBoxes
 end
 
 GUI.setBoxes()

@@ -74,13 +74,12 @@ local resizeHandler = function()
     if RM then
         RM.createTimer("resizeOperation", RESIZE_TIMER_DELAY, function()
             local success, error_msg = pcall(function()
-                -- Use ALUI namespace instead of global GUI
                 if GUI then
                     if GUI.setBorders then GUI.setBorders() end
                     if GUI.setBackground then GUI.setBackground() end
                     if GUI.resizeBoxes then GUI.resizeBoxes() end
                     if GUI.setBoxes then GUI.setBoxes() end
-                    if GUI.Style and GUI.Style.update then GUI.Style.update() end
+                    if GUI.Logic and GUI.Logic.StyleUpdate then GUI.Logic.StyleUpdate() end
                 end
             end)
             if not success then
@@ -94,13 +93,12 @@ local resizeHandler = function()
         end
         GUI.Timers.resize = tempTimer(RESIZE_TIMER_DELAY, function()
             local success, error_msg = pcall(function()
-                -- Use ALUI namespace instead of global GUI
-                if ALUI and ALUI.GUI then
+                if GUI then
                     if GUI.setBorders then GUI.setBorders() end
                     if GUI.setBackground then GUI.setBackground() end
                     if GUI.resizeBoxes then GUI.resizeBoxes() end
                     if GUI.setBoxes then GUI.setBoxes() end
-                    if GUI.Style and GUI.Style.update then GUI.Style.update() end
+                    if GUI.Logic and GUI.Logic.StyleUpdate then GUI.Logic.StyleUpdate() end
                 end
             end)
             GUI.Timers.resize = nil

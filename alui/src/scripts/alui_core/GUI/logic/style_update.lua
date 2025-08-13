@@ -20,22 +20,21 @@ function style_update(event)
         end
     end
 
-    -- Update GUI with namespace fallback
-    local StyleUpdate = (ALUI and ALUI.GUI and ALUI.GUI.Logic and ALUI.GUI.Logic.StyleUpdate) or GUI.Style.update
+
+    local StyleUpdate = (ALUI and ALUI.GUI and ALUI.GUI.Logic and ALUI.GUI.Logic.StyleUpdate)
     if StyleUpdate then
         StyleUpdate()
     end
 end
 
 local function updateStyleGUI()
-    -- Use ALUI namespace with fallback
     local styleData = (ALUI and ALUI.Style)
 
     if not styleData then
         return
     end
 
-    -- Get GUI components with namespace
+
     local GUI = (ALUI and ALUI.GUI and ALUI.GUI) or {}
 
 
