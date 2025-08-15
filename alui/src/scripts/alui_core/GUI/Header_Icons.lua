@@ -207,16 +207,16 @@ GUI.Menu.Fatigue = createMenuItem("Fatigue", function(self)
 GUI.Menu.Posture = createMenuItem("Posture", function(self)
         -- Check both ALUI namespace and legacy namespace for posture
         local label = nil
-        if ALUI and ALUI.Status and ALUI.Status.posture then
-            label = ALUI.Status.posture
+        if ALUI and ALUI.Status and ALUI.Status.vitals and ALUI.Status.vitals.posture then
+            label = ALUI.Status.vitals.posture
         end
 
         -- Fallback: Try to get data directly from GMCP if not in status
         if not label and gmcp and gmcp.Char and gmcp.Char.Status and gmcp.Char.Status.Posture then
             label = gmcp.Char.Status.Posture
             -- Update both status tables for next time
-            if ALUI and ALUI.Status then
-                ALUI.Status.posture = label
+            if ALUI and ALUI.Status and ALUI.Status.vitals then
+                ALUI.Status.vitals.posture = label
             end
         end
 
