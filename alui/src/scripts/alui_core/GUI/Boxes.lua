@@ -126,7 +126,7 @@ local function setBoxes()
             width = Style_Button_Width,
             tooltip = 'Increase ' .. name .. ' Some',
 
-            style = [[ margin: 5px; boarder-radius:5px; background-color: ]] .. color .. [[; border: 1px solid white; ]],
+            style = [[ margin: 8px; boarder-radius:5px; background-color: ]] .. color .. [[; border: 1px solid white; ]],
 
         }, parent)
         button:echo("<center>" .. name)
@@ -182,10 +182,10 @@ local function setBoxes()
 
     GUI.Mapper = Geyser.Mapper:new({
         name = "GUI.Mapper",
-        x = Gui_Padding,
-        y = Gui_Padding,
-        width = GUI.Map_Container:get_width() - (Gui_Padding * 2),
-        height = GUI.Map_Container:get_height() - (Gui_Padding * 2),
+        x = Gui_Padding * 2,
+        y = Gui_Padding * 2,
+        width = GUI.Map_Container:get_width() - (Gui_Padding * 4),
+        height = GUI.Map_Container:get_height() - (Gui_Padding * 4),
     }, GUI.Map_Container)
 
     -- Register Mapper with ResourceManager
@@ -198,10 +198,10 @@ local function setBoxes()
     GUI.Components = GUI.Components or {}
     GUI.Components.roommini = Geyser.MiniConsole:new({
         name = "ALUI room miniconsole",
-        x = Gui_Padding,
-        y = Gui_Padding,
-        width = GUI.Room_Container:get_width() - (Gui_Padding * 2),
-        height = GUI.Room_Container:get_height() - (Gui_Padding * 2),
+        x = Gui_Padding * 2,
+        y = Gui_Padding * 2,
+        width = GUI.Room_Container:get_width() - (Gui_Padding * 4),
+        height = GUI.Room_Container:get_height() - (Gui_Padding * 4),
         color = "black",
         autoWrap = true,
     }, GUI.Room_Container)
@@ -215,10 +215,10 @@ local function setBoxes()
 
     GUI.Components.combatmini = Geyser.MiniConsole:new({
         name = "ALUI combat console",
-        x = Gui_Padding,
-        y = Gui_Padding,
-        height = GUI.Status_Container:get_height() - (Gui_Padding * 2),
-        width = GUI.Status_Container:get_width() - (Gui_Padding * 2),
+        x = Gui_Padding * 2,
+        y = Gui_Padding * 2,
+        height = GUI.Status_Container:get_height() - (Gui_Padding * 4),
+        width = GUI.Status_Container:get_width() - (Gui_Padding * 4),
         color = "black",
         autoWrap = true,
     }, GUI.Status_Container)
@@ -234,8 +234,8 @@ local function setBoxes()
         name = "alui style vbox",
         x = Gui_Padding,
         y = Gui_Padding,
-        width = GUI.Style_Container:get_width() - (Gui_Padding * 2),
-        height = GUI.Style_Container:get_height() - (Gui_Padding * 2),
+        width = GUI.Style_Container:get_width() - (Gui_Padding * 1),
+        height = GUI.Style_Container:get_height() - (Gui_Padding * 1),
     }, GUI.Style_Container)
 
     -- Register Style VBox with ResourceManager
@@ -293,31 +293,15 @@ local function setBoxes()
         RM.registerUIElement("surveyContainer", GUI.Survey_Container, "interface")
     end
 
-    --local survey_width = GUI.Survey_Container:get_width()
-    --local survey_height = GUI.Survey_Container:get_height()
-
-
-
-    --local posX, posY, width, height = GUI.Survey_Container:get_constraints()
-    local widthString = GUI.Survey_Container.width
-    local heightString = GUI.Survey_Container.height
-    --echo(string.format("Container Width: %d", width))
-
-    local width = tonumber(widthString)
-    local height = tonumber(heightString)
-
-    local survey_width = '90%'  -- width - (20 * 2)
-    local survey_height = '90%' -- height - (20 * 2)
+    -- Calculate survey padding - use more padding for better spacing
+    local survey_padding = Gui_Padding * 1.6 -- 80% more padding than other containers
 
     GUI.Components.surveymini = Geyser.MiniConsole:new({
         name = "ALUI survey mini",
-        x = Gui_Padding,
-        y = Gui_Padding,
-
-        width = survey_width,
-        height = survey_height,
-
-
+        x = survey_padding,
+        y = survey_padding,
+        width = GUI.Survey_Container:get_width() - (survey_padding * 2),
+        height = GUI.Survey_Container:get_height() - (survey_padding * 2),
         color = "black",
     }, GUI.Survey_Container)
 
@@ -339,14 +323,17 @@ local function setBoxes()
         RM.registerUIElement("chatContainer", GUI.Chat_Container, "interface")
     end
 
+    -- Calculate chat padding - use more padding for better spacing
+    local chat_padding = Gui_Padding * 1.4 -- 40% more padding than other containers
+
     GUI.Components.chat_cap = EMCO:new({
         name = "ALUI chat cap",
         allTab = true,
         consoles = { "All", "Say", "Chat", "Mentor", "Newbie" },
-        x = Gui_Padding,
-        y = Gui_Padding,
-        width = GUI.Chat_Container:get_width() - (Gui_Padding * 2),
-        height = GUI.Chat_Container:get_height() - (Gui_Padding * 2),
+        x = chat_padding,
+        y = chat_padding,
+        width = GUI.Chat_Container:get_width() - (chat_padding * 2),
+        height = GUI.Chat_Container:get_height() - (chat_padding * 2),
         scrollbars = true,
     }, GUI.Chat_Container)
 end
