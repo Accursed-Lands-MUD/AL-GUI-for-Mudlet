@@ -126,7 +126,7 @@ local function setBoxes()
             width = Style_Button_Width,
             tooltip = 'Increase ' .. name .. ' Some',
 
-            style = [[ margin: 8px; boarder-radius:5px; background-color: ]] .. color .. [[; border: 1px solid white; ]],
+            style = [[ margin: 5px; border-radius:5px; background-color: ]] .. color .. [[; border: 1px solid white; ]],
 
         }, parent)
         button:echo("<center>" .. name)
@@ -234,8 +234,8 @@ local function setBoxes()
         name = "alui style vbox",
         x = Gui_Padding,
         y = Gui_Padding,
-        width = GUI.Style_Container:get_width() - (Gui_Padding * 1),
-        height = GUI.Style_Container:get_height() - (Gui_Padding * 1),
+        width = GUI.Style_Container:get_width() - (Gui_Padding * 2),   -- Extra padding on the right for better spacing
+        height = GUI.Style_Container:get_height() - (Gui_Padding * 2), -- Extra padding on the bottom for better spacing
     }, GUI.Style_Container)
 
     -- Register Style VBox with ResourceManager
@@ -245,7 +245,7 @@ local function setBoxes()
 
     GUI.Style_HBox_Aim_Control = createStyleHbox("GUI.Style_HBox_Aim_Control", GUI.Style_VBox)
     GUI.Style_HBox_Offensive_Dodge = createStyleHbox("GUI.Style_HBox_Offensive_Dodge", GUI.Style_VBox)
-    GUI.Style_HBox_Darring_Parry = createStyleHbox("GUI.Style_HBox_Darring_Parry", GUI.Style_VBox)
+    GUI.Style_HBox_Daring_Parry = createStyleHbox("GUI.Style_HBox_Daring_Parry", GUI.Style_VBox)
     GUI.Style_HBox_Power_Speed = createStyleHbox("GUI.Style_HBox_Power_Speed", GUI.Style_VBox)
     GUI.Style_HBox_Attack_Defense = createStyleHbox("GUI.Style_HBox_Attack_Defense", GUI.Style_VBox)
 
@@ -265,10 +265,10 @@ local function setBoxes()
         aggressiveColor, styleData.dodge)
     GUI.Style_Dodge_Increase = createStyleButton("Dodge", GUI.Style_HBox_Offensive_Dodge, defensiveColor)
 
-    GUI.Style_Daring_Increase = createStyleButton("Daring", GUI.Style_HBox_Darring_Parry, aggressiveColor)
-    GUI.Style_Gauge_Daring_Parry = createStyleGauge("Daring_Parry", GUI.Style_HBox_Darring_Parry, defensiveColor,
+    GUI.Style_Daring_Increase = createStyleButton("Daring", GUI.Style_HBox_Daring_Parry, aggressiveColor)
+    GUI.Style_Gauge_Daring_Parry = createStyleGauge("Daring_Parry", GUI.Style_HBox_Daring_Parry, defensiveColor,
         aggressiveColor, styleData.parry)
-    GUI.Style_Parry_Increase = createStyleButton("Parry", GUI.Style_HBox_Darring_Parry, defensiveColor)
+    GUI.Style_Parry_Increase = createStyleButton("Parry", GUI.Style_HBox_Daring_Parry, defensiveColor)
 
     GUI.Style_Power_Increase = createStyleButton("Power", GUI.Style_HBox_Power_Speed, aggressiveColor)
     GUI.Style_Gauge_Power_Speed = createStyleGauge("Power_Speed", GUI.Style_HBox_Power_Speed, defensiveColor,
@@ -355,7 +355,7 @@ GUI.resizeBoxes = function()
     GUI.Style_VBox:show()
     GUI.Style_HBox_Aim_Control:show()
     GUI.Style_HBox_Offensive_Dodge:show()
-    GUI.Style_HBox_Darring_Parry:show()
+    GUI.Style_HBox_Daring_Parry:show()
     GUI.Style_HBox_Power_Speed:show()
     GUI.Style_HBox_Attack_Defense:show()
     GUI.Style_Aim_Increase:show()
