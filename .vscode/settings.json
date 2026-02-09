@@ -2,6 +2,5 @@
     "Lua.diagnostics.globals": [
         "Geyser",
         "send"
-    ],
-    "github.copilot.chat.agent.thinkingTool": true
+    ]
 }
