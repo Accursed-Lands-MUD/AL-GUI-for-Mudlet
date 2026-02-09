@@ -39,18 +39,21 @@ RM.createTimer = function(name, delay, callback, recurring, category)
     local timerFunction = recurring and tempTimer or tempTimer
     local timerId = timerFunction(delay, callback)
 
+    -- Cache epoch to avoid multiple system calls
+    local currentEpoch = getEpoch()
+
     -- Track the timer with metadata
     RM.resources.timers[name] = {
         id = timerId,
         delay = delay,
         recurring = recurring or false,
         category = category or "general",
-        created = getEpoch(),
-        lastAccessed = getEpoch()
+        created = currentEpoch,
+        lastAccessed = currentEpoch
     }
 
     -- Update metadata
-    RM.metadata.creationTimes[name] = getEpoch()
+    RM.metadata.creationTimes[name] = currentEpoch
     RM.metadata.usageCount[name] = 0
 
     return timerId
@@ -71,14 +74,15 @@ end
 
 -- Track UI elements (Geyser objects)
 RM.registerUIElement = function(name, element, category)
+    local currentEpoch = getEpoch()
     RM.resources.uiElements[name] = {
         element = element,
         category = category or "ui",
-        created = getEpoch(),
+        created = currentEpoch,
         type = type(element)
     }
 
-    RM.metadata.creationTimes[name] = getEpoch()
+    RM.metadata.creationTimes[name] = currentEpoch
     RM.metadata.usageCount[name] = 0
 end
 
@@ -104,13 +108,14 @@ RM.destroyUIElement = function(name)
 end
 
 -- Track CSS objects
-RM.registerCSS = function(name, cssObject, category)
+RM.rlocal currentEpoch = getEpoch()
     RM.resources.cssObjects[name] = {
         object = cssObject,
         category = category or "style",
-        created = getEpoch()
+        created = currentEpoch
     }
 
+    RM.metadata.creationTimes[name] = currentEpoch
     RM.metadata.creationTimes[name] = getEpoch()
 end
 
@@ -126,14 +131,15 @@ RM.destroyCSS = function(name)
 end
 
 -- Enhanced event handler tracking
-RM.registerEventHandler = function(name, handlerId, eventName, category)
+RM.rlocal currentEpoch = getEpoch()
     RM.resources.eventHandlers[name] = {
         id = handlerId,
         eventName = eventName,
         category = category or "event",
-        created = getEpoch()
+        created = currentEpoch
     }
 
+    RM.metadata.creationTimes[name] = currentEpoch
     RM.metadata.creationTimes[name] = getEpoch()
     RM.metadata.usageCount[name] = 0
 end

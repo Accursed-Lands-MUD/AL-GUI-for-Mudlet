@@ -11,6 +11,9 @@ ALUI.Themes = ALUI.Themes or {}
 local Themes = ALUI.Themes
 local Config = ALUI.Config
 
+-- Cache home directory path to avoid repeated system calls
+local MUDLET_HOME_DIR = getMudletHomeDir()
+
 -- Built-in theme definitions
 Themes.builtIn = {
     -- Classic AL theme (original colors)
@@ -24,7 +27,7 @@ Themes.builtIn = {
                 primary = {
                     blue = "#2A768C",
                     green = "#2EA652",
-                    yellow = "#E1B03E", 
+                    yellow = "#E1B03E",
                     orange = "#C3701C",
                     red = "#830000"
                 },
@@ -47,7 +50,7 @@ Themes.builtIn = {
             }
         }
     },
-    
+
     -- Dark theme with purple accents
     midnight = {
         name = "Midnight Purple",
@@ -57,11 +60,11 @@ Themes.builtIn = {
         config = {
             colors = {
                 primary = {
-                    blue = "#6A4C93",      -- Purple-blue
-                    green = "#52C41A",     -- Bright green
-                    yellow = "#FAAD14",    -- Gold
-                    orange = "#FA8C16",    -- Orange
-                    red = "#F5222D"       -- Bright red
+                    blue = "#6A4C93",   -- Purple-blue
+                    green = "#52C41A",  -- Bright green
+                    yellow = "#FAAD14", -- Gold
+                    orange = "#FA8C16", -- Orange
+                    red = "#F5222D"     -- Bright red
                 },
                 status = {
                     aggressive = "#F5222D",
@@ -82,21 +85,21 @@ Themes.builtIn = {
             }
         }
     },
-    
+
     -- High contrast theme for accessibility
     highContrast = {
         name = "High Contrast",
         description = "High contrast theme for better visibility",
         author = "Accessibility Team",
-        version = "1.0", 
+        version = "1.0",
         config = {
             colors = {
                 primary = {
-                    blue = "#0066FF",      -- Bright blue
-                    green = "#00CC00",     -- Bright green
-                    yellow = "#FFFF00",    -- Bright yellow
-                    orange = "#FF6600",    -- Bright orange
-                    red = "#FF0000"       -- Bright red
+                    blue = "#0066FF",   -- Bright blue
+                    green = "#00CC00",  -- Bright green
+                    yellow = "#FFFF00", -- Bright yellow
+                    orange = "#FF6600", -- Bright orange
+                    red = "#FF0000"     -- Bright red
                 },
                 status = {
                     aggressive = "#FF0000",
@@ -117,7 +120,7 @@ Themes.builtIn = {
             }
         }
     },
-    
+
     -- Minimalist theme with subtle colors
     minimal = {
         name = "Minimal Clean",
@@ -127,11 +130,11 @@ Themes.builtIn = {
         config = {
             colors = {
                 primary = {
-                    blue = "#718096",      -- Cool gray
-                    green = "#68D391",     -- Soft green
-                    yellow = "#F6E05E",    -- Soft yellow
-                    orange = "#ED8936",    -- Soft orange
-                    red = "#F56565"       -- Soft red
+                    blue = "#718096",   -- Cool gray
+                    green = "#68D391",  -- Soft green
+                    yellow = "#F6E05E", -- Soft yellow
+                    orange = "#ED8936", -- Soft orange
+                    red = "#F56565"     -- Soft red
                 },
                 status = {
                     aggressive = "#F56565",
@@ -152,7 +155,7 @@ Themes.builtIn = {
             }
         }
     },
-    
+
     -- Gaming theme with neon colors
     neon = {
         name = "Neon Gaming",
@@ -162,11 +165,11 @@ Themes.builtIn = {
         config = {
             colors = {
                 primary = {
-                    blue = "#00FFFF",      -- Cyan
-                    green = "#00FF00",     -- Lime
-                    yellow = "#FFFF00",    -- Yellow
-                    orange = "#FF7F00",    -- Orange
-                    red = "#FF1493"       -- Deep pink
+                    blue = "#00FFFF",   -- Cyan
+                    green = "#00FF00",  -- Lime
+                    yellow = "#FFFF00", -- Yellow
+                    orange = "#FF7F00", -- Orange
+                    red = "#FF1493"     -- Deep pink
                 },
                 status = {
                     aggressive = "#FF1493",
@@ -197,18 +200,18 @@ Themes.currentTheme = "classic"
 function Themes.list()
     cecho("<cyan>Available Themes:\n")
     cecho("<white>Built-in Themes:\n")
-    
+
     for id, theme in pairs(Themes.builtIn) do
         local current = (Themes.currentTheme == id) and " <green>(current)" or ""
-        cecho(f"<white>  {id} <dim_grey>- <yellow>{theme.name}<dim_grey> by {theme.author}{current}\n")
-        cecho(f"<dim_grey>    {theme.description}\n")
+        cecho(f "<white>  {id} <dim_grey>- <yellow>{theme.name}<dim_grey> by {theme.author}{current}\n")
+        cecho(f "<dim_grey>    {theme.description}\n")
     end
-    
+
     if next(Themes.userPresets) then
         cecho("<white>User Presets:\n")
         for id, preset in pairs(Themes.userPresets) do
             local current = (Themes.currentTheme == id) and " <green>(current)" or ""
-            cecho(f"<white>  {id} <dim_grey>- <yellow>{preset.name}<dim_grey> (custom){current}\n")
+            cecho(f "<white>  {id} <dim_grey>- <yellow>{preset.name}<dim_grey> (custom){current}\n")
         end
     end
 end
@@ -216,12 +219,12 @@ end
 -- Apply a theme
 function Themes.apply(themeId)
     local theme = Themes.builtIn[themeId] or Themes.userPresets[themeId]
-    
+
     if not theme then
-        cecho(f"<red>Theme not found: <white>{themeId}\n")
+        cecho(f "<red>Theme not found: <white>{themeId}\n")
         return false
     end
-    
+
     -- Apply theme configuration
     local function mergeThemeConfig(target, source)
         for key, value in pairs(source) do
@@ -232,22 +235,22 @@ function Themes.apply(themeId)
             end
         end
     end
-    
+
     -- Create backup of current config
     Themes.configBackup = Config.export()
-    
+
     -- Apply theme settings
     mergeThemeConfig(Config.current, theme.config)
-    
+
     -- Apply configuration to systems
     Config.apply()
-    
+
     -- Save current theme
     Themes.currentTheme = themeId
-    
-    cecho(f"<green>Applied theme: <white>{theme.name}\n")
+
+    cecho(f "<green>Applied theme: <white>{theme.name}\n")
     cecho("<dim_grey>Use 'theme save <name>' to make this permanent\n")
-    
+
     return true
 end
 
@@ -258,13 +261,13 @@ function Themes.save(presetName, description)
         cecho("<white>Usage: theme save <name> [description]\n")
         return false
     end
-    
+
     -- Check if name conflicts with built-in themes
     if Themes.builtIn[presetName] then
-        cecho(f"<red>Error: Cannot override built-in theme '<white>{presetName}<red>'\n")
+        cecho(f "<red>Error: Cannot override built-in theme '<white>{presetName}<red>'\n")
         return false
     end
-    
+
     -- Create preset
     local preset = {
         name = presetName:gsub("^%l", string.upper), -- Capitalize first letter
@@ -273,14 +276,14 @@ function Themes.save(presetName, description)
         created = os.date("%Y-%m-%d %H:%M:%S"),
         config = Config.current
     }
-    
+
     Themes.userPresets[presetName] = preset
     Themes.currentTheme = presetName
-    
+
     -- Save presets to file
     Themes.savePresets()
-    
-    cecho(f"<green>Saved preset: <white>{preset.name}\n")
+
+    cecho(f "<green>Saved preset: <white>{preset.name}\n")
     return true
 end
 
@@ -290,41 +293,41 @@ function Themes.delete(presetName)
         cecho("<red>Error: Preset name required\n")
         return false
     end
-    
+
     if Themes.builtIn[presetName] then
-        cecho(f"<red>Error: Cannot delete built-in theme '<white>{presetName}<red>'\n")
+        cecho(f "<red>Error: Cannot delete built-in theme '<white>{presetName}<red>'\n")
         return false
     end
-    
+
     if not Themes.userPresets[presetName] then
-        cecho(f"<red>Preset not found: <white>{presetName}\n")
+        cecho(f "<red>Preset not found: <white>{presetName}\n")
         return false
     end
-    
+
     Themes.userPresets[presetName] = nil
     Themes.savePresets()
-    
-    cecho(f"<yellow>Deleted preset: <white>{presetName}\n")
+
+    cecho(f "<yellow>Deleted preset: <white>{presetName}\n")
     return true
 end
 
 -- Load user presets from file
 function Themes.loadPresets()
-    local presetsFile = getMudletHomeDir() .. "/alui_themes.json"
-    
+    local presetsFile = MUDLET_HOME_DIR .. "/alui_themes.json"
+
     local success, presets = pcall(function()
         local file = io.open(presetsFile, "r")
         if not file then return {} end
-        
+
         local content = file:read("*all")
         file:close()
-        
+
         if content and content:trim() ~= "" then
             return yajl.to_value(content)
         end
         return {}
     end)
-    
+
     if success and type(presets) == "table" then
         Themes.userPresets = presets
         if Config.get("performance.enableDebugMode") then
@@ -335,19 +338,19 @@ end
 
 -- Save user presets to file
 function Themes.savePresets()
-    local presetsFile = getMudletHomeDir() .. "/alui_themes.json"
-    
+    local presetsFile = MUDLET_HOME_DIR .. "/alui_themes.json"
+
     local success = pcall(function()
         local file = io.open(presetsFile, "w")
         if not file then
             error("Could not open themes file for writing: " .. presetsFile)
         end
-        
+
         local jsonPresets = yajl.to_string(Themes.userPresets)
         file:write(jsonPresets)
         file:close()
     end)
-    
+
     if not success then
         cecho("<red>Failed to save theme presets\n")
     end
@@ -362,29 +365,29 @@ function Themes.resetToOriginal()
         Config.reset()
         cecho("<green>Reset to default configuration\n")
     end
-    
+
     Themes.currentTheme = "default"
 end
 
 -- Export theme configuration
 function Themes.export(themeId)
     local theme = Themes.builtIn[themeId] or Themes.userPresets[themeId]
-    
+
     if not theme then
-        cecho(f"<red>Theme not found: <white>{themeId}\n")
+        cecho(f "<red>Theme not found: <white>{themeId}\n")
         return nil
     end
-    
+
     local exportData = {
         theme = theme,
         exported = os.date("%Y-%m-%d %H:%M:%S"),
         version = "1.0"
     }
-    
+
     local jsonStr = yajl.to_string(exportData)
-    cecho(f"<cyan>Theme Export - {theme.name}:\n")
-    cecho(f"<dim_grey>{jsonStr}\n")
-    
+    cecho(f "<cyan>Theme Export - {theme.name}:\n")
+    cecho(f "<dim_grey>{jsonStr}\n")
+
     return jsonStr
 end
 
@@ -394,27 +397,27 @@ function Themes.import(jsonStr, presetName)
         cecho("<red>Error: JSON data and preset name required\n")
         return false
     end
-    
+
     local success, importData = pcall(yajl.to_value, jsonStr)
     if not success or not importData.theme then
         cecho("<red>Invalid theme export format\n")
         return false
     end
-    
+
     local theme = importData.theme
     theme.imported = os.date("%Y-%m-%d %H:%M:%S")
-    
+
     Themes.userPresets[presetName] = theme
     Themes.savePresets()
-    
-    cecho(f"<green>Imported theme as: <white>{presetName}\n")
+
+    cecho(f "<green>Imported theme as: <white>{presetName}\n")
     return true
 end
 
 -- Theme command handler
 local function handleThemeCommand(action, name, description)
     action = action and string.lower(action)
-    
+
     if not action or action == "help" then
         cecho("<cyan>ALUI Theme Commands:\n")
         cecho("<white>  theme list                    <dim_grey>- List available themes\n")
@@ -429,7 +432,7 @@ local function handleThemeCommand(action, name, description)
         cecho("<white>  theme save myTheme 'My custom blue theme'\n")
         return
     end
-    
+
     if action == "list" then
         Themes.list()
     elseif action == "apply" then
@@ -447,7 +450,7 @@ local function handleThemeCommand(action, name, description)
     elseif action == "reset" then
         Themes.resetToOriginal()
     else
-        cecho(f"<red>Unknown theme action: <white>{action}\n")
+        cecho(f "<red>Unknown theme action: <white>{action}\n")
         cecho("<dim_grey>Use 'theme help' for available commands\n")
     end
 end
@@ -457,12 +460,12 @@ if tempAlias then
     if ALUI.ThemeAlias then
         killAlias(ALUI.ThemeAlias)
     end
-    
+
     ALUI.ThemeAlias = tempAlias("^theme\\s*(\\w*)\\s*(\\S*)\\s*(.*)$", function()
         local action = matches[2] and matches[2] ~= "" and matches[2] or nil
         local name = matches[3] and matches[3] ~= "" and matches[3] or nil
         local description = matches[4] and matches[4] ~= "" and matches[4] or nil
-        
+
         handleThemeCommand(action, name, description)
     end)
 end

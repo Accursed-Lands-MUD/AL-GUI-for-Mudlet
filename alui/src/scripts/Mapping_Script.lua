@@ -95,12 +95,22 @@ local stubmap = {
     up = 9,
 }
 
+-- Precompute reverse mappings for O(1) lookups
 local short = {}
 if type(exitmap) == "table" then
     for k, v in pairs(exitmap) do
         short[v] = k
     end
 end
+
+-- Cache the flipped stubmap for efficient direction lookups
+local stubmapFlipped = {}
+for k, v in pairs(stubmap) do
+    stubmapFlipped[v] = k
+end
+
+-- Lookup table for vertical directions (more efficient than table.contains)
+local verticalDirs = { u = true, d = true }
 
 local function make_room()
     local info = map.room_info
@@ -196,7 +206,7 @@ local function handle_move()
             local stubs = getExitStubs1(rnum)
             if stubs then
                 for _, n in ipairs(stubs) do
-                    local dir = table.flip(stubmap)[n]
+                    local dir = stubmapFlipped[n]
                     if info.exits and type(info.exits[dir]) == "string" then
                         local id = getRoomIDbyHash(info.exits[dir])
                         -- need to see how special exits are represented to handle those properly here
@@ -240,7 +250,7 @@ local function check_doors(roomID, exits)
     local dir
     for k, v in pairs(exits) do
         dir = short[k] or short[v]
-        if table.contains({ 'u', 'd' }, dir) then
+        if verticalDirs[dir] then
             dir = exitmap[dir]
         end
         if not doors[dir] or doors[dir] == 0 then

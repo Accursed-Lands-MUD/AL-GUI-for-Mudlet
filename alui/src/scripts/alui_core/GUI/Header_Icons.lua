@@ -377,8 +377,9 @@ GUI.Menu.Help = createMenuItem("Help", function(self)
 
 setLabelToolTip("GUI.Menu.Help", 'Help')
 
+-- Open ALUI help site in default browser when clicked
 GUI.Menu.Help:setClickCallback(function()
-    openUrl("https://github.com/BrettMN/AL-GUI-for-Mudlet/wiki")
+    openUrl("https://brettmn.github.io/al-help-site/")
 end)
 
 -- Register components in ALUI namespace if available

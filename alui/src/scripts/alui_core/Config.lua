@@ -10,9 +10,10 @@ end
 ALUI.Config = ALUI.Config or {}
 local Config = ALUI.Config
 
--- Configuration file path
-local CONFIG_FILE = getMudletHomeDir() .. "/alui_config.json"
-local BACKUP_FILE = getMudletHomeDir() .. "/alui_config_backup.json"
+-- Cache home directory path (avoid repeated system calls)
+local MUDLET_HOME_DIR = getMudletHomeDir()
+local CONFIG_FILE = MUDLET_HOME_DIR .. "/alui_config.json"
+local BACKUP_FILE = MUDLET_HOME_DIR .. "/alui_config_backup.json"
 
 -- Default configuration values consolidated from across the codebase
 Config.defaults = {
@@ -204,7 +205,7 @@ local function logError(message, details)
 
     -- Write to log file if possible
     pcall(function()
-        local logFile = io.open(getMudletHomeDir() .. "/alui_config_errors.log", "a")
+        local logFile = io.open(MUDLET_HOME_DIR .. "/alui_config_errors.log", "a")
         if logFile then
             logFile:write(logMessage .. "\n")
             logFile:close()
@@ -505,7 +506,7 @@ end
 
 -- Manage configuration backups
 function Config.manageBackups()
-    local backupDir = getMudletHomeDir() .. "/alui_config_backups"
+    local backupDir = MUDLET_HOME_DIR .. "/alui_config_backups"
     local retentionDays = Config.get("advanced.backupRetentionDays", 30)
 
     -- Create backup directory if it doesn't exist
@@ -560,9 +561,16 @@ function Config.notifyChange(path, value)
     end
 
     -- Notify wildcard handlers (handlers registered for parent paths)
-    for handlerPath, handlers in pairs(Config.changeHandlers) do
-        if path:find("^" .. handlerPath:gsub("%.", "%%.") .. "%.") then
-            for _, handler in ipairs(handlers) do
+    -- Optimized: cache escaped pattern to avoid recreating on every iteration
+    local pathParts = {}
+    for part in path:gmatch("[^.]+") do
+        table.insert(pathParts, part)
+    end
+
+    for i = #pathParts - 1, 1, -1 do
+        local parentPath = table.concat(pathParts, ".", 1, i)
+        if Config.changeHandlers[parentPath] then
+            for _, handler in ipairs(Config.changeHandlers[parentPath]) do
                 pcall(handler, value, path)
             end
         end
@@ -635,23 +643,29 @@ function Config.init()
     -- Load configuration from file
     Config.load()
 
+    -- Track auto-save state for debouncing
+    local autoSaveScheduled = false
+    local RM = ALUI and ALUI.ResourceManager
+
     -- Set up auto-save on configuration changes
     Config.onChange("", function()
-        -- Debounced save - only save after 2 seconds of no changes using ResourceManager
-        local RM = ALUI and ALUI.ResourceManager
-        if RM then
-            RM.createTimer("configAutoSave", 2, function()
-                Config.save()
-            end, false, "config")
-        else
-            -- Fallback to direct timer management
-            if Config.autoSaveTimer then
-                killTimer(Config.autoSaveTimer)
+        -- Optimized debounce: only schedule one timer per batch of changes
+        if not autoSaveScheduled then
+            autoSaveScheduled = true
+
+            if RM then
+                RM.createTimer("configAutoSave", 2, function()
+                    Config.save()
+                    autoSaveScheduled = false
+                end, false, "config")
+            else
+                -- Fallback to direct timer management
+                Config.autoSaveTimer = tempTimer(2, function()
+                    Config.save()
+                    autoSaveScheduled = false
+                    Config.autoSaveTimer = nil
+                end)
             end
-            Config.autoSaveTimer = tempTimer(2, function()
-                Config.save()
-                Config.autoSaveTimer = nil
-            end)
         end
     end)
 
