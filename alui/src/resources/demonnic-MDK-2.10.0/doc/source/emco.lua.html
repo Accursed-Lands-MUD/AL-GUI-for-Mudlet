@@ -1,0 +1,2452 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><strong>emco.lua</strong></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>emco.lua</h2>
+<pre>
+<span class="comment">--- Embeddable Multi Console Object.
+</span><span class="comment">-- This is essentially YATCO, but with some tweaks, updates, and it returns an object
+</span><span class="comment">-- similar to Geyser so that you can a.) have multiple of them and b.) easily embed it
+</span><span class="comment">-- into your existing UI as you would any other Geyser element.
+</span><span class="comment">-- @classmod EMCO
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="comment">-- @copyright 2021 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span><span class="keyword">local</span> EMCO = Geyser.Container:<span class="function-name">new</span>({
+  name = <span class="string">"TabbedConsoleClass"</span>,
+  timestampExceptions = {},
+  path = <span class="string">"|h/log/|E/|y/|m/|d/"</span>,
+  fileName = <span class="string">"|N.|e"</span>,
+  bufferSize = <span class="string">"100000"</span>,
+  deleteLines = <span class="string">"1000"</span>,
+  blinkTime = <span class="number">3</span>,
+  tabFontSize = <span class="number">8</span>,
+  tabAlignment = <span class="string">"c"</span>,
+  fontSize = <span class="number">9</span>,
+  activeTabCSS = <span class="string">""</span>,
+  inactiveTabCSS = <span class="string">""</span>,
+  activeTabFGColor = <span class="string">"purple"</span>,
+  inactiveTabFGColor = <span class="string">"white"</span>,
+  activeTabBGColor = <span class="string">"&lt;0,180,0&gt;"</span>,
+  inactiveTabBGColor = <span class="string">"&lt;60,60,60&gt;"</span>,
+  consoleColor = <span class="string">"black"</span>,
+  tabBoxCSS = <span class="string">""</span>,
+  tabBoxColor = <span class="string">"black"</span>,
+  consoleContainerCSS = <span class="string">""</span>,
+  consoleContainerColor = <span class="string">"black"</span>,
+  tabHeight = <span class="number">25</span>,
+  leftMargin = <span class="number">0</span>,
+  rightMargin = <span class="number">0</span>,
+  topMargin = <span class="number">0</span>,
+  bottomMargin = <span class="number">0</span>,
+  gap = <span class="number">1</span>,
+  wrapAt = <span class="number">300</span>,
+  autoWrap = <span class="keyword">true</span>,
+  logExclusions = {},
+  logFormat = <span class="string">"h"</span>,
+  gags = {},
+  notifyTabs = {},
+  notifyWithFocus = <span class="keyword">false</span>,
+  cmdLineStyleSheet = <span class="string">[[
+    QPlainTextEdit {
+      border: 1px solid grey;
+    }
+  ]]</span>
+})
+
+<span class="comment">-- patch Geyser.MiniConsole if it does not have its own display method defined
+</span><span class="keyword">if</span> Geyser.MiniConsole.display == Geyser.display <span class="keyword">then</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">display</span>(...)
+    <span class="keyword">local</span> arg = {...}
+    arg.n = <span class="global">table</span>.<span class="function-name">maxn</span>(arg)
+    <span class="keyword">if</span> arg.n &gt; <span class="number">1</span> <span class="keyword">then</span>
+      <span class="keyword">for</span> i = <span class="number">1</span>, arg.n <span class="keyword">do</span>
+        self:<span class="function-name">display</span>(arg[i])
+      <span class="keyword">end</span>
+    <span class="keyword">else</span>
+      self:<span class="function-name">echo</span>((<span class="function-name">prettywrite</span>(arg[<span class="number">1</span>], <span class="string">'  '</span>) <span class="keyword">or</span> <span class="string">'nil'</span>) .. <span class="string">'\n'</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> pathOfThisFile = (...):<span class="function-name">match</span>(<span class="string">"(.-)[^%.]+$"</span>)
+<span class="keyword">local</span> ok, content = <span class="global">pcall</span>(<span class="global">require</span>, pathOfThisFile .. <span class="string">"loggingconsole"</span>)
+<span class="keyword">local</span> LC
+<span class="keyword">if</span> ok <span class="keyword">then</span>
+  LC = content
+<span class="keyword">else</span>
+  <span class="function-name">debugc</span>(<span class="string">"EMCO tried to require loggingconsole but could not because: "</span> .. content)
+<span class="keyword">end</span>
+<span class="comment">--- Creates a new Embeddable Multi Console Object.
+</span><span class="comment">-- &lt;br&gt;see https://github.com/demonnic/EMCO/wiki for information on valid constraints and defaults
+</span><span class="comment">-- @tparam table cons table of constraints which configures the EMCO.
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;timestamp&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;display timestamps on the miniconsoles?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;blankLine&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;put a blank line between appends/echos?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;scrollbars&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;enable scrollbars for the miniconsoles?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;customTimestampColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;if showing timestamps, use a custom color?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;mapTab&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;should we attach the Mudlet Mapper to this EMCO?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;mapTabName&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Which tab should we attach the map to?
+</span><span class="comment">--                     &lt;br&gt;If mapTab is true and you do not set this, it will throw an error&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;blinkFromAll&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;should tabs still blink, even if you're on the 'all' tab?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;preserveBackground&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;preserve the miniconsole background color during append()?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;gag&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;when running :append(), should we also gag the line?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;timestampFormat&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Format string for the timestamp. Uses getTime()&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"HH:mm:ss"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;timestampBGColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Custom BG color to use for timestamps. Any valid Geyser.Color works.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"blue"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;timestampFGColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Custom FG color to use for timestamps. Any valid Geyser.Color works&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"red"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;allTab&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Should we send everything to an 'all' tab?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;allTabName&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;And which tab should we use for the 'all' tab?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"All"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;blink&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Should we blink tabs that have been written to since you looked at them?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;blinkTime&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;How long to wait between blinks, in seconds?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;3&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;fontSize&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What font size to use for the miniconsoles?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;9&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;font&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What font to use for the miniconsoles?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;tabFont&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What font to use for the tabs?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;activeTabCss&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What css to use for the active tab?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;""&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;inactiveTabCSS&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What css to use for the inactive tabs?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;""&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;activeTabFGColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What color to use for the text on the active tab. Any Geyser.Color works.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"purple"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;inactiveTabFGColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What color to use for the text on the inactive tabs. Any Geyser.Color works.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"white"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;activeTabBGColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What BG color to use for the active tab? Any Geyser.Color works. Overriden by activeTabCSS&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"&lt;0,180,0&gt;"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;inactiveTabBGColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What BG color to use for the inactavie tabs? Any Geyser.Color works. Overridden by inactiveTabCSS&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"&lt;60,60,60&gt;"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;consoleColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Default background color for the miniconsoles. Any Geyser.Color works&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"black"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;tabBoxCSS&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;tss for the entire tabBox (not individual tabs)&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;""&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;tabBoxColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What color to use for the tabBox? Any Geyser.Color works. Overridden by tabBoxCSS&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"black"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;consoleContainerCSS&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;CSS to use for the container holding the miniconsoles&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;""&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;consoleContainerColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Color to use for the container holding the miniconsole. Any Geyser.Color works. Overridden by consoleContainerCSS&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"black"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;gap&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;How many pixels to place between the tabs and the miniconsoles?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;1&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;consoles&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;List of the tabs for this EMCO in table format&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;{ "All" }&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;allTabExclusions&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;List of the tabs which should never echo to the 'all' tab in table format&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;{}&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;tabHeight&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;How many pixels high should the tabs be?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;25&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;autoWrap&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Use autoWrap for the miniconsoles?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;wrapAt&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;How many characters to wrap it, if autoWrap is turned off?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;300&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;leftMargin&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Number of pixels to put between the left edge of the EMCO and the miniconsole?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;0&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;rightMargin&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Number of pixels to put between the right edge of the EMCO and the miniconsole?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;0&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;bottomMargin&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Number of pixels to put between the bottom edge of the EMCO and the miniconsole?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;0&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;topMargin&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Number of pixels to put between the top edge of the miniconsole container, and the miniconsole? This is in addition to gap&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;0&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;timestampExceptions&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Table of tabnames which should not get timestamps even if timestamps are turned on&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;{}&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;tabFontSize&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Font size for the tabs&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;8&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;tabBold&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Should the tab text be bold? Boolean value&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;tabItalics&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Should the tab text be italicized?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;tabUnderline&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Should the tab text be underlined?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;tabAlignment&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Valid alignments are 'c', 'center', 'l', 'left', 'r', 'right', or '' to not include the alignment as part of the echo (to allow the stylesheet to handle it)&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;'c'&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;commandLine&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Should we enable commandlines for the miniconsoles?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;cmdActions&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;A table with console names as keys, and values which are templates for the command to send. see the setCustomCommandline function for more&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;{}&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;cmdLineStyleSheet&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What stylesheet to use for the command lines.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"QPlainTextEdit {\n      border: 1px solid grey;\n    }\n"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;backgroundImages&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;A table containing definitions for the background images. Each entry should have a key the same name as the tab it applies to, with entries "image" which is the path to the image file,&lt;br&gt;and "mode" which determines how it is displayed. "border" stretches, "center" center, "tile" tiles, and "style". See Mudletwikilink for details.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;{}&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;bufferSize&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Number of lines of scrollback to keep for the miniconsoles&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;100000&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;deleteLines&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Number of lines to delete if a console's buffer fills up.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;1000&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;gags&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;A table of Lua patterns you wish to gag from being added to the EMCO. Useful for removing mob says and such example: {[[^A green leprechaun says, ".*"$]], "^Bob The Dark Lord of the Keep mutters darkly to himself.$"} see &lt;a href="http://lua-users.org/wiki/PatternsTutorial"&gt;this tutorial&lt;/a&gt; on Lua patterns for more information.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;{}&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;notifyTabs&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Tables containing the names of all tabs you want to send notifications. IE {"Says", "Tells", "Org"}&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;{}&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;notifyWithFocus&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;If true, EMCO will send notifications even if Mudlet has focus. If false, it will only send them when Mudlet does NOT have focus.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/tbody&gt;
+</span><span class="comment">-- &lt;/table&gt;
+</span><span class="comment">-- @tparam GeyserObject container The container to use as the parent for the EMCO
+</span><span class="comment">-- @return the newly created EMCO
+</span><span class="keyword">function</span> EMCO:<span class="function-name">new</span>(cons, container)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:new(cons, container)"</span>
+  cons = cons <span class="keyword">or</span> {}
+  cons.<span class="global">type</span> = cons.<span class="global">type</span> <span class="keyword">or</span> <span class="string">"tabbedConsole"</span><a id="367"></a>
+  cons.consoles = cons.consoles <span class="keyword">or</span> {<span class="string">"All"</span>}
+  <span class="keyword">if</span> cons.mapTab <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">type</span>(cons.mapTabName) == <span class="string">"string"</span> <span class="keyword">then</span>
+      self:<span class="function-name">ce</span>(funcName, <span class="string">[["mapTab" is true, thus constraint "mapTabName" as string expected, got ]]</span> .. <span class="global">type</span>(cons.mapTabName))
+    <span class="keyword">elseif</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(cons.consoles, cons.mapTabName) <span class="keyword">then</span>
+      self:<span class="function-name">ce</span>(funcName, <span class="string">[["mapTabName" must be one of the consoles contained within constraint "consoles". Valid option for tha mapTab are: ]]</span> ..
+                <span class="global">table</span>.<span class="function-name">concat</span>(cons.consoles, <span class="string">","</span>))
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  cons.allTabExclusions = cons.allTabExclusions <span class="keyword">or</span> {}
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">type</span>(cons.allTabExclusions) == <span class="string">"table"</span> <span class="keyword">then</span>
+    self:<span class="function-name">se</span>(funcName, <span class="string">"allTabExclusions must be a table if it is provided"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> me = self.parent:<span class="function-name">new</span>(cons, container)
+  <span class="global">setmetatable</span>(me, self)
+  self.__index = self
+  <span class="comment">-- set some defaults. Almost all the defaults we had for YATCO, plus a few new ones
+</span>  me.cmdActions = cons.cmdActions <span class="keyword">or</span> {}
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">type</span>(me.cmdActions) == <span class="string">"table"</span> <span class="keyword">then</span>
+    self:<span class="function-name">se</span>(funcName, <span class="string">"cmdActions must be a table if it is provided"</span>)
+  <span class="keyword">end</span>
+  me.backgroundImages = cons.backgroundImages <span class="keyword">or</span> {}
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">type</span>(me.backgroundImages) == <span class="string">"table"</span> <span class="keyword">then</span>
+    self:<span class="function-name">se</span>(funcName, <span class="string">"backgroundImages must be a table if provided."</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.timestamp) <span class="keyword">then</span>
+    me:<span class="function-name">enableTimestamp</span>()
+  <span class="keyword">else</span>
+    me:<span class="function-name">disableTimestamp</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.customTimestampColor) <span class="keyword">then</span>
+    me:<span class="function-name">enableCustomTimestampColor</span>()
+  <span class="keyword">else</span>
+    me:<span class="function-name">disableCustomTimestampColor</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.mapTab) <span class="keyword">then</span>
+    me.mapTab = <span class="keyword">true</span>
+  <span class="keyword">else</span>
+    me.mapTab = <span class="keyword">false</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.blinkFromAll) <span class="keyword">then</span>
+    me:<span class="function-name">enableBlinkFromAll</span>()
+  <span class="keyword">else</span>
+    me:<span class="function-name">disableBlinkFromAll</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.preserveBackground) <span class="keyword">then</span>
+    me:<span class="function-name">enablePreserveBackground</span>()
+  <span class="keyword">else</span>
+    me:<span class="function-name">disablePreserveBackground</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.gag) <span class="keyword">then</span>
+    me:<span class="function-name">enableGag</span>()
+  <span class="keyword">else</span>
+    me:<span class="function-name">disableGag</span>()
+  <span class="keyword">end</span>
+  me:<span class="function-name">setTimestampFormat</span>(cons.timestampFormat <span class="keyword">or</span> <span class="string">"HH:mm:ss"</span>)
+  me:<span class="function-name">setTimestampBGColor</span>(cons.timestampBGColor <span class="keyword">or</span> <span class="string">"blue"</span>)
+  me:<span class="function-name">setTimestampFGColor</span>(cons.timestampFGColor <span class="keyword">or</span> <span class="string">"red"</span>)
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.allTab) <span class="keyword">then</span>
+    me:<span class="function-name">enableAllTab</span>(cons.allTab)
+  <span class="keyword">else</span>
+    me:<span class="function-name">disableAllTab</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.blink) <span class="keyword">then</span>
+    me:<span class="function-name">enableBlink</span>()
+  <span class="keyword">else</span>
+    me:<span class="function-name">disableBlink</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.blankLine) <span class="keyword">then</span>
+    me:<span class="function-name">enableBlankLine</span>()
+  <span class="keyword">else</span>
+    me:<span class="function-name">disableBlankLine</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.scrollbars) <span class="keyword">then</span>
+    me.scrollbars = <span class="keyword">true</span>
+  <span class="keyword">else</span>
+    me.scrollbars = <span class="keyword">false</span>
+  <span class="keyword">end</span>
+  me.tabUnderline = me:<span class="function-name">fuzzyBoolean</span>(cons.tabUnderline) <span class="keyword">and</span> <span class="keyword">true</span> <span class="keyword">or</span> <span class="keyword">false</span>
+  me.tabBold = me:<span class="function-name">fuzzyBoolean</span>(cons.tabBold) <span class="keyword">and</span> <span class="keyword">true</span> <span class="keyword">or</span> <span class="keyword">false</span>
+  me.tabItalics = me:<span class="function-name">fuzzyBoolean</span>(cons.tabItalics) <span class="keyword">and</span> <span class="keyword">true</span> <span class="keyword">or</span> <span class="keyword">false</span>
+  me.commandLine = me:<span class="function-name">fuzzyBoolean</span>(cons.commandLine) <span class="keyword">and</span> <span class="keyword">true</span> <span class="keyword">or</span> <span class="keyword">false</span>
+  me.consoles = cons.consoles
+  me.font = cons.font
+  me.tabFont = cons.tabFont
+  me.currentTab = <span class="string">""</span>
+  me.tabs = {}
+  me.tabsToBlink = {}
+  me.mc = {}
+  <span class="keyword">if</span> me.blink <span class="keyword">then</span>
+    me:<span class="function-name">enableBlink</span>()
+  <span class="keyword">end</span>
+  me.gags = {}
+  <span class="keyword">for</span> _,pattern <span class="keyword">in</span> <span class="global">ipairs</span>(cons.gags <span class="keyword">or</span> {}) <span class="keyword">do</span>
+    me:<span class="function-name">addGag</span>(pattern)
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> _,tname <span class="keyword">in</span> <span class="global">ipairs</span>(cons.notifyTabs <span class="keyword">or</span> {}) <span class="keyword">do</span>
+    me:<span class="function-name">addNotifyTab</span>(tname)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me:<span class="function-name">fuzzyBoolean</span>(cons.notifyWithFocus) <span class="keyword">then</span>
+    self:<span class="function-name">enableNotifyWithFocus</span>()
+  <span class="keyword">end</span>
+  me:<span class="function-name">reset</span>()
+  <span class="keyword">if</span> me.allTab <span class="keyword">then</span>
+    me:<span class="function-name">setAllTabName</span>(me.allTabName <span class="keyword">or</span> me.consoles[<span class="number">1</span>])
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">readYATCO</span>()
+  <span class="keyword">local</span> config
+  <span class="keyword">if</span> demonnic <span class="keyword">and</span> demonnic.chat <span class="keyword">and</span> demonnic.chat.config <span class="keyword">then</span>
+    config = demonnic.chat.config
+  <span class="keyword">else</span>
+    <span class="function-name">cecho</span>(<span class="string">"&lt;white&gt;(&lt;blue&gt;EMCO&lt;white&gt;)&lt;reset&gt; Could not find demonnic.chat.config, nothing to convert\n"</span>)
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> constraints = <span class="string">"EMCO:new({\n"</span>
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  x = %d,\n"</span>, constraints, demonnic.chat.container.<span class="function-name">get_x</span>())
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  y = %d,\n"</span>, constraints, demonnic.chat.container.<span class="function-name">get_y</span>())
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  width = %d,\n"</span>, constraints, demonnic.chat.container.<span class="function-name">get_width</span>())
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  height = %d,\n"</span>, constraints, demonnic.chat.container.<span class="function-name">get_height</span>())
+  <span class="keyword">if</span> config.timestamp <span class="keyword">then</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  timestamp = true,\n  timestampFormat = \"%s\",\n"</span>, constraints, config.timestamp)
+  <span class="keyword">else</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  timestamp = false,\n"</span>, constraints)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> config.timestampColor <span class="keyword">then</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  customTimestampColor = true,\n"</span>, constraints)
+  <span class="keyword">else</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  customTimestampColor = false,\n"</span>, constraints)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> config.timestampFG <span class="keyword">then</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  timestampFGColor = \"%s\",\n"</span>, constraints, config.timestampFG)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> config.timestampBG <span class="keyword">then</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  timestampBGColor = \"%s\",\n"</span>, constraints, config.timestampBG)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> config.channels <span class="keyword">then</span>
+    <span class="keyword">local</span> channels = <span class="string">"consoles = {\n"</span>
+    <span class="keyword">for</span> _, channel <span class="keyword">in</span> <span class="global">ipairs</span>(config.channels) <span class="keyword">do</span>
+      <span class="keyword">if</span> _ == #config.channels <span class="keyword">then</span>
+        channels = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s    \"%s\""</span>, channels, channel)
+      <span class="keyword">else</span>
+        channels = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s    \"%s\",\n"</span>, channels, channel)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    channels = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s\n  },\n"</span>, channels)
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">[[%s  %s]]</span>, constraints, channels)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> config.Alltab <span class="keyword">then</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  allTab = true,\n"</span>, constraints)
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  allTabName = \"%s\",\n"</span>, constraints, config.Alltab)
+  <span class="keyword">else</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  allTab = false,\n"</span>, constraints)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> config.Maptab <span class="keyword">and</span> config.Maptab ~= <span class="string">""</span> <span class="keyword">then</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  mapTab = true,\n"</span>, constraints)
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  mapTabName = \"%s\",\n"</span>, constraints, config.Maptab)
+  <span class="keyword">else</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  mapTab = false,\n"</span>, constraints)
+  <span class="keyword">end</span>
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  blink = %s,\n"</span>, constraints, <span class="global">tostring</span>(config.blink))
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  blinkFromAll = %s,\n"</span>, constraints, <span class="global">tostring</span>(config.blinkFromAll))
+  <span class="keyword">if</span> config.fontSize <span class="keyword">then</span>
+    constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  fontSize = %d,\n"</span>, constraints, config.fontSize)
+  <span class="keyword">end</span>
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  preserveBackground = %s,\n"</span>, constraints, <span class="global">tostring</span>(config.preserveBackground))
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  gag = %s,\n"</span>, constraints, <span class="global">tostring</span>(config.gag))
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  activeTabBGColor = \"&lt;%s,%s,%s&gt;\",\n"</span>, constraints, config.activeColors.r, config.activeColors.g,
+                              config.activeColors.b)
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  inactiveTabBGColor = \"&lt;%s,%s,%s&gt;\",\n"</span>, constraints, config.inactiveColors.r, config.inactiveColors.g,
+                              config.inactiveColors.b)
+  constraints =
+    <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  consoleColor = \"&lt;%s,%s,%s&gt;\",\n"</span>, constraints, config.windowColors.r, config.windowColors.g, config.windowColors.b)
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  activeTabFGColor = \"%s\",\n"</span>, constraints, config.activeTabText)
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s  inactiveTabFGColor = \"%s\""</span>, constraints, config.inactiveTabText)
+  constraints = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s\n})"</span>, constraints)
+  <span class="keyword">return</span> constraints
+<span class="keyword">end</span>
+
+<span class="comment">--- Scans for the old YATCO configuration values and prints out a set of constraints to use.
+</span><span class="comment">-- with EMCO to achieve the same effect. Is just the invocation
+</span><span class="keyword">function</span> EMCO:<span class="function-name">miniConvertYATCO</span>()
+  <span class="keyword">local</span> constraints = self:<span class="function-name">readYATCO</span>()
+  <span class="function-name">cecho</span>(
+    <span class="string">"&lt;white&gt;(&lt;blue&gt;EMCO&lt;white&gt;)&lt;reset&gt; Found a YATCO config. Here are the constraints to use with EMCO(x,y,width, and height have been converted to their absolute values):\n\n"</span>)<a id="554"></a>
+  <span class="function-name">echo</span>(constraints .. <span class="string">"\n"</span>)
+<span class="keyword">end</span>
+
+<span class="comment">--- Echos to the main console a script object you can add which will fully convert YATCO to EMCO.
+</span><span class="comment">-- This replaces the demonnic.chat variable with a newly created EMCO object, so that the main
+</span><span class="comment">-- functions used to place information on the consoles (append(), cecho(), etc) should continue to
+</span><span class="comment">-- work in the user's triggers and events.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">convertYATCO</span>()
+  <span class="keyword">local</span> invocation = self:<span class="function-name">readYATCO</span>()
+  <span class="keyword">local</span> header = <span class="string">[[
+  &lt;white&gt;(&lt;blue&gt;EMCO&lt;white&gt;)&lt;reset&gt; Found a YATCO config. Make a new script, then copy and paste the following output into it.
+  &lt;white&gt;(&lt;blue&gt;EMCO&lt;white&gt;)&lt;reset&gt; Afterward, uninstall YATCO (you can leave YATCOConfig until you're sure everything is right) and restart Mudlet
+  &lt;white&gt;(&lt;blue&gt;EMCO&lt;white&gt;)&lt;reset&gt; If everything looks right, you can uninstall YATCOConfig.
+
+
+-- Copy everything below this line until the next line starting with --
+demonnic = demonnic or {}
+demonnic.chat = ]]</span>
+  <span class="function-name">cecho</span>(<span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s\n--- End script\n"</span>, header, invocation))<a id="565"></a>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">checkTabPosition</span>(position)
+  <span class="keyword">if</span> position == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="number">0</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> <span class="global">tonumber</span>(position) <span class="keyword">or</span> <span class="global">type</span>(position)
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">checkTabName</span>(tabName)
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">tostring</span>(tabName) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="string">"tabName as string expected, got"</span> .. <span class="global">type</span>(tabName)
+  <span class="keyword">end</span>
+  tabName = <span class="global">tostring</span>(tabName)
+  <span class="keyword">if</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="string">"tabName must be unique, and we already have a tab named "</span> .. tabName
+  <span class="keyword">else</span>
+    <span class="keyword">return</span> <span class="string">"clear"</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO.<span class="function-name">ae</span>(funcName, message)
+  <span class="global">error</span>(<span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s: Argument Error: %s"</span>, funcName, message))
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">ce</span>(funcName, message)
+  <span class="global">error</span>(<span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s:gg Constraint Error: %s"</span>, funcName, message))
+<span class="keyword">end</span>
+
+<span class="comment">--- Display the contents of one or more variables to an EMCO tab. like display() but targets the miniconsole
+</span><span class="comment">-- @tparam string tabName the name of the tab you want to display to
+</span><span class="comment">-- @param tabName string the tab to displayu to
+</span><span class="comment">-- @param item any The thing to display()
+</span><span class="comment">-- @param[opt] any item2 another thing to display()
+</span><span class="keyword">function</span> EMCO:<span class="function-name">display</span>(tabName, ...)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:display(tabName, item)"</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"tabName must be a tab which exists in this EMCO. valid options are: "</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(self.consoles, <span class="string">","</span>))
+  <span class="keyword">end</span>
+  self.mc[tabName]:<span class="function-name">display</span>(...)
+<span class="keyword">end</span>
+
+<span class="comment">--- Remove a tab from the EMCO
+</span><span class="comment">-- @param tabName string the name of the tab you want to remove from the EMCO
+</span><span class="keyword">function</span> EMCO:<span class="function-name">removeTab</span>(tabName)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:removeTab(tabName)"</span><a id="611"></a>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"tabName must be a tab which exists in this EMCO. valid options are: "</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(self.consoles, <span class="string">","</span>))
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.currentTab == tabName <span class="keyword">then</span>
+    <span class="keyword">if</span> self.allTab <span class="keyword">and</span> self.allTabName <span class="keyword">then</span>
+      self:<span class="function-name">switchTab</span>(self.allTabName)
+    <span class="keyword">else</span>
+      self:<span class="function-name">switchTab</span>(self.consoles[<span class="number">1</span>])
+    <span class="keyword">end</span>
+  <span class="keyword">end</span><a id="621"></a>
+  <span class="global">table</span>.<span class="function-name">remove</span>(self.consoles, <span class="global">table</span>.<span class="function-name">index_of</span>(self.consoles, tabName))
+  <span class="keyword">local</span> window = self.mc[tabName]
+  <span class="keyword">local</span> tab = self.tabs[tabName]
+  window:<span class="function-name">hide</span>()
+  tab:<span class="function-name">hide</span>()
+  self.tabBox:<span class="function-name">remove</span>(tab)
+  self.tabBox:<span class="function-name">organize</span>()
+  self.consoleContainer:<span class="function-name">remove</span>(window)
+  self.mc[tabName] = <span class="keyword">nil</span>
+  self.tabs[tabName] = <span class="keyword">nil</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Adds a tab to the EMCO object
+</span><span class="comment">-- @tparam string tabName the name of the tab to add
+</span><span class="comment">-- @tparam[opt] number position position in the tab switcher to put this tab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">addTab</span>(tabName, position)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:addTab(tabName, position)"</span>
+  position = self:<span class="function-name">checkTabPosition</span>(position)
+  <span class="keyword">if</span> <span class="global">type</span>(position) == <span class="string">"string"</span> <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"position as number expected, got "</span> .. position)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> tabCheck = self:<span class="function-name">checkTabName</span>(tabName)
+  <span class="keyword">if</span> tabCheck ~= <span class="string">"clear"</span> <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, tabCheck)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> position == <span class="number">0</span> <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(self.consoles, tabName)<a id="648"></a>
+    self:<span class="function-name">createComponentsForTab</span>(tabName)
+  <span class="keyword">else</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(self.consoles, position, tabName)
+    self:<span class="function-name">reset</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Switches the active, visible tab of the EMCO to tabName
+</span><span class="comment">-- @param tabName string the name of the tab to show
+</span><span class="keyword">function</span> EMCO:<span class="function-name">switchTab</span>(tabName)
+  <span class="keyword">local</span> oldTab = self.currentTab
+  self.currentTab = tabName
+  <span class="keyword">if</span> oldTab ~= tabName <span class="keyword">and</span> oldTab ~= <span class="string">""</span> <span class="keyword">then</span>
+    self.mc[oldTab]:<span class="function-name">hide</span>()
+    self:<span class="function-name">adjustTabBackground</span>(oldTab)
+    self.tabs[oldTab]:<span class="function-name">echo</span>(oldTab, self.inactiveTabFGColor)
+    <span class="keyword">if</span> self.blink <span class="keyword">then</span>
+      <span class="keyword">if</span> self.allTab <span class="keyword">and</span> tabName == self.allTabName <span class="keyword">then</span>
+        self.tabsToBlink = {}
+      <span class="keyword">elseif</span> self.tabsToBlink[tabName] <span class="keyword">then</span>
+        self.tabsToBlink[tabName] = <span class="keyword">nil</span><a id="669"></a>
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  self:<span class="function-name">adjustTabBackground</span>(tabName)
+  self.tabs[tabName]:<span class="function-name">echo</span>(tabName, self.activeTabFGColor)
+  <span class="comment">-- if oldTab and self.mc[oldTab] then
+</span>  <span class="comment">--   self.mc[oldTab]:hide()
+</span>  <span class="comment">-- end
+</span>  self.mc[tabName]:<span class="function-name">show</span>()
+  <span class="keyword">if</span> oldTab ~= tabName <span class="keyword">then</span>
+    <span class="function-name">raiseEvent</span>(<span class="string">"EMCO tab change"</span>, self.name, oldTab, tabName)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Cycles between the tabs in order
+</span><span class="comment">-- @tparam boolean reverse Defaults to false. When true, moves backward through the tab list rather than forward.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">cycleTab</span>(reverse)
+  <span class="comment">-- add the property to demonnic.chat
+</span>  <span class="keyword">local</span> consoles = self.consoles
+  <span class="keyword">local</span> cycleIndex = <span class="global">table</span>.<span class="function-name">index_of</span>(consoles, self.currentTab)
+
+  <span class="keyword">local</span> maxIndex = #consoles
+  cycleIndex = reverse <span class="keyword">and</span> cycleIndex - <span class="number">1</span> <span class="keyword">or</span> cycleIndex + <span class="number">1</span>
+  <span class="keyword">if</span> cycleIndex &gt; maxIndex <span class="keyword">then</span> cycleIndex = <span class="number">1</span> <span class="keyword">end</span>
+  <span class="keyword">if</span> cycleIndex &lt; <span class="number">1</span> <span class="keyword">then</span> cycleIndex = maxIndex <span class="keyword">end</span>
+  self:<span class="function-name">switchTab</span>(consoles[cycleIndex])
+<span class="keyword">end</span><a id="697"></a>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">createComponentsForTab</span>(tabName)
+  <span class="keyword">local</span> tab = Geyser.Label:<span class="function-name">new</span>({name = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%sTab%s"</span>, self.name, tabName)}, self.tabBox)
+  <span class="keyword">if</span> self.tabFont <span class="keyword">then</span>
+    tab:<span class="function-name">setFont</span>(self.tabFont)
+  <span class="keyword">end</span>
+  tab:<span class="function-name">setAlignment</span>(self.tabAlignment)
+  tab:<span class="function-name">setFontSize</span>(self.tabFontSize)
+  tab:<span class="function-name">setItalics</span>(self.tabItalics)
+  tab:<span class="function-name">setBold</span>(self.tabBold)
+  tab:<span class="function-name">setUnderline</span>(self.tabUnderline)
+  tab:<span class="function-name">setClickCallback</span>(self.switchTab, self, tabName)
+  self.tabs[tabName] = tab
+  self:<span class="function-name">adjustTabBackground</span>(tabName)
+  tab:<span class="function-name">echo</span>(tabName, self.inactiveTabFGColor)
+  <span class="keyword">local</span> window
+  <span class="keyword">local</span> windowConstraints = {
+    x = self.leftMargin,
+    y = self.topMargin,
+    height = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"-%dpx"</span>, self.bottomMargin),
+    width = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"-%dpx"</span>, self.rightMargin),
+    name = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%sWindow%s"</span>, self.name, tabName),
+    commandLine = self.commandLine,
+    cmdLineStyleSheet = self.cmdLineStyleSheet,
+    path = self:<span class="function-name">processTemplate</span>(self.path, tabName),
+    fileName = self:<span class="function-name">processTemplate</span>(self.fileName, tabName),
+    logFormat = self.logFormat
+  }
+  <span class="keyword">if</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.logExclusions, tabName) <span class="keyword">then</span>
+    windowConstraints.log = <span class="keyword">false</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> parent = self.consoleContainer
+  <span class="keyword">local</span> mapTab = self.mapTab <span class="keyword">and</span> tabName == self.mapTabName
+  <span class="keyword">if</span> mapTab <span class="keyword">then</span>
+    window = Geyser.Mapper:<span class="function-name">new</span>(windowConstraints, parent)
+  <span class="keyword">else</span>
+    <span class="keyword">if</span> LC <span class="keyword">then</span>
+      window = LC:<span class="function-name">new</span>(windowConstraints, parent)
+    <span class="keyword">else</span>
+      window = Geyser.MiniConsole:<span class="function-name">new</span>(windowConstraints, parent)
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> self.font <span class="keyword">then</span>
+      window:<span class="function-name">setFont</span>(self.font)
+    <span class="keyword">end</span>
+    window:<span class="function-name">setFontSize</span>(self.fontSize)
+    window:<span class="function-name">setColor</span>(self.consoleColor)
+    <span class="keyword">if</span> self.autoWrap <span class="keyword">then</span>
+      window:<span class="function-name">enableAutoWrap</span>()
+    <span class="keyword">else</span>
+      window:<span class="function-name">setWrap</span>(self.wrapAt)
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> self.scrollbars <span class="keyword">then</span>
+      window:<span class="function-name">enableScrollBar</span>()
+    <span class="keyword">else</span>
+      window:<span class="function-name">disableScrollBar</span>()
+    <span class="keyword">end</span>
+    window:<span class="function-name">setBufferSize</span>(self.bufferSize, self.deleteLines)
+  <span class="keyword">end</span>
+  self.mc[tabName] = window
+  <span class="keyword">if</span> <span class="keyword">not</span> mapTab <span class="keyword">then</span>
+    self:<span class="function-name">setCmdAction</span>(tabName, <span class="keyword">nil</span>)
+  <span class="keyword">end</span>
+  window:<span class="function-name">hide</span>()
+  self:<span class="function-name">processImage</span>(tabName)
+  self:<span class="function-name">switchTab</span>(tabName)
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the buffer size and number of lines to delete for all managed miniconsoles.
+</span><span class="comment">--- @tparam number bufferSize number of lines of scrollback to maintain in the miniconsoles. Uses current value if nil is passed
+</span><span class="comment">--- @tparam number deleteLines number of line to delete if the buffer filles up. Uses current value if nil is passed
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setBufferSize</span>(bufferSize, deleteLines)
+  bufferSize = bufferSize <span class="keyword">or</span> self.bufferSize
+  deleteLines = deleteLines <span class="keyword">or</span> self.deleteLines
+  self.bufferSize = bufferSize
+  self.deleteLines = deleteLines
+  <span class="keyword">for</span> tabName, window <span class="keyword">in</span> <span class="global">pairs</span>(self.mc) <span class="keyword">do</span>
+    <span class="keyword">local</span> mapTab = self.mapTab <span class="keyword">and</span> tabName == self.mapTabName
+    <span class="keyword">if</span> <span class="keyword">not</span> mapTab <span class="keyword">then</span>
+      window:<span class="function-name">setBufferSize</span>(bufferSize, deleteLines)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the background image for a tab's console. use EMCO:resetBackgroundImage(tabName) to remove an image.
+</span><span class="comment">--- @tparam string tabName the tab to change the background image for.
+</span><span class="comment">--- @tparam string imagePath the path to the image file to use.
+</span><span class="comment">--- @tparam string mode the mode to use. Will default to "center" if not provided.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setBackgroundImage</span>(tabName, imagePath, mode)
+  mode = mode <span class="keyword">or</span> <span class="string">"center"</span>
+  <span class="keyword">local</span> tabNameType = <span class="global">type</span>(tabName)
+  <span class="keyword">local</span> imagePathType = <span class="global">type</span>(imagePath)
+  <span class="keyword">local</span> modeType = <span class="global">type</span>(mode)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setBackgroundImage(tabName, imagePath, mode)"</span>
+  <span class="keyword">if</span> tabNameType ~= <span class="string">"string"</span> <span class="keyword">or</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"tabName must be a string and an existing tab"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> imagePathType ~= <span class="string">"string"</span> <span class="keyword">or</span> <span class="keyword">not</span> <span class="global">io</span>.<span class="function-name">exists</span>(imagePath) <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"imagePath must be a string and point to an existing image file"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> modeType ~= <span class="string">"string"</span> <span class="keyword">or</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>({<span class="string">"border"</span>, <span class="string">"center"</span>, <span class="string">"tile"</span>, <span class="string">"style"</span>}, mode) <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"mode must be one of 'border', 'center', 'tile', or 'style'"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> image = {image = imagePath, mode = mode}
+  self.backgroundImages[tabName] = image
+  self:<span class="function-name">processImage</span>(tabName)
+<span class="keyword">end</span>
+
+<span class="comment">--- Resets the background image on a tab's console, returning it to the background color
+</span><span class="comment">--- @tparam string tabName the tab to change the background image for.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">resetBackgroundImage</span>(tabName)
+  <span class="keyword">local</span> tabNameType = <span class="global">type</span>(tabName)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:resetBackgroundImage(tabName)"</span>
+  <span class="keyword">if</span> tabNameType ~= <span class="string">"string"</span> <span class="keyword">or</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"tabName must be a string and an existing tab"</span>)
+  <span class="keyword">end</span>
+  self.backgroundImages[tabName] = <span class="keyword">nil</span>
+  self:<span class="function-name">processImage</span>(tabName)
+<span class="keyword">end</span>
+
+<span class="comment">--- Does the work of actually setting/resetting the background image on a tab
+</span><span class="comment">--- @tparam string tabName the name of the tab to process the image for.
+</span><span class="comment">--- @local
+</span><span class="keyword">function</span> EMCO:<span class="function-name">processImage</span>(tabName)
+  <span class="keyword">if</span> self.mapTab <span class="keyword">and</span> tabName == self.mapTabName <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> image = self.backgroundImages[tabName]
+  <span class="keyword">local</span> window = self.mc[tabName]
+  <span class="keyword">if</span> image <span class="keyword">then</span>
+    <span class="keyword">if</span> image.image <span class="keyword">and</span> <span class="global">io</span>.<span class="function-name">exists</span>(image.image) <span class="keyword">then</span>
+      window:<span class="function-name">setBackgroundImage</span>(image.image, image.mode)
+    <span class="keyword">end</span>
+  <span class="keyword">else</span>
+    window:<span class="function-name">resetBackgroundImage</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Replays the last numLines lines from the log for tabName
+</span><span class="comment">-- @param tabName the name of the tab to replay
+</span><span class="comment">-- @param numLines the number of lines to replay
+</span><span class="keyword">function</span> EMCO:<span class="function-name">replay</span>(tabName, numLines)
+  <span class="keyword">if</span> <span class="keyword">not</span> LC <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.mapTab <span class="keyword">and</span> tabName == self.mapTabName <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  numLines = numLines <span class="keyword">or</span> <span class="number">10</span>
+  self.mc[tabName]:<span class="function-name">replay</span>(numLines)
+<span class="keyword">end</span>
+
+<span class="comment">--- Replays the last numLines in all miniconsoles
+</span><span class="comment">-- @param numLines
+</span><span class="keyword">function</span> EMCO:<span class="function-name">replayAll</span>(numLines)
+  <span class="keyword">if</span> <span class="keyword">not</span> LC <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  numLines = numLines <span class="keyword">or</span> <span class="number">10</span>
+  <span class="keyword">for</span> _, tabName <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    self:<span class="function-name">replay</span>(tabName, numLines)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Formats the string through EMCO's template. |E is replaced with the EMCO's name. |N is replaced with the tab's name.
+</span><span class="comment">-- @param str the string to replace tokens in
+</span><span class="comment">-- @param tabName optional, if included will be used for |N in the templated string.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">processTemplate</span>(str, tabName)
+  <span class="keyword">local</span> safeName = self.name:<span class="function-name">gsub</span>(<span class="string">"[&lt;&gt;:'\"?*]"</span>, <span class="string">"_"</span>)
+  <span class="keyword">local</span> safeTabName = tabName <span class="keyword">and</span> tabName:<span class="function-name">gsub</span>(<span class="string">"[&lt;&gt;:'\"?*]"</span>, <span class="string">"_"</span>) <span class="keyword">or</span> <span class="string">""</span>
+  str = str:<span class="function-name">gsub</span>(<span class="string">"|E"</span>, safeName)
+  str = str:<span class="function-name">gsub</span>(<span class="string">"|N"</span>, safeTabName)
+  <span class="keyword">return</span> str
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the path for the EMCO for logging
+</span><span class="comment">-- @param path the template for the path. @see EMCO:new()
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setPath</span>(path)
+  <span class="keyword">if</span> <span class="keyword">not</span> LC <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  path = path <span class="keyword">or</span> self.path
+  self.path = path
+  path = self:<span class="function-name">processTemplate</span>(path)
+  <span class="keyword">for</span> name, window <span class="keyword">in</span> <span class="global">pairs</span>(self.mc) <span class="keyword">do</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> (self.mapTab <span class="keyword">and</span> self.mapTabName == name) <span class="keyword">then</span>
+      window:<span class="function-name">setPath</span>(path)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the fileName for the EMCO for logging
+</span><span class="comment">-- @param fileName the template for the path. @see EMCO:new()
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setFileName</span>(fileName)
+  <span class="keyword">if</span> <span class="keyword">not</span> LC <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  fileName = fileName <span class="keyword">or</span> self.fileName
+  self.fileName = fileName
+  fileName = self:<span class="function-name">processTemplate</span>(fileName)
+  <span class="keyword">for</span> name, window <span class="keyword">in</span> <span class="global">pairs</span>(self.mc) <span class="keyword">do</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> (self.mapTab <span class="keyword">and</span> self.mapTabName == name) <span class="keyword">then</span>
+      window:<span class="function-name">setFileName</span>(fileName)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the stylesheet for command lines in this EMCO
+</span><span class="comment">-- @tparam string styleSheet the stylesheet to use for the command line. See https://wiki.mudlet.org/w/Manual:Lua_Functions#setCmdLineStyleSheet for examples
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setCmdLineStyleSheet</span>(styleSheet)
+  self.cmdLineStyleSheet = styleSheet
+  <span class="keyword">if</span> <span class="keyword">not</span> styleSheet <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> _, window <span class="keyword">in</span> <span class="global">pairs</span>(self.mc) <span class="keyword">do</span>
+    window:<span class="function-name">setCmdLineStyleSheet</span>(styleSheet)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="comment">--- Enables the commandLine on the specified tab.
+</span><span class="comment">-- @tparam string tabName the name of the tab to turn the commandLine on for
+</span><span class="comment">-- @param template the template for the commandline to use, or the function to run when enter is hit.
+</span><span class="comment">-- @usage myEMCO:enableCmdLine(tabName, template)
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableCmdLine</span>(tabName, template)
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">nil</span>, <span class="function-name">f</span><span class="string">"{self.name}:enableCmdLine(tabName,template) tabName is not in the console list. Valid options are {table.concat(self.consoles, 'm')}"</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> window = self.mc[tabName]
+  window:<span class="function-name">enableCommandLine</span>()
+  <span class="keyword">if</span> self.cmdLineStyleSheet <span class="keyword">then</span>
+    window:<span class="function-name">setCmdLineStyleSheet</span>(self.cmdLineStyleSheet)
+  <span class="keyword">end</span>
+  self:<span class="function-name">setCmdAction</span>(tabName, template)
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables all command lines, using whatever template they may currently have set
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableAllCmdLines</span>()
+  <span class="keyword">for</span> _, tabName <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    self:<span class="function-name">enableCmdLine</span>(tabName, self.cmdActions[tabName])
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Disables all commands line, but does not change their template
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableAllCmdLines</span>()
+  <span class="keyword">for</span> _, tabName <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    self:<span class="function-name">disableCmdLine</span>(tabName)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Disables the command line for a particular tab
+</span><span class="comment">-- @tparam string tabName the name of the tab to disable the command line of.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableCmdLine</span>(tabName)
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">nil</span>, <span class="function-name">f</span><span class="string">"{self.name}:disableCmdLine(tabName,template) tabName is not in the console list. Valid options are {table.concat(self.consoles, 'm')}"</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> window = self.mc[tabName]
+  window:<span class="function-name">disableCommandLine</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the command action for a tab's command line. Can either be a template string to send where '|t' is replaced by the text sent, or a funnction which takes the text
+</span><span class="comment">--- @tparam string tabName the name of the tab to set the command action on
+</span><span class="comment">--- @param template the template for the commandline to use, or the function to run when enter is hit.
+</span><span class="comment">--- @usage myEMCO:setCmdAction("CT", "ct |t") -- will send everything in the CT tab's command line to CT by doing "ct Hi there!" if you type "Hi there!" in CT's command line
+</span><span class="comment">--- @usage myEMCO:setCmdAction("CT", function(txt) send("ct " .. txt) end) -- functionally the same as the above
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setCmdAction</span>(tabName, template)
+  template = template <span class="keyword">or</span> self.cmdActions[tabName]
+  <span class="keyword">if</span> template == <span class="string">""</span> <span class="keyword">then</span>
+    template = <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+  self.cmdActions[tabName] = template
+  <span class="keyword">local</span> window = self.mc[tabName]
+  <span class="keyword">if</span> template <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="global">type</span>(template) == <span class="string">"string"</span> <span class="keyword">then</span>
+      window:<span class="function-name">setCmdAction</span>(<span class="keyword">function</span>(txt)
+        txt = template:<span class="function-name">gsub</span>(<span class="string">"|t"</span>, txt)
+        <span class="function-name">send</span>(txt)
+      <span class="keyword">end</span>)
+    <span class="keyword">elseif</span> <span class="global">type</span>(template) == <span class="string">"function"</span> <span class="keyword">then</span>
+      window:<span class="function-name">setCmdAction</span>(template)
+    <span class="keyword">else</span>
+      <span class="function-name">debugc</span>(<span class="global">string</span>.<span class="function-name">format</span>(
+               <span class="string">"EMCO:setCmdAction(tabName, template): template must be a string or function if provided. Leaving CmdAction for tab %s be. Template type was: %s"</span>,
+               tabName, <span class="global">type</span>(template)))
+    <span class="keyword">end</span>
+  <span class="keyword">else</span>
+    window:<span class="function-name">resetCmdAction</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Resets the command action for tabName's miniconsole, which makes it work like the normal commandline
+</span><span class="comment">--- @tparam string tabName the name of the tab to reset the cmdAction for
+</span><span class="keyword">function</span> EMCO:<span class="function-name">resetCmdAction</span>(tabName)
+  self.cmdActions[tabName] = <span class="keyword">nil</span>
+  self.mc[tabName]:<span class="function-name">resetCmdAction</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the contents of tabName's cmdLine
+</span><span class="comment">--- @param tabName the name of the tab to get the commandline of
+</span><span class="keyword">function</span> EMCO:<span class="function-name">getCmdLine</span>(tabName)
+  <span class="keyword">return</span> self.mc[tabName]:<span class="function-name">getCmdLine</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Prints to tabName's command line
+</span><span class="comment">--- @param tabName the tab whose command line you want to print to
+</span><span class="comment">--- @param txt the text to print to the command line
+</span><span class="keyword">function</span> EMCO:<span class="function-name">printCmd</span>(tabName, txt)
+  <span class="keyword">return</span> self.mc[tabName]:<span class="function-name">printCmd</span>(txt)
+<span class="keyword">end</span>
+
+<span class="comment">--- Clears tabName's command line
+</span><span class="comment">--- @tparam string tabName the tab whose command line you want to clear
+</span><span class="keyword">function</span> EMCO:<span class="function-name">clearCmd</span>(tabName)
+  <span class="keyword">return</span> self.mc[tabName]:<span class="function-name">clearCmd</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Appends text to tabName's command line
+</span><span class="comment">--- @tparam string tabName the tab whose command line you want to append to
+</span><span class="comment">--- @tparam string txt the text to append to the command line
+</span><span class="keyword">function</span> EMCO:<span class="function-name">appendCmd</span>(tabName, txt)
+  <span class="keyword">return</span> self.mc[tabName]:<span class="function-name">appendCmd</span>(txt)
+<span class="keyword">end</span>
+
+<span class="comment">--- resets the object, redrawing everything
+</span><span class="keyword">function</span> EMCO:<span class="function-name">reset</span>()
+  self:<span class="function-name">createContainers</span>()
+  <span class="keyword">for</span> _, tabName <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    self:<span class="function-name">createComponentsForTab</span>(tabName)
+  <span class="keyword">end</span>
+
+  <span class="keyword">local</span> default = self.allTabName <span class="keyword">or</span> self.consoles[<span class="number">1</span>]
+  self:<span class="function-name">switchTab</span>(default)
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">createContainers</span>()
+  self.tabBoxLabel = Geyser.Label:<span class="function-name">new</span>({
+    x = <span class="number">0</span>,
+    y = <span class="number">0</span>,
+    width = <span class="string">"100%"</span>,
+    height = <span class="global">tostring</span>(<span class="global">tonumber</span>(self.tabHeight) + <span class="number">2</span>) .. <span class="string">"px"</span>,
+    name = self.name .. <span class="string">"TabBoxLabel"</span>,
+  }, self)
+  self.tabBox = Geyser.HBox:<span class="function-name">new</span>({x = <span class="number">0</span>, y = <span class="number">0</span>, width = <span class="string">"100%"</span>, height = <span class="string">"100%"</span>, name = self.name .. <span class="string">"TabBox"</span>}, self.tabBoxLabel)
+  self.tabBoxLabel:<span class="function-name">setStyleSheet</span>(self.tabBoxCSS)
+  self.tabBoxLabel:<span class="function-name">setColor</span>(self.tabBoxColor)
+
+  <span class="keyword">local</span> heightPlusGap = <span class="global">tonumber</span>(self.tabHeight) + <span class="global">tonumber</span>(self.gap)
+  self.consoleContainer = Geyser.Label:<span class="function-name">new</span>({
+    x = <span class="number">0</span>,
+    y = <span class="global">tostring</span>(heightPlusGap) .. <span class="string">"px"</span>,
+    width = <span class="string">"100%"</span>,
+    height = <span class="string">"-0px"</span>,
+    name = self.name .. <span class="string">"ConsoleContainer"</span>,
+  }, self)
+  self.consoleContainer:<span class="function-name">setStyleSheet</span>(self.consoleContainerCSS)
+  self.consoleContainer:<span class="function-name">setColor</span>(self.consoleContainerColor)
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">stripTimeChars</span>(str)
+  <span class="keyword">return</span> <span class="global">string</span>.<span class="function-name">gsub</span>(<span class="global">string</span>.<span class="function-name">trim</span>(str), <span class="string">'[ThHmMszZaApPdy0-9%-%+:. ]'</span>, <span class="string">''</span>)
+<span class="keyword">end</span>
+
+<span class="comment">--- Expands boolean definitions to be more flexible.
+</span><span class="comment">-- &lt;br&gt;True values are "true", "yes", "0", 0, and true
+</span><span class="comment">-- &lt;br&gt;False values are "false", "no", "1", 1, false, and nil
+</span><span class="comment">-- @param bool item to test for truthiness
+</span><span class="keyword">function</span> EMCO:<span class="function-name">fuzzyBoolean</span>(bool)
+  <span class="keyword">if</span> <span class="global">type</span>(bool) == <span class="string">"boolean"</span> <span class="keyword">or</span> bool == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> bool
+  <span class="keyword">elseif</span> <span class="global">tostring</span>(bool) <span class="keyword">then</span>
+    <span class="keyword">local</span> truth = {<span class="string">"yes"</span>, <span class="string">"true"</span>, <span class="string">"0"</span>}
+    <span class="keyword">local</span> untruth = {<span class="string">"no"</span>, <span class="string">"false"</span>, <span class="string">"1"</span>}
+    <span class="keyword">local</span> boolstr = <span class="global">tostring</span>(bool)
+    <span class="keyword">if</span> <span class="global">table</span>.<span class="function-name">contains</span>(truth, boolstr) <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="keyword">true</span>
+    <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(untruth, boolstr) <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="keyword">false</span>
+    <span class="keyword">else</span>
+      <span class="keyword">return</span> <span class="keyword">nil</span>
+    <span class="keyword">end</span>
+  <span class="keyword">else</span>
+    <span class="keyword">return</span> <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- clears a specific tab
+</span><span class="comment">--- @tparam string tabName the name of the tab to clear
+</span><span class="keyword">function</span> EMCO:<span class="function-name">clear</span>(tabName)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:clear(tabName)"</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"tabName must be an existing tab"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.mapTab <span class="keyword">and</span> self.mapTabName == tabName <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"Cannot clear the map tab"</span>)
+  <span class="keyword">end</span>
+  self.mc[tabName]:<span class="function-name">clear</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- clears all the tabs
+</span><span class="keyword">function</span> EMCO:<span class="function-name">clearAll</span>()
+  <span class="keyword">for</span> _, tabName <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> self.mapTab <span class="keyword">or</span> (tabName ~= self.mapTabName) <span class="keyword">then</span>
+      self:<span class="function-name">clear</span>(tabName)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- sets the font for all tabs
+</span><span class="comment">--- @tparam string font the font to use.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setTabFont</span>(font)
+  self.tabFont = font
+  <span class="keyword">for</span> _, tab <span class="keyword">in</span> <span class="global">pairs</span>(self.tabs) <span class="keyword">do</span>
+    tab:<span class="function-name">setFont</span>(font)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- sets the font for a single tab. If you use setTabFont this will be overridden
+</span><span class="comment">--- @tparam string tabName the tab to change the font of
+</span><span class="comment">--- @tparam string font the font to use for that tab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setSingleTabFont</span>(tabName, font)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setSingleTabFont(tabName, font)"</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"tabName must be an existing tab"</span>)
+  <span class="keyword">end</span>
+  self.tabs[tabName]:<span class="function-name">setFont</span>(font)
+<span class="keyword">end</span>
+
+<span class="comment">--- sets the font for all the miniconsoles
+</span><span class="comment">--- @tparam string font the name of the font to use
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setFont</span>(font)
+  <span class="keyword">local</span> af = <span class="function-name">getAvailableFonts</span>()
+  <span class="keyword">if</span> <span class="keyword">not</span> (af[font] <span class="keyword">or</span> font == <span class="string">""</span>) <span class="keyword">then</span>
+    <span class="keyword">local</span> err = <span class="string">"EMCO:setFont(font): attempt to call setFont with font '"</span> .. font ..
+                  <span class="string">"' which is not available, see getAvailableFonts() for valid options\n"</span>
+    err = err .. <span class="string">"In the meantime, we will use a similar font which isn't the one you asked for but we hope is close enough"</span>
+    <span class="function-name">debugc</span>(err)
+  <span class="keyword">end</span>
+  self.font = font
+  <span class="keyword">for</span> _, tabName <span class="keyword">in</span> <span class="global">pairs</span>(self.consoles) <span class="keyword">do</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> self.mapTab <span class="keyword">or</span> tabName ~= self.mapTabName <span class="keyword">then</span>
+      self.mc[tabName]:<span class="function-name">setFont</span>(font)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- sets the font for a specific miniconsole. If setFont is called this will be overridden
+</span><span class="comment">--- @tparam string tabName the name of window to set the font for
+</span><span class="comment">--- @tparam string font the name of the font to use
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setSingleWindowFont</span>(tabName, font)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setSingleWindowFont(tabName, font)"</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"tabName must be an existing tab"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> af = <span class="function-name">getAvailableFonts</span>()
+  <span class="keyword">if</span> <span class="keyword">not</span> (af[font] <span class="keyword">or</span> font == <span class="string">""</span>) <span class="keyword">then</span>
+    <span class="keyword">local</span> err = <span class="string">"EMCO:setSingleWindowFont(tabName, font): attempt to call setFont with font '"</span> .. font ..
+                  <span class="string">"' which is not available, see getAvailableFonts() for valid options\n"</span>
+    err = err .. <span class="string">"In the meantime, we will use a similar font which isn't the one you asked for but we hope is close enough"</span>
+    <span class="function-name">debugc</span>(err)
+  <span class="keyword">end</span>
+  self.mc[tabName]:<span class="function-name">setFont</span>(font)
+<span class="keyword">end</span>
+
+<span class="comment">--- sets the font size for all tabs
+</span><span class="comment">--- @tparam number fontSize the font size to use for the tabs
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setTabFontSize</span>(fontSize)
+  self.tabFontSize = fontSize
+  <span class="keyword">for</span> _, tab <span class="keyword">in</span> <span class="global">pairs</span>(self.tabs) <span class="keyword">do</span>
+    tab:<span class="function-name">setFontSize</span>(fontSize)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the alignment for all the tabs
+</span><span class="comment">-- @param alignment Valid alignments are 'c', 'center', 'l', 'left', 'r', 'right', or '' to not include the alignment as part of the echo
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setTabAlignment</span>(alignment)
+  self.tabAlignment = alignment
+  <span class="keyword">for</span> _, tab <span class="keyword">in</span> <span class="global">pairs</span>(self.tabs) <span class="keyword">do</span>
+    tab:<span class="function-name">setAlignment</span>(self.tabAlignment)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- enables underline on all tabs
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableTabUnderline</span>()
+  self.tabUnderline = <span class="keyword">true</span>
+  <span class="keyword">for</span> _, tab <span class="keyword">in</span> <span class="global">pairs</span>(self.tabs) <span class="keyword">do</span>
+    tab:<span class="function-name">setUnderline</span>(self.tabUnderline)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- disables underline on all tabs
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableTabUnderline</span>()
+  self.tabUnderline = <span class="keyword">false</span>
+  <span class="keyword">for</span> _, tab <span class="keyword">in</span> <span class="global">pairs</span>(self.tabs) <span class="keyword">do</span>
+    tab:<span class="function-name">setUnderline</span>(self.tabUnderline)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- enables italics on all tabs
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableTabItalics</span>()
+  self.tabItalics = <span class="keyword">true</span>
+  <span class="keyword">for</span> _, tab <span class="keyword">in</span> <span class="global">pairs</span>(self.tabs) <span class="keyword">do</span>
+    tab:<span class="function-name">setItalics</span>(self.tabItalics)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- enables italics on all tabs
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableTabItalics</span>()
+  self.tabItalics = <span class="keyword">false</span>
+  <span class="keyword">for</span> _, tab <span class="keyword">in</span> <span class="global">pairs</span>(self.tabs) <span class="keyword">do</span>
+    tab:<span class="function-name">setItalics</span>(self.tabItalics)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- enables bold on all tabs
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableTabBold</span>()
+  self.tabBold = <span class="keyword">true</span>
+  <span class="keyword">for</span> _, tab <span class="keyword">in</span> <span class="global">pairs</span>(self.tabs) <span class="keyword">do</span>
+    tab:<span class="function-name">setBold</span>(self.tabBold)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- disables bold on all tabs
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableTabBold</span>()
+  self.tabBold = <span class="keyword">false</span>
+  <span class="keyword">for</span> _, tab <span class="keyword">in</span> <span class="global">pairs</span>(self.tabs) <span class="keyword">do</span>
+    tab:<span class="function-name">setBold</span>(self.tabBold)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- enables custom colors for the timestamp, if displayed
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableCustomTimestampColor</span>()
+  self.customTimestampColor = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- disables custom colors for the timestamp, if displayed
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableCustomTimestampColor</span>()
+  self.customTimestampColor = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- enables the display of timestamps
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableTimestamp</span>()
+  self.timestamp = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- disables the display of timestamps
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableTimestamp</span>()
+  self.timestamp = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the formatting for the timestamp, if enabled
+</span><span class="comment">-- @tparam string format Format string which describes the display of the timestamp. See: https://wiki.mudlet.org/w/Manual:Lua_Functions#getTime
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setTimestampFormat</span>(format)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setTimestampFormat(format)"</span>
+  <span class="keyword">local</span> strippedFormat = self:<span class="function-name">stripTimeChars</span>(format)
+  <span class="keyword">if</span> strippedFormat ~= <span class="string">""</span> <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName,
+            <span class="string">"format contains invalid time format characters. Please see https://wiki.mudlet.org/w/Manual:Lua_Functions#getTime for formatting information"</span>)
+  <span class="keyword">else</span>
+    self.timestampFormat = format
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the background color for the timestamp, if customTimestampColor is enabled.
+</span><span class="comment">-- @param color Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setTimestampBGColor</span>(color)
+  self.timestampBGColor = color
+<span class="keyword">end</span>
+<span class="comment">--- Sets the foreground color for the timestamp, if customTimestampColor is enabled.
+</span><span class="comment">-- @param color Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setTimestampFGColor</span>(color)
+  self.timestampFGColor = color
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the 'all' tab name.
+</span><span class="comment">-- &lt;br&gt;This is the name of the tab itself
+</span><span class="comment">-- @tparam string allTabName name of the tab to use as the all tab. Must be a tab which exists in the object.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setAllTabName</span>(allTabName)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setAllTabName(allTabName)"</span>
+  <span class="keyword">local</span> allTabNameType = <span class="global">type</span>(allTabName)
+  <span class="keyword">if</span> allTabNameType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"allTabName expected as string, got"</span> .. allTabNameType)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, allTabName) <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"allTabName must be the name of one of the console tabs. Valid options are: "</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(self.consoles, <span class="string">","</span>))
+  <span class="keyword">end</span>
+  self.allTabName = allTabName
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables use of the 'all' tab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableAllTab</span>()
+  self.allTab = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Disables use of the 'all' tab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableAllTab</span>()
+  self.allTab = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables tying the Mudlet Mapper to one of the tabs.
+</span><span class="comment">-- &lt;br&gt;mapTabName must be set, or this will error. Forces a redraw of the entire object
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableMapTab</span>()
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:enableMapTab()"</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> self.mapTabName <span class="keyword">then</span>
+    <span class="global">error</span>(funcName ..
+            <span class="string">": cannot enable the map tab, mapTabName not set. try running :setMapTabName(mapTabName) first with the name of the tab you want to bind the map to"</span>)
+  <span class="keyword">end</span>
+  self.mapTab = <span class="keyword">true</span>
+  self:<span class="function-name">reset</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- disables binding the Mudlet Mapper to one of the tabs.
+</span><span class="comment">-- &lt;br&gt;CAUTION: this may have unexpected behaviour, as you can only open one Mapper console per profile
+</span><span class="comment">-- so you can't really unbind it. Binding of the Mudlet Mapper is best decided at instantiation.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableMapTab</span>()
+  self.mapTab = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- sets the name of the tab to bind the Mudlet Map.
+</span><span class="comment">-- &lt;br&gt;Forces a redraw of the object
+</span><span class="comment">-- &lt;br&gt;CAUTION: Mudlet only allows one Map object to be open at one time, so if you are going to attach the map to an object
+</span><span class="comment">-- you should probably do it at instantiation.
+</span><span class="comment">-- @tparam string mapTabName name of the tab to connect the Mudlet Map to.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setMapTabName</span>(mapTabName)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setMapTabName(mapTabName)"</span>
+  <span class="keyword">local</span> mapTabNameType = <span class="global">type</span>(mapTabName)
+  <span class="keyword">if</span> mapTabNameType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"mapTabName as string expected, got"</span> .. mapTabNameType)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, mapTabName) <span class="keyword">and</span> mapTabName ~= <span class="string">""</span> <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"mapTabName must be one of the existing console tabs. Current tabs are: "</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(self.consoles, <span class="string">","</span>))
+  <span class="keyword">end</span>
+  self.mapTabName = mapTabName
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables tab blinking even if you're on the 'all' tab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableBlinkFromAll</span>()
+  self.enableBlinkFromAll = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Disables tab blinking when you're on the 'all' tab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableBlinkFromAll</span>()
+  self.enableBlinkFromAll = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables gagging of the line passed in to :append(tabName)
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableGag</span>()
+  self.gag = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Disables gagging of the line passed in to :append(tabName)
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableGag</span>()
+  self.gag = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables tab blinking when new information comes in to an inactive tab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableBlink</span>()
+  self.blink = <span class="keyword">true</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> self.blinkTimerID <span class="keyword">then</span>
+    self.blinkTimerID = <span class="function-name">tempTimer</span>(self.blinkTime, <span class="keyword">function</span>()
+      self:<span class="function-name">doBlink</span>()
+    <span class="keyword">end</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Disables tab blinking when new information comes in to an inactive tab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableBlink</span>()
+  self.blink = <span class="keyword">false</span>
+  <span class="keyword">if</span> self.blinkTimerID <span class="keyword">then</span>
+    <span class="function-name">killTimer</span>(self.blinkTimerID)
+    self.blinkTimerID = <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables preserving the chat's background over the background of an incoming :append()
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enablePreserveBackground</span>()
+  self.preserveBackground = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables preserving the chat's background over the background of an incoming :append()
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disablePreserveBackground</span>()
+  self.preserveBackground = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets how long in seconds to wait between blinks
+</span><span class="comment">-- @tparam number blinkTime time in seconds to wait between blinks
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setBlinkTime</span>(blinkTime)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setBlinkTime(blinkTime)"</span>
+  <span class="keyword">local</span> blinkTimeNumber = <span class="global">tonumber</span>(blinkTime)
+  <span class="keyword">if</span> <span class="keyword">not</span> blinkTimeNumber <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"blinkTime as number expected, got "</span> .. <span class="global">type</span>(blinkTime))
+  <span class="keyword">else</span>
+    self.blinkTime = blinkTimeNumber
+    <span class="keyword">if</span> self.blinkTimerID <span class="keyword">then</span>
+      <span class="function-name">killTimer</span>(self.blinkTimerID)
+    <span class="keyword">end</span>
+    self.blinkTimerID = <span class="function-name">tempTimer</span>(blinkTimeNumber, <span class="keyword">function</span>()
+      self:<span class="function-name">blink</span>()
+    <span class="keyword">end</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">doBlink</span>()
+  <span class="keyword">if</span> self.hidden <span class="keyword">or</span> self.auto_hidden <span class="keyword">or</span> <span class="keyword">not</span> self.blink <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> tab, _ <span class="keyword">in</span> <span class="global">pairs</span>(self.tabsToBlink) <span class="keyword">do</span>
+    self.tabs[tab]:<span class="function-name">flash</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the font size of the attached consoles
+</span><span class="comment">-- @tparam number fontSize font size for attached consoles
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setFontSize</span>(fontSize)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setFontSize(fontSize)"</span>
+  <span class="keyword">local</span> fontSizeNumber = <span class="global">tonumber</span>(fontSize)
+  <span class="keyword">local</span> fontSizeType = <span class="global">type</span>(fontSize)
+  <span class="keyword">if</span> <span class="keyword">not</span> fontSizeNumber <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"fontSize as number expected, got "</span> .. fontSizeType)
+  <span class="keyword">else</span>
+    self.fontSize = fontSizeNumber
+    <span class="keyword">for</span> _, tabName <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+      <span class="keyword">if</span> self.mapTab <span class="keyword">and</span> tabName == self.mapTabName <span class="keyword">then</span>
+        <span class="comment">-- skip this one
+</span>      <span class="keyword">else</span>
+        <span class="keyword">local</span> window = self.mc[tabName]
+        window:<span class="function-name">setFontSize</span>(fontSizeNumber)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">adjustTabNames</span>()
+  <span class="keyword">for</span> _, console <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    <span class="keyword">if</span> console == self.currentTab <span class="keyword">then</span>
+      self.tabs[console]:<span class="function-name">echo</span>(console, self.activTabFGColor, <span class="string">'c'</span>)
+    <span class="keyword">else</span>
+      self.tabs[console]:<span class="function-name">echo</span>(console, self.inactiveTabFGColor, <span class="string">'c'</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">adjustTabBackground</span>(console)
+  <span class="keyword">local</span> tab = self.tabs[console]
+  <span class="keyword">local</span> activeTabCSS = self.activeTabCSS
+  <span class="keyword">local</span> inactiveTabCSS = self.inactiveTabCSS
+  <span class="keyword">local</span> activeTabBGColor = self.activeTabBGColor
+  <span class="keyword">local</span> inactiveTabBGColor = self.inactiveTabBGColor
+  <span class="keyword">if</span> console == self.currentTab <span class="keyword">then</span>
+    <span class="keyword">if</span> activeTabCSS <span class="keyword">and</span> activeTabCSS ~= <span class="string">""</span> <span class="keyword">then</span>
+      tab:<span class="function-name">setStyleSheet</span>(activeTabCSS)
+    <span class="keyword">elseif</span> activeTabBGColor <span class="keyword">then</span>
+      tab:<span class="function-name">setColor</span>(activeTabBGColor)
+    <span class="keyword">end</span>
+  <span class="keyword">else</span>
+    <span class="keyword">if</span> inactiveTabCSS <span class="keyword">and</span> inactiveTabCSS ~= <span class="string">""</span> <span class="keyword">then</span>
+      tab:<span class="function-name">setStyleSheet</span>(inactiveTabCSS)
+    <span class="keyword">elseif</span> inactiveTabBGColor <span class="keyword">then</span>
+      tab:<span class="function-name">setColor</span>(inactiveTabBGColor)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">adjustTabBackgrounds</span>()
+  <span class="keyword">for</span> _, console <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    self:<span class="function-name">adjustTabBackground</span>(console)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the inactiveTabCSS
+</span><span class="comment">-- @tparam string stylesheet the stylesheet to use for inactive tabs.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setInactiveTabCSS</span>(stylesheet)
+  self.inactiveTabCSS = stylesheet
+  self:<span class="function-name">adjustTabBackgrounds</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the activeTabCSS
+</span><span class="comment">-- @tparam string stylesheet the stylesheet to use for active tab.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setActiveTabCSS</span>(stylesheet)
+  self.activeTabCSS = stylesheet
+  self:<span class="function-name">adjustTabBackgrounds</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the FG color for the active tab
+</span><span class="comment">-- @param color Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setActiveTabFGColor</span>(color)
+  self.activeTabFGColor = color
+  self:<span class="function-name">adjustTabNames</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the FG color for the inactive tab
+</span><span class="comment">-- @param color Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setInactiveTabFGColor</span>(color)
+  self.inactiveTabFGColor = color
+  self:<span class="function-name">adjustTabNames</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the BG color for the active tab.
+</span><span class="comment">-- &lt;br&gt;NOTE: If you set CSS for the active tab, it will override this setting.
+</span><span class="comment">-- @param color Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setActiveTabBGColor</span>(color)
+  self.activeTabBGColor = color
+  self:<span class="function-name">adjustTabBackgrounds</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the BG color for the inactive tab.
+</span><span class="comment">-- &lt;br&gt;NOTE: If you set CSS for the inactive tab, it will override this setting.
+</span><span class="comment">-- @param color Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setInactiveTabBGColor</span>(color)
+  self.inactiveTabBGColor = color
+  self:<span class="function-name">adjustTabBackgrounds</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the BG color for the consoles attached to this object
+</span><span class="comment">-- @param color Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setConsoleColor</span>(color)
+  self.consoleColor = color
+  self:<span class="function-name">adjustConsoleColors</span>()
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">adjustConsoleColors</span>()
+  <span class="keyword">for</span> _, console <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    <span class="keyword">if</span> self.mapTab <span class="keyword">and</span> self.mapTabName == console <span class="keyword">then</span>
+      <span class="comment">-- skip Map
+</span>    <span class="keyword">else</span>
+      self.mc[console]:<span class="function-name">setColor</span>(self.consoleColor)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the CSS to use for the tab box which contains the tabs for the object
+</span><span class="comment">-- @tparam string css The css styling to use for the tab box
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setTabBoxCSS</span>(css)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCHO:setTabBoxCSS(css)"</span>
+  <span class="keyword">local</span> cssType = <span class="global">type</span>(css)
+  <span class="keyword">if</span> cssType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"css as string expected, got "</span> .. cssType)
+  <span class="keyword">else</span>
+    self.tabBoxCSS = css
+    self:<span class="function-name">adjustTabBoxBackground</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the color to use for the tab box background
+</span><span class="comment">-- @param color Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setTabBoxColor</span>(color)
+  self.tabBoxColor = color
+  self:<span class="function-name">adjustTabBoxBackground</span>()
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">adjustTabBoxBackground</span>()
+  self.tabBoxLabel:<span class="function-name">setStyleSheet</span>(self.tabBoxCSS)
+  self.tabBoxLabel:<span class="function-name">setColor</span>(self.tabBoxColor)
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the color for the container which holds the consoles attached to this object.
+</span><span class="comment">-- @param color Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setConsoleContainerColor</span>(color)
+  self.consoleContainerColor = color
+  self:<span class="function-name">adjustConsoleContainerBackground</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the CSS to use for the container which holds the consoles attached to this object
+</span><span class="comment">-- @tparam string css CSS to use for the container
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setConsoleContainerCSS</span>(css)
+  self.consoleContainerCSS = css
+  self:<span class="function-name">adjustConsoleContainerBackground</span>()
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">adjustConsoleContainerBackground</span>()
+  self.consoleContainer:<span class="function-name">setStyleSheet</span>(self.consoleContainerCSS)
+  self.consoleContainer:<span class="function-name">setColor</span>(self.consoleContainerColor)
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the amount of space to use between the tabs and the consoles
+</span><span class="comment">-- @tparam number gap Number of pixels to keep between the tabs and consoles
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setGap</span>(gap)
+  <span class="keyword">local</span> gapNumber = <span class="global">tonumber</span>(gap)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setGap(gap)"</span>
+  <span class="keyword">local</span> gapType = <span class="global">type</span>(gap)
+  <span class="keyword">if</span> <span class="keyword">not</span> gapNumber <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"gap expected as number, got "</span> .. gapType)
+  <span class="keyword">else</span>
+    self.gap = gapNumber
+    self:<span class="function-name">reset</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the height of the tabs in pixels
+</span><span class="comment">-- @tparam number tabHeight the height of the tabs for the object, in pixels
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setTabHeight</span>(tabHeight)
+  <span class="keyword">local</span> tabHeightNumber = <span class="global">tonumber</span>(tabHeight)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setTabHeight(tabHeight)"</span>
+  <span class="keyword">local</span> tabHeightType = <span class="global">type</span>(tabHeight)
+  <span class="keyword">if</span> <span class="keyword">not</span> tabHeightNumber <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"tabHeight as number expected, got "</span> .. tabHeightType)
+  <span class="keyword">else</span>
+    self.tabHeight = tabHeightNumber
+    self:<span class="function-name">reset</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables autowrap for the object, and by extension all attached consoles.
+</span><span class="comment">-- &lt;br&gt;To enable autoWrap for a specific miniconsole only, call myEMCO.windows[tabName]:enableAutoWrap()
+</span><span class="comment">-- but be warned if you do this it may be overwritten by future calls to EMCO:enableAutoWrap() or :disableAutoWrap()
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableAutoWrap</span>()
+  self.autoWrap = <span class="keyword">true</span>
+  <span class="keyword">for</span> _, console <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    <span class="keyword">if</span> self.mapTab <span class="keyword">and</span> console == self.mapTabName <span class="keyword">then</span>
+      <span class="comment">-- skip the map
+</span>    <span class="keyword">else</span>
+      self.mc[console]:<span class="function-name">enableAutoWrap</span>()
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Disables autowrap for the object, and by extension all attached consoles.
+</span><span class="comment">-- &lt;br&gt;To disable autoWrap for a specific miniconsole only, call myEMCO.windows[tabName]:disableAutoWrap()
+</span><span class="comment">-- but be warned if you do this it may be overwritten by future calls to EMCO:enableAutoWrap() or :disableAutoWrap()
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableAutoWrap</span>()
+  self.autoWrap = <span class="keyword">false</span>
+  <span class="keyword">for</span> _, console <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    <span class="keyword">if</span> self.mapTab <span class="keyword">and</span> self.mapTabName == console <span class="keyword">then</span>
+      <span class="comment">-- skip Map
+</span>    <span class="keyword">else</span>
+      self.mc[console]:<span class="function-name">disableAutoWrap</span>()
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the number of characters to wordwrap the attached consoles at.
+</span><span class="comment">-- &lt;br&gt;it is generally recommended to make use of autoWrap unless you need
+</span><span class="comment">-- a specific width for some reason
+</span><span class="keyword">function</span> EMCO:<span class="function-name">setWrap</span>(wrapAt)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:setWrap(wrapAt)"</span>
+  <span class="keyword">local</span> wrapAtNumber = <span class="global">tonumber</span>(wrapAt)
+  <span class="keyword">local</span> wrapAtType = <span class="global">type</span>(wrapAt)
+  <span class="keyword">if</span> <span class="keyword">not</span> wrapAtNumber <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"wrapAt as number expect, got "</span> .. wrapAtType)
+  <span class="keyword">else</span>
+    self.wrapAt = wrapAtNumber
+    <span class="keyword">for</span> _, console <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+      <span class="keyword">if</span> self.mapTab <span class="keyword">and</span> self.mapTabName == console <span class="keyword">then</span>
+        <span class="comment">-- skip the Map
+</span>      <span class="keyword">else</span>
+        self.mc[console]:<span class="function-name">setWrap</span>(wrapAtNumber)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Appends the current line from the MUD to a tab.
+</span><span class="comment">-- &lt;br&gt;depending on this object's configuration, may gag the line
+</span><span class="comment">-- &lt;br&gt;depending on this object's configuration, may gag the next prompt
+</span><span class="comment">-- @tparam string tabName The name of the tab to append the line to
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">append</span>(tabName, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:append(tabName, excludeAll)"</span>
+  <span class="keyword">local</span> tabNameType = <span class="global">type</span>(tabName)
+  <span class="keyword">local</span> validTab = <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName)
+  <span class="keyword">if</span> tabNameType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"tabName as string expected, got "</span> .. tabNameType)
+  <span class="keyword">elseif</span> <span class="keyword">not</span> validTab <span class="keyword">then</span>
+    self.<span class="function-name">ae</span>(funcName, <span class="string">"tabName must be a tab which is contained in this object. Valid tabnames are: "</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(self.consoles, <span class="string">","</span>))
+  <span class="keyword">end</span>
+  self:<span class="function-name">xEcho</span>(tabName, <span class="keyword">nil</span>, <span class="string">'a'</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">checkEchoArgs</span>(funcName, tabName, message, excludeAll)
+  <span class="keyword">local</span> tabNameType = <span class="global">type</span>(tabName)
+  <span class="keyword">local</span> messageType = <span class="global">type</span>(message)
+  <span class="keyword">local</span> validTabName = <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName)
+  <span class="keyword">local</span> excludeAllType = <span class="global">type</span>(excludeAll)
+  <span class="keyword">local</span> ae = self.ae
+  <span class="keyword">if</span> tabNameType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="string">"tabName as string expected, got "</span> .. tabNameType)
+  <span class="keyword">elseif</span> messageType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="string">"message as string expected, got "</span> .. messageType)
+  <span class="keyword">elseif</span> <span class="keyword">not</span> validTabName <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="string">"tabName must be the name of a tab attached to this object. Valid names are: "</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(self.consoles, <span class="string">","</span>))
+  <span class="keyword">elseif</span> excludeAllType ~= <span class="string">"nil"</span> <span class="keyword">and</span> excludeAllType ~= <span class="string">"boolean"</span> <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="string">"optional argument excludeAll expected as boolean, got "</span> .. excludeAllType)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Adds a tab to the list of tabs to send OS toast/popup notifications for
+</span><span class="comment">--@tparam string tabName the name of a tab to enable notifications for
+</span><span class="comment">--@return true if it was added, false if it was already included, nil if the tab does not exist.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">addNotifyTab</span>(tabName)
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">nil</span>, <span class="string">"Tab does not exist"</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.notifyTabs[tabName] <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">false</span>
+  <span class="keyword">end</span>
+  self.notifyTabs[tabName] = <span class="keyword">true</span>
+  <span class="keyword">return</span> <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Removes a tab from the list of tabs to send OS toast/popup notifications for
+</span><span class="comment">--@tparam string tabName the name of a tab to disable notifications for
+</span><span class="comment">--@return true if it was removed, false if it wasn't enabled to begin with, nil if the tab does not exist.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">removeNotifyTab</span>(tabName)
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">nil</span>, <span class="string">"Tab does not exist"</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> self.notifyTabs[tabName] <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">false</span>
+  <span class="keyword">end</span>
+  self.notifyTabs[tabName] = <span class="keyword">nil</span>
+  <span class="keyword">return</span> <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Adds a pattern to the gag list for the EMCO
+</span><span class="comment">--@tparam string pattern a Lua pattern to gag. http://lua-users.org/wiki/PatternsTutorial
+</span><span class="comment">--@return true if it was added, false if it was already included.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">addGag</span>(pattern)
+  <span class="keyword">if</span> self.gags[pattern] <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">false</span>
+  <span class="keyword">end</span>
+  self.gags[pattern] = <span class="keyword">true</span>
+  <span class="keyword">return</span> <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Removes a pattern from the gag list for the EMCO
+</span><span class="comment">--@tparam string pattern a Lua pattern to no longer gag. http://lua-users.org/wiki/PatternsTutorial
+</span><span class="comment">--@return true if it was removed, false if it was not there to remove.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">removeGag</span>(pattern)
+  <span class="keyword">if</span> self.gags[pattern] <span class="keyword">then</span>
+    self.gags[pattern] = <span class="keyword">nil</span>
+    <span class="keyword">return</span> <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Checks if a string matches any of the EMCO's gag patterns
+</span><span class="comment">--@tparam string str The text you're testing against the gag patterns
+</span><span class="comment">--@return false if it does not match any gag patterns. true and the matching pattern if it does match.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">matchesGag</span>(str)
+  <span class="keyword">for</span> pattern,_ <span class="keyword">in</span> <span class="global">pairs</span>(self.gags) <span class="keyword">do</span>
+    <span class="keyword">if</span> str:<span class="function-name">match</span>(pattern) <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="keyword">true</span>, pattern
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables sending OS notifications even if Mudlet has focus
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableNotifyWithFocus</span>()
+  self.notifyWithFocus = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Disables sending OS notifications if Mudlet has focus
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableNotifyWithFocus</span>()
+  self.notifyWithFocus = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">strip</span>(message, xtype)
+  <span class="keyword">local</span> strippers = {
+    a = <span class="keyword">function</span>(msg) <span class="keyword">return</span> msg <span class="keyword">end</span>,
+    echo = <span class="keyword">function</span>(msg) <span class="keyword">return</span> msg <span class="keyword">end</span>,
+    cecho = cecho2string,
+    decho = decho2string,
+    hecho = hecho2string,
+  }
+  <span class="keyword">local</span> result = strippers[xtype](message)
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">sendNotification</span>(tabName, msg)
+  <span class="keyword">if</span> self.notifyWithFocus <span class="keyword">or</span> <span class="keyword">not</span> <span class="function-name">hasFocus</span>() <span class="keyword">then</span>
+    <span class="keyword">if</span> self.notifyTabs[tabName] <span class="keyword">then</span>
+      <span class="function-name">showNotification</span>(<span class="function-name">f</span><span class="string">'{self.name}:{tabName}'</span>, msg)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">xEcho</span>(tabName, message, xtype, excludeAll)
+  <span class="keyword">if</span> self.mapTab <span class="keyword">and</span> self.mapTabName == tabName <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"You cannot send text to the Map tab"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> console = self.mc[tabName]
+  <span class="keyword">local</span> allTab = (self.allTab <span class="keyword">and</span> <span class="keyword">not</span> excludeAll <span class="keyword">and</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.allTabExclusions, tabName) <span class="keyword">and</span> tabName ~= self.allTabName) <span class="keyword">and</span>
+                   self.mc[self.allTabName] <span class="keyword">or</span> <span class="keyword">false</span>
+  <span class="keyword">local</span> ofr, ofg, ofb, obr, obg, obb
+  <span class="keyword">if</span> xtype == <span class="string">"a"</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> line = <span class="function-name">getCurrentLine</span>()
+    <span class="keyword">local</span> mute, reason = self:<span class="function-name">matchesGag</span>(line)
+    <span class="keyword">if</span> mute <span class="keyword">then</span>
+      <span class="function-name">debugc</span>(<span class="function-name">f</span><span class="string">"{self.name}:append(tabName) denied because current line matches the pattern '{reason}'"</span>)
+      <span class="keyword">return</span>
+    <span class="keyword">end</span>
+    <span class="function-name">selectCurrentLine</span>()
+    ofr, ofg, ofb = <span class="function-name">getFgColor</span>()
+    obr, obg, obb = <span class="function-name">getBgColor</span>()
+    <span class="keyword">if</span> self.preserveBackground <span class="keyword">then</span>
+      <span class="keyword">local</span> r, g, b = Geyser.Color.<span class="function-name">parse</span>(self.consoleColor)
+      <span class="function-name">setBgColor</span>(r, g, b)
+    <span class="keyword">end</span>
+    <span class="function-name">copy</span>()
+    <span class="keyword">if</span> self.preserveBackground <span class="keyword">then</span>
+      <span class="function-name">setBgColor</span>(obr, obg, obb)
+    <span class="keyword">end</span>
+    <span class="function-name">deselect</span>()
+    <span class="function-name">resetFormat</span>()
+  <span class="keyword">else</span>
+    <span class="keyword">local</span> mute, reason = self:<span class="function-name">matchesGag</span>(message)
+    <span class="keyword">if</span> mute <span class="keyword">then</span>
+      <span class="function-name">debugc</span>(<span class="function-name">f</span><span class="string">"{self.name}:{xtype}(tabName, msg, excludeAll) denied because msg matches '{reason}'"</span>)
+      <span class="keyword">return</span>
+    <span class="keyword">end</span>
+    ofr, ofg, ofb = Geyser.Color.<span class="function-name">parse</span>(<span class="string">"white"</span>)
+    obr, obg, obb = Geyser.Color.<span class="function-name">parse</span>(self.consoleColor)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.timestamp <span class="keyword">then</span>
+    <span class="keyword">local</span> colorString = <span class="string">""</span>
+    <span class="keyword">if</span> self.customTimestampColor <span class="keyword">then</span>
+      <span class="keyword">local</span> tfr, tfg, tfb = Geyser.Color.<span class="function-name">parse</span>(self.timestampFGColor)
+      <span class="keyword">local</span> tbr, tbg, tbb = Geyser.Color.<span class="function-name">parse</span>(self.timestampBGColor)
+      colorString = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"&lt;%s,%s,%s:%s,%s,%s&gt;"</span>, tfr, tfg, tfb, tbr, tbg, tbb)
+    <span class="keyword">else</span>
+      colorString = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"&lt;%s,%s,%s:%s,%s,%s&gt;"</span>, ofr, ofg, ofb, obr, obg, obb)
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> timestamp = <span class="function-name">getTime</span>(<span class="keyword">true</span>, self.timestampFormat)
+    <span class="keyword">local</span> fullTimestamp = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s&lt;r&gt; "</span>, colorString, timestamp)
+    <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.timestampExceptions, tabName) <span class="keyword">then</span>
+      console:<span class="function-name">decho</span>(fullTimestamp)
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> allTab <span class="keyword">and</span> tabName ~= self.allTabName <span class="keyword">and</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.timestampExceptions, self.allTabName) <span class="keyword">then</span>
+      allTab:<span class="function-name">decho</span>(fullTimestamp)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.blink <span class="keyword">and</span> tabName ~= self.currentTab <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> (self.allTabName == self.currentTab <span class="keyword">and</span> <span class="keyword">not</span> self.blinkFromAll) <span class="keyword">then</span>
+      self.tabsToBlink[tabName] = <span class="keyword">true</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> xtype == <span class="string">"a"</span> <span class="keyword">then</span>
+    console:<span class="function-name">appendBuffer</span>()
+    <span class="keyword">local</span> txt = self:<span class="function-name">strip</span>(<span class="function-name">getCurrentLine</span>(), xtype)
+    self:<span class="function-name">sendNotification</span>(tabName, txt)
+    <span class="keyword">if</span> allTab <span class="keyword">then</span>
+      allTab:<span class="function-name">appendBuffer</span>()
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> self.gag <span class="keyword">then</span>
+      <span class="function-name">deleteLine</span>()
+      <span class="keyword">if</span> self.gagPrompt <span class="keyword">then</span>
+        <span class="function-name">tempPromptTrigger</span>(<span class="keyword">function</span>()
+          <span class="function-name">deleteLine</span>()
+        <span class="keyword">end</span>, <span class="number">1</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">else</span>
+    console[xtype](console, message)
+    self:<span class="function-name">sendNotification</span>(tabName, self:<span class="function-name">strip</span>(message, xtype))
+    <span class="keyword">if</span> allTab <span class="keyword">then</span>
+      allTab[xtype](allTab, message)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.blankLine <span class="keyword">then</span>
+    console:<span class="function-name">echo</span>(<span class="string">"\n"</span>)
+    <span class="keyword">if</span> allTab <span class="keyword">then</span>
+      allTab:<span class="function-name">echo</span>(<span class="string">"\n"</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- cecho to a tab, maintaining functionality
+</span><span class="comment">-- @tparam string tabName the name of the tab to cecho to
+</span><span class="comment">-- @tparam string message the message to cecho to that tab's console
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">cecho</span>(tabName, message, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:cecho(tabName, message, excludeAll)"</span>
+  self:<span class="function-name">checkEchoArgs</span>(funcName, tabName, message, excludeAll)
+  self:<span class="function-name">xEcho</span>(tabName, message, <span class="string">'cecho'</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- decho to a tab, maintaining functionality
+</span><span class="comment">-- @tparam string tabName the name of the tab to decho to
+</span><span class="comment">-- @tparam string message the message to decho to that tab's console
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">decho</span>(tabName, message, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:decho(console, message, excludeAll)"</span>
+  self:<span class="function-name">checkEchoArgs</span>(funcName, tabName, message, excludeAll)
+  self:<span class="function-name">xEcho</span>(tabName, message, <span class="string">'decho'</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- hecho to a tab, maintaining functionality
+</span><span class="comment">-- @tparam string tabName the name of the tab to hecho to
+</span><span class="comment">-- @tparam string message the message to hecho to that tab's console
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">hecho</span>(tabName, message, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:hecho(console, message, excludeAll)"</span>
+  self:<span class="function-name">checkEchoArgs</span>(funcName, tabName, message, excludeAll)
+  self:<span class="function-name">xEcho</span>(tabName, message, <span class="string">'hecho'</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- echo to a tab, maintaining functionality
+</span><span class="comment">-- @tparam string tabName the name of the tab to echo to
+</span><span class="comment">-- @tparam string message the message to echo to that tab's console
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">echo</span>(tabName, message, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:echo(console, message, excludeAll)"</span>
+  self:<span class="function-name">checkEchoArgs</span>(funcName, tabName, message, excludeAll)
+  self:<span class="function-name">xEcho</span>(tabName, message, <span class="string">'echo'</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">-- internal function used for type checking echoLink/Popup arguments
+</span><span class="keyword">function</span> EMCO:<span class="function-name">checkLinkArgs</span>(funcName, tabName, text, commands, hints, excludeAll, popup)
+  <span class="keyword">local</span> expectedType = popup <span class="keyword">and</span> <span class="string">"table"</span> <span class="keyword">or</span> <span class="string">"string"</span>
+  <span class="keyword">local</span> textType = <span class="global">type</span>(text)
+  <span class="keyword">local</span> commandsType = <span class="global">type</span>(commands)
+  <span class="keyword">local</span> hintsType = <span class="global">type</span>(hints)
+  <span class="keyword">local</span> tabNameType = <span class="global">type</span>(tabName)
+  <span class="keyword">local</span> validTabName = <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName)
+  <span class="keyword">local</span> excludeAllType = <span class="global">type</span>(excludeAll)
+  <span class="keyword">local</span> sf = <span class="global">string</span>.format
+  <span class="keyword">local</span> ae = self.ae
+  <span class="keyword">if</span> textType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="string">"text as string expected, got "</span> .. textType)
+  <span class="keyword">elseif</span> commandsType ~= expectedType <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="function-name">sf</span>(<span class="string">"commands as %s expected, got %s"</span>, expectedType, commandsType))
+  <span class="keyword">elseif</span> hintsType ~= expectedType <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="function-name">sf</span>(<span class="string">"hints as %s expected, got %s"</span>, expectedType, hintsType))
+  <span class="keyword">elseif</span> tabNameType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="string">"tabName as string expected, got "</span> .. tabNameType)
+  <span class="keyword">elseif</span> <span class="keyword">not</span> validTabName <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="function-name">sf</span>(<span class="string">"tabName must be a tab which exists, tab %s could not be found"</span>, tabName))
+  <span class="keyword">elseif</span> self.mapTab <span class="keyword">and</span> tabName == self.mapTabName <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="function-name">sf</span>(<span class="string">"You cannot echo to the map tab, and %s is configured as the mapTabName"</span>, tabName))
+  <span class="keyword">elseif</span> excludeAllType ~= <span class="string">"nil"</span> <span class="keyword">and</span> excludeAllType ~= <span class="string">"boolean"</span> <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="string">"Optional argument excludeAll expected as boolean, got "</span> .. excludeAllType)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- internal function used for handling echoLink/popup
+</span><span class="keyword">function</span> EMCO:<span class="function-name">xLink</span>(tabName, linkType, text, commands, hints, useCurrentFormat, excludeAll)
+  <span class="keyword">local</span> gag, reason = self:<span class="function-name">matchesGag</span>(text)
+  <span class="keyword">if</span> gag <span class="keyword">then</span>
+    <span class="function-name">debugc</span>(<span class="function-name">f</span><span class="string">"{self.name}:{linkType}(tabName, text, command, hint, excludeAll) denied because text matches '{reason}'"</span>)
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> console = self.mc[tabName]
+  <span class="keyword">local</span> allTab = (self.allTab <span class="keyword">and</span> <span class="keyword">not</span> excludeAll <span class="keyword">and</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.allTabExclusions, tabName) <span class="keyword">and</span> tabName ~= self.allTabName) <span class="keyword">and</span>
+                   self.mc[self.allTabName] <span class="keyword">or</span> <span class="keyword">false</span>
+  <span class="keyword">local</span> arguments = {text, commands, hints, useCurrentFormat}
+  <span class="keyword">if</span> self.timestamp <span class="keyword">then</span>
+    <span class="keyword">local</span> colorString = <span class="string">""</span>
+    <span class="keyword">if</span> self.customTimestampColor <span class="keyword">then</span>
+      <span class="keyword">local</span> tfr, tfg, tfb = Geyser.Color.<span class="function-name">parse</span>(self.timestampFGColor)
+      <span class="keyword">local</span> tbr, tbg, tbb = Geyser.Color.<span class="function-name">parse</span>(self.timestampBGColor)
+      colorString = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"&lt;%s,%s,%s:%s,%s,%s&gt;"</span>, tfr, tfg, tfb, tbr, tbg, tbb)
+    <span class="keyword">else</span>
+      <span class="keyword">local</span> ofr, ofg, ofb = Geyser.Color.<span class="function-name">parse</span>(<span class="string">"white"</span>)
+      <span class="keyword">local</span> obr, obg, obb = Geyser.Color.<span class="function-name">parse</span>(self.consoleColor)
+      colorString = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"&lt;%s,%s,%s:%s,%s,%s&gt;"</span>, ofr, ofg, ofb, obr, obg, obb)
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> timestamp = <span class="function-name">getTime</span>(<span class="keyword">true</span>, self.timestampFormat)
+    <span class="keyword">local</span> fullTimestamp = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s&lt;r&gt; "</span>, colorString, timestamp)
+    <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.timestampExceptions, tabName) <span class="keyword">then</span>
+      console:<span class="function-name">decho</span>(fullTimestamp)
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> allTab <span class="keyword">and</span> tabName ~= self.allTabName <span class="keyword">and</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.timestampExceptions, self.allTabName) <span class="keyword">then</span>
+      allTab:<span class="function-name">decho</span>(fullTimestamp)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  console[linkType](console, <span class="global">unpack</span>(arguments))
+  <span class="keyword">if</span> allTab <span class="keyword">then</span>
+    allTab[linkType](allTab, <span class="global">unpack</span>(arguments))
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- cechoLink to a tab
+</span><span class="comment">-- @tparam string tabName the name of the tab to cechoLink to
+</span><span class="comment">-- @tparam string text the text underlying the link
+</span><span class="comment">-- @tparam string command the lua code to run in string format
+</span><span class="comment">-- @tparam string hint the tooltip hint to use for the link
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">cechoLink</span>(tabName, text, command, hint, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:cechoLink(tabName, text, command, hint)"</span>
+  self:<span class="function-name">checkLinkArgs</span>(funcName, tabName, text, command, hint, excludeAll)
+  self:<span class="function-name">xLink</span>(tabName, <span class="string">"cechoLink"</span>, text, command, hint, <span class="keyword">true</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- dechoLink to a tab
+</span><span class="comment">-- @tparam string tabName the name of the tab to dechoLink to
+</span><span class="comment">-- @tparam string text the text underlying the link
+</span><span class="comment">-- @tparam string command the lua code to run in string format
+</span><span class="comment">-- @tparam string hint the tooltip hint to use for the link
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">dechoLink</span>(tabName, text, command, hint, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:dechoLink(tabName, text, command, hint)"</span>
+  self:<span class="function-name">checkLinkArgs</span>(funcName, tabName, text, command, hint, excludeAll)
+  self:<span class="function-name">xLink</span>(tabName, <span class="string">"dechoLink"</span>, text, command, hint, <span class="keyword">true</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- hechoLink to a tab
+</span><span class="comment">-- @tparam string tabName the name of the tab to hechoLink to
+</span><span class="comment">-- @tparam string text the text underlying the link
+</span><span class="comment">-- @tparam string command the lua code to run in string format
+</span><span class="comment">-- @tparam string hint the tooltip hint to use for the link
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">hechoLink</span>(tabName, text, command, hint, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:hechoLink(tabName, text, command, hint)"</span>
+  self:<span class="function-name">checkLinkArgs</span>(funcName, tabName, text, command, hint, excludeAll)
+  self:<span class="function-name">xLink</span>(tabName, <span class="string">"hechoLink"</span>, text, command, hint, <span class="keyword">true</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- echoLink to a tab
+</span><span class="comment">-- @tparam string tabName the name of the tab to echoLink to
+</span><span class="comment">-- @tparam string text the text underlying the link
+</span><span class="comment">-- @tparam string command the lua code to run in string format
+</span><span class="comment">-- @tparam string hint the tooltip hint to use for the link
+</span><span class="comment">-- @tparam boolean useCurrentFormat use the format for the window or blue on black (hyperlink colors)
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">echoLink</span>(tabName, text, command, hint, useCurrentFormat, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:echoLink(tabName, text, command, hint, useCurrentFormat)"</span>
+  self:<span class="function-name">checkLinkArgs</span>(funcName, tabName, text, command, hint, excludeAll)
+  self:<span class="function-name">xLink</span>(tabName, <span class="string">"echoLink"</span>, text, command, hint, useCurrentFormat, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- cechoPopup to a tab
+</span><span class="comment">-- @tparam string tabName the name of the tab to cechoPopup to
+</span><span class="comment">-- @tparam string text the text underlying the link
+</span><span class="comment">-- @tparam table commands the lua code to run in string format
+</span><span class="comment">-- @tparam table hints the tooltip hint to use for the link
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">cechoPopup</span>(tabName, text, commands, hints, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:cechoPopup(tabName, text, commands, hints)"</span>
+  self:<span class="function-name">checkLinkArgs</span>(funcName, tabName, text, commands, hints, excludeAll, <span class="keyword">true</span>)
+  self:<span class="function-name">xLink</span>(tabName, <span class="string">"cechoPopup"</span>, text, commands, hints, <span class="keyword">true</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- dechoPopup to a tab
+</span><span class="comment">-- @tparam string tabName the name of the tab to dechoPopup to
+</span><span class="comment">-- @tparam string text the text underlying the link
+</span><span class="comment">-- @tparam table commands the lua code to run in string format
+</span><span class="comment">-- @tparam table hints the tooltip hint to use for the link
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">dechoPopup</span>(tabName, text, commands, hints, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:dechoPopup(tabName, text, commands, hints)"</span>
+  self:<span class="function-name">checkLinkArgs</span>(funcName, tabName, text, commands, hints, excludeAll, <span class="keyword">true</span>)
+  self:<span class="function-name">xLink</span>(tabName, <span class="string">"dechoPopup"</span>, text, commands, hints, <span class="keyword">true</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- hechoPopup to a tab
+</span><span class="comment">-- @tparam string tabName the name of the tab to hechoPopup to
+</span><span class="comment">-- @tparam string text the text underlying the link
+</span><span class="comment">-- @tparam table commands the lua code to run in string format
+</span><span class="comment">-- @tparam table hints the tooltip hint to use for the link
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">hechoPopup</span>(tabName, text, commands, hints, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:hechoPopup(tabName, text, commands, hints)"</span>
+  self:<span class="function-name">checkLinkArgs</span>(funcName, tabName, text, commands, hints, excludeAll, <span class="keyword">true</span>)
+  self:<span class="function-name">xLink</span>(tabName, <span class="string">"hechoPopup"</span>, text, commands, hints, <span class="keyword">true</span>, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- echoPopup to a tab
+</span><span class="comment">-- @tparam string tabName the name of the tab to echoPopup to
+</span><span class="comment">-- @tparam string text the text underlying the link
+</span><span class="comment">-- @tparam table commands the lua code to run in string format
+</span><span class="comment">-- @tparam table hints the tooltip hint to use for the link
+</span><span class="comment">-- @tparam boolean useCurrentFormat use the format for the window or blue on black (hyperlink colors)
+</span><span class="comment">-- @tparam boolean excludeAll if true, will exclude this from being mirrored to the allTab
+</span><span class="keyword">function</span> EMCO:<span class="function-name">echoPopup</span>(tabName, text, commands, hints, useCurrentFormat, excludeAll)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:echoPopup(tabName, text, commands, hints, useCurrentFormat)"</span>
+  self:<span class="function-name">checkLinkArgs</span>(funcName, tabName, text, commands, hints, excludeAll, <span class="keyword">true</span>)
+  self:<span class="function-name">xLink</span>(tabName, <span class="string">"echoPopup"</span>, text, commands, hints, useCurrentFormat, excludeAll)
+<span class="keyword">end</span>
+
+<span class="comment">--- adds a tab to the exclusion list for echoing to the allTab
+</span><span class="comment">-- @tparam string tabName the name of the tab to add to the exclusion list
+</span><span class="keyword">function</span> EMCO:<span class="function-name">addAllTabExclusion</span>(tabName)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:addAllTabExclusion(tabName)"</span>
+  self:<span class="function-name">validTabNameOrError</span>(tabName, funcName)
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.allTabExclusions, tabName) <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(self.allTabExclusions, tabName)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- removess a tab from the exclusion list for echoing to the allTab
+</span><span class="comment">-- @tparam string tabName the name of the tab to remove from the exclusion list
+</span><span class="keyword">function</span> EMCO:<span class="function-name">removeAllTabExclusion</span>(tabName)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:removeAllTabExclusion(tabName)"</span>
+  self:<span class="function-name">validTabNameOrError</span>(tabName, funcName)
+  <span class="keyword">local</span> index = <span class="global">table</span>.<span class="function-name">index_of</span>(self.allTabExclusions, tabName)
+  <span class="keyword">if</span> index <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">remove</span>(self.allTabExclusions, index)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">validTabNameOrError</span>(tabName, funcName)
+  <span class="keyword">local</span> ae = self.ae
+  <span class="keyword">local</span> tabNameType = <span class="global">type</span>(tabName)
+  <span class="keyword">local</span> validTabName = <span class="global">table</span>.<span class="function-name">contains</span>(self.consoles, tabName)
+  <span class="keyword">if</span> tabNameType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="string">"tabName as string expected, got "</span> .. tabNameType)
+  <span class="keyword">elseif</span> <span class="keyword">not</span> validTabName <span class="keyword">then</span>
+    <span class="function-name">ae</span>(funcName, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"tabName %s does not exist in this EMCO. valid tabs: "</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(self.consoles, <span class="string">","</span>)))
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">addTimestampException</span>(tabName)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:addTimestampException(tabName)"</span>
+  self:<span class="function-name">validTabNameOrError</span>(tabName, funcName)
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.timestampExceptions, tabName) <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(self.timestampExceptions, tabName)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">removeTimestampException</span>(tabName)
+  <span class="keyword">local</span> funcName = <span class="string">"EMCO:removeTimestampTabException(tabName)"</span>
+  self:<span class="function-name">validTabNameOrError</span>(tabName, funcName)
+  <span class="keyword">local</span> index = <span class="global">table</span>.<span class="function-name">index_of</span>(self.timestampExceptions, tabName)
+  <span class="keyword">if</span> index <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">remove</span>(self.timestampExceptions, index)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enable placing a blank line between all messages.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableBlankLine</span>()
+  self.blankLine = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enable placing a blank line between all messages.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableBlankLine</span>()
+  self.blankLine = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enable scrollbars for the miniconsoles
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableScrollbars</span>()
+  self.scrollbars = <span class="keyword">true</span>
+  self:<span class="function-name">adjustScrollbars</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Disable scrollbars for the miniconsoles
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableScrollbars</span>()
+  self.scrollbars = <span class="keyword">false</span>
+  self:<span class="function-name">adjustScrollbars</span>()
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> EMCO:<span class="function-name">adjustScrollbars</span>()
+  <span class="keyword">for</span> _, console <span class="keyword">in</span> <span class="global">ipairs</span>(self.consoles) <span class="keyword">do</span>
+    <span class="keyword">if</span> self.mapTab <span class="keyword">and</span> self.mapTabName == console <span class="keyword">then</span>
+      <span class="comment">-- skip the Map tab
+</span>    <span class="keyword">else</span>
+      <span class="keyword">if</span> self.scrollbars <span class="keyword">then</span>
+        self.mc[console]:<span class="function-name">enableScrollBar</span>()
+      <span class="keyword">else</span>
+        self.mc[console]:<span class="function-name">disableScrollBar</span>()
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Save an EMCO's configuration for reloading later. Filename is based on the EMCO's name property.
+</span><span class="keyword">function</span> EMCO:<span class="function-name">save</span>()
+  <span class="keyword">local</span> configtable = {
+    timestamp = self.timestamp,
+    blankLine = self.blankLine,
+    scrollbars = self.scrollbars,
+    customTimestampColor = self.customTimestampColor,
+    mapTab = self.mapTab,
+    mapTabName = self.mapTabName,
+    blinkFromAll = self.blinkFromAll,
+    preserveBackground = self.preserveBackground,
+    gag = self.gag,
+    timestampFormat = self.timestampFormat,
+    timestampFGColor = self.timestampFGColor,
+    timestampBGColor = self.timestampBGColor,
+    allTab = self.allTab,
+    allTabName = self.allTabName,
+    blink = self.blink,
+    blinkTime = self.blinkTime,
+    fontSize = self.fontSize,
+    font = self.font,
+    tabFont = self.tabFont,
+    activeTabCSS = self.activeTabCSS,
+    inactiveTabCSS = self.inactiveTabCSS,
+    activeTabFGColor = self.activeTabFGColor,
+    activeTabBGColor = self.activeTabBGColor,
+    inactiveTabFGColor = self.inactiveTabFGColor,
+    inactiveTabBGColor = self.inactiveTabBGColor,
+    consoleColor = self.consoleColor,
+    tabBoxCSS = self.tabBoxCSS,
+    tabBoxColor = self.tabBoxColor,
+    consoleContainerCSS = self.consoleContainerCSS,
+    consoleContainerColor = self.consoleContainerColor,
+    gap = self.gap,
+    consoles = self.consoles,
+    allTabExclusions = self.allTabExclusions,
+    timestampExceptions = self.timestampExceptions,
+    tabHeight = self.tabHeight,
+    autoWrap = self.autoWrap,
+    wrapAt = self.wrapAt,
+    leftMargin = self.leftMargin,
+    rightMargin = self.rightMargin,
+    bottomMargin = self.bottomMargin,
+    topMargin = self.topMargin,
+    x = self.x,
+    y = self.y,
+    height = self.height,
+    width = self.width,
+    tabFontSize = self.tabFontSize,
+    tabBold = self.tabBold,
+    tabItalics = self.tabItalics,
+    tabUnderline = self.tabUnderline,
+    tabAlignment = self.tabAlignment,
+    bufferSize = self.bufferSize,
+    deleteLines = self.deleteLines,
+    logExclusions = self.logExclusions,
+    gags = self.gags,
+    notifyTabs = self.notifyTabs,
+    notifyWithFocus = self.notifyWithFocus,
+    cmdLineStyleSheet = self.cmdLineStyleSheet,
+  }
+  <span class="keyword">local</span> dirname = <span class="function-name">getMudletHomeDir</span>() .. <span class="string">"/EMCO/"</span>
+  <span class="keyword">local</span> filename = dirname .. self.name:<span class="function-name">gsub</span>(<span class="string">"[&lt;&gt;:'\"/\\|?*]"</span>, <span class="string">"_"</span>) .. <span class="string">".lua"</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> (<span class="global">io</span>.<span class="function-name">exists</span>(dirname)) <span class="keyword">then</span>
+    lfs.<span class="function-name">mkdir</span>(dirname)
+  <span class="keyword">end</span>
+  <span class="global">table</span>.<span class="function-name">save</span>(filename, configtable)
+<span class="keyword">end</span>
+
+<span class="comment">--- Load and apply a saved config for this EMCO
+</span><span class="keyword">function</span> EMCO:<span class="global">load</span>()
+  <span class="keyword">local</span> dirname = <span class="function-name">getMudletHomeDir</span>() .. <span class="string">"/EMCO/"</span>
+  <span class="keyword">local</span> filename = dirname .. self.name .. <span class="string">".lua"</span>
+  <span class="keyword">local</span> configTable = {}
+  <span class="keyword">if</span> <span class="global">io</span>.<span class="function-name">exists</span>(filename) <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="global">load</span>(filename, configTable)
+  <span class="keyword">else</span>
+    <span class="function-name">debugc</span>(<span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"Attempted to load config for EMCO named %s but the file could not be found. Filename: %s"</span>, self.name, filename))
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+
+  self.timestamp = configTable.timestamp
+  self.blankLine = configTable.blankLine
+  self.scrollbars = configTable.scrollbars
+  self.customTimestampColor = configTable.customTimestampColor
+  self.mapTab = configTable.mapTab
+  self.mapTabName = configTable.mapTabName
+  self.blinkFromAll = configTable.blinkFromAll
+  self.preserveBackground = configTable.preserveBackground
+  self.gag = configTable.gag
+  self.timestampFormat = configTable.timestampFormat
+  self.timestampFGColor = configTable.timestampFGColor
+  self.timestampBGColor = configTable.timestampBGColor
+  self.allTab = configTable.allTab
+  self.allTabName = configTable.allTabName
+  self.blink = configTable.blink
+  self.blinkTime = configTable.blinkTime
+  self.activeTabCSS = configTable.activeTabCSS
+  self.inactiveTabCSS = configTable.inactiveTabCSS
+  self.activeTabFGColor = configTable.activeTabFGColor
+  self.activeTabBGColor = configTable.activeTabBGColor
+  self.inactiveTabFGColor = configTable.inactiveTabFGColor
+  self.inactiveTabBGColor = configTable.inactiveTabBGColor
+  self.consoleColor = configTable.consoleColor
+  self.tabBoxCSS = configTable.tabBoxCSS
+  self.tabBoxColor = configTable.tabBoxColor
+  self.consoleContainerCSS = configTable.consoleContainerCSS
+  self.consoleContainerColor = configTable.consoleContainerColor
+  self.gap = configTable.gap
+  self.consoles = configTable.consoles
+  self.allTabExclusions = configTable.allTabExclusions
+  self.timestampExceptions = configTable.timestampExceptions
+  self.tabHeight = configTable.tabHeight
+  self.wrapAt = configTable.wrapAt
+  self.leftMargin = configTable.leftMargin
+  self.rightMargin = configTable.rightMargin
+  self.bottomMargin = configTable.bottomMargin
+  self.topMargin = configTable.topMargin
+  self.tabFontSize = configTable.tabFontSize
+  self.tabBold = configTable.tabBold
+  self.tabItalics = configTable.tabItalics
+  self.tabUnderline = configTable.tabUnderline
+  self.tabAlignment = configTable.tabAlignment
+  self.bufferSize = configTable.bufferSize
+  self.deleteLines = configTable.deleteLines
+  self.logExclusions = configTable.logExclusions
+  self.gags = configTable.gags
+  self.notifyTabs = configTable.notifyTabs
+  self.notifyWithFocus = configTable.notifyWithFocus
+  self.cmdLineStyleSheet = configTable.cmdLineStyleSheet
+  self:<span class="function-name">move</span>(configTable.x, configTable.y)
+  self:<span class="function-name">resize</span>(configTable.width, configTable.height)
+  self:<span class="function-name">reset</span>()
+  <span class="keyword">if</span> configTable.fontSize <span class="keyword">then</span>
+    self:<span class="function-name">setFontSize</span>(configTable.fontSize)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> configTable.font <span class="keyword">then</span>
+    self:<span class="function-name">setFont</span>(configTable.font)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> configTable.tabFont <span class="keyword">then</span>
+    self:<span class="function-name">setTabFont</span>(configTable.tabFont)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> configTable.autoWrap <span class="keyword">then</span>
+    self:<span class="function-name">enableAutoWrap</span>()
+  <span class="keyword">else</span>
+    self:<span class="function-name">disableAutoWrap</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables logging for tabName
+</span><span class="comment">--@tparam string tabName the name of the tab you want to enable logging for
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableTabLogging</span>(tabName)
+  <span class="keyword">local</span> console = self.mc[tabName]
+  <span class="keyword">if</span> <span class="keyword">not</span> console <span class="keyword">then</span>
+    <span class="function-name">debugc</span>(<span class="function-name">f</span><span class="string">"EMCO:enableTabLogging(tabName): tabName {tabName} not found."</span>)
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  console.log = <span class="keyword">true</span>
+  <span class="keyword">local</span> logDisabled = <span class="global">table</span>.<span class="function-name">index_of</span>(self.logExclusions, tabName)
+  <span class="keyword">if</span> logDisabled <span class="keyword">then</span> <span class="global">table</span>.<span class="function-name">remove</span>(self.logExclusions, logDisabled) <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Disables logging for tabName
+</span><span class="comment">--@tparam string tabName the name of the tab you want to disable logging for
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableTabLogging</span>(tabName)
+  <span class="keyword">local</span> console = self.mc[tabName]
+  <span class="keyword">if</span> <span class="keyword">not</span> console <span class="keyword">then</span>
+    <span class="function-name">debugc</span>(<span class="function-name">f</span><span class="string">"EMCO:disableTabLogging(tabName): tabName {tabName} not found."</span>)
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  console.log = <span class="keyword">false</span>
+  <span class="keyword">local</span> logDisabled = <span class="global">table</span>.<span class="function-name">index_of</span>(self.logExclusions, tabName)
+  <span class="keyword">if</span> <span class="keyword">not</span> logDisabled <span class="keyword">then</span> <span class="global">table</span>.<span class="function-name">insert</span>(self.logExclusions, tabName) <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Enables logging on all EMCO managed consoles
+</span><span class="keyword">function</span> EMCO:<span class="function-name">enableAllLogging</span>()
+  <span class="keyword">for</span> _,console <span class="keyword">in</span> <span class="global">pairs</span>(self.mc) <span class="keyword">do</span>
+    console.log = <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  self.logExclusions = {}
+<span class="keyword">end</span>
+
+<span class="comment">--- Disables logging on all EMCO managed consoles
+</span><span class="keyword">function</span> EMCO:<span class="function-name">disableAllLogging</span>()
+  self.logExclusions = {}
+  <span class="keyword">for</span> tabName,console <span class="keyword">in</span> <span class="global">pairs</span>(self.mc) <span class="keyword">do</span>
+    console.log = <span class="keyword">false</span>
+    self.logExclusions[#self.logExclusions+<span class="number">1</span>] = tabName
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+EMCO.parent = Geyser.Container
+
+<span class="keyword">return</span> EMCO</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

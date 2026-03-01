@@ -1,0 +1,552 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><strong>echofile</strong></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>echofile</code></h1>
+<p>set of functions for echoing files to things.</p>
+<p> Uses a slightly hacked up version of f-strings for interpolation/templating</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2021 Damian Monogue,2016 Hisham Muhammad (https://github.com/hishamhm/f-strings/blob/master/LICENSE)</li>
+        <li><strong>License</strong>: MIT, see LICENSE.lua</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#f">f(str)</a></td>
+	<td class="summary">Takes a string and performs interpolation
+ Uses {} as the delimiter.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aechoFile">aechoFile(window, filename)</a></td>
+	<td class="summary">reads the contents of a file, converts it to decho and then dechos it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aechoFilef">aechoFilef(window, filename)</a></td>
+	<td class="summary">reads the contents of a file and then cechos it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cechoFile">cechoFile(window, filename)</a></td>
+	<td class="summary">reads the contents of a file and then cechos it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cechoFilef">cechoFilef(window, filename)</a></td>
+	<td class="summary">reads the contents of a file, interpolates it as per echofile.f and then cechos it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#dechoFile">dechoFile(window, filename)</a></td>
+	<td class="summary">reads the contents of a file and then dechos it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#dechoFilef">dechoFilef(window, filename)</a></td>
+	<td class="summary">reads the contents of a file, interpolates it as per echofile.f and then dechos it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#hechoFile">hechoFile(window, filename)</a></td>
+	<td class="summary">reads the contents of a file and then hechos it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#hechoFilef">hechoFilef(window, filename)</a></td>
+	<td class="summary">reads the contents of a file, interpolates it as per echofile.f and then hechos it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#echoFile">echoFile(window, filename)</a></td>
+	<td class="summary">reads the contents of a file, interpolates it as per echofile.f and then echos it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#echoFilef">echoFilef(window, filename)</a></td>
+	<td class="summary">reads the contents of a file, interpolates it as per echofile.f and then echos it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#patchGeyser">patchGeyser()</a></td>
+	<td class="summary">Adds c/d/h/echoFile functions to Geyser miniconsole and userwindow objects</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#installGlobal">installGlobal()</a></td>
+	<td class="summary">Installs c/d/h/echoFile and f to the global namespace, and adds functions to Geyser</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "f"></a>
+    <strong>f(str)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#109">line 109</a>
+    </dt>
+    <dd>
+    Takes a string and performs interpolation
+ Uses {} as the delimiter.  Expressions will be evaluated
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+         string: The string to interpolate
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">echofile = <span class="global">require</span>(<span class="string">"MDK.echofile"</span>)
+echofile.<span class="function-name">f</span>(<span class="string">"{1+1}"</span>) <span class="comment">-- returns "2"
+</span><span class="keyword">local</span> x = <span class="number">4</span>
+echofile.<span class="function-name">f</span><span class="string">"4+3 = {x+3}"</span> <span class="comment">-- returns "4+3 = 7"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "aechoFile"></a>
+    <strong>aechoFile(window, filename)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#124">line 124</a>
+    </dt>
+    <dd>
+    reads the contents of a file, converts it to decho and then dechos it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window</span>
+         string: Optional window to cecho to
+        </li>
+        <li><span class="parameter">filename</span>
+         string: Full path to file
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/echofile.html#f">echofile.f</a></li>
+         <li><a href="../modules/echofile.html#cechoFile">echofile.cechoFile</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> ec = <span class="global">require</span>(<span class="string">"MDK.echofile"</span>)
+<span class="keyword">local</span> cechoFile,f = ec.cechoFile, ec.f
+<span class="function-name">cechoFile</span>(<span class="string">"C:/path/to/file"</span>) <span class="comment">-- windows1
+</span><span class="function-name">cechoFile</span>(<span class="string">"C:\\path\\to\\file"</span>) <span class="comment">-- windows2
+</span><span class="function-name">cechoFile</span>(<span class="string">"/path/to/file"</span>) <span class="comment">-- Linux/MacOS
+</span><span class="function-name">cechoFile</span>(<span class="string">"aMiniConsole"</span>, <span class="function-name">f</span><span class="string">"{getMudletHomeDir()}/myPkgName/helpfile"</span>) <span class="comment">-- cecho a file from your pkg to a miniconsole</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "aechoFilef"></a>
+    <strong>aechoFilef(window, filename)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#140">line 140</a>
+    </dt>
+    <dd>
+    reads the contents of a file and then cechos it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window</span>
+         string: Optional window to cecho to
+        </li>
+        <li><span class="parameter">filename</span>
+         string: Full path to file
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/echofile.html#f">echofile.f</a></li>
+         <li><a href="../modules/echofile.html#cechoFilef">echofile.cechoFilef</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> ec = <span class="global">require</span>(<span class="string">"MDK.echofile"</span>)
+<span class="keyword">local</span> cechoFile,f = ec.cechoFile, ec.f
+<span class="function-name">cechoFile</span>(<span class="string">"C:/path/to/file"</span>) <span class="comment">-- windows1
+</span><span class="function-name">cechoFile</span>(<span class="string">"C:\\path\\to\\file"</span>) <span class="comment">-- windows2
+</span><span class="function-name">cechoFile</span>(<span class="string">"/path/to/file"</span>) <span class="comment">-- Linux/MacOS
+</span><span class="function-name">cechoFile</span>(<span class="string">"aMiniConsole"</span>, <span class="function-name">f</span><span class="string">"{getMudletHomeDir()}/myPkgName/helpfile"</span>) <span class="comment">-- cecho a file from your pkg to a miniconsole</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "cechoFile"></a>
+    <strong>cechoFile(window, filename)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#155">line 155</a>
+    </dt>
+    <dd>
+    reads the contents of a file and then cechos it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window</span>
+         string: Optional window to cecho to
+        </li>
+        <li><span class="parameter">filename</span>
+         string: Full path to file
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/echofile.html#f">echofile.f</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> ec = <span class="global">require</span>(<span class="string">"MDK.echofile"</span>)
+<span class="keyword">local</span> cechoFile,f = ec.cechoFile, ec.f
+<span class="function-name">cechoFile</span>(<span class="string">"C:/path/to/file"</span>) <span class="comment">-- windows1
+</span><span class="function-name">cechoFile</span>(<span class="string">"C:\\path\\to\\file"</span>) <span class="comment">-- windows2
+</span><span class="function-name">cechoFile</span>(<span class="string">"/path/to/file"</span>) <span class="comment">-- Linux/MacOS
+</span><span class="function-name">cechoFile</span>(<span class="string">"aMiniConsole"</span>, <span class="function-name">f</span><span class="string">"{getMudletHomeDir()}/myPkgName/helpfile"</span>) <span class="comment">-- cecho a file from your pkg to a miniconsole</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "cechoFilef"></a>
+    <strong>cechoFilef(window, filename)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#170">line 170</a>
+    </dt>
+    <dd>
+    reads the contents of a file, interpolates it as per echofile.f and then cechos it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window</span>
+         string: Optional window to cecho to
+        </li>
+        <li><span class="parameter">filename</span>
+         string: Full path to file
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/echofile.html#f">echofile.f</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> ec = <span class="global">require</span>(<span class="string">"MDK.echofile"</span>)
+<span class="keyword">local</span> cechoFile,f = ec.cechoFile, ec.f
+<span class="function-name">cechoFile</span>(<span class="string">"C:/path/to/file"</span>) <span class="comment">-- windows1
+</span><span class="function-name">cechoFile</span>(<span class="string">"C:\\path\\to\\file"</span>) <span class="comment">-- windows2
+</span><span class="function-name">cechoFile</span>(<span class="string">"/path/to/file"</span>) <span class="comment">-- Linux/MacOS
+</span><span class="function-name">cechoFile</span>(<span class="string">"aMiniConsole"</span>, <span class="function-name">f</span><span class="string">"{getMudletHomeDir()}/myPkgName/helpfile"</span>) <span class="comment">-- cecho a file from your pkg to a miniconsole</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "dechoFile"></a>
+    <strong>dechoFile(window, filename)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#180">line 180</a>
+    </dt>
+    <dd>
+    reads the contents of a file and then dechos it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window</span>
+         string: Optional window to decho to
+        </li>
+        <li><span class="parameter">filename</span>
+         string: Full path to file
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/echofile.html#f">echofile.f</a></li>
+         <li><a href="../modules/echofile.html#cechoFile">echofile.cechoFile</a></li>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "dechoFilef"></a>
+    <strong>dechoFilef(window, filename)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#190">line 190</a>
+    </dt>
+    <dd>
+    reads the contents of a file, interpolates it as per echofile.f and then dechos it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window</span>
+         string: Optional window to decho to
+        </li>
+        <li><span class="parameter">filename</span>
+         string: Full path to file
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/echofile.html#f">echofile.f</a></li>
+         <li><a href="../modules/echofile.html#cechoFile">echofile.cechoFile</a></li>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "hechoFile"></a>
+    <strong>hechoFile(window, filename)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#200">line 200</a>
+    </dt>
+    <dd>
+    reads the contents of a file and then hechos it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window</span>
+         string: Optional window to hecho to
+        </li>
+        <li><span class="parameter">filename</span>
+         string: Full path to file
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/echofile.html#f">echofile.f</a></li>
+         <li><a href="../modules/echofile.html#cechoFile">echofile.cechoFile</a></li>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "hechoFilef"></a>
+    <strong>hechoFilef(window, filename)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#210">line 210</a>
+    </dt>
+    <dd>
+    reads the contents of a file, interpolates it as per echofile.f and then hechos it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window</span>
+         string: Optional window to hecho to
+        </li>
+        <li><span class="parameter">filename</span>
+         string: Full path to file
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/echofile.html#f">echofile.f</a></li>
+         <li><a href="../modules/echofile.html#cechoFile">echofile.cechoFile</a></li>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "echoFile"></a>
+    <strong>echoFile(window, filename)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#220">line 220</a>
+    </dt>
+    <dd>
+    reads the contents of a file, interpolates it as per echofile.f and then echos it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window</span>
+         string: Optional window to echo to
+        </li>
+        <li><span class="parameter">filename</span>
+         string: Full path to file
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/echofile.html#f">echofile.f</a></li>
+         <li><a href="../modules/echofile.html#cechoFile">echofile.cechoFile</a></li>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "echoFilef"></a>
+    <strong>echoFilef(window, filename)</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#230">line 230</a>
+    </dt>
+    <dd>
+    reads the contents of a file, interpolates it as per echofile.f and then echos it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window</span>
+         string: Optional window to echo to
+        </li>
+        <li><span class="parameter">filename</span>
+         string: Full path to file
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/echofile.html#f">echofile.f</a></li>
+         <li><a href="../modules/echofile.html#cechoFile">echofile.cechoFile</a></li>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "patchGeyser"></a>
+    <strong>patchGeyser()</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#239">line 239</a>
+    </dt>
+    <dd>
+    Adds c/d/h/echoFile functions to Geyser miniconsole and userwindow objects
+
+
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="global">require</span>(<span class="string">"MDK.echofile"</span>).<span class="function-name">patchGeyser</span>()
+myMC = Geyser.MiniConsole:<span class="function-name">new</span>({name = <span class="string">"myMC"</span>})
+myMC:<span class="function-name">cechoFile</span>(<span class="function-name">f</span><span class="string">"{getMudletHomeDir()}/helpfile"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "installGlobal"></a>
+    <strong>installGlobal()</strong>
+    <a style="float:right;" href="../source/echofile.lua.html#281">line 281</a>
+    </dt>
+    <dd>
+    Installs c/d/h/echoFile and f to the global namespace, and adds functions to Geyser
+
+
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="global">require</span>(<span class="string">"MDK.echofile"</span>).<span class="function-name">installGlobal</span>()
+<span class="function-name">f</span><span class="string">"{1+2}"</span> <span class="comment">-- returns "2"
+</span><span class="function-name">dechoFile</span>(<span class="function-name">f</span><span class="string">"{getMudletHomeDir()}/fileWithDechoLines.txt"</span>)
+<span class="comment">-- reads contents of fileWithDechoLines.txt from profile directory
+</span><span class="comment">-- and dechos them to the main console</span></pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

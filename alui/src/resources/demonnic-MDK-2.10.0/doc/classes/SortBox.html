@@ -1,0 +1,593 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Tables">Tables</a></li>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><strong>SortBox</strong></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>SortBox</code></h1>
+<p>An H/VBox alternative which can be set to either vertical or horizontal, and will autosort the windows</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2020 Damian Monogue</li>
+        <li><strong>License</strong>: MIT, see LICENSE.lua</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#sortbox.SortFunctions">sortbox.SortFunctions</a></td>
+	<td class="summary">Sorting functions for spairs, should you wish</td>
+	</tr>
+</table>
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:new">sortbox:new(options[, container])</a></td>
+	<td class="summary">Creates a new SortBox</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:organize">sortbox:organize()</a></td>
+	<td class="summary">Calling this will cause the SortBox to reposition/resize everything</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:enableElastic">sortbox:enableElastic()</a></td>
+	<td class="summary">Enables elasticity for the SortBox.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:disableElastic">sortbox:disableElastic()</a></td>
+	<td class="summary">Disables elasticity for the SortBox</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:setElastic">sortbox:setElastic(enabled)</a></td>
+	<td class="summary">Set elasticity specifically</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:setMaxWidth">sortbox:setMaxWidth(maxWidth)</a></td>
+	<td class="summary">Set the max width of the SortBox if it's elastic</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:setMaxHeight">sortbox:setMaxHeight(maxHeight)</a></td>
+	<td class="summary">Set the max height of the SortBox if it's elastic</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:enableTimer">sortbox:enableTimer()</a></td>
+	<td class="summary">Starts the SortBox sorting and organizing itself on a timer</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:disableTimer">sortbox:disableTimer()</a></td>
+	<td class="summary">Stops the SortBox from sorting and organizing itself on a timer</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:setSortInterval">sortbox:setSortInterval(sortInterval)</a></td>
+	<td class="summary">Sets the sortInterval, or amount of time in milliseconds between auto sorting on a timer if timerSort is true</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:enableSort">sortbox:enableSort()</a></td>
+	<td class="summary">Enables sorting when items are added/removed, or if timerSort is true, every sortInterval milliseconds</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:disableSort">sortbox:disableSort()</a></td>
+	<td class="summary">Disables sorting when items are added or removed</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:setBoxType">sortbox:setBoxType(boxType)</a></td>
+	<td class="summary">Set whether the SortBox acts as a VBox or HBox.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sortbox:setSortFunction">sortbox:setSortFunction(functionName)</a></td>
+	<td class="summary">Sets the type of sorting in use by this SortBox.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "sortbox.SortFunctions"></a>
+    <strong>sortbox.SortFunctions</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#29">line 29</a>
+    </dt>
+    <dd>
+    Sorting functions for spairs, should you wish
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">gaugeValue</span>
+         sorts Geyser gauges by value, ascending
+        </li>
+        <li><span class="parameter">reverseGaugeValue</span>
+         sorts Geyser gauges by value, descending
+        </li>
+        <li><span class="parameter">timeLeft</span>
+         sorts TimerGauges by how much time is left, ascending
+        </li>
+        <li><span class="parameter">reverseTimeLeft</span>
+         sorts TimerGauges by how much time is left, descending.
+        </li>
+        <li><span class="parameter">name</span>
+         sorts Geyser objects by name, ascending
+        </li>
+        <li><span class="parameter">reverseName</span>
+         sorts Geyser objects by name, descending
+        </li>
+        <li><span class="parameter">message</span>
+         sorts Geyser labels and gauges by their echoed text, ascending
+        </li>
+        <li><span class="parameter">reverseMessage</span>
+         sorts Geyser labels and gauges by their echoed text, descending
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "sortbox:new"></a>
+    <strong>sortbox:new(options[, container])</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#144">line 144</a>
+    </dt>
+    <dd>
+    Creates a new SortBox
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the options to use for the SortBox. See table below for added options
+        </li>
+        <li><span class="parameter">container</span>
+         the container to add the SortBox into
+ <br><br>Table of new options
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">autoSort</td>
+     <td class="tg-1">should the SortBox perform function based sorting? If false, will behave like a normal H/VBox</td>
+     <td class="tg-1">true</td>
+   </tr>
+   <tr>
+     <td class="tg-2">timerSort</td>
+     <td class="tg-2">should the SortBox automatically perform sorting on a timer?</td>
+     <td class="tg-2">true</td>
+   </tr>
+   <tr>
+     <td class="tg-1">sortInterval</td>
+     <td class="tg-1">how frequently should we sort on a timer if timerSort is true, in milliseconds</td>
+     <td class="tg-1">500</td>
+   </tr>
+   <tr>
+     <td class="tg-2">boxType</td>
+     <td class="tg-2">Should we stack like an HBox or VBox? use 'h' for hbox and 'v' for vbox</td>
+     <td class="tg-2">v</td>
+   </tr>
+   <tr>
+     <td class="tg-1">sortFunction</td>
+     <td class="tg-1">how should we sort the items in the SortBox? see setSortFunction for valid options</td>
+     <td class="tg-1">gaugeValue</td>
+   </tr>
+   <tr>
+     <td class="tg-2">elastic</td>
+     <td class="tg-2">Should this container stretch to fit its contents? boxType v stretches in height, h stretches in width.</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">maxHeight</td>
+     <td class="tg-1">If elastic, what's the biggest a 'v' style box should grow in height? Use 0 for unlimited</td>
+     <td class="tg-1">0</td>
+   </tr>
+   <tr>
+     <td class="tg-2">maxWidth</td>
+     <td class="tg-2">If elastic, what's the biggest a 'h' style box should grow in width? Use 0 for unlimited</td>
+     <td class="tg-2">0</td>
+   </tr>
+ </tbody>
+ </table>
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> SortBox = <span class="global">require</span>(<span class="string">"MDK.sortbox"</span>)
+mySortBox = SortBox:<span class="function-name">new</span>({
+  name = <span class="string">"mySortBox"</span>,
+  x = <span class="number">400</span>,
+  y = <span class="number">100</span>,
+  height = <span class="number">150</span>,
+  width = <span class="number">300</span>,
+  sortFunction = <span class="string">"timeLeft"</span>
+})</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "sortbox:organize"></a>
+    <strong>sortbox:organize()</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#196">line 196</a>
+    </dt>
+    <dd>
+    Calling this will cause the SortBox to reposition/resize everything
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:enableElastic"></a>
+    <strong>sortbox:enableElastic()</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#372">line 372</a>
+    </dt>
+    <dd>
+    Enables elasticity for the SortBox.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:disableElastic"></a>
+    <strong>sortbox:disableElastic()</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#377">line 377</a>
+    </dt>
+    <dd>
+    Disables elasticity for the SortBox
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:setElastic"></a>
+    <strong>sortbox:setElastic(enabled)</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#383">line 383</a>
+    </dt>
+    <dd>
+    Set elasticity specifically
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">enabled</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, enable elasticity. If false, disable it.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:setMaxWidth"></a>
+    <strong>sortbox:setMaxWidth(maxWidth)</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#389">line 389</a>
+    </dt>
+    <dd>
+    Set the max width of the SortBox if it's elastic
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">maxWidth</span>
+            <span class="types"><span class="type">number</span></span>
+         The maximum width in pixels to resize the SortBox to. Use 0 for unlimited.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:setMaxHeight"></a>
+    <strong>sortbox:setMaxHeight(maxHeight)</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#398">line 398</a>
+    </dt>
+    <dd>
+    Set the max height of the SortBox if it's elastic
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">maxHeight</span>
+            <span class="types"><span class="type">number</span></span>
+         The maximum height in pixels to resize the SortBox to. Use 0 for unlimited.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:enableTimer"></a>
+    <strong>sortbox:enableTimer()</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#406">line 406</a>
+    </dt>
+    <dd>
+    Starts the SortBox sorting and organizing itself on a timer
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:disableTimer"></a>
+    <strong>sortbox:disableTimer()</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#417">line 417</a>
+    </dt>
+    <dd>
+    Stops the SortBox from sorting and organizing itself on a timer
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:setSortInterval"></a>
+    <strong>sortbox:setSortInterval(sortInterval)</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#425">line 425</a>
+    </dt>
+    <dd>
+    Sets the sortInterval, or amount of time in milliseconds between auto sorting on a timer if timerSort is true
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">sortInterval</span>
+            <span class="types"><span class="type">number</span></span>
+         time in milliseconds between auto sorting if timerSort is true
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:enableSort"></a>
+    <strong>sortbox:enableSort()</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#436">line 436</a>
+    </dt>
+    <dd>
+    Enables sorting when items are added/removed, or if timerSort is true, every sortInterval milliseconds
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:disableSort"></a>
+    <strong>sortbox:disableSort()</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#442">line 442</a>
+    </dt>
+    <dd>
+    Disables sorting when items are added or removed
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sortbox:setBoxType"></a>
+    <strong>sortbox:setBoxType(boxType)</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#451">line 451</a>
+    </dt>
+    <dd>
+    Set whether the SortBox acts as a VBox or HBox.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">boxType</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         If you pass 'h' or 'horizontal' it will act like an HBox. Anything else it will act like a VBox.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">mySortBox:<span class="function-name">setBoxType</span>(<span class="string">"v"</span>) <span class="comment">-- behave like a VBox
+</span>mySortBox:<span class="function-name">setBoxType</span>(<span class="string">"h"</span>) <span class="comment">-- behave like an HBox
+</span>mySortBox:<span class="function-name">setBoxType</span>(<span class="string">"beeblebrox"</span>) <span class="comment">-- why?! Why would you do this? It'll behave like a VBox</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "sortbox:setSortFunction"></a>
+    <strong>sortbox:setSortFunction(functionName)</strong>
+    <a style="float:right;" href="../source/SortBox.lua.html#508">line 508</a>
+    </dt>
+    <dd>
+    Sets the type of sorting in use by this SortBox.
+ <br>If an item in the box does not have the appropriate property or function, then 999999999 is used for sorting except as otherwise noted.
+ <br>If an invalid option is given, then existing H/VBox behaviour is maintained, just like if autoSort is false.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">functionName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         what type of sorting should we use? See table below for valid options and their descriptions.
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>sort type</th>
+     <th>description</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">gaugeValue</td>
+     <td class="tg-1">sort gauges based on how full the gauge is, from less full to more</td>
+   </tr>
+   <tr>
+     <td class="tg-2">reverseGaugeValue</td>
+     <td class="tg-2">sort gauges based on how full the gauge is, from more full to less</td>
+   </tr>
+   <tr>
+     <td class="tg-1">timeLeft</td>
+     <td class="tg-1">sort TimerGauges based on the total time left in the gauge, from less time to more</td>
+   </tr>
+   <tr>
+     <td class="tg-2">reverseTimeLeft</td>
+     <td class="tg-2">sort TimerGauges based on the total time left in the gauge, from more time to less</td>
+   </tr>
+   <tr>
+     <td class="tg-1">name</td>
+     <td class="tg-1">sort any item (and mixed types) by name, alphabetically.</td>
+   </tr>
+   <tr>
+     <td class="tg-2">reverseName</td>
+     <td class="tg-2">sort any item (and mixed types) by name, reverse alphabetically.</td>
+   </tr>
+   <tr>
+     <td class="tg-1">message</td>
+     <td class="tg-1">sorts Labels based on their echoed message, alphabetically. If not a label, the empty string will be used</td>
+   </tr>
+   <tr>
+     <td class="tg-2">reverseMessage</td>
+     <td class="tg-2">sorts Labels based on their echoed message, reverse alphabetically. If not a label, the empty string will be used</td>
+   </tr>
+ </tbody>
+ </table>
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">mySortBox:<span class="function-name">setSortFunction</span>(<span class="string">"gaugeValue"</span>)</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

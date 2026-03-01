@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><strong>revisionator.lua</strong></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>revisionator.lua</h2>
+<pre>
+<span class="comment">--- The revisionator provides a standardized way of migrating configurations between revisions
+</span><span class="comment">-- for instance, it will track what the currently applied revision number is, and when you tell
+</span><span class="comment">-- tell it to migrate, it will apply every individual migration between the currently applied
+</span><span class="comment">-- revision and the latest/current revision. This should allow for more seamlessly moving from
+</span><span class="comment">-- an older version of a package to a new one.
+</span><span class="comment">-- @classmod revisionator
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2023
+</span><span class="comment">-- @license MIT, see https://raw.githubusercontent.com/demonnic/MDK/main/src/scripts/LICENSE.lua
+</span><span class="keyword">local</span> revisionator = {
+  name = <span class="string">"Revisionator"</span>,
+  patches = {},
+}
+revisionator.__index = revisionator
+<span class="keyword">local</span> dataDir = <span class="function-name">getMudletHomeDir</span>() .. <span class="string">"/revisionator"</span>
+revisionator.dataDir = dataDir
+<span class="keyword">if</span> <span class="keyword">not</span> <span class="global">io</span>.<span class="function-name">exists</span>(dataDir) <span class="keyword">then</span>
+  <span class="keyword">local</span> ok,err = lfs.<span class="function-name">mkdir</span>(dataDir)
+  <span class="keyword">if</span> <span class="keyword">not</span> ok <span class="keyword">then</span>
+    <span class="function-name">printDebug</span>(<span class="function-name">f</span><span class="string">"Error creating the directory for storing applied revisions: {err}"</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates a new revisionator
+</span><span class="comment">-- @tparam table options the options to create the revisionator with.
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;name&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;The name of the revisionator. This is absolutely required, as the name is used for tracking the currently applied patch level&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;raises an error if not provided&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;patches&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;A table of patch functions. It is traversed using ipairs, so must be in the form of {function1, function2, function3} etc. If you do not provide it, you can add the patches by calling :addPatch for each patch in order.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;{}&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--&lt;/tbody&gt;
+</span><a id="47"></a><span class="comment">--&lt;/table&gt;
+</span><span class="keyword">function</span> revisionator:<span class="function-name">new</span>(options)
+  options = options <span class="keyword">or</span> {}
+  <span class="keyword">local</span> optionsType = <span class="global">type</span>(options)
+  <span class="keyword">if</span> optionsType ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="function-name">printError</span>(<span class="function-name">f</span><span class="string">"revisionator:new bad argument #1 type, options as table expected, got {optionsType}"</span>, <span class="keyword">true</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> options.name <span class="keyword">then</span>
+    <span class="function-name">printError</span>(<span class="string">"revisionator:new(options) options must include a 'name' key as this is used as part of tracking the applied patch level."</span>, <span class="keyword">true</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> me = <span class="global">table</span>.<span class="function-name">deepcopy</span>(options)
+  <span class="global">setmetatable</span>(me, self)
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+
+<span class="comment">--- Get the currently applied revision from file
+</span><span class="comment">--- @treturn[1] number the revision number currently applied, or 0 if it can't read a current version
+</span><span class="comment">--- @treturn[2] nil nil
+</span><a id="65"></a><span class="comment">--- @treturn[2] string error message
+</span><span class="keyword">function</span> revisionator:<span class="function-name">getAppliedPatch</span>()
+  <span class="keyword">local</span> fileName = <span class="function-name">f</span><span class="string">"{self.dataDir}/{self.name}.txt"</span>
+  <span class="function-name">debugc</span>(fileName)
+  <span class="keyword">local</span> revision = <span class="number">0</span>
+  <span class="keyword">if</span> <span class="global">io</span>.<span class="function-name">exists</span>(fileName) <span class="keyword">then</span>
+    <span class="keyword">local</span> file = <span class="global">io</span>.<span class="function-name">open</span>(fileName, <span class="string">"r"</span>)
+    <span class="keyword">local</span> fileContents = file:<span class="function-name">read</span>(<span class="string">"*a"</span>)
+    file:<span class="function-name">close</span>()
+    <span class="keyword">local</span> revNumber = <span class="global">tonumber</span>(fileContents)
+    <span class="keyword">if</span> revNumber <span class="keyword">then</span>
+      revision = revNumber
+    <span class="keyword">else</span>
+      <span class="keyword">return</span> <span class="keyword">nil</span>, <span class="function-name">f</span><span class="string">"Error while attempting to read current patch version from file: {fileName}\nThe contents of the file are {fileContents} and it was unable to be converted to a revision number"</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> revision
+<span class="keyword">end</span>
+
+<span class="comment">--- go through all the patches in order and apply any which are still necessary
+</span><span class="comment">--- @treturn boolean true if it successfully applied patches, false if it was already at the latest patch level
+</span><a id="86"></a><span class="comment">--- @error error message
+</span><span class="keyword">function</span> revisionator:<span class="function-name">migrate</span>()
+  <span class="keyword">local</span> applied,err = self:<span class="function-name">getAppliedPatch</span>()
+  <span class="keyword">if</span> <span class="keyword">not</span> applied <span class="keyword">then</span>
+    <span class="function-name">printError</span>(err, <span class="keyword">true</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> patches = self.patches
+  <span class="keyword">if</span> applied &gt;= #patches <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">false</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> revision, patch <span class="keyword">in</span> <span class="global">ipairs</span>(patches) <span class="keyword">do</span>
+    <span class="keyword">if</span> applied &lt; revision <span class="keyword">then</span>
+      <span class="keyword">local</span> ok, err = <span class="global">pcall</span>(patch)
+      <span class="keyword">if</span> <span class="keyword">not</span> ok <span class="keyword">then</span>
+        self:<span class="function-name">setAppliedPatch</span>(revision - <span class="number">1</span>)
+        <span class="keyword">return</span> <span class="keyword">nil</span>, <span class="function-name">f</span><span class="string">"Error while running patch #{revision}: {err}"</span>
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  self:<span class="function-name">setAppliedPatch</span>(#patches)
+  <span class="keyword">return</span> <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- add a patch to the table of patches
+</span><span class="comment">--- @tparam function  func the function to run as the patch
+</span><a id="111"></a><span class="comment">--- @number[opt] position which patch to insert it as? If not supplied, inserts it as the last patch. Which is usually what you want.
+</span><span class="keyword">function</span> revisionator:<span class="function-name">addPatch</span>(func, position)
+  <span class="keyword">if</span> position <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(self.patches, position, func)
+  <span class="keyword">else</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(self.patches, func)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Remove a patch from the table of patches
+</span><span class="comment">--- this is primarily used for testing
+</span><span class="comment">--- @local
+</span><span class="comment">--- @number[opt] patchNumber the patch number to remove. Will remove the last item if not provided.
+</span><span class="keyword">function</span> revisionator:<span class="function-name">removePatch</span>(patchNumber)
+  <span class="global">table</span>.<span class="function-name">remove</span>(self.patches, patchNumber)
+<span class="keyword">end</span>
+
+<span class="comment">--- set the currently applied patch number
+</span><span class="comment">-- only directly called for testing
+</span><span class="comment">--- @local
+</span><span class="comment">--- @number patchNumber the patch number to set as the currently applied patch
+</span><span class="keyword">function</span> revisionator:<span class="function-name">setAppliedPatch</span>(patchNumber)
+  <span class="keyword">local</span> fileName = <span class="function-name">f</span><span class="string">"{self.dataDir}/{self.name}.txt"</span>
+  <span class="keyword">local</span> revFile, err = <span class="global">io</span>.<span class="function-name">open</span>(fileName, <span class="string">"w+"</span>)
+  <span class="keyword">if</span> <span class="keyword">not</span> revFile <span class="keyword">then</span>
+    <span class="function-name">printError</span>(err, <span class="keyword">true</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+  revFile:<span class="function-name">write</span>(patchNumber)
+  revFile:<span class="function-name">close</span>()
+<span class="keyword">end</span>
+
+<span class="keyword">return</span> revisionator</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

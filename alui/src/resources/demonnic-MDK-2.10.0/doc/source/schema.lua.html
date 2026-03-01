@@ -1,0 +1,743 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><strong>schema.lua</strong></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>schema.lua</h2>
+<pre>
+<span class="comment">--[[
+The MIT License (MIT)
+
+Copyright (c) 2014 Sebastian Schoener
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+]]</span>
+
+<span class="keyword">local</span> schema = {}
+
+<span class="comment">-- Checks an object against a schema.
+</span><span class="keyword">function</span> schema.<span class="function-name">CheckSchema</span>(obj, schem, path)
+    <span class="keyword">if</span> path == <span class="keyword">nil</span> <span class="keyword">then</span>
+        path = schema.Path.<span class="function-name">new</span>()
+        path:<span class="function-name">setBase</span>(obj)
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> <span class="global">type</span>(schem) == <span class="string">"function"</span> <span class="keyword">then</span>
+        <span class="keyword">return</span> <span class="function-name">schem</span>(obj, path)
+    <span class="keyword">else</span> <span class="comment">-- attempt to simply compare the values
+</span>        <span class="keyword">if</span> schem == obj <span class="keyword">then</span>
+            <span class="keyword">return</span> <span class="keyword">nil</span>
+        <span class="keyword">end</span>
+        <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Invalid value: "</span>..path..<span class="string">" should be "</span>..<span class="global">tostring</span>(schem), path)
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> schema.<span class="function-name">FormatOutput</span>(output)
+    <span class="keyword">local</span> format = schema.<span class="function-name">List</span>()
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(output) <span class="keyword">do</span>
+        format:<span class="function-name">append</span>(v:<span class="function-name">format</span>())
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> <span class="global">table</span>.<span class="function-name">concat</span>(format, <span class="string">"\n"</span>)
+<span class="keyword">end</span>
+
+<span class="comment">--
+</span><span class="comment">-- Infrastructure
+</span><span class="comment">--
+</span>
+<span class="comment">-- Path class. Represents paths to values in a table (the path's *base*).
+</span><span class="keyword">local</span> Path = {}
+<span class="keyword">function</span> Path.<span class="function-name">new</span>(...)
+    <span class="keyword">local</span> arg = {...}
+    <span class="keyword">local</span> self = <span class="global">setmetatable</span>({}, Path)
+    self.p = {}
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(arg) <span class="keyword">do</span>
+        self.p[k] = v
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> self
+<span class="keyword">end</span>
+
+<span class="comment">-- Sets the base of the path, i.e. the table to which the path is relative.
+</span><span class="comment">-- Note that this is the actual *table*, not the table's name.
+</span><span class="keyword">function</span> Path:<span class="function-name">setBase</span>(base)
+    self.base = base
+<span class="keyword">end</span>
+
+<span class="comment">-- Gets the base of the path.
+</span><span class="keyword">function</span> Path:<span class="function-name">getBase</span>()
+    <span class="keyword">return</span> self.base
+<span class="keyword">end</span>
+
+<span class="comment">-- Returns the target of the path or 'nil' if the path is invalid.
+</span><span class="keyword">function</span> Path:<span class="function-name">target</span>()
+    <span class="keyword">if</span> self.base == <span class="keyword">nil</span> <span class="keyword">then</span>
+        <span class="global">error</span>(<span class="string">"Path:target() called on a path without a base!"</span>)
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> current = self.base
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(self.p) <span class="keyword">do</span>
+        current = current[v]
+        <span class="keyword">if</span> current == <span class="keyword">nil</span> <span class="keyword">then</span>
+            <span class="keyword">return</span> <span class="keyword">nil</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> current
+<span class="keyword">end</span>
+
+<span class="comment">-- Pushes an entry to the end of the path.
+</span><span class="keyword">function</span> Path:<span class="function-name">push</span>(obj)
+    self.p[#self.p + <span class="number">1</span>] = obj
+    <span class="keyword">return</span> self
+<span class="keyword">end</span>
+
+<span class="comment">-- Pops an entry from the end of the path.
+</span><span class="keyword">function</span> Path:<span class="function-name">pop</span>()
+    <span class="keyword">local</span> tmp = self.p[#self.p]
+    self.p[#self.p] = <span class="keyword">nil</span>
+    <span class="keyword">return</span> tmp
+<span class="keyword">end</span>
+
+<span class="comment">-- Returns the topmost entry of the end of the path.
+</span><span class="keyword">function</span> Path:<span class="function-name">top</span>()
+    <span class="keyword">return</span> self.p[#self.p]
+<span class="keyword">end</span>
+
+<span class="comment">-- Returns the length of the path.
+</span><span class="keyword">function</span> Path:<span class="function-name">length</span>()
+    <span class="keyword">return</span> #self.p
+<span class="keyword">end</span>
+
+<span class="comment">-- Returns the element at the specified index.
+</span><span class="keyword">function</span> Path:<span class="function-name">get</span>(index)
+    <span class="keyword">return</span> self.p[index]
+<span class="keyword">end</span>
+
+<span class="comment">-- Copies the path.
+</span><span class="keyword">function</span> Path:<span class="function-name">copy</span>()
+    <span class="keyword">local</span> cp = Path.<span class="function-name">new</span>()
+    cp.base = self.base
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(self) <span class="keyword">do</span>
+        cp.p[k] = v
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> cp
+<span class="keyword">end</span>
+
+Path.__index = Path
+Path.__tostring = <span class="keyword">function</span>(tbl)
+    <span class="keyword">if</span> #tbl.p == <span class="number">0</span> <span class="keyword">then</span>
+        <span class="keyword">return</span> <span class="string">'&lt;val&gt;'</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> <span class="global">table</span>.<span class="function-name">concat</span>(tbl.p,<span class="string">"."</span>)
+<span class="keyword">end</span>
+Path.__concat = <span class="keyword">function</span>(lhs, rhs)
+    <span class="keyword">if</span> <span class="global">type</span>(lhs) == <span class="string">"table"</span> <span class="keyword">then</span>
+        <span class="keyword">return</span> <span class="global">tostring</span>(lhs)..rhs
+    <span class="keyword">elseif</span> <span class="global">type</span>(rhs) == <span class="string">"table"</span> <span class="keyword">then</span>
+        <span class="keyword">return</span> lhs..<span class="global">tostring</span>(rhs)
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+Path.__len = <span class="keyword">function</span>(self)
+    <span class="keyword">return</span> #self.p
+<span class="keyword">end</span>
+
+<span class="global">setmetatable</span>(Path, {
+    __call = <span class="keyword">function</span> (cls, ...)
+        <span class="keyword">return</span> Path.<span class="function-name">new</span>(...)
+    <span class="keyword">end</span>
+})
+schema.Path = Path
+
+<span class="comment">-- List class
+</span><span class="keyword">local</span> List = {}
+<span class="keyword">function</span> List.<span class="function-name">new</span>(...)
+    <span class="keyword">local</span> self = <span class="global">setmetatable</span>({}, List)
+    <span class="keyword">local</span> arg = {...}
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(arg) <span class="keyword">do</span>
+        self[k] = v
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> self
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> List:<span class="function-name">add</span>(obj)
+    self[#self+<span class="number">1</span>] = obj
+    <span class="keyword">return</span> self
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> List:<span class="function-name">append</span>(list)
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(list) <span class="keyword">do</span>
+        self[#self+k] = v
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> self
+<span class="keyword">end</span>
+
+List.__index = List
+List.__tostring = <span class="keyword">function</span>(self)
+    <span class="keyword">local</span> tmp = {}
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(self) <span class="keyword">do</span>
+        tmp[k] = <span class="global">tostring</span>(v)
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> <span class="global">table</span>.<span class="function-name">concat</span>(tmp, <span class="string">"\n"</span>)
+<span class="keyword">end</span>
+<span class="global">setmetatable</span>(List, {
+    __call = <span class="keyword">function</span>(cls, ...)
+        <span class="keyword">return</span> List.<span class="function-name">new</span>(...)
+    <span class="keyword">end</span>
+})
+schema.List = List
+
+<span class="comment">-- Error class. Describes mismatches that occured during the schema-checking.
+</span><span class="keyword">local</span> Error = {}
+<span class="keyword">function</span> Error.<span class="function-name">new</span>(msg, path, suberrors)
+    <span class="keyword">local</span> self = <span class="global">setmetatable</span>({}, Error)
+    self.message   = msg
+    self.path      = path:<span class="function-name">copy</span>()
+    self.suberrors = suberrors
+    <span class="keyword">return</span> self
+<span class="keyword">end</span>
+
+<span class="comment">-- Returns a list of strings which represent the error (with indenttation for
+</span><span class="comment">-- suberrors).
+</span><span class="keyword">function</span> Error:<span class="function-name">format</span>()
+    <span class="keyword">local</span> output = List.<span class="function-name">new</span>(self.message)
+    <span class="keyword">if</span> self.suberrors ~= <span class="keyword">nil</span> <span class="keyword">then</span>
+        <span class="keyword">for</span> k,sub <span class="keyword">in</span> <span class="global">pairs</span>(self.suberrors) <span class="keyword">do</span>
+            <span class="keyword">local</span> subout = sub:<span class="function-name">format</span>()
+            <span class="keyword">for</span> k1,msg <span class="keyword">in</span> <span class="global">pairs</span>(subout) <span class="keyword">do</span>
+                output = output:<span class="function-name">add</span>(<span class="string">"  "</span>..msg)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> output
+<span class="keyword">end</span>
+
+Error.__tostring = <span class="keyword">function</span>(self)
+    <span class="keyword">return</span> <span class="global">table</span>.<span class="function-name">concat</span>(self:<span class="function-name">format</span>(), <span class="string">"\n"</span>)
+<span class="keyword">end</span>
+Error.__index = Error
+<span class="global">setmetatable</span>(Error, {
+    __call = <span class="keyword">function</span>(cls, ...)
+        <span class="keyword">return</span> <span class="function-name">List</span>(Error.<span class="function-name">new</span>(...))
+    <span class="keyword">end</span>
+})
+schema.Error = Error
+
+<span class="comment">--
+</span><span class="comment">-- Schema Building Blocks
+</span><span class="comment">-- A schema is a function taking the object to be checked and the path to the
+</span><span class="comment">-- current value in the environment.
+</span><span class="comment">-- It returns either 'true' if the schema accepted the object or an Error
+</span><span class="comment">-- object which describes why it was rejected.
+</span><span class="comment">-- The schemata below are just some basic building blocks. Expand them to your
+</span><span class="comment">-- liking.
+</span><span class="comment">--
+</span>
+<span class="comment">-- Always accepts.
+</span><span class="keyword">function</span> schema.<span class="function-name">Any</span>(obj, path)
+    <span class="keyword">return</span> <span class="keyword">nil</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- Always fails.
+</span><span class="keyword">function</span> schema.<span class="function-name">Nothing</span>(obj, path)
+    <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Failure: '"</span>..path..<span class="string">"' will always fail."</span>, path)
+<span class="keyword">end</span>
+
+<span class="comment">-- Checks a value against a specific type.
+</span><span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">TypeSchema</span>(obj, path, typeId)
+    <span class="keyword">if</span> <span class="global">type</span>(obj) ~= typeId <span class="keyword">then</span>
+        <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Type mismatch: '"</span>..path..<span class="string">"' should be "</span>..typeId..<span class="string">", is "</span>..<span class="global">type</span>(obj), path)
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">nil</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> schema.<span class="function-name">Boolean</span> (obj, path) <span class="keyword">return</span> <span class="function-name">TypeSchema</span>(obj, path, <span class="string">"boolean"</span>)  <span class="keyword">end</span>
+<span class="keyword">function</span> schema.<span class="function-name">Function</span>(obj, path) <span class="keyword">return</span> <span class="function-name">TypeSchema</span>(obj, path, <span class="string">"function"</span>) <span class="keyword">end</span>
+<span class="keyword">function</span> schema.<span class="function-name">Nil</span>     (obj, path) <span class="keyword">return</span> <span class="function-name">TypeSchema</span>(obj, path, <span class="string">"nil"</span>)      <span class="keyword">end</span>
+<span class="keyword">function</span> schema.<span class="function-name">Number</span>  (obj, path) <span class="keyword">return</span> <span class="function-name">TypeSchema</span>(obj, path, <span class="string">"number"</span>)   <span class="keyword">end</span>
+<span class="keyword">function</span> schema.<span class="function-name">String</span>  (obj, path) <span class="keyword">return</span> <span class="function-name">TypeSchema</span>(obj, path, <span class="string">"string"</span>)   <span class="keyword">end</span>
+<span class="keyword">function</span> schema.<span class="function-name">Table</span>   (obj, path) <span class="keyword">return</span> <span class="function-name">TypeSchema</span>(obj, path, <span class="string">"table"</span>)    <span class="keyword">end</span>
+<span class="keyword">function</span> schema.<span class="function-name">UserData</span>(obj, path) <span class="keyword">return</span> <span class="function-name">TypeSchema</span>(obj, path, <span class="string">"userdata"</span>) <span class="keyword">end</span>
+
+<span class="comment">-- Checks that some value is a string matching a given pattern.
+</span><span class="keyword">function</span> schema.<span class="function-name">Pattern</span>(pattern)
+    <span class="keyword">local</span> userPattern = pattern
+    <span class="keyword">if</span> <span class="keyword">not</span> pattern:<span class="function-name">match</span>(<span class="string">"^^"</span>) <span class="keyword">then</span>
+        pattern = <span class="string">"^"</span> .. pattern
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> pattern:<span class="function-name">match</span>(<span class="string">"$$"</span>) <span class="keyword">then</span>
+        pattern = pattern .. <span class="string">"$"</span>
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">CheckPattern</span>(obj, path)
+        <span class="keyword">local</span> err = schema.<span class="function-name">String</span>(obj, path)
+        <span class="keyword">if</span> err <span class="keyword">then</span>
+            <span class="keyword">return</span> err
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> <span class="global">string</span>.<span class="function-name">match</span>(obj, pattern) <span class="keyword">then</span>
+            <span class="keyword">return</span> <span class="keyword">nil</span>
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Invalid value: '"</span>..path..<span class="string">"' must match pattern '"</span>..userPattern..<span class="string">"'"</span>, path)
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> CheckPattern
+<span class="keyword">end</span>
+
+<span class="comment">-- Checks that some number is an integer.
+</span><span class="keyword">function</span> schema.<span class="function-name">Integer</span>(obj, path)
+    <span class="keyword">local</span> err = schema.<span class="function-name">Number</span>(obj, path)
+    <span class="keyword">if</span> err <span class="keyword">then</span>
+        <span class="keyword">return</span> err
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> <span class="global">math</span>.<span class="function-name">floor</span>(obj) == obj <span class="keyword">then</span>
+        <span class="keyword">return</span> <span class="keyword">nil</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Invalid value: '"</span>..path..<span class="string">"' must be an integral number"</span>, path)
+<span class="keyword">end</span>
+
+<span class="comment">-- Checks that some number is &gt;= 0.
+</span><span class="keyword">function</span> schema.<span class="function-name">NonNegativeNumber</span>(obj, path)
+    <span class="keyword">local</span> err = schema.<span class="function-name">Number</span>(obj, path)
+    <span class="keyword">if</span> err <span class="keyword">then</span>
+        <span class="keyword">return</span> err
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> obj &gt;= <span class="number">0</span> <span class="keyword">then</span>
+        <span class="keyword">return</span> <span class="keyword">nil</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Invalid value: '"</span>..path..<span class="string">"' must be &gt;= 0"</span>, path)
+<span class="keyword">end</span>
+
+<span class="comment">-- Checks that some number is &gt; 0.
+</span><span class="keyword">function</span> schema.<span class="function-name">PositiveNumber</span>(obj, path)
+    <span class="keyword">local</span> err = schema.<span class="function-name">Number</span>(obj, path)
+    <span class="keyword">if</span> err <span class="keyword">then</span>
+        <span class="keyword">return</span> err
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> obj &gt; <span class="number">0</span> <span class="keyword">then</span>
+        <span class="keyword">return</span> <span class="keyword">nil</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Invalid value: '"</span>..path..<span class="string">"' must be &gt; 0"</span>, path)
+<span class="keyword">end</span>
+
+<span class="comment">-- Checks that some value is a number from the interval [lower, upper].
+</span><span class="keyword">function</span> schema.<span class="function-name">NumberFrom</span>(lower, upper)
+    <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">CheckNumberFrom</span>(obj, path)
+        <span class="keyword">local</span> err = schema.<span class="function-name">Number</span>(obj, path)
+        <span class="keyword">if</span> err <span class="keyword">then</span>
+            <span class="keyword">return</span> err
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> lower &lt;= obj <span class="keyword">and</span> upper &gt;= obj <span class="keyword">then</span>
+            <span class="keyword">return</span> <span class="keyword">nil</span>
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Invalid value: '"</span>..path..<span class="string">"' must be between "</span>..lower..<span class="string">" and "</span>..upper, path)
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> CheckNumberFrom
+<span class="keyword">end</span>
+
+<span class="comment">-- Takes schemata and accepts their disjunction.
+</span><span class="keyword">function</span> schema.<span class="function-name">OneOf</span>(...)
+    <span class="keyword">local</span> arg = {...}
+    <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">CheckOneOf</span>(obj, path)
+        <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(arg) <span class="keyword">do</span>
+            <span class="keyword">local</span> err = schema.<span class="function-name">CheckSchema</span>(obj, v, path)
+            <span class="keyword">if</span> <span class="keyword">not</span> err <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">nil</span> <span class="keyword">end</span>
+        <span class="keyword">end</span>
+        <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"No suitable alternative: No schema matches '"</span>..path..<span class="string">"'"</span>, path)
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> CheckOneOf
+<span class="keyword">end</span>
+
+<span class="comment">-- Takes a schema and returns an optional schema.
+</span><span class="keyword">function</span> schema.<span class="function-name">Optional</span>(s)
+    <span class="keyword">return</span> schema.<span class="function-name">OneOf</span>(s, schema.Nil)
+<span class="keyword">end</span>
+
+<span class="comment">-- Takes schemata and accepts their conjuction.
+</span><span class="keyword">function</span> schema.<span class="function-name">AllOf</span>(...)
+    <span class="keyword">local</span> arg = {...}
+    <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">CheckAllOf</span>(obj, path)
+        <span class="keyword">local</span> errmsg = <span class="keyword">nil</span>
+        <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(arg) <span class="keyword">do</span>
+            <span class="keyword">local</span> err = schema.<span class="function-name">CheckSchema</span>(obj, v, path)
+            <span class="keyword">if</span> err <span class="keyword">then</span>
+                <span class="keyword">if</span> errmsg == <span class="keyword">nil</span> <span class="keyword">then</span>
+                    errmsg = err
+                <span class="keyword">else</span>
+                    errmsg = errmsg:<span class="function-name">append</span>(err)
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+        <span class="keyword">return</span> errmsg
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> CheckAllOf
+<span class="keyword">end</span>
+
+<span class="comment">-- Builds a record type schema, i.e. a table with a fixed set of keys (strings)
+</span><span class="comment">-- with corresponding values. Use as in
+</span><span class="comment">-- Record({
+</span><span class="comment">--  name  = schema,
+</span><span class="comment">--  name2 = schema2
+</span><span class="comment">--  })
+</span><span class="keyword">function</span> schema.<span class="function-name">Record</span>(recordschema, additionalValues)
+    <span class="keyword">if</span> additionalValues == <span class="keyword">nil</span> <span class="keyword">then</span>
+        additionalValues = <span class="keyword">false</span>
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">CheckRecord</span>(obj, path)
+        <span class="keyword">if</span> <span class="global">type</span>(obj) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+            <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Type mismatch: '"</span>..path..<span class="string">"' should be a record (table), is "</span>..<span class="global">type</span>(obj), path)
+        <span class="keyword">end</span>
+
+        <span class="keyword">local</span> errmsg = <span class="keyword">nil</span>
+        <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">AddError</span>(msg)
+            <span class="keyword">if</span> errmsg == <span class="keyword">nil</span> <span class="keyword">then</span>
+                errmsg = msg
+            <span class="keyword">else</span>
+                errmsg = errmsg:<span class="function-name">append</span>(msg)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">pairs</span>(recordschema) <span class="keyword">do</span>
+            path:<span class="function-name">push</span>(k)
+            <span class="keyword">local</span> err = schema.<span class="function-name">CheckSchema</span>(obj[k], v, path)
+            <span class="keyword">if</span> err <span class="keyword">then</span>
+                <span class="function-name">AddError</span>(err)
+            <span class="keyword">end</span>
+            path:<span class="function-name">pop</span>()
+        <span class="keyword">end</span>
+
+        <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">pairs</span>(obj) <span class="keyword">do</span>
+            path:<span class="function-name">push</span>(k)
+            <span class="keyword">if</span> <span class="global">type</span>(k) ~= <span class="string">"string"</span> <span class="keyword">then</span>
+                <span class="function-name">AddError</span>(schema.<span class="function-name">Error</span>(<span class="string">"Invalid key: '"</span>..path..<span class="string">"' must be of type 'string'"</span>, path))
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> recordschema[k] == <span class="keyword">nil</span> <span class="keyword">and</span> <span class="keyword">not</span> additionalValues <span class="keyword">then</span>
+                <span class="function-name">AddError</span>(schema.<span class="function-name">Error</span>(<span class="string">"Superfluous value: '"</span>..path..<span class="string">"' does not appear in the record schema"</span>, path))
+            <span class="keyword">end</span>
+            path:<span class="function-name">pop</span>()
+        <span class="keyword">end</span>
+        <span class="keyword">return</span> errmsg
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> CheckRecord
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> schema.<span class="function-name">MixedTable</span>(t_schema, additional_values)
+    <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">CheckMixedTable</span>(obj, path)
+        <span class="keyword">local</span> obj_t = <span class="global">type</span>(obj)
+        <span class="keyword">if</span> obj_t ~= <span class="string">"table"</span> <span class="keyword">then</span>
+            <span class="keyword">local</span> msg = (<span class="string">"Type mismatch: '%s' should be a table, is %s"</span>):<span class="function-name">format</span>(path, obj_t)
+            <span class="keyword">return</span> schema.<span class="function-name">Error</span>(msg, path)
+        <span class="keyword">end</span>
+
+        <span class="keyword">local</span> errmsg = <span class="keyword">nil</span>
+        <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">AddError</span>(msg)
+            <span class="keyword">if</span> errmsg == <span class="keyword">nil</span> <span class="keyword">then</span>
+                errmsg = msg
+            <span class="keyword">else</span>
+                errmsg = errmsg:<span class="function-name">append</span>(msg)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">local</span> checked_keys = {}
+        <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">pairs</span>(t_schema) <span class="keyword">do</span>
+            path:<span class="function-name">push</span>(k)
+            <span class="keyword">local</span> err = schema.<span class="function-name">CheckSchema</span>(obj[k], v, path)
+            <span class="keyword">if</span> err <span class="keyword">then</span>
+                <span class="function-name">AddError</span>(err)
+            <span class="keyword">end</span>
+            checked_keys[k] = <span class="keyword">true</span>
+            path:<span class="function-name">pop</span>()
+        <span class="keyword">end</span>
+
+        <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">pairs</span>(obj) <span class="keyword">do</span>
+            <span class="keyword">if</span> <span class="keyword">not</span> checked_keys[k] <span class="keyword">then</span>
+                path:<span class="function-name">push</span>(k)
+                <span class="keyword">local</span> k_type = <span class="global">type</span>(k)
+                <span class="keyword">if</span> k_type ~= <span class="string">"string"</span> <span class="keyword">and</span> k_type ~= <span class="string">"number"</span> <span class="keyword">then</span>
+                    <span class="keyword">local</span> msg = (<span class="string">"Invalid key: '%s' must be of type 'string' or 'number'"</span>):<span class="function-name">format</span>(k_type)
+                    <span class="function-name">AddError</span>(schema.<span class="function-name">Error</span>(msg, path))
+                <span class="keyword">end</span>
+
+                <span class="keyword">local</span> t_schema_v = t_schema[k]
+                <span class="keyword">if</span> t_schema_v <span class="keyword">then</span>
+                    <span class="keyword">local</span> err = schema.<span class="function-name">CheckSchema</span>(v, t_schema_v, path)
+                    <span class="keyword">if</span> err <span class="keyword">then</span>
+                        <span class="function-name">AddError</span>(err)
+                    <span class="keyword">end</span>
+                <span class="keyword">else</span>
+                    <span class="keyword">if</span> <span class="keyword">not</span> additional_values <span class="keyword">then</span>
+                        <span class="keyword">local</span> msg = (<span class="string">"Superfluous value: '%s' does not appear in the table schema"</span>)
+                                            :<span class="function-name">format</span>(path)
+                        <span class="function-name">AddError</span>(schema.<span class="function-name">Error</span>(msg, path))
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+                path:<span class="function-name">pop</span>()
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+        <span class="keyword">return</span> errmsg
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> CheckMixedTable
+<span class="keyword">end</span>
+
+<span class="comment">-- Builds a map type schema, i.e. a table with an arbitraty number of
+</span><span class="comment">-- entries where both all keys (and all vaules) fit a common schema.
+</span><span class="keyword">function</span> schema.<span class="function-name">Map</span>(keyschema, valschema)
+    <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">CheckMap</span>(obj, path)
+        <span class="keyword">if</span> <span class="global">type</span>(obj) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+            <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Type mismatch: '"</span>..path..<span class="string">"' should be a map (table), is "</span>..<span class="global">type</span>(obj), path)
+        <span class="keyword">end</span>
+
+        <span class="keyword">local</span> errmsg = <span class="keyword">nil</span>
+        <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">AddError</span>(msg)
+            <span class="keyword">if</span> errmsg == <span class="keyword">nil</span> <span class="keyword">then</span>
+                errmsg = msg
+            <span class="keyword">else</span>
+                errmsg = errmsg:<span class="function-name">append</span>(msg)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">-- aggregate error message
+</span>        <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">pairs</span>(obj) <span class="keyword">do</span>
+            path:<span class="function-name">push</span>(k)
+            <span class="keyword">local</span> keyErr = schema.<span class="function-name">CheckSchema</span>(k, keyschema, path)
+            <span class="keyword">if</span> keyErr <span class="keyword">then</span>
+                <span class="function-name">AddError</span>(schema.<span class="function-name">Error</span>(<span class="string">"Invalid map key"</span>, path, keyErr))
+            <span class="keyword">end</span>
+
+            <span class="keyword">local</span> valErr = schema.<span class="function-name">CheckSchema</span>(v, valschema, path)
+            <span class="keyword">if</span> valErr <span class="keyword">then</span>
+                <span class="function-name">AddError</span>(valErr)
+            <span class="keyword">end</span>
+            path:<span class="function-name">pop</span>()
+        <span class="keyword">end</span>
+        <span class="keyword">return</span> errmsg
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> CheckMap
+<span class="keyword">end</span>
+
+<span class="comment">-- Builds a collection type schema, i.e. a table with an arbitrary number of
+</span><span class="comment">-- entries where we only care about the type of the values.
+</span><span class="keyword">function</span> schema.<span class="function-name">Collection</span>(valschema)
+    <span class="keyword">return</span> schema.<span class="function-name">Map</span>(schema.Any, valschema)
+<span class="keyword">end</span>
+
+<span class="comment">-- Builds a tuple type schema, i.e. a table with a fixed number of entries,
+</span><span class="comment">-- each indexed by a number and with a fixed type.
+</span><span class="keyword">function</span> schema.<span class="function-name">Tuple</span>(...)
+    <span class="keyword">local</span> arg = {...}
+
+    <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">CheckTuple</span>(obj, path)
+        <span class="keyword">if</span> <span class="global">type</span>(obj) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+            <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Type mismatch: '"</span>..path..<span class="string">"' should be a map (tuple), is "</span>..<span class="global">type</span>(obj), path)
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> #obj ~= #arg <span class="keyword">then</span>
+            <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Invalid length: '"</span>..path..<span class="string">" should have exactly "</span>..#arg..<span class="string">" elements"</span>, path)
+        <span class="keyword">end</span>
+
+        <span class="keyword">local</span> errmsg = <span class="keyword">nil</span>
+        <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">AddError</span>(msg)
+            <span class="keyword">if</span> errmsg == <span class="keyword">nil</span> <span class="keyword">then</span>
+                errmsg = msg
+            <span class="keyword">else</span>
+                errmsg = errmsg:<span class="function-name">append</span>(msg)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">local</span> min = <span class="number">1</span>
+        <span class="keyword">local</span> max = #arg
+        <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">pairs</span>(obj) <span class="keyword">do</span>
+            path:<span class="function-name">push</span>(k)
+            <span class="keyword">local</span> err = schema.<span class="function-name">Integer</span>(k, path)
+            <span class="keyword">if</span> <span class="keyword">not</span> err <span class="keyword">then</span>
+                err = schema.<span class="function-name">CheckSchema</span>(v, arg[k], path)
+                <span class="keyword">if</span> err <span class="keyword">then</span>
+                    <span class="function-name">AddError</span>(err)
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                <span class="function-name">AddError</span>(schema.<span class="function-name">Error</span>(<span class="string">"Invalid tuple key"</span>, path, err))
+            <span class="keyword">end</span>
+            path:<span class="function-name">pop</span>()
+        <span class="keyword">end</span>
+        <span class="keyword">return</span> errmsg
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> CheckTuple
+<span class="keyword">end</span>
+
+<span class="comment">-- Builds a conditional type schema, i.e. a schema that depends on the value of
+</span><span class="comment">-- another value. The dependence must be *local*, i.e. defined in the same
+</span><span class="comment">-- table. Use as in
+</span><span class="comment">--   Case("name", {"Peter", schema1}, {"Mary", schema2}, {OneOf(...), schema3})
+</span><span class="comment">-- This will check the field "name" against every schema in the first component
+</span><span class="comment">-- and will return the second component of the first match.
+</span><span class="keyword">function</span> schema.<span class="function-name">Case</span>(relativePath, ...)
+    <span class="keyword">if</span> <span class="global">type</span>(relativePath) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+        relativePath = schema.<span class="function-name">Path</span>(<span class="string">".."</span>, relativePath)
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> cases = {...}
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(cases) <span class="keyword">do</span>
+        <span class="keyword">if</span> <span class="global">type</span>(v) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+            <span class="global">error</span>(<span class="string">"Cases expects inputs of the form {conditionSchema, schema}; argument "</span>..v..<span class="string">" is invalid"</span>)
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">CheckCase</span>(obj, path)
+        <span class="keyword">local</span> condPath = path:<span class="function-name">copy</span>()
+        <span class="keyword">for</span> k=<span class="number">0</span>, #relativePath <span class="keyword">do</span>
+            <span class="keyword">local</span> s = relativePath:<span class="function-name">get</span>(k)
+            <span class="keyword">if</span> s == <span class="string">".."</span> <span class="keyword">then</span>
+                condPath:<span class="function-name">pop</span>()
+            <span class="keyword">else</span>
+                condPath:<span class="function-name">push</span>(s)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">local</span> errmsg = <span class="keyword">nil</span>
+        <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">AddError</span>(msg)
+            <span class="keyword">if</span> errmsg == <span class="keyword">nil</span> <span class="keyword">then</span>
+                errmsg = msg
+            <span class="keyword">else</span>
+                errmsg = errmsg:<span class="function-name">append</span>(msg)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">local</span> anyCond = <span class="keyword">false</span>
+        <span class="keyword">local</span> condObj = condPath:<span class="function-name">target</span>()
+        <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(cases) <span class="keyword">do</span>
+            <span class="keyword">local</span> condSchema = v[<span class="number">1</span>]
+            <span class="keyword">local</span> valSchema = v[<span class="number">2</span>]
+            <span class="keyword">local</span> condErr = schema.<span class="function-name">CheckSchema</span>(condObj, condSchema, condPath)
+            <span class="keyword">if</span> <span class="keyword">not</span> condErr <span class="keyword">then</span>
+                anyCond = <span class="keyword">true</span>
+                <span class="keyword">local</span> err = schema.<span class="function-name">CheckSchema</span>(obj, valSchema, path)
+                <span class="keyword">if</span> err <span class="keyword">then</span>
+                    <span class="function-name">AddError</span>(schema.<span class="function-name">Error</span>(<span class="string">"Case failed: Condition "</span>..k..<span class="string">" of '"</span>..path..<span class="string">"' holds but the consequence does not"</span>, path, err))
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> <span class="keyword">not</span> anyCond <span class="keyword">then</span>
+            <span class="function-name">AddError</span>(schema.<span class="function-name">Error</span>(<span class="string">"Case failed: No condition on '"</span>..path..<span class="string">"' holds"</span>))
+        <span class="keyword">end</span>
+
+        <span class="keyword">return</span> errmsg
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> CheckCase
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> schema.<span class="function-name">Test</span>(fn, msg)
+    <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">CheckTest</span>(obj, path)
+        <span class="keyword">local</span> pok, ok = <span class="global">pcall</span>(fn, obj)
+        <span class="keyword">if</span> pok <span class="keyword">and</span> ok <span class="keyword">then</span>
+            <span class="keyword">return</span> <span class="keyword">nil</span>
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> schema.<span class="function-name">Error</span>(<span class="string">"Invalid value: '"</span>..path..(msg <span class="keyword">and</span> <span class="string">"': "</span>..msg <span class="keyword">or</span> <span class="string">""</span>), path)
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> CheckTest
+<span class="keyword">end</span>
+
+<span class="keyword">return</span> schema</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

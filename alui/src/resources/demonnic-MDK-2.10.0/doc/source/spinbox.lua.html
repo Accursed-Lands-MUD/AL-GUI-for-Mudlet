@@ -1,0 +1,580 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><strong>spinbox.lua</strong></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>spinbox.lua</h2>
+<pre>
+<span class="comment">--- A Geyser object to create a spinbox for adjusting a number
+</span><span class="comment">-- @classmod spinbox
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2023
+</span><span class="comment">-- @license MIT, see https://raw.githubusercontent.com/demonnic/MDK/main/src/scripts/LICENSE.lua
+</span><span class="keyword">local</span> spinbox = {
+  parent = Geyser.Container,
+  name = <span class="string">'SpinboxClass'</span>,
+  min = <span class="number">0</span>,
+  max = <span class="number">10</span>,
+  delta = <span class="number">1</span>,
+  value = <span class="number">0</span>,
+  activeButtonColor = <span class="string">"gray"</span>,
+  inactiveButtonColor = <span class="string">"DimGray"</span>,
+  integer = <span class="keyword">true</span>,
+  upArrowLocation = <span class="string">"https://demonnic.github.io/image-assets/uparrow.png"</span>,
+  downArrowLocation = <span class="string">"https://demonnic.github.io/image-assets/downarrow.png"</span>,
+  color = <span class="string">"#202020"</span>
+}
+spinbox.__index = spinbox
+<span class="global">setmetatable</span>(spinbox, spinbox.parent)
+
+<span class="keyword">local</span> gss = Geyser.StyleSheet
+<span class="keyword">local</span> directory = <span class="function-name">getMudletHomeDir</span>() .. <span class="string">"/spinbox/"</span>
+<span class="keyword">local</span> saveFile = directory .. <span class="string">"fileLocations.lua"</span>
+<span class="keyword">if</span> <span class="keyword">not</span> <span class="global">io</span>.<span class="function-name">exists</span>(directory) <span class="keyword">then</span>
+  lfs.<span class="function-name">mkdir</span>(directory)
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates a new spinbox.
+</span><span class="comment">-- @tparam table cons a table containing the options for this spinbox.
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;min&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;The minimum value for this spinbox&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;0&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;max&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;The maximum value for this spinbox&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;10&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;activeButtonColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;The color the up/down buttons should be when they are active/able to be used&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;gray&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;inactiveButtonColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;The color the up/down buttons should be when they are inactive/unable to be used&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;dimgray&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;integer&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Boolean value. When true, values must always be integers (no decimal place)&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;delta&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;The amount to change the spinbox's value when the up or down button is pressed.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;1&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;upArrowLocation&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;The location of the up arrow image. Either a web URL where it can be downloaded, or the location on disk to read it from&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;https://demonnic.github.io/image-assets/uparrow.png&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;downArrowLocation&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;The location of the down arrow image. Either a web URL where it can be downloaded, or the location on disk to read it from&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;https://demonnic.github.io/image-assets/downarrow.png&lt;/td&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;callBack&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;The function to run when the spinbox's value is updated. Is called with parameters (self.name, value, oldValue)&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;nil&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--&lt;/tbody&gt;
+</span><span class="comment">--&lt;/table&gt;
+</span><a id="89"></a><span class="comment">-- @param container The Geyser container for this spinbox
+</span><span class="keyword">function</span> spinbox:<span class="function-name">new</span>(cons, container)
+  cons = cons <span class="keyword">or</span> {}
+  <span class="keyword">local</span> consType = <span class="global">type</span>(cons)
+  <span class="keyword">if</span> consType ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="function-name">printError</span>(<span class="function-name">f</span><span class="string">"spinbox:new(cons, container): cons as table of options expected, got {consType}!"</span>, <span class="keyword">true</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+  cons.name = cons.name <span class="keyword">or</span> Geyser.<span class="function-name">nameGen</span>(<span class="string">"spinbox"</span>)
+  <span class="keyword">local</span> me = self.parent:<span class="function-name">new</span>(cons, container)
+  <span class="global">setmetatable</span>(me, self)
+  me:<span class="function-name">createComponents</span>()
+  <span class="keyword">if</span> me.callBack <span class="keyword">then</span>
+    me:<span class="function-name">setCallBack</span>(me.callBack)
+  <span class="keyword">end</span>
+  me.oldValue = me.value
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates the components that make up the spinbox UI.
+</span><span class="comment">-- @local
+</span><span class="comment">-- Obtains the up and down arrow images specified in the spinbox options.
+</span><span class="comment">-- Generates styles for the spinbox.
+</span><span class="comment">-- Calculates the height of the up/down buttons and any remainder space.
+</span><span class="comment">-- Creates:
+</span><span class="comment">--   `self.upButton` - A button with an up arrow image for incrementing the value
+</span><span class="comment">--   `self.downButton` - A button with a down arrow image for decrementing the value
+</span><span class="comment">--   `self.displayLabel` - A label to display the current spinbox value
+</span><span class="comment">--   `self.input` - A command line input to allow directly entering a value
+</span><span class="comment">-- Hides the input by default.
+</span><span class="comment">-- Applies the generated styles.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">createComponents</span>()
+  self:<span class="function-name">obtainImages</span>()
+  self:<span class="function-name">generateStyles</span>()
+  self:<span class="function-name">calculateButtonDimensions</span>()
+
+  self.upButton = self:<span class="function-name">createButton</span>(<span class="string">"up"</span>)
+  self.downButton = self:<span class="function-name">createButton</span>(<span class="string">"down"</span>)
+
+  self.displayLabel = self:<span class="function-name">createDisplayLabel</span>()
+
+  self.input = self:<span class="function-name">createInput</span>()
+  self.input:<span class="function-name">hide</span>()
+
+  self:<span class="function-name">applyStyles</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Calculates the button height. We use square buttons in this house.
+</span><span class="comment">-- @local
+</span><span class="comment">-- Calculates the height of the up/down buttons by dividing the spinbox height in half.
+</span><span class="comment">-- Stores the remainder (if any) in self.remainder.
+</span><span class="comment">-- Stores the calculated button height in self.buttonHeight.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">calculateButtonDimensions</span>()
+  self.buttonHeight = <span class="global">math</span>.<span class="function-name">floor</span>(self.<span class="function-name">get_height</span>() / <span class="number">2</span>)
+  self.remainder = self.<span class="function-name">get_height</span>() % <span class="number">2</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates a button (up or down arrow) for the spinbox.
+</span><span class="comment">-- @param type Either "up" or "down" to specify which direction the arrow should point
+</span><span class="comment">-- @return The created Geyser.Label button
+</span><span class="comment">-- @local
+</span><span class="comment">-- Creates a Geyser.Label button with an up or down arrow image.
+</span><span class="comment">-- Positions the button at the top or bottom of the spinbox respectively.
+</span><span class="comment">-- Sets a click callback on the button to call increment() or decrement() depending on the type.
+</span><span class="comment">-- Returns the created button.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">createButton</span>(<span class="global">type</span>)
+  <span class="keyword">local</span> button = Geyser.Label:<span class="function-name">new</span>({
+    name = self.name .. <span class="string">"spinbox_"</span>..<span class="global">type</span>..<span class="string">"Arrow"</span>,
+    height = self.buttonHeight,
+    width = self.buttonHeight,
+    x = <span class="string">"100%-"</span> .. self.buttonHeight,
+    y = <span class="global">type</span> == <span class="string">"up"</span> <span class="keyword">and</span> <span class="number">0</span> <span class="keyword">or</span> self.buttonHeight + self.remainder,
+  }, self)
+
+  button:<span class="function-name">setClickCallback</span>(<span class="keyword">function</span>()
+    <span class="keyword">if</span> <span class="global">type</span> == <span class="string">"up"</span> <span class="keyword">then</span>
+      self:<span class="function-name">increment</span>()
+    <span class="keyword">else</span>
+      self:<span class="function-name">decrement</span>()
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>)
+  <span class="keyword">return</span> button
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates the display label for the spinbox value.
+</span><span class="comment">-- @return The created Geyser.Label display label
+</span><span class="comment">-- @local
+</span><span class="comment">-- Creates a Geyser.Label to display the current spinbox value.
+</span><span class="comment">-- Centers the text in the label.
+</span><span class="comment">-- Sets a double click callback on the label to show the input, put the current
+</span><span class="comment">-- value in it, select the text, and hide the label.
+</span><span class="comment">-- Returns the created display label.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">createDisplayLabel</span>()
+  <span class="keyword">local</span> displayLabel = Geyser.Label:<span class="function-name">new</span>({
+    name = self.name .. <span class="string">"spinbox_displayLabel"</span>,
+    x = <span class="number">0</span>,
+    y = <span class="number">0</span>,
+    width = <span class="string">"100%-"</span> .. self.buttonHeight,
+    height = <span class="string">"100%"</span>,
+    message = self.value
+  }, self)
+  displayLabel:<span class="function-name">setAlignment</span>(<span class="string">"center"</span>)
+  displayLabel:<span class="function-name">setDoubleClickCallback</span>(<span class="keyword">function</span>()
+    self.input:<span class="function-name">show</span>()
+    self.input:<span class="global">print</span>(self.value)
+    self.input:<span class="function-name">selectText</span>()
+    displayLabel:<span class="function-name">hide</span>()
+  <span class="keyword">end</span>)
+  <span class="keyword">return</span> displayLabel
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates the input for directly entering a spinbox value.
+</span><span class="comment">-- @return The created Geyser.CommandLine input
+</span><span class="comment">-- @local
+</span><span class="comment">-- Creates a Geyser.CommandLine input.
+</span><span class="comment">-- Sets an action on the input to:
+</span><span class="comment">--   - Attempt to convert the input text to a number
+</span><span class="comment">--   - If successful, call setValue() with the number to set the spinbox value
+</span><span class="comment">--   - Hide the input
+</span><span class="comment">--   - Show the display label
+</span><span class="comment">--   - Put the new spinbox value in the input
+</span><span class="comment">-- Returns the created input.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">createInput</span>()
+  <span class="keyword">local</span> input = Geyser.CommandLine:<span class="function-name">new</span>({
+    x = <span class="number">0</span>,
+    y = <span class="number">0</span>,
+    width = <span class="string">"100%-"</span>.. self.buttonHeight,
+    height = <span class="string">"100%"</span>,
+  }, self)
+  input:<span class="function-name">setAction</span>(<span class="keyword">function</span>(txt)
+    txt = <span class="global">tonumber</span>(txt)
+    <span class="keyword">if</span> txt <span class="keyword">then</span>
+      self:<span class="function-name">setValue</span>(txt)
+      input:<span class="function-name">hide</span>()
+    <span class="keyword">end</span>
+    self.displayLabel:<span class="function-name">show</span>()
+    input:<span class="global">print</span>(self.value)
+  <span class="keyword">end</span>)
+  <span class="keyword">return</span> input
+<span class="keyword">end</span>
+
+<span class="comment">--- Used to increment the value by the delta amount
+</span><span class="comment">-- @local
+</span><span class="comment">-- Increments the spinbox value by the delta amount.
+</span><span class="comment">-- Checks if the new value would exceed the max, and if so sets it to the max.
+</span><span class="comment">-- Updates the display label with the new value.
+</span><span class="comment">-- Applies any styles that depend on the value.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">increment</span>()
+  <span class="keyword">local</span> val = self.value + self.delta
+  <span class="keyword">if</span> val &gt;= self.max <span class="keyword">then</span>
+    val = self.max
+  <span class="keyword">end</span>
+  self.oldValue = self.value
+  self.value = val
+  self.displayLabel:<span class="function-name">echo</span>(val)
+  self:<span class="function-name">applyStyles</span>()
+  self:<span class="function-name">handleCallBacks</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Used to decrement the value by the delta amount
+</span><span class="comment">-- @local
+</span><span class="comment">-- Decrements the spinbox value by the delta amount.
+</span><span class="comment">-- Checks if the new value would be below the min, and if so sets it to the min.
+</span><span class="comment">-- Updates the display label with the new value.
+</span><span class="comment">-- Applies any styles that depend on the value.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">decrement</span>()
+  <span class="keyword">local</span> val = self.value - self.delta
+  <span class="keyword">if</span> val &lt;= self.min <span class="keyword">then</span>
+    val = self.min
+  <span class="keyword">end</span>
+  self.oldValue = self.value
+  self.value = val
+  self.displayLabel:<span class="function-name">echo</span>(val)
+  self:<span class="function-name">applyStyles</span>()
+  self:<span class="function-name">handleCallBacks</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Used to directly set the value of the spinbox.
+</span><span class="comment">-- @param value The new value to set
+</span><span class="comment">-- Rounds the value to an integer if the spinbox is integer only.
+</span><span class="comment">-- Checks if the new value is within the min/max range and clamps it if not.
+</span><span class="comment">-- Updates the display label with the new value.
+</span><a id="270"></a><span class="comment">-- Applies any styles that depend on the value.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">setValue</span>(value)
+  <span class="keyword">if</span> self.integer <span class="keyword">then</span>
+    value = <span class="global">math</span>.<span class="function-name">floor</span>(value)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> value &gt;= self.max <span class="keyword">then</span>
+    value = self.max
+  <span class="keyword">elseif</span> value &lt;= self.min <span class="keyword">then</span>
+    value = self.min
+  <span class="keyword">end</span>
+  self.oldValue = self.value
+  self.value = value
+  self.displayLabel:<span class="function-name">echo</span>(value)
+  self:<span class="function-name">applyStyles</span>()
+  self:<span class="function-name">handleCallBacks</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Obtains the up and down arrow images for the spinbox.
+</span><span class="comment">-- @local
+</span><span class="comment">-- Gets the previously saved file locations.
+</span><span class="comment">-- Checks if the up arrow image exists at the upArrowLocation.
+</span><span class="comment">-- If not, it will download the image from a URL or copy a local file. It saves
+</span><span class="comment">-- the new location.
+</span><span class="comment">-- Does the same for the down arrow image and downArrowLocation.
+</span><span class="comment">-- Saves any new locations to the save file.
+</span><span class="comment">-- Sets self.upArrowFile and self.downArrowFile to the locations of the images.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">obtainImages</span>()
+  <span class="keyword">local</span> locations = self:<span class="function-name">getFileLocs</span>()
+  <span class="keyword">local</span> upURL = self.upArrowLocation
+  <span class="keyword">local</span> downURL = self.downArrowLocation
+  <span class="keyword">local</span> upFile = locations[upURL]
+  <span class="keyword">local</span> downFile = locations[downURL]
+  <span class="keyword">local</span> locationsChanged = <span class="keyword">false</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> (upFile <span class="keyword">and</span> <span class="global">io</span>.<span class="function-name">exists</span>(upFile)) <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> upFile <span class="keyword">then</span>
+      upFile = directory .. self.name .. <span class="string">"/uparrow.png"</span>
+      locations[upURL] = upFile
+      locationsChanged = <span class="keyword">true</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> upURL:<span class="function-name">match</span>(<span class="string">"^http"</span>) <span class="keyword">then</span>
+      self:<span class="function-name">downloadFile</span>(upURL, upFile)
+    <span class="keyword">elseif</span> <span class="global">io</span>.<span class="function-name">exists</span>(upURL) <span class="keyword">then</span>
+      upFile = upURL
+      locations[upURL] = upFile
+      locationsChanged = <span class="keyword">true</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> (downFile <span class="keyword">and</span> <span class="global">io</span>.<span class="function-name">exists</span>(downFile)) <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> downFile <span class="keyword">then</span>
+      downFile = directory .. self.name .. <span class="string">"/downarrow.png"</span>
+      locations[downURL] = downFile
+      locationsChanged = <span class="keyword">true</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> downURL:<span class="function-name">match</span>(<span class="string">"^http"</span>) <span class="keyword">then</span>
+      self:<span class="function-name">downloadFile</span>(downURL, downFile)
+    <span class="keyword">elseif</span> <span class="global">io</span>.<span class="function-name">exists</span>(downURL) <span class="keyword">then</span>
+      downFile = downURL
+      locations[downURL] = downFile
+      locationsChanged = <span class="keyword">true</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  self.upArrowFile = upFile
+  self.downArrowFile = downFile
+  <span class="keyword">if</span> locationsChanged <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">save</span>(saveFile, locations)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Handles the actual download of a file from a url
+</span><span class="comment">-- @param url The url to download the file from
+</span><span class="comment">-- @param fileName The location to save the downloaded file
+</span><span class="comment">-- @local
+</span><span class="comment">-- Creates any missing directories in the file path.
+</span><span class="comment">-- Registers named event handlers to handle the download completing or erroring.
+</span><span class="comment">-- The completion handler stops the error handler.
+</span><span class="comment">-- The error handler prints an error message and stops the completion handler.
+</span><span class="comment">-- Downloads the file from the url to the fileName location.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">downloadFile</span>(url, fileName)
+  <span class="keyword">local</span> parts = fileName:<span class="function-name">split</span>(<span class="string">"/"</span>)
+  parts[#parts] = <span class="keyword">nil</span>
+  <span class="keyword">local</span> dirName = <span class="global">table</span>.<span class="function-name">concat</span>(parts, <span class="string">"/"</span>) .. <span class="string">"/"</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">io</span>.<span class="function-name">exists</span>(dirName) <span class="keyword">then</span>
+    lfs.<span class="function-name">mkdir</span>(dirName)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> uname = <span class="string">"spinbox"</span>
+  <span class="keyword">local</span> handlerName = self.name .. url
+  <span class="keyword">local</span> handler = <span class="keyword">function</span>(event, ...)
+    <span class="keyword">local</span> args = {...}
+    <span class="keyword">local</span> file = #args == <span class="number">1</span> <span class="keyword">and</span> args[<span class="number">1</span>] <span class="keyword">or</span> args[<span class="number">2</span>]
+    <span class="keyword">if</span> file ~= fileName <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="keyword">true</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> event == <span class="string">"sysDownloadDone"</span> <span class="keyword">then</span>
+      <span class="function-name">debugc</span>(<span class="function-name">f</span><span class="string">"INFO:Spinbox successfully downloaded {file}"</span>)
+      <span class="function-name">stopNamedEventHandler</span>(uname, handlerName .. <span class="string">"error"</span>)
+      <span class="keyword">return</span> <span class="keyword">false</span>
+    <span class="keyword">end</span>
+    <span class="function-name">cecho</span>(<span class="function-name">f</span><span class="string">"\n&lt;red&gt;ERROR:&lt;reset&gt;Spinbox had an issue downloading an image file to {file}: {args[1]}\n"</span>)
+    <span class="function-name">stopNamedEventHandler</span>(uname, handlerName .. <span class="string">"done"</span>)
+  <span class="keyword">end</span>
+  <span class="function-name">registerNamedEventHandler</span>(uname, handlerName .. <span class="string">"done"</span>, <span class="string">"sysDownloadDone"</span>, handler, <span class="keyword">true</span>)
+  <span class="function-name">registerNamedEventHandler</span>(uname, handlerName .. <span class="string">"error"</span>, <span class="string">"sysDownloadError"</span>, handler, <span class="keyword">true</span>)
+  <span class="function-name">downloadFile</span>(fileName, url)
+<span class="keyword">end</span>
+
+<span class="comment">--- Responsible for reading the file locations from disk and returning them
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> spinbox:<span class="function-name">getFileLocs</span>()
+  <span class="keyword">local</span> locations = {}
+  <span class="keyword">if</span> <span class="global">io</span>.<span class="function-name">exists</span>(saveFile) <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="global">load</span>(saveFile, locations)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> locations
+<span class="keyword">end</span>
+
+<span class="comment">--- (Re)generates the stylesheets for the spinbox
+</span><span class="comment">-- Should not need to call but if you change something and it doesn't take effect
+</span><a id="387"></a><span class="comment">-- you can try calling this followed by applyStyles
+</span><span class="keyword">function</span> spinbox:<span class="function-name">generateStyles</span>()
+  self.baseStyle = gss:<span class="function-name">new</span>(<span class="string">[[
+    border-radius: 2px;
+    border-color: black;
+  ]]</span>)
+  self.activeStyle = gss:<span class="function-name">new</span>(<span class="function-name">f</span><span class="string">[[
+    background-color: {self.activeButtonColor};
+  ]]</span>, self.baseStyle)
+  self.inactiveStyle = gss:<span class="function-name">new</span>(<span class="function-name">f</span><span class="string">[[
+    background-color: {self.inactiveButtonColor};
+  ]]</span>, self.baseStyle)
+  self.upStyle = gss:<span class="function-name">new</span>(<span class="function-name">f</span><span class="string">[[
+    border-image: url("{self.upArrowFile}");
+  ]]</span>)
+  self.downStyle = gss:<span class="function-name">new</span>(<span class="function-name">f</span><span class="string">[[
+    border-image: url("{self.downArrowFile}");
+  ]]</span>)
+  self.displayStyle = gss:<span class="function-name">new</span>(<span class="function-name">f</span><span class="string">[[
+    background-color: {Geyser.Color.hex(self.color)};
+    text-align: center;
+  ]]</span>, self.baseStyle)
+<span class="keyword">end</span>
+
+<span class="comment">--- Applies updated stylesheets to the components of the spinbox
+</span><span class="comment">-- Should not need to call this directly
+</span><span class="keyword">function</span> spinbox:<span class="function-name">applyStyles</span>()
+  <span class="keyword">if</span> self.value &gt;= self.max <span class="keyword">then</span>
+    self.upStyle:<span class="function-name">setParent</span>(self.inactiveStyle)
+  <span class="keyword">else</span>
+    self.upStyle:<span class="function-name">setParent</span>(self.activeStyle)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.value &lt;= self.min <span class="keyword">then</span>
+    self.downStyle:<span class="function-name">setParent</span>(self.inactiveStyle)
+  <span class="keyword">else</span>
+    self.downStyle:<span class="function-name">setParent</span>(self.activeStyle)
+  <span class="keyword">end</span>
+  self.upButton:<span class="function-name">setStyleSheet</span>(self.upStyle:<span class="function-name">getCSS</span>())
+  self.downButton:<span class="function-name">setStyleSheet</span>(self.downStyle:<span class="function-name">getCSS</span>())
+  self.displayLabel:<span class="function-name">setStyleSheet</span>(self.displayStyle:<span class="function-name">getCSS</span>())<a id="412"></a>
+<span class="keyword">end</span>
+
+<span class="comment">--- sets the color for active buttons on the spinbox
+</span><span class="comment">-- @param color any valid color formatting string, such a "red" or "#880000" or "&lt;128,0,0&gt;" or a table of colors, like {128, 0,0}. See Geyser.Color.parse at https://www.mudlet.org/geyser/files/geyser/GeyserColor.html#Geyser.Color.parse
+</span><span class="keyword">function</span> spinbox:<span class="function-name">setActiveButtonColor</span>(color)
+  <span class="keyword">local</span> colorType = <span class="global">type</span>(color)
+  <span class="keyword">local</span> hex
+  <span class="keyword">if</span> colorType == <span class="string">"table"</span> <span class="keyword">then</span>
+    hex = Geyser.Color.<span class="function-name">hex</span>(<span class="global">unpack</span>(color))
+  <span class="keyword">else</span>
+    hex = Geyser.Color.<span class="function-name">hex</span>(color)
+  <span class="keyword">end</span>
+  self.activeButtonColor = hex
+  self.activeStyle:<span class="function-name">set</span>(<span class="string">"background-color"</span>, hex)
+  self:<span class="function-name">applyStyles</span>()
+<span class="keyword">end</span>
+
+<a id="430"></a><span class="comment">--- sets the color for inactive buttons on the spinbox
+</span><span class="comment">-- @param color any valid color formatting string, such a "&lt;red&gt;" or "red" or "&lt;128,0,0&gt;" or a table of colors, like {128, 0,0}. See Geyser.Color.parse at https://www.mudlet.org/geyser/files/geyser/GeyserColor.html#Geyser.Color.parse
+</span><span class="keyword">function</span> spinbox:<span class="function-name">setInactiveButtonColor</span>(color)
+  <span class="keyword">local</span> colorType = <span class="global">type</span>(color)
+  <span class="keyword">local</span> hex
+  <span class="keyword">if</span> colorType == <span class="string">"table"</span> <span class="keyword">then</span>
+    hex = Geyser.Color.<span class="function-name">hex</span>(<span class="global">unpack</span>(color))
+  <span class="keyword">else</span>
+    hex = Geyser.Color.<span class="function-name">hex</span>(color)
+  <span class="keyword">end</span>
+  self.inactiveButtonColor = hex
+  self.inactiveStyle:<span class="function-name">set</span>(<span class="string">"background-color"</span>, hex)
+  self:<span class="function-name">applyStyles</span>()
+<span class="keyword">end</span>
+
+<a id="445"></a><span class="comment">-- internal function that handles calling a registered callback and raising an event any time the
+</span><span class="comment">-- spinbox value is changed, whether using the buttons or the :set function.
+</span><span class="keyword">function</span> spinbox:<span class="function-name">handleCallBacks</span>()
+  <span class="function-name">raiseEvent</span>(<span class="string">"spinbox updated"</span>, self.name, self.value, self.oldValue)
+  <span class="keyword">if</span> self.callBack <span class="keyword">then</span>
+    <span class="keyword">local</span> ok, err = <span class="global">pcall</span>(self.callBack, self.name, self.value, self.oldValue)
+    <span class="keyword">if</span> <span class="keyword">not</span> ok <span class="keyword">then</span>
+      <span class="function-name">printError</span>(<span class="function-name">f</span><span class="string">"Had an issue running the callback handler for spinbox named {self.name}: {err}"</span>, <span class="keyword">true</span>, <span class="keyword">true</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Set a callback function for the spinbox to call any time the value of the spinbox is changed
+</span><span class="comment">-- the function will be called as func(self.value, self.name)
+</span><span class="keyword">function</span> spinbox:<span class="function-name">setCallBack</span>(func)
+  <span class="keyword">local</span> funcType = <span class="global">type</span>(func)
+  <span class="keyword">if</span> funcType ~= <span class="string">"function"</span> <span class="keyword">then</span>
+    <span class="function-name">printError</span>(<span class="function-name">f</span><span class="string">"spinbox:setCallBack(func): func as function required, got {funcType}"</span>, <span class="keyword">true</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+  self.callBack = func
+  <span class="keyword">return</span> <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="keyword">return</span> spinbox</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

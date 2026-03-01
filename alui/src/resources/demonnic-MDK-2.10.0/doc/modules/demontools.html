@@ -1,0 +1,1330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>demontools</strong></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>demontools</code></h1>
+<p>Collection of miscellaneous functions and tools which don't necessarily warrant their own module/class</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2020 Damian Monogue</li>
+        <li><strong>License</strong>: MIT, see LICENSE.lua</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.chunkify">DemonTools.chunkify(tbl, num_chunks)</a></td>
+	<td class="summary">Takes a list table and returns it as a table of 'chunks'.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.ansi2cecho">DemonTools.ansi2cecho(text)</a></td>
+	<td class="summary">Takes an ansi colored text string and returns a cecho colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.ansi2decho">DemonTools.ansi2decho(text)</a></td>
+	<td class="summary">Takes an ansi colored text string and returns a decho colored one.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.ansi2hecho">DemonTools.ansi2hecho(text)</a></td>
+	<td class="summary">Takes an ansi colored text string and returns a hecho colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.cecho2decho">DemonTools.cecho2decho(text)</a></td>
+	<td class="summary">Takes an cecho colored text string and returns a decho colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.cecho2ansi">DemonTools.cecho2ansi(text)</a></td>
+	<td class="summary">Takes an cecho colored text string and returns an ansi colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.cecho2hecho">DemonTools.cecho2hecho(text)</a></td>
+	<td class="summary">Takes an cecho colored text string and returns a hecho colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.decho2cecho">DemonTools.decho2cecho(text)</a></td>
+	<td class="summary">Takes an decho colored text string and returns a cecho colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.decho2ansi">DemonTools.decho2ansi(text)</a></td>
+	<td class="summary">Takes an decho colored text string and returns an ansi colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.decho2hecho">DemonTools.decho2hecho(text)</a></td>
+	<td class="summary">Takes an decho colored text string and returns an hecho colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.decho2html">DemonTools.decho2html(text)</a></td>
+	<td class="summary">Takes a decho colored text string and returns html.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.cecho2html">DemonTools.cecho2html(text)</a></td>
+	<td class="summary">Takes a cecho colored text string and returns html.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.hecho2html">DemonTools.hecho2html(text)</a></td>
+	<td class="summary">Takes a hecho colored text string and returns html.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.ansi2html">DemonTools.ansi2html(text)</a></td>
+	<td class="summary">Takes an ansi colored text string and returns html.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.html2cecho">DemonTools.html2cecho(text)</a></td>
+	<td class="summary">Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns a cecho string</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.html2decho">DemonTools.html2decho(text)</a></td>
+	<td class="summary">Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns a decho string</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.html2ansi">DemonTools.html2ansi(text)</a></td>
+	<td class="summary">Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns an ansi string</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.html2hecho">DemonTools.html2hecho(text)</a></td>
+	<td class="summary">Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns an hecho string</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.cecho2string">DemonTools.cecho2string(text)</a></td>
+	<td class="summary">Takes a cecho string and returns it without the formatting</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.decho2string">DemonTools.decho2string(text)</a></td>
+	<td class="summary">Takes a decho string and returns it without the formatting</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.hecho2string">DemonTools.hecho2string(text)</a></td>
+	<td class="summary">Takes a hecho string and returns it without the formatting</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.html2string">DemonTools.html2string(text)</a></td>
+	<td class="summary">Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns a clean string</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.hecho2ansi">DemonTools.hecho2ansi(text)</a></td>
+	<td class="summary">Takes an hecho colored text string and returns a ansi colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.hecho2cecho">DemonTools.hecho2cecho(text)</a></td>
+	<td class="summary">Takes an hecho colored text string and returns a cecho colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.hecho2decho">DemonTools.hecho2decho(text)</a></td>
+	<td class="summary">Takes an hecho colored text string and returns a decho colored one</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.append2decho">DemonTools.append2decho()</a></td>
+	<td class="summary">Takes the currently copy()ed item and returns it as a decho string</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.consoleToString">DemonTools.consoleToString(options)</a></td>
+	<td class="summary">Dump the contents of a miniconsole, user window, or the main window in one of several formats, as determined by a table of options</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.displayColors">DemonTools.displayColors(options)</a></td>
+	<td class="summary">Alternative to Mudlet's showColors(), this one has additional options.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.roundInt">DemonTools.roundInt(number)</a></td>
+	<td class="summary">Rounds a number to the nearest whole integer</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.scientific_round">DemonTools.scientific_round(number, sig_digits)</a></td>
+	<td class="summary">Rounds a number to a specified number of significant digits</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.string2color">DemonTools.string2color(str)</a></td>
+	<td class="summary">Returns a color table {r,g,b} derived from str.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.colorMunge">DemonTools.colorMunge(strForColor, strToColor, format)</a></td>
+	<td class="summary">Returns a colored string where strForColor is run through DemonTools.string2color and applied to strToColor based on format.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.colorMungeEcho">DemonTools.colorMungeEcho(strForColor, strToEcho, format, win)</a></td>
+	<td class="summary">Like colorMunge but also echos the result to win.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.milliToHuman">DemonTools.milliToHuman(milliseconds, tbl)</a></td>
+	<td class="summary">Converts milliseconds to hours:minutes:seconds:milliseconds</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.getValueAt">DemonTools.getValueAt(variableString)</a></td>
+	<td class="summary">Takes the name of a variable as a string and returns the value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.exists">DemonTools.exists(path)</a></td>
+	<td class="summary">Returns if a file or directory exists on the filesystem</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.isDir">DemonTools.isDir(path)</a></td>
+	<td class="summary">Returns if a path is a directory or not</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.isWindows">DemonTools.isWindows()</a></td>
+	<td class="summary">Returns true if running on windows, false otherwise</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DemonTools.mkdir_p">DemonTools.mkdir_p(path)</a></td>
+	<td class="summary">Creates a directory, creating each directory as necessary along the way.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "DemonTools.chunkify"></a>
+    <strong>DemonTools.chunkify(tbl, num_chunks)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#905">line 905</a>
+    </dt>
+    <dd>
+    Takes a list table and returns it as a table of 'chunks'.  If the table has 12 items and you ask for 3 chunks, each chunk will have 4 items in it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tbl</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The table you want to turn into chunks. Must be traversable using ipairs()
+        </li>
+        <li><span class="parameter">num_chunks</span>
+            <span class="types"><span class="type">number</span></span>
+         The number of chunks to turn the table into
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> dt = <span class="global">require</span>(<span class="string">"MDK.demontools"</span>)
+testTable = { <span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>, <span class="string">"four"</span>, <span class="string">"five"</span>, <span class="string">"six"</span>, <span class="string">"seven"</span>, <span class="string">"eight"</span>, <span class="string">"nine"</span>, <span class="string">"ten"</span> }
+<span class="function-name">display</span>(dt.<span class="function-name">chunkify</span>(testTable, <span class="number">3</span>))
+<span class="comment">--displays the following
+</span>{
+  {
+    <span class="string">"one"</span>,
+    <span class="string">"two"</span>,
+    <span class="string">"three"</span>,
+    <span class="string">"four"</span>
+  },
+  {
+    <span class="string">"five"</span>,
+    <span class="string">"six"</span>,
+    <span class="string">"seven"</span>
+  },
+  {
+    <span class="string">"eight"</span>,
+    <span class="string">"nine"</span>,
+    <span class="string">"ten"</span>
+  }
+}</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.ansi2cecho"></a>
+    <strong>DemonTools.ansi2cecho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#913">line 913</a>
+    </dt>
+    <dd>
+    Takes an ansi colored text string and returns a cecho colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">ansi2cecho</span>(<span class="string">"[31mTest"</span>)
+ <span class="comment">--returns "&lt;ansiRed&gt;Test"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.ansi2decho"></a>
+    <strong>DemonTools.ansi2decho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#923">line 923</a>
+    </dt>
+    <dd>
+    Takes an ansi colored text string and returns a decho colored one.  Handles 256 color SGR codes better than Mudlet's ansi2decho
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <li><pre class="example">dt.<span class="function-name">ansi2decho</span>(<span class="string">"[31mTest"</span>) <span class="comment">--returns "&lt;128,0,0&gt;Test"</span></pre></li>
+        <li><pre class="example">dt.<span class="function-name">ansi2decho</span>(<span class="string">"[38:2::127:0:0mTest"</span>) <span class="comment">--returns "&lt;127,0,0&gt;Test"</span></pre></li>
+        <li><pre class="example"><span class="function-name">ansi2decho</span>(<span class="string">"[38:2::127:0:0mTest"</span>) <span class="comment">-- doesn't parse this format of colors and so returns "[38:2::127:0:0mTest"</span></pre></li>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.ansi2hecho"></a>
+    <strong>DemonTools.ansi2hecho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#931">line 931</a>
+    </dt>
+    <dd>
+    Takes an ansi colored text string and returns a hecho colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">ansi2hecho</span>(<span class="string">"[31mTest"</span>)
+ <span class="comment">--returns "#800000Test"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.cecho2decho"></a>
+    <strong>DemonTools.cecho2decho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#938">line 938</a>
+    </dt>
+    <dd>
+    Takes an cecho colored text string and returns a decho colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">cecho2decho</span>(<span class="string">"&lt;green&gt;Test"</span>) <span class="comment">--returns "&lt;0,255,0&gt;Test"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.cecho2ansi"></a>
+    <strong>DemonTools.cecho2ansi(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#945">line 945</a>
+    </dt>
+    <dd>
+    Takes an cecho colored text string and returns an ansi colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">cecho2ansi</span>(<span class="string">"&lt;green&gt;Test"</span>) <span class="comment">--returns "[38:2::0:255:0mTest"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.cecho2hecho"></a>
+    <strong>DemonTools.cecho2hecho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#952">line 952</a>
+    </dt>
+    <dd>
+    Takes an cecho colored text string and returns a hecho colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">cecho2hecho</span>(<span class="string">"&lt;green&gt;Test"</span>) <span class="comment">--returns "#00ff00Test"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.decho2cecho"></a>
+    <strong>DemonTools.decho2cecho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#959">line 959</a>
+    </dt>
+    <dd>
+    Takes an decho colored text string and returns a cecho colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">decho2cecho</span>(<span class="string">"&lt;127,0,0:0,0,127&gt;Test"</span>) <span class="comment">--returns "&lt;ansiRed:ansi_blue&gt;Test"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.decho2ansi"></a>
+    <strong>DemonTools.decho2ansi(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#966">line 966</a>
+    </dt>
+    <dd>
+    Takes an decho colored text string and returns an ansi colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">decho2ansi</span>(<span class="string">"&lt;127,0,0:0,0,127&gt;Test"</span>) <span class="comment">--returns "[38:2::127:0:0m[48:2::0:0:127mTest"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.decho2hecho"></a>
+    <strong>DemonTools.decho2hecho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#973">line 973</a>
+    </dt>
+    <dd>
+    Takes an decho colored text string and returns an hecho colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">decho2hecho</span>(<span class="string">"&lt;127,0,0:0,0,127&gt;Test"</span>) <span class="comment">--returns "#7f0000,00007fTest"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.decho2html"></a>
+    <strong>DemonTools.decho2html(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#979">line 979</a>
+    </dt>
+    <dd>
+    Takes a decho colored text string and returns html.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.cecho2html"></a>
+    <strong>DemonTools.cecho2html(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#985">line 985</a>
+    </dt>
+    <dd>
+    Takes a cecho colored text string and returns html.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.hecho2html"></a>
+    <strong>DemonTools.hecho2html(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#991">line 991</a>
+    </dt>
+    <dd>
+    Takes a hecho colored text string and returns html.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.ansi2html"></a>
+    <strong>DemonTools.ansi2html(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#997">line 997</a>
+    </dt>
+    <dd>
+    Takes an ansi colored text string and returns html.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.html2cecho"></a>
+    <strong>DemonTools.html2cecho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1003">line 1003</a>
+    </dt>
+    <dd>
+    Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns a cecho string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.html2decho"></a>
+    <strong>DemonTools.html2decho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1009">line 1009</a>
+    </dt>
+    <dd>
+    Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns a decho string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.html2ansi"></a>
+    <strong>DemonTools.html2ansi(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1015">line 1015</a>
+    </dt>
+    <dd>
+    Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns an ansi string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.html2hecho"></a>
+    <strong>DemonTools.html2hecho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1021">line 1021</a>
+    </dt>
+    <dd>
+    Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns an hecho string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.cecho2string"></a>
+    <strong>DemonTools.cecho2string(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1027">line 1027</a>
+    </dt>
+    <dd>
+    Takes a cecho string and returns it without the formatting
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+         the text to transform
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.decho2string"></a>
+    <strong>DemonTools.decho2string(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1033">line 1033</a>
+    </dt>
+    <dd>
+    Takes a decho string and returns it without the formatting
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+         the text to transform
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.hecho2string"></a>
+    <strong>DemonTools.hecho2string(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1039">line 1039</a>
+    </dt>
+    <dd>
+    Takes a hecho string and returns it without the formatting
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+         the text to transform
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.html2string"></a>
+    <strong>DemonTools.html2string(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1044">line 1044</a>
+    </dt>
+    <dd>
+    Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns a clean string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.hecho2ansi"></a>
+    <strong>DemonTools.hecho2ansi(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1051">line 1051</a>
+    </dt>
+    <dd>
+    Takes an hecho colored text string and returns a ansi colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">hecho2ansi</span>(<span class="string">"#7f0000,00007fTest"</span>) <span class="comment">--returns "[38:2::127:0:0m[48:2::0:0:127mTest"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.hecho2cecho"></a>
+    <strong>DemonTools.hecho2cecho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1058">line 1058</a>
+    </dt>
+    <dd>
+    Takes an hecho colored text string and returns a cecho colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">hecho2cecho</span>(<span class="string">"#7f0000,00007fTest"</span>) <span class="comment">--returns "&lt;ansiRed:ansi_blue&gt;Test"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.hecho2decho"></a>
+    <strong>DemonTools.hecho2decho(text)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1065">line 1065</a>
+    </dt>
+    <dd>
+    Takes an hecho colored text string and returns a decho colored one
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to convert
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">hecho2decho</span>(<span class="string">"#7f0000,00007fTest"</span>) <span class="comment">--returns "&lt;127,0,0:0,0,127&gt;Test"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.append2decho"></a>
+    <strong>DemonTools.append2decho()</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1070">line 1070</a>
+    </dt>
+    <dd>
+    Takes the currently copy()ed item and returns it as a decho string
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.consoleToString"></a>
+    <strong>DemonTools.consoleToString(options)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1112">line 1112</a>
+    </dt>
+    <dd>
+    Dump the contents of a miniconsole, user window, or the main window in one of several formats, as determined by a table of options
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Table of options which controls which console and how it returns the data.
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">format</td>
+     <td class="tg-1">What format to return the text as? 'h' for html, 'c' for cecho, 'a' for ansi, 'd' for decho, and 'x' for hecho</td>
+     <td class="tg-1">"d"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">win</td>
+     <td class="tg-2">what console/window to dump the buffer of?</td>
+     <td class="tg-2">"main"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">start_line</td>
+     <td class="tg-1">What line to start dumping the buffer from?</td>
+     <td class="tg-1">0</td>
+   </tr>
+   <tr>
+     <td class="tg-2">end_line</td>
+     <td class="tg-2">What line to stop dumping the buffer on?</td>
+     <td class="tg-2">Last line of the console</td>
+   </tr>
+   <tr>
+     <td class="tg-1">includeHtmlWrapper</td>
+     <td class="tg-1">If the format is html, should it include the front and back portions required to make it a functioning html page?</td>
+     <td class="tg-1">true</td>
+   </tr>
+ </tbody>
+ </table>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.displayColors"></a>
+    <strong>DemonTools.displayColors(options)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1174">line 1174</a>
+    </dt>
+    <dd>
+    Alternative to Mudlet's showColors(), this one has additional options.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table of options which control the output of displayColors
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">cols</td>
+     <td class="tg-1">Number of columsn wide to display the colors in</td>
+     <td class="tg-1">4</td>
+   </tr>
+   <tr>
+     <td class="tg-2">search</td>
+     <td class="tg-2">If not the empty string, will check colors against string.find using this property.<br>IE if set to "blue" only colors which include the word 'blue' would be listed</td>
+     <td class="tg-2">""</td>
+   </tr>
+   <tr>
+     <td class="tg-1">sort</td>
+     <td class="tg-1">If true, sorts alphabetically. Otherwise sorts based on the color value</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">echoOnly</td>
+     <td class="tg-2">If true, colors will not be clickable links</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">window</td>
+     <td class="tg-1">What window/console to echo the colors out to.</td>
+     <td class="tg-1">"main"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">removeDupes</td>
+     <td class="tg-2">If true, will remove snake_case entries and 'gray' in favor of 'grey'</td>
+     <td class="tg-2">true</td>
+   </tr>
+   <tr>
+     <td class="tg-1">columnSort</td>
+     <td class="tg-1">If true, will print top-to-bottom, then left-to-right. false is like showColors</td>
+     <td class="tg-1">true</td>
+   </tr>
+   <tr>
+     <td class="tg-2">justText</td>
+     <td class="tg-2">If true, will echo the text in the color and leave the background black.<br>If false, the background will be the colour(like showColors).</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">color_table</td>
+     <td class="tg-1">Table of colors to display. If you provide your own table, it must be in the same format as Mudlet's own color_table</td>
+     <td class="tg-1">color_table</td>
+   </tr>
+ </tbody>
+ </table>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.roundInt"></a>
+    <strong>DemonTools.roundInt(number)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1182">line 1182</a>
+    </dt>
+    <dd>
+    Rounds a number to the nearest whole integer
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">number</span>
+         the number to round off
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <li><pre class="example">dt.<span class="function-name">roundInt</span>(<span class="number">8.3</span>) <span class="comment">-- returns 8</span></pre></li>
+        <li><pre class="example">dt.<span class="function-name">roundInt</span>(<span class="number">10.7</span>) <span class="comment">-- returns 11</span></pre></li>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.scientific_round"></a>
+    <strong>DemonTools.scientific_round(number, sig_digits)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1194">line 1194</a>
+    </dt>
+    <dd>
+    Rounds a number to a specified number of significant digits
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">number</span>
+            <span class="types"><span class="type">number</span></span>
+         the number to round
+        </li>
+        <li><span class="parameter">sig_digits</span>
+            <span class="types"><span class="type">number</span></span>
+         the number of significant digits to keep
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <li><pre class="example">dt.<span class="function-name">scientific_round</span>(<span class="number">1348290</span>, <span class="number">3</span>) <span class="comment">-- will return 1350000</span></pre></li>
+        <li><pre class="example">dt.<span class="function-name">scientific_found</span>(<span class="number">123.3452</span>, <span class="number">5</span>) <span class="comment">-- will return 123.34</span></pre></li>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.string2color"></a>
+    <strong>DemonTools.string2color(str)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1201">line 1201</a>
+    </dt>
+    <dd>
+    Returns a color table {r,g,b} derived from str.  Will return the same color every time for the same string.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string to turn into a color.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">string2color</span>(<span class="string">"Demonnic"</span>) <span class="comment">--returns { 131, 122, 209 }</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.colorMunge"></a>
+    <strong>DemonTools.colorMunge(strForColor, strToColor, format)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1210">line 1210</a>
+    </dt>
+    <dd>
+    Returns a colored string where strForColor is run through DemonTools.string2color and applied to strToColor based on format.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">strForColor</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string to turn into a color using DemonTools.string2color
+        </li>
+        <li><span class="parameter">strToColor</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string you want to color based on strForColor
+        </li>
+        <li><span class="parameter">format</span>
+         What format to use for the color portion. "d" for decho, "c" for cecho, or "h" for hecho. Defaults to "d"
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dt.<span class="function-name">colorMunge</span>(<span class="string">"Demonnic"</span>, <span class="string">"Test"</span>) <span class="comment">--returns "&lt;131,122,209&gt;Test"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.colorMungeEcho"></a>
+    <strong>DemonTools.colorMungeEcho(strForColor, strToEcho, format, win)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1219">line 1219</a>
+    </dt>
+    <dd>
+    Like colorMunge but also echos the result to win.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">strForColor</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string to turn into a color using DemonTools.string2color
+        </li>
+        <li><span class="parameter">strToEcho</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string you want to color and echo based on strForColor
+        </li>
+        <li><span class="parameter">format</span>
+         What format to use for the color portion. "d" for decho, "c" for cecho, or "h" for hecho. Defaults to "d"
+        </li>
+        <li><span class="parameter">win</span>
+         the window to echo to. You must provide the format if you want to change the window. Defaults to "main"
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.milliToHuman"></a>
+    <strong>DemonTools.milliToHuman(milliseconds, tbl)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1235">line 1235</a>
+    </dt>
+    <dd>
+    Converts milliseconds to hours:minutes:seconds:milliseconds
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">milliseconds</span>
+            <span class="types"><span class="type">number</span></span>
+         the number of milliseconds to convert
+        </li>
+        <li><span class="parameter">tbl</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, returns the time as a key/value table instead
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <li><pre class="example">dt.<span class="function-name">milliToHuman</span>(<span class="number">37194572</span>) <span class="comment">--returns "10:19:54:572"</span></pre></li>
+        <li><pre class="example"><span class="function-name">display</span>(dt.<span class="function-name">milliToHuman</span>(<span class="number">37194572</span>, <span class="keyword">true</span>))
+{
+  minutes = <span class="number">19</span>,
+  original = <span class="number">37194572</span>,
+  hours = <span class="number">10</span>,
+  milliseconds = <span class="number">572</span>,
+  seconds = <span class="number">54</span>
+}</pre></li>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.getValueAt"></a>
+    <strong>DemonTools.getValueAt(variableString)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1257">line 1257</a>
+    </dt>
+    <dd>
+    Takes the name of a variable as a string and returns the value.  "health" will return the value in varable health, "gmcp.Char.Vitals" will return the table at gmcp.Char.Vitals, etc
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">variableString</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string name of the variable you want the value of
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">currentHP = <span class="number">50</span>
+ dt.<span class="function-name">getValueAt</span>(<span class="string">"currentHP"</span>) <span class="comment">-- returns 50</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "DemonTools.exists"></a>
+    <strong>DemonTools.exists(path)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1263">line 1263</a>
+    </dt>
+    <dd>
+    Returns if a file or directory exists on the filesystem
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the path to the file or directory to check
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.isDir"></a>
+    <strong>DemonTools.isDir(path)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1269">line 1269</a>
+    </dt>
+    <dd>
+    Returns if a path is a directory or not
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the path to check
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.isWindows"></a>
+    <strong>DemonTools.isWindows()</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1274">line 1274</a>
+    </dt>
+    <dd>
+    Returns true if running on windows, false otherwise
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DemonTools.mkdir_p"></a>
+    <strong>DemonTools.mkdir_p(path)</strong>
+    <a style="float:right;" href="../source/demontools.lua.html#1280">line 1280</a>
+    </dt>
+    <dd>
+    Creates a directory, creating each directory as necessary along the way.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the path to create
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

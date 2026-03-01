@@ -1,0 +1,622 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><strong>TextGauge</strong></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>TextGauge</code></h1>
+<p>Creates a text based gauge, for use in miniconsoles and the like.</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2020 Damian Monogue,2021 Damian Monogue</li>
+        <li><strong>License</strong>: MIT, see LICENSE.lua</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:new">textgauge:new([options])</a></td>
+	<td class="summary">Creates a new TextGauge.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:setWidth">textgauge:setWidth(width)</a></td>
+	<td class="summary">Sets the width in characters of the gauge</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:setFillCharacter">textgauge:setFillCharacter(character)</a></td>
+	<td class="summary">Sets the character to use for the 'full' part of the gauge</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:setOverflowCharacter">textgauge:setOverflowCharacter(character)</a></td>
+	<td class="summary">Sets the character to use for the 'overflow' (>100%) part of the gauge</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:setEmptyCharacter">textgauge:setEmptyCharacter(character)</a></td>
+	<td class="summary">Sets the character to use for the 'full' part of the gauge</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:setFillColor">textgauge:setFillColor(color)</a></td>
+	<td class="summary">Sets the fill color for the gauge.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:setOverflowColor">textgauge:setOverflowColor(color)</a></td>
+	<td class="summary">Sets the overflow color for the gauge.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:setEmptyColor">textgauge:setEmptyColor(color)</a></td>
+	<td class="summary">Sets the empty color for the gauge.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:setPercentColor">textgauge:setPercentColor(color)</a></td>
+	<td class="summary">Sets the fill color for the gauge.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:setPercentSymbolColor">textgauge:setPercentSymbolColor(color)</a></td>
+	<td class="summary">Sets the fill color for the gauge.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:enableReverse">textgauge:enableReverse()</a></td>
+	<td class="summary">Enables reversing the fill direction (right to left instead of the usual left to right)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:disableReverse">textgauge:disableReverse()</a></td>
+	<td class="summary">Disables reversing the fill direction (go back to the usual left to right)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:enableShowPercent">textgauge:enableShowPercent()</a></td>
+	<td class="summary">Enables showing the percent value of the gauge</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:disableShowPercent">textgauge:disableShowPercent()</a></td>
+	<td class="summary">Disables showing the percent value of the gauge</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:enableShowPercentSymbol">textgauge:enableShowPercentSymbol()</a></td>
+	<td class="summary">Enables showing the percent symbol (appears after the value)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:disableShowPercentSymbol">textgauge:disableShowPercentSymbol()</a></td>
+	<td class="summary">Enables showing the percent symbol (appears after the value)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:setValue">textgauge:setValue([current[, max]])</a></td>
+	<td class="summary">Used to set the gauge's value and return the string representation of the gauge</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#textgauge:print">textgauge:print(...)</a></td>
+	<td class="summary">Synonym for setValue</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "textgauge:new"></a>
+    <strong>textgauge:new([options])</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#92">line 92</a>
+    </dt>
+    <dd>
+    Creates a new TextGauge.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The table of options you would like the TextGauge to start with.
+ <br><br>Table of new options
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">width</td>
+     <td class="tg-1">How many characters wide to make the gauge</td>
+     <td class="tg-1">24</td>
+   </tr>
+   <tr>
+     <td class="tg-2">fillCharacter</td>
+     <td class="tg-2">What character to use for the 'full' part of the gauge</td>
+     <td class="tg-2">:</td>
+   </tr>
+   <tr>
+     <td class="tg-1">overflowCharacter</td>
+     <td class="tg-1">What character to use for >100% part of the gauge</td>
+     <td class="tg-1">if not set, it uses whatever you set fillCharacter to</td>
+   </tr>
+   <tr>
+     <td class="tg-2">emptyCharacter</td>
+     <td class="tg-2">What character to use for the 'empty' part of the gauge</td>
+     <td class="tg-2">-</td>
+   </tr>
+   <tr>
+     <td class="tg-1">showPercentSymbol</td>
+     <td class="tg-1">Should we show the % sign itself?</td>
+     <td class="tg-1">true</td>
+   </tr>
+   <tr>
+     <td class="tg-2">showPercent</td>
+     <td class="tg-2">Should we show what % of the gauge is filled?</td>
+     <td class="tg-2">true</td>
+   </tr>
+   <tr>
+     <td class="tg-1">value</td>
+     <td class="tg-1">How much of the gauge should be filled</td>
+     <td class="tg-1">50</td>
+   </tr>
+   <tr>
+     <td class="tg-2">format</td>
+     <td class="tg-2">What type of color formatting to use? 'c' for cecho, 'd' for decho, 'h' for hecho</td>
+     <td class="tg-2">c</td>
+   </tr>
+   <tr>
+     <td class="tg-1">fillColor</td>
+     <td class="tg-1">What color to make the full part of the bar?</td>
+     <td class="tg-1">"DarkOrange" or equivalent for your format type</td>
+   </tr>
+   <tr>
+     <td class="tg-2">emptyColor</td>
+     <td class="tg-2">what color to use for the empty part of the bar?</td>
+     <td class="tg-2">"white" or format appropriate equivalent</td>
+   </tr>
+   <tr>
+     <td class="tg-1">percentColor</td>
+     <td class="tg-1">What color to print the percentage numvers in, if shown?</td>
+     <td class="tg-1">"white" or fortmat appropriate equivalent</td>
+   </tr>
+   <tr>
+     <td class="tg-2">percentSymbolColor</td>
+     <td class="tg-2">What color to make the % if shown?</td>
+     <td class="tg-2">If not set, uses what percentColor is set to.</td>
+   </tr>
+   <tr>
+     <td class="tg-1">overflowColor</td>
+     <td class="tg-1">What color to make the >100% portion of the bar?</td>
+     <td class="tg-1">If not set, will use the same color as fillColor</td>
+   </tr>
+ </tbody>
+ </table>
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> TextGauge = <span class="global">require</span>(<span class="string">"MDK.textgauge"</span>)
+myTextGauge = TextGauge:<span class="function-name">new</span>()
+gaugeText = myTextGauge:<span class="function-name">setValue</span>(<span class="number">382</span>, <span class="number">830</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "textgauge:setWidth"></a>
+    <strong>textgauge:setWidth(width)</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#105">line 105</a>
+    </dt>
+    <dd>
+    Sets the width in characters of the gauge
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">width</span>
+            <span class="types"><span class="type">number</span></span>
+         number of characters wide to make the gauge
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:setFillCharacter"></a>
+    <strong>textgauge:setFillCharacter(character)</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#118">line 118</a>
+    </dt>
+    <dd>
+    Sets the character to use for the 'full' part of the gauge
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">character</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the character to use.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:setOverflowCharacter"></a>
+    <strong>textgauge:setOverflowCharacter(character)</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#126">line 126</a>
+    </dt>
+    <dd>
+    Sets the character to use for the 'overflow' (>100%) part of the gauge
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">character</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the character to use.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:setEmptyCharacter"></a>
+    <strong>textgauge:setEmptyCharacter(character)</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#134">line 134</a>
+    </dt>
+    <dd>
+    Sets the character to use for the 'full' part of the gauge
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">character</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the character to use.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:setFillColor"></a>
+    <strong>textgauge:setFillColor(color)</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#142">line 142</a>
+    </dt>
+    <dd>
+    Sets the fill color for the gauge.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the color to use for the full portion of the gauge. Will be run through Geyser.Golor
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:setOverflowColor"></a>
+    <strong>textgauge:setOverflowColor(color)</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#149">line 149</a>
+    </dt>
+    <dd>
+    Sets the overflow color for the gauge.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the color to use for the full portion of the gauge. Will be run through Geyser.Golor
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:setEmptyColor"></a>
+    <strong>textgauge:setEmptyColor(color)</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#156">line 156</a>
+    </dt>
+    <dd>
+    Sets the empty color for the gauge.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the color to use for the empty portion of the gauge. Will be run through Geyser.Golor
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:setPercentColor"></a>
+    <strong>textgauge:setPercentColor(color)</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#163">line 163</a>
+    </dt>
+    <dd>
+    Sets the fill color for the gauge.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the color to use for the numeric value. Will be run through Geyser.Golor
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:setPercentSymbolColor"></a>
+    <strong>textgauge:setPercentSymbolColor(color)</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#169">line 169</a>
+    </dt>
+    <dd>
+    Sets the fill color for the gauge.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the color to use for the numeric value. Will be run through Geyser.Golor
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:enableReverse"></a>
+    <strong>textgauge:enableReverse()</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#175">line 175</a>
+    </dt>
+    <dd>
+    Enables reversing the fill direction (right to left instead of the usual left to right)
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:disableReverse"></a>
+    <strong>textgauge:disableReverse()</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#180">line 180</a>
+    </dt>
+    <dd>
+    Disables reversing the fill direction (go back to the usual left to right)
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:enableShowPercent"></a>
+    <strong>textgauge:enableShowPercent()</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#185">line 185</a>
+    </dt>
+    <dd>
+    Enables showing the percent value of the gauge
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:disableShowPercent"></a>
+    <strong>textgauge:disableShowPercent()</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#190">line 190</a>
+    </dt>
+    <dd>
+    Disables showing the percent value of the gauge
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:enableShowPercentSymbol"></a>
+    <strong>textgauge:enableShowPercentSymbol()</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#195">line 195</a>
+    </dt>
+    <dd>
+    Enables showing the percent symbol (appears after the value)
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:disableShowPercentSymbol"></a>
+    <strong>textgauge:disableShowPercentSymbol()</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#200">line 200</a>
+    </dt>
+    <dd>
+    Enables showing the percent symbol (appears after the value)
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "textgauge:setValue"></a>
+    <strong>textgauge:setValue([current[, max]])</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#270">line 270</a>
+    </dt>
+    <dd>
+    Used to set the gauge's value and return the string representation of the gauge
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">current</span>
+            <span class="types"><span class="type">number</span></span>
+         current value. If no value is passed it will use the stored value. Defaults to 50 to prevent errors.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">max</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum value. If not passed, the internally stored one will be used. Defaults to 100 so that it can be used with single values as a percent
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <li><pre class="example">myGauge:<span class="function-name">setValue</span>(<span class="number">55</span>) <span class="comment">-- sets the gauge to 55% full</span></pre></li>
+        <li><pre class="example">myGauge:<span class="function-name">setValue</span>(<span class="number">2345</span>, <span class="number">2780</span>) <span class="comment">-- will figure out what the percentage fill is based on the given current/max values</span></pre></li>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "textgauge:print"></a>
+    <strong>textgauge:print(...)</strong>
+    <a style="float:right;" href="../source/TextGauge.lua.html#331">line 331</a>
+    </dt>
+    <dd>
+    Synonym for setValue
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

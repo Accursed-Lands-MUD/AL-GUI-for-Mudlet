@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><strong>gradientmaker.lua</strong></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>gradientmaker.lua</h2>
+<pre>
+<span class="comment">--- Module which provides for creating color gradients for your text.
+</span><span class="comment">-- Original functions found on &lt;a href="https://forums.lusternia.com/discussion/3261/anyone-want-text-gradients"&gt;the Lusternia Forums&lt;/a&gt;
+</span><span class="comment">-- &lt;br&gt; I added functions to work with hecho.
+</span><span class="comment">-- &lt;br&gt; I also made performance enhancements by storing already calculated gradients after first use for the session and only including the colorcode in the returned string if the color changed.
+</span><span class="comment">-- @module GradientMaker
+</span><span class="comment">-- @author Sylphas on the Lusternia forums
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2018 Sylphas
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="keyword">local</span> GradientMaker = {}
+<span class="keyword">local</span> gradient_table = {}
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">_clamp</span>(num1, num2, num3)
+  <span class="keyword">local</span> smaller = <span class="global">math</span>.<span class="function-name">min</span>(num2, num3)
+  <span class="keyword">local</span> larger = <span class="global">math</span>.<span class="function-name">max</span>(num2, num3)
+  <span class="keyword">local</span> minimum = <span class="global">math</span>.<span class="function-name">max</span>(<span class="number">0</span>, smaller)
+  <span class="keyword">local</span> maximum = <span class="global">math</span>.<span class="function-name">min</span>(<span class="number">255</span>, larger)
+  <span class="keyword">return</span> <span class="global">math</span>.<span class="function-name">min</span>(maximum, <span class="global">math</span>.<span class="function-name">max</span>(minimum, num1))
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">_gradient</span>(length, rgb1, rgb2)
+  <span class="global">assert</span>(length &gt; <span class="number">0</span>)
+  <span class="keyword">if</span> length == <span class="number">1</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> {rgb1}
+  <span class="keyword">elseif</span> length == <span class="number">2</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> {rgb1, rgb2}
+  <span class="keyword">else</span>
+    <span class="keyword">local</span> step = {}
+    <span class="keyword">for</span> color = <span class="number">1</span>, <span class="number">3</span> <span class="keyword">do</span>
+      step[color] = (rgb2[color] - rgb1[color]) / (length - <span class="number">2</span>)
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> gradient = {rgb1}
+    <span class="keyword">for</span> iter = <span class="number">1</span>, length - <span class="number">2</span> <span class="keyword">do</span>
+      gradient[iter + <span class="number">1</span>] = {}
+      <span class="keyword">for</span> color = <span class="number">1</span>, <span class="number">3</span> <span class="keyword">do</span>
+        gradient[iter + <span class="number">1</span>][color] = <span class="global">math</span>.<span class="function-name">ceil</span>(rgb1[color] + (iter * step[color]))
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    gradient[length] = rgb2
+    <span class="keyword">for</span> index, color <span class="keyword">in</span> <span class="global">ipairs</span>(gradient) <span class="keyword">do</span>
+      <span class="keyword">for</span> iter = <span class="number">1</span>, <span class="number">3</span> <span class="keyword">do</span>
+        gradient[index][iter] = <span class="function-name">_clamp</span>(color[iter], rgb1[iter], rgb2[iter])
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> gradient
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">gradient_to_string</span>(gradient)
+  <span class="keyword">local</span> gradstring = <span class="string">""</span>
+  <span class="keyword">for</span> _, grad <span class="keyword">in</span> <span class="global">ipairs</span>(gradient) <span class="keyword">do</span>
+    <span class="keyword">local</span> nodestring = <span class="string">""</span>
+    <span class="keyword">for</span> _, col <span class="keyword">in</span> <span class="global">ipairs</span>(grad) <span class="keyword">do</span>
+      nodestring = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%03d"</span>, nodestring, col)
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> _ == <span class="number">1</span> <span class="keyword">then</span>
+      gradstring = nodestring
+    <span class="keyword">else</span>
+      gradstring = gradstring .. <span class="string">"|"</span> .. nodestring
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> gradstring
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">_gradients</span>(length, ...)
+  <span class="keyword">local</span> arg = {...}
+  <span class="keyword">local</span> argkey = <span class="function-name">gradient_to_string</span>(arg)
+  <span class="keyword">local</span> gradients_for_length = gradient_table[length]
+  <span class="keyword">if</span> <span class="keyword">not</span> gradients_for_length <span class="keyword">then</span>
+    gradient_table[length] = {}
+    gradients_for_length = gradient_table[length]
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> grads = gradients_for_length[argkey]
+  <span class="keyword">if</span> grads <span class="keyword">then</span>
+    <span class="keyword">return</span> grads
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> #arg == <span class="number">0</span> <span class="keyword">then</span>
+    gradients_for_length[argkey] = {}
+    <span class="keyword">return</span> {}
+  <span class="keyword">elseif</span> #arg == <span class="number">1</span> <span class="keyword">then</span>
+    gradients_for_length[argkey] = arg[<span class="number">1</span>]
+    <span class="keyword">return</span> arg[<span class="number">1</span>]
+  <span class="keyword">elseif</span> #arg == <span class="number">2</span> <span class="keyword">then</span>
+    gradients_for_length[argkey] = <span class="function-name">_gradient</span>(length, arg[<span class="number">1</span>], arg[<span class="number">2</span>])
+    <span class="keyword">return</span> gradients_for_length[argkey]
+  <span class="keyword">else</span>
+    <span class="keyword">local</span> quotient = <span class="global">math</span>.<span class="function-name">floor</span>(length / (#arg - <span class="number">1</span>))
+    <span class="keyword">local</span> remainder = length % (#arg - <span class="number">1</span>)
+    <span class="keyword">local</span> gradients = {}
+    <span class="keyword">for</span> section = <span class="number">1</span>, #arg - <span class="number">1</span> <span class="keyword">do</span>
+      <span class="keyword">local</span> slength = quotient
+      <span class="keyword">if</span> section &lt;= remainder <span class="keyword">then</span>
+        slength = slength + <span class="number">1</span>
+      <span class="keyword">end</span>
+      <span class="keyword">local</span> gradient = <span class="function-name">_gradient</span>(slength, arg[section], arg[section + <span class="number">1</span>])
+      <span class="keyword">for</span> _, rgb <span class="keyword">in</span> <span class="global">ipairs</span>(gradient) <span class="keyword">do</span>
+        <span class="global">table</span>.<span class="function-name">insert</span>(gradients, rgb)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    gradients_for_length[argkey] = gradients
+    <span class="keyword">return</span> gradients
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">_color_name</span>(rgb)
+  <span class="keyword">local</span> least_distance = <span class="global">math</span>.huge
+  <span class="keyword">local</span> cname = <span class="string">""</span>
+  <span class="keyword">for</span> name, color <span class="keyword">in</span> <span class="global">pairs</span>(color_table) <span class="keyword">do</span>
+    <span class="keyword">local</span> color_distance = <span class="global">math</span>.<span class="function-name">sqrt</span>((color[<span class="number">1</span>] - rgb[<span class="number">1</span>]) ^ <span class="number">2</span> + (color[<span class="number">2</span>] - rgb[<span class="number">2</span>]) ^ <span class="number">2</span> + (color[<span class="number">3</span>] - rgb[<span class="number">3</span>]) ^ <span class="number">2</span>)
+    <span class="keyword">if</span> color_distance &lt; least_distance <span class="keyword">then</span>
+      least_distance = color_distance
+      cname = name
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> cname
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">errorIfEmpty</span>(text, funcName)
+  <span class="global">assert</span>(#text &gt; <span class="number">0</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s: you passed in an empty string, and I cannot make a gradient out of an empty string"</span>, funcName))
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">dgradient_table</span>(text, ...)
+  <span class="function-name">errorIfEmpty</span>(text, <span class="string">"dgradient_table"</span>)
+  <span class="keyword">local</span> gradients = <span class="function-name">_gradients</span>(#text, ...)
+  <span class="keyword">local</span> dgrads = {}
+  <span class="keyword">for</span> character = <span class="number">1</span>, #text <span class="keyword">do</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(dgrads, {gradients[character], text:<span class="function-name">sub</span>(character, character)})
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> dgrads
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">dgradient</span>(text, ...)
+  <span class="function-name">errorIfEmpty</span>(text, <span class="string">"dgradient"</span>)
+  <span class="keyword">local</span> gradients = <span class="function-name">_gradients</span>(#text, ...)
+  <span class="keyword">local</span> dgrad = <span class="string">""</span>
+  <span class="keyword">local</span> current_color = <span class="string">""</span>
+  <span class="keyword">for</span> character = <span class="number">1</span>, #text <span class="keyword">do</span>
+    <span class="keyword">local</span> new_color = <span class="string">"&lt;"</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(gradients[character], <span class="string">","</span>) .. <span class="string">"&gt;"</span>
+    <span class="keyword">local</span> char = text:<span class="function-name">sub</span>(character, character)
+    <span class="keyword">if</span> new_color == current_color <span class="keyword">then</span>
+      dgrad = dgrad .. char
+    <span class="keyword">else</span>
+      dgrad = dgrad .. new_color .. char
+      current_color = new_color
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> dgrad
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">cgradient_table</span>(text, ...)
+  <span class="function-name">errorIfEmpty</span>(text, <span class="string">"cgradient_table"</span>)
+  <span class="keyword">local</span> gradients = <span class="function-name">_gradients</span>(#text, ...)
+  <span class="keyword">local</span> cgrads = {}
+  <span class="keyword">for</span> character = <span class="number">1</span>, #text <span class="keyword">do</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(cgrads, {<span class="function-name">_color_name</span>(gradients[character]), text:<span class="function-name">sub</span>(character, character)})
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> cgrads
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">cgradient</span>(text, ...)
+  <span class="function-name">errorIfEmpty</span>(text, <span class="string">"cgradient"</span>)
+  <span class="keyword">local</span> gradients = <span class="function-name">_gradients</span>(#text, ...)
+  <span class="keyword">local</span> cgrad = <span class="string">""</span>
+  <span class="keyword">local</span> current_color = <span class="string">""</span>
+  <span class="keyword">for</span> character = <span class="number">1</span>, #text <span class="keyword">do</span>
+    <span class="keyword">local</span> new_color = <span class="string">"&lt;"</span> .. <span class="function-name">_color_name</span>(gradients[character]) .. <span class="string">"&gt;"</span>
+    <span class="keyword">local</span> char = text:<span class="function-name">sub</span>(character, character)
+    <span class="keyword">if</span> new_color == current_color <span class="keyword">then</span>
+      cgrad = cgrad .. char
+    <span class="keyword">else</span>
+      cgrad = cgrad .. new_color .. char
+      current_color = new_color
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> cgrad
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> hex = Geyser.Color.hex
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">hgradient_table</span>(text, ...)
+  <span class="function-name">errorIfEmpty</span>(text, <span class="string">"hgradient_table"</span>)
+  <span class="keyword">local</span> grads = <span class="function-name">_gradients</span>(#text, ...)
+  <span class="keyword">local</span> hgrads = {}
+  <span class="keyword">for</span> character = <span class="number">1</span>, #text <span class="keyword">do</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(hgrads, {<span class="function-name">hex</span>(<span class="global">unpack</span>(grads[character])):<span class="function-name">sub</span>(<span class="number">2</span>, -<span class="number">1</span>), text:<span class="function-name">sub</span>(character, character)})
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> hgrads
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">hgradient</span>(text, ...)
+  <span class="function-name">errorIfEmpty</span>(text, <span class="string">"hgradient"</span>)
+  <span class="keyword">local</span> grads = <span class="function-name">_gradients</span>(#text, ...)
+  <span class="keyword">local</span> hgrads = <span class="string">""</span>
+  <span class="keyword">local</span> current_color = <span class="string">""</span>
+  <span class="keyword">for</span> character = <span class="number">1</span>, #text <span class="keyword">do</span>
+    <span class="keyword">local</span> new_color = <span class="function-name">hex</span>(<span class="global">unpack</span>(grads[character]))
+    <span class="keyword">local</span> char = text:<span class="function-name">sub</span>(character, character)
+    <span class="keyword">if</span> new_color == current_color <span class="keyword">then</span>
+      hgrads = hgrads .. char
+    <span class="keyword">else</span>
+      hgrads = hgrads .. new_color .. char
+      current_color = new_color
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> hgrads
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">color_name</span>(...)
+  <span class="keyword">local</span> arg = {...}
+  <span class="keyword">if</span> #arg == <span class="number">1</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="function-name">_color_name</span>(arg[<span class="number">1</span>])
+  <span class="keyword">elseif</span> #arg == <span class="number">3</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="function-name">_color_name</span>(arg)
+  <span class="keyword">else</span>
+    <span class="keyword">local</span> errmsg =
+      <span class="string">"color_name: You must pass either a table of r,g,b values: color_name({r,g,b})\nor the three r,g,b values separately: color_name(r,g,b)"</span>
+    <span class="global">error</span>(errmsg)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns the closest color name to a given r,g,b color
+</span><span class="comment">-- @param r The red component. Can also pass the full color as a table, IE { 255, 0, 0 }
+</span><span class="comment">-- @param g The green component. If you pass the color as a table as noted above, this param should be empty
+</span><span class="comment">-- @param b the blue components. If you pass the color as a table as noted above, this param should be empty
+</span><span class="comment">-- @usage
+</span><span class="comment">-- closest_color = GradientMaker.color_name(128,200,30) -- returns "ansi_149"
+</span><a id="228"></a><span class="comment">-- closest_color = GradientMaker.color_name({128, 200, 30}) -- this is functionally equivalent to the first one
+</span><span class="keyword">function</span> GradientMaker.<span class="function-name">color_name</span>(...)
+  <span class="keyword">return</span> <span class="function-name">color_name</span>(...)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns the text, with the defined color gradients applied and formatted for us with decho. Usage example below produces the following text
+</span><span class="comment">-- &lt;br&gt;&lt;img src="https://demonnic.github.io/mdk/images/dechogradient.png" alt="dgradient example"&gt;
+</span><span class="comment">-- @tparam string text The text you want to apply the color gradients to
+</span><span class="comment">-- @param first_color The color you want it to start at. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param second_color The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param next_color Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+</span><span class="comment">-- @see cgradient
+</span><span class="comment">-- @see hgradient
+</span><span class="comment">-- @usage
+</span><span class="comment">-- decho(GradientMaker.dgradient("a luminescent butterly floats about lazily on brillant blue and lilac wings\n", {255,0,0}, {255,128,0}, {255,255,0}, {0,255,0}, {0,255,255}, {0,128,255}, {128,0,255}))
+</span><span class="comment">-- decho(GradientMaker.dgradient("a luminescent butterly floats about lazily on brillant blue and lilac wings\n", {255,0,0}, {0,0,255}))
+</span><a id="244"></a><span class="comment">-- decho(GradientMaker.dgradient("a luminescent butterly floats about lazily on brillant blue and lilac wings\n", {50,50,50}, {0,255,0}, {50,50,50}))
+</span><span class="keyword">function</span> GradientMaker.<span class="function-name">dgradient</span>(text, ...)
+  <span class="keyword">return</span> <span class="function-name">dgradient</span>(text, ...)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns the text, with the defined color gradients applied and formatted for us with cecho. Usage example below produces the following text
+</span><span class="comment">-- &lt;br&gt;&lt;img src="https://demonnic.github.io/mdk/images/cechogradient.png" alt="cgradient example"&gt;
+</span><span class="comment">-- @tparam string text The text you want to apply the color gradients to
+</span><span class="comment">-- @param first_color The color you want it to start at. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param second_color The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param next_color Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+</span><span class="comment">-- @see dgradient
+</span><span class="comment">-- @see hgradient
+</span><span class="comment">-- @usage
+</span><span class="comment">-- cecho(GradientMaker.cgradient("a luminescent butterly floats about lazily on brillant blue and lilac wings\n", {255,0,0}, {255,128,0}, {255,255,0}, {0,255,0}, {0,255,255}, {0,128,255}, {128,0,255}))
+</span><span class="comment">-- cecho(GradientMaker.cgradient("a luminescent butterly floats about lazily on brillant blue and lilac wings\n", {255,0,0}, {0,0,255}))
+</span><a id="260"></a><span class="comment">-- cecho(GradientMaker.cgradient("a luminescent butterly floats about lazily on brillant blue and lilac wings\n", {50,50,50}, {0,255,0}, {50,50,50}))
+</span><span class="keyword">function</span> GradientMaker.<span class="function-name">cgradient</span>(text, ...)
+  <span class="keyword">return</span> <span class="function-name">cgradient</span>(text, ...)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns the text, with the defined color gradients applied and formatted for us with hecho. Usage example below produces the following text
+</span><span class="comment">-- &lt;br&gt;&lt;img src="https://demonnic.github.io/mdk/images/hechogradient.png" alt="hgradient example"&gt;
+</span><span class="comment">-- @tparam string text The text you want to apply the color gradients to
+</span><span class="comment">-- @param first_color The color you want it to start at. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param second_color The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param next_color Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+</span><span class="comment">-- @see cgradient
+</span><span class="comment">-- @see dgradient
+</span><span class="comment">-- @usage
+</span><span class="comment">-- hecho(GradientMaker.hgradient("a luminescent butterly floats about lazily on brillant blue and lilac wings\n", {255,0,0}, {255,128,0}, {255,255,0}, {0,255,0}, {0,255,255}, {0,128,255}, {128,0,255}))
+</span><span class="comment">-- hecho(GradientMaker.hgradient("a luminescent butterly floats about lazily on brillant blue and lilac wings\n", {255,0,0}, {0,0,255}))
+</span><a id="276"></a><span class="comment">-- hecho(GradientMaker.hgradient("a luminescent butterly floats about lazily on brillant blue and lilac wings\n", {50,50,50}, {0,255,0}, {50,50,50}))
+</span><span class="keyword">function</span> GradientMaker.<span class="function-name">hgradient</span>(text, ...)
+  <span class="keyword">return</span> <span class="function-name">hgradient</span>(text, ...)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns a table, each element of which is a table, the first element of which is the color name to use and the character which should be that color
+</span><span class="comment">-- @tparam string text The text you want to apply the color gradients to
+</span><span class="comment">-- @param first_color The color you want it to start at. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param second_color The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param next_color Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+</span><a id="286"></a><span class="comment">-- @see cgradient
+</span><span class="keyword">function</span> GradientMaker.<span class="function-name">cgradient_table</span>(text, ...)
+  <span class="keyword">return</span> <span class="function-name">cgradient_table</span>(text, ...)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns a table, each element of which is a table, the first element of which is the color({r,g,b} format) to use and the character which should be that color
+</span><span class="comment">-- @tparam string text The text you want to apply the color gradients to
+</span><span class="comment">-- @param first_color The color you want it to start at. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param second_color The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param next_color Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+</span><a id="296"></a><span class="comment">-- @see dgradient
+</span><span class="keyword">function</span> GradientMaker.<span class="function-name">dgradient_table</span>(text, ...)
+  <span class="keyword">return</span> <span class="function-name">dgradient_table</span>(text, ...)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns a table, each element of which is a table, the first element of which is the color(in hex) to use and the second element of which is the character which should be that color
+</span><span class="comment">-- @tparam string text The text you want to apply the color gradients to
+</span><span class="comment">-- @param first_color The color you want it to start at. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param second_color The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+</span><span class="comment">-- @param next_color Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+</span><a id="306"></a><span class="comment">-- @see hgradient
+</span><span class="keyword">function</span> GradientMaker.<span class="function-name">hgradient_table</span>(text, ...)
+  <span class="keyword">return</span> <span class="function-name">hgradient_table</span>(text, ...)
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates global copies of the c/d/hgradient(_table) functions and color_name for use without accessing the module table
+</span><span class="comment">-- @usage
+</span><span class="comment">-- GradientMaker.install_global()
+</span><a id="314"></a><span class="comment">-- cecho(cgradient(...)) -- use cgradient directly now
+</span><span class="keyword">function</span> GradientMaker.<span class="function-name">install_global</span>()
+  _G[<span class="string">"hgradient"</span>] = <span class="keyword">function</span>(...)
+    <span class="keyword">return</span> <span class="function-name">hgradient</span>(...)
+  <span class="keyword">end</span>
+  _G[<span class="string">"dgradient"</span>] = <span class="keyword">function</span>(...)
+    <span class="keyword">return</span> <span class="function-name">dgradient</span>(...)
+  <span class="keyword">end</span>
+  _G[<span class="string">"cgradient"</span>] = <span class="keyword">function</span>(...)
+    <span class="keyword">return</span> <span class="function-name">cgradient</span>(...)
+  <span class="keyword">end</span>
+  _G[<span class="string">"hgradient_table"</span>] = <span class="keyword">function</span>(...)
+    <span class="keyword">return</span> <span class="function-name">hgradient_table</span>(...)
+  <span class="keyword">end</span>
+  _G[<span class="string">"dgradient_table"</span>] = <span class="keyword">function</span>(...)
+    <span class="keyword">return</span> <span class="function-name">dgradient_table</span>(...)
+  <span class="keyword">end</span>
+  _G[<span class="string">"cgradient_table"</span>] = <span class="keyword">function</span>(...)
+    <span class="keyword">return</span> <span class="function-name">cgradient_table</span>(...)
+  <span class="keyword">end</span>
+  _G[<span class="string">"color_name"</span>] = <span class="keyword">function</span>(...)
+    <span class="keyword">return</span> <span class="function-name">color_name</span>(...)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- function GradientMaker.getGrads()
+</span><span class="comment">--   return gradient_table
+</span><span class="comment">-- end
+</span>
+<span class="keyword">return</span> GradientMaker</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

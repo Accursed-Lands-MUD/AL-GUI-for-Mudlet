@@ -1,0 +1,555 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><strong>loginator.lua</strong></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>loginator.lua</h2>
+<pre>
+<span class="comment">--- Loginator creates an object which allows you to log things to file at
+</span><span class="comment">-- various severity levels, with the ability to only log items above a specific
+</span><span class="comment">-- severity to file.
+</span><span class="comment">-- @classmod Loginator
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2021 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span><span class="keyword">local</span> Loginator = {
+  format = <span class="string">"h"</span>,
+  name = <span class="string">"logname"</span>,
+  fileNameTemplate = <span class="string">"|p/log/Loginator/|y-|M-|d-|n.|e"</span>,
+  entryTemplate = <span class="string">"|y-|M-|d |h:|m:|s.|x [|c|l|r] |t"</span>,
+  level = <span class="string">"warn"</span>,
+  bgColor = <span class="string">"black"</span>,
+  fontSize = <span class="number">12</span>,
+  fgColor = <span class="string">"white"</span>,
+}
+
+<span class="keyword">local</span> levelColors = {<span class="global">error</span> = <span class="string">"red"</span>, warn = <span class="string">"DarkOrange"</span>, info = <span class="string">"ForestGreen"</span>, <span class="global">debug</span> = <span class="string">"ansi_yellow"</span>}
+<span class="keyword">local</span> loggerLevels = {<span class="global">error</span> = <span class="number">1</span>, warn = <span class="number">2</span>, info = <span class="number">3</span>, <span class="global">debug</span> = <span class="number">4</span>}
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">exists</span>(path)
+  <span class="keyword">local</span> ok, err, code = <span class="global">os</span>.<span class="function-name">rename</span>(path, path)
+  <span class="keyword">if</span> <span class="keyword">not</span> ok <span class="keyword">and</span> code == <span class="number">13</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> ok, err
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">isWindows</span>()
+  <span class="keyword">return</span> <span class="global">package</span>.config:<span class="function-name">sub</span>(<span class="number">1</span>, <span class="number">1</span>) == <span class="string">[[\]]</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">mkdir_p</span>(path)
+  path = path:<span class="function-name">gsub</span>(<span class="string">"\\", "</span>/<span class="string">")
+  local pathTbl = path:split("</span>/<span class="string">")
+  local cwd = "</span>/<span class="string">"
+  if isWindows() then
+    cwd = "</span><span class="string">"
+  end
+  for index, dirName in ipairs(pathTbl) do
+    if index == 1 then
+      cwd = cwd .. dirName
+    else
+      cwd = cwd .. "</span>/<span class="string">" .. dirName
+      cwd = cwd:gsub("</span>//<span class="string">", "</span>/<span class="string">")
+    end
+    if not table.contains({"</span>/<span class="string">", "</span>C:<span class="string">"}, cwd) and not exists(cwd) then
+      local ok, err = lfs.mkdir(cwd)
+      if not ok then
+        return ok, err
+      end
+    end
+  end
+  return true
+end
+
+local htmlHeaderTemplate = [=[  &lt;!DOCTYPE HTML PUBLIC "</span>-//W3C//DTD HTML <span class="number">4.01</span> Transitional//<span class="function-name">EN</span><span class="string">"
+"</span>http://www.w3.org/TR/html4/loose.<span class="function-name">dtd</span><span class="string">"&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="</span>Content-<span class="function-name">Type</span><span class="string">" content="</span>text/html;charset=utf-<span class="number">8</span><span class="string">" &gt;
+    &lt;link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'&gt;
+    &lt;style type="</span>text/<span class="function-name">css</span><span class="string">"&gt;
+      body {
+        background-color: |b;
+        color: |c;
+        font-family: 'Droid Sans Mono';
+        white-space: pre;
+        font-size: |fpx;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+&lt;body&gt;&lt;span&gt;
+]=]
+
+--- Creates a new Loginator object
+--@tparam table options table of options for the logger
+-- &lt;table class="</span><span class="function-name">tg</span><span class="string">"&gt;
+-- &lt;thead&gt;
+--   &lt;tr&gt;
+--     &lt;th&gt;option name&lt;/th&gt;
+--     &lt;th&gt;description&lt;/th&gt;
+--     &lt;th&gt;default&lt;/th&gt;
+--   &lt;/tr&gt;
+-- &lt;/thead&gt;
+-- &lt;tbody&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;format&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;What format to log in? "</span><span class="function-name">h</span><span class="string">" for html, "</span><span class="function-name">a</span><span class="string">" for ansi, anything else for plaintext.&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;"</span><span class="function-name">h</span><span class="string">"&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;name&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;What is the name of the logger? Will replace |n in templates&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;logname&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;level&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;What level should the logger operate at? This will control what level the log function defaults to, as well as what logs will actually be written&lt;br&gt;
+--                        Only items of an equal or higher severity to this will be written to the log file.&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;"</span><span class="function-name">info</span><span class="string">"&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;bgColor&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;What background color to use for html logs&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;"</span><span class="function-name">black</span><span class="string">"&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;fgColor&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;What color to use for the main text in html logs&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;"</span><span class="function-name">white</span><span class="string">"&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;fontSize&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;What font size to use in html logs&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;12&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;levelColors&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;Table with the log level as the key, and the color which corresponds to it as the value&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;{ error = "</span><span class="function-name">red</span><span class="string">", warn = "</span><span class="function-name">DarkOrange</span><span class="string">", info = "</span><span class="function-name">ForestGreen</span><span class="string">", debug = "</span><span class="function-name">ansi_yellow</span><span class="string">" }&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;fileNameTemplate&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;A template which will be transformed into the full filename, with path. See template options below for replacements&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;"</span>|p/log/Loginator/|y-|M-|d-|n.|<span class="function-name">e</span><span class="string">"&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;entryTemplate&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;The template which controls the look of each log entry. See template options below for replacements&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;"</span>|y-|M-|d |h:|m:|s.|x [|c|l|r] |<span class="function-name">t</span><span class="string">"&lt;/td&gt;
+--   &lt;/tr&gt;
+-- &lt;/tbody&gt;
+-- &lt;/table&gt;&lt;br&gt;
+-- Table of template options
+-- &lt;table class="</span><span class="function-name">tg</span><span class="string">"&gt;
+-- &lt;thead&gt;
+--   &lt;tr&gt;
+--     &lt;th&gt;template code&lt;/th&gt;
+--     &lt;th&gt;what it is replaced with&lt;/th&gt;
+--     &lt;th&gt;example&lt;/th&gt;
+--   &lt;/tr&gt;
+-- &lt;/thead&gt;
+-- &lt;tbody&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;|y&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;the year in 4 digits&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;2021&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;|p&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;getMudletHomeDir()&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;/home/demonnic/.config/mudlet/profiles/testprofile&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;|M&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;Month as 2 digits&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;05&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;|d&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;day, as 2 digits&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;23&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;|h&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;hour in 24hr time format, 2 digits&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;03&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;|m&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;minute as 2 digits&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;42&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;|s&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;seconds as 2 digits&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;34&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;|x&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;milliseconds as 3 digits&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;194&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;|e&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;Filename extension expected. "</span><span class="function-name">html</span><span class="string">" for html format, "</span><span class="function-name">log</span><span class="string">" for everything else&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;html&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;|l&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;The logging level of the entry, in ALLCAPS&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;WARN&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;|c&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;The color which corresponds with the logging level. Set via the levelColors table in the options. Example not included.&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;|r&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;Reset back to standard color. Used to close |c. Example not included&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;|n&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;The name of the logger, set via the options when you have Loginator create it.&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;CoolPackageLog&lt;/td&gt;
+--   &lt;/tr&gt;
+--&lt;/tbody&gt;
+--&lt;/table&gt;
+--@return newly created logger object
+function Loginator:new(options)
+  options = options or {}
+  local optionsType = type(options)
+  if optionsType ~= "</span><span class="global">table</span><span class="string">" then
+    return nil, f "</span>Loginator:<span class="function-name">new</span>(options) options as <span class="global">table</span> expected, <span class="function-name">got</span> {optionsType}<span class="string">"
+  end
+  local me = table.deepcopy(options)
+  me.levelColors = me.levelColors or {}
+  local lcType = type(me.levelColors)
+  if lcType ~= "</span><span class="global">table</span><span class="string">" then
+    return nil, f "</span>Loginator:<span class="function-name">new</span>(options) provided options.levelColors must be a <span class="global">table</span>, but you provided <span class="function-name">a</span> {lcType}<span class="string">"
+  end
+  for lvl,clr in pairs(levelColors) do
+    me.levelColors[lvl] = me.levelColors[lvl] or clr
+  end
+  setmetatable(me, self)
+  self.__index = self
+  return me
+end
+
+---@local
+function Loginator:processTemplate(str, level)
+  local lvl = level or self.level
+  local timeTable = getTime()
+  for what, with in pairs({
+    ["</span>|<span class="function-name">y</span><span class="string">"] = function()
+      return timeTable.year
+    end,
+    ["</span>|<span class="function-name">p</span><span class="string">"] = getMudletHomeDir,
+    ["</span>|<span class="function-name">M</span><span class="string">"] = function()
+      return string.format("</span>%<span class="number">02</span><span class="function-name">d</span><span class="string">", timeTable.month)
+    end,
+    ["</span>|<span class="function-name">d</span><span class="string">"] = function()
+      return string.format("</span>%<span class="number">02</span><span class="function-name">d</span><span class="string">", timeTable.day)
+    end,
+    ["</span>|<span class="function-name">h</span><span class="string">"] = function()
+      return string.format("</span>%<span class="number">02</span><span class="function-name">d</span><span class="string">", timeTable.hour)
+    end,
+    ["</span>|<span class="function-name">m</span><span class="string">"] = function()
+      return string.format("</span>%<span class="number">02</span><span class="function-name">d</span><span class="string">", timeTable.min)
+    end,
+    ["</span>|<span class="function-name">s</span><span class="string">"] = function()
+      return string.format("</span>%<span class="number">02</span><span class="function-name">d</span><span class="string">", timeTable.sec)
+    end,
+    ["</span>|<span class="function-name">x</span><span class="string">"] = function()
+      return string.format("</span>%<span class="number">03</span><span class="function-name">d</span><span class="string">", timeTable.msec)
+    end,
+    ["</span>|<span class="function-name">e</span><span class="string">"] = function()
+      return (self.format:starts("</span><span class="function-name">h</span><span class="string">") and "</span><span class="function-name">html</span><span class="string">" or "</span><span class="function-name">log</span><span class="string">")
+    end,
+    ["</span>|<span class="function-name">l</span><span class="string">"] = function()
+      return lvl:upper()
+    end,
+    ["</span>|<span class="function-name">c</span><span class="string">"] = function()
+      return self:getColor(lvl)
+    end,
+    ["</span>|<span class="function-name">r</span><span class="string">"] = function()
+      return self:getReset()
+    end,
+    ["</span>|<span class="function-name">n</span><span class="string">"] = function()
+      return self.name
+    end,
+  }) do
+    if str:find(what) then
+      str = str:gsub(what, with())
+    end
+  end
+  return str
+end
+
+--- Set the color to associate with a logging level post-creation
+--@param color The color to set for the level, as a string. Can be any valid color string for cecho, decho, or hecho.
+--@param level The level to set the color for. Must be one of 'error', 'warn', 'info', or 'debug'
+--@return true if the color is updated, or nil+error if it could not be updated for some reason.
+function Loginator:setColorForLevel(color, level)
+  if not color then
+    return nil, "</span>You must provide a color to <span class="function-name">set</span><span class="string">"
+  end
+  if not level then
+    return nil, "</span>You must provide a level to set the color <span class="keyword">for</span><span class="string">"
+  end
+  if not loggerLevels[level] then
+    return nil, "</span>Invalid level. Valid levels <span class="function-name">are</span> <span class="string">'error'</span>, <span class="string">'warn'</span>, <span class="string">'info'</span>, <span class="keyword">or</span> <span class="string">'debug'</span><span class="string">"
+  end
+  if not Geyser.Color.parse(color) then
+    return nil, "</span>You must provide a color which can be parsed by Geyser.Color.parse. Examples <span class="function-name">are</span> <span class="string">'blue'</span> (cecho), <span class="string">'&lt;128,0,0&gt;'</span> (decho), <span class="string">'#aa3388'</span> (hecho), <span class="keyword">or</span> {<span class="number">128</span>,<span class="number">0</span>,<span class="number">0</span>} (<span class="global">table</span> of r,g,b values)<span class="string">"
+  end
+  self.levelColors[level] = color
+  return true
+end
+
+---@local
+function Loginator:getColor(level)
+  if self.format == "</span><span class="function-name">t</span><span class="string">" then
+    return "</span><span class="string">"
+  end
+  local r, g, b = Geyser.Color.parse((self.levelColors[level] or {128, 128, 128}))
+  if self.format == "</span><span class="function-name">h</span><span class="string">" then
+    return string.format("</span>&lt;span style=<span class="string">'color: rgb(%d,%d,%d);'</span>&gt;<span class="string">", r, g, b)
+  elseif self.format == "</span><span class="function-name">a</span><span class="string">" then
+    return string.format("</span>\<span class="number">27</span>[<span class="number">38</span>:<span class="number">2</span>::%d:%d:%<span class="function-name">dm</span><span class="string">", r, g, b)
+  end
+  return "</span><span class="string">"
+end
+
+---@local
+function Loginator:getReset()
+  if self.format == "</span><span class="function-name">t</span><span class="string">" then
+    return "</span><span class="string">"
+  elseif self.format == "</span><span class="function-name">h</span><span class="string">" then
+    return "</span>&lt;/span&gt;<span class="string">"
+  elseif self.format == "</span><span class="function-name">a</span><span class="string">" then
+    return "</span>\<span class="number">27</span>[<span class="number">39</span>;<span class="number">49</span><span class="function-name">m</span><span class="string">"
+  end
+  return "</span><span class="string">"
+end
+
+--- Returns the full path and filename to the logfile
+function Loginator:getFullFilename()
+  return self:processTemplate(self.fileNameTemplate)
+end
+
+--- Write an error level message to the logfile. Error level messages are always written.
+--@param msg the message to log
+--@return true if msg written, nil+error if error
+function Loginator:error(msg)
+  return self:log(msg, "</span><span class="global">error</span><span class="string">")
+end
+
+--- Write a warn level message to the logfile.
+-- Msg is only written if the logger level is &lt;= warn
+-- From most to least severe the levels are:
+-- error &gt; warn &gt; info &gt; debug
+--@param msg the message to log
+--@return true if msg written, false if skipped due to level, nil+error if error
+function Loginator:warn(msg)
+  return self:log(msg, "</span><span class="function-name">warn</span><span class="string">")
+end
+
+--- Write an info level message to the logfile.
+-- Msg is only written if the logger level is &lt;= info
+-- From most to least severe the levels are:
+-- error &gt; warn &gt; info &gt; debug
+--@param msg the message to log
+--@return true if msg written, false if skipped due to level, nil+error if error
+function Loginator:info(msg)
+  return self:log(msg, "</span><span class="function-name">info</span><span class="string">")
+end
+
+--- Write a debug level message to the logfile.
+-- Msg is only written if the logger level is debug
+-- From most to least severe the levels are:
+-- error &gt; warn &gt; info &gt; debug
+--@param msg the message to log
+--@return true if msg written, false if skipped due to level, nil+error if error
+function Loginator:debug(msg)
+  return self:log(msg, "</span><span class="global">debug</span><span class="string">")
+end
+
+--- Write a message to the log file and optionally specify the level
+--@param msg the message to log
+--@param level the level to log the message at. Defaults to the level of the logger itself if not provided.
+--@return true if msg written, false if skipped due to level, nil+error if error
+function Loginator:log(msg, level)
+  level = level or self.level
+  local levelNumber = loggerLevels[level]
+  if not levelNumber then
+    return nil, f"</span>Unknown logging level: {level}. Valid levels <span class="function-name">are</span> <span class="string">'error'</span>, <span class="string">'warn'</span>, <span class="string">'info'</span>, <span class="keyword">and</span> <span class="string">'debug'</span><span class="string">"
+  end
+  local displayLevelNumber = loggerLevels[self.level]
+  if levelNumber &gt; displayLevelNumber then
+    return false
+  end
+  local filename = self:getFullFilename()
+  local filteredMsg = self:processTemplate(self.entryTemplate, level):gsub("</span>|<span class="function-name">t</span><span class="string">", msg)
+  local ok, err = self:createPathIfNotExists(filename)
+  if err then
+    debugc(err)
+    return ok, err
+  end
+  if self.format == "</span><span class="function-name">h</span><span class="string">" and not io.exists(filename) then
+    filteredMsg = self:getHtmlHeader() .. filteredMsg
+  end
+  local file, err = io.open(filename, "</span><span class="function-name">a</span><span class="string">")
+  if not file then
+    err = string.format("</span>Logger %s failed to open %s because: %s\<span class="function-name">n</span><span class="string">", self.name, filename, err)
+    debugc(err)
+    return nil, err
+  end
+  file:write(filteredMsg .. "</span>\<span class="function-name">n</span><span class="string">")
+  file:close()
+  return true
+end
+
+--- Uses openUrl() to request your OS open the logfile in the appropriate application. Usually your web browser for html and text editor for all others.
+function Loginator:open()
+  openUrl(self:getFullFilename())
+end
+
+--- Uses openUrl() to request your OS open the directory the logfile resides in. This allows for easier browsing if you have more than one file.
+function Loginator:openDir()
+  openUrl(self:getPath())
+end
+
+--- Returns the path to the log file (directory in which the file resides) as a string
+--@param filename optional filename to return the path of. If not supplied, with use the logger's current filename
+function Loginator:getPath(filename)
+  filename = filename or self:getFullFilename()
+  filename = filename:gsub([[\]], "</span>/<span class="string">")
+  local filenameTable = filename:split("</span>/<span class="string">")
+  filenameTable[#filenameTable] = nil
+  local path = table.concat(filenameTable, "</span>/<span class="string">")
+  return path
+end
+
+---@local
+function Loginator:createPathIfNotExists(filename)
+  if exists(filename) then
+    return false
+  end
+  filename = filename:gsub([[\]], "</span>/<span class="string">")
+  local path = self:getPath(filename)
+  if exists(path) then
+    return false
+  end
+  local ok, err = mkdir_p(path)
+  if not ok then
+    err = string.format("</span>Could <span class="keyword">not</span> create directory <span class="keyword">for</span> log files: %s\n Reason was: %<span class="function-name">s</span><span class="string">", path, err)
+    return nil, err
+  end
+  return true
+end
+
+---@local
+function Loginator:getHtmlHeader()
+  local header = htmlHeaderTemplate
+  header = header:gsub("</span>|<span class="function-name">b</span><span class="string">", self.bgColor)
+  header = header:gsub("</span>|<span class="function-name">c</span><span class="string">", self.fgColor)
+  header = header:gsub("</span>|<span class="function-name">f</span>", self.fontSize)
+  <span class="keyword">return</span> header
+<span class="keyword">end</span>
+
+<span class="keyword">return</span> Loginator</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

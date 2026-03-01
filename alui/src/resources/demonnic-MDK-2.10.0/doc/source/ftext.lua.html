@@ -1,0 +1,1796 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><strong>ftext.lua</strong></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>ftext.lua</h2>
+<pre>
+<span class="comment">--- ftext
+</span><span class="comment">-- functions to format and print text, and the objects which use them
+</span><span class="comment">-- @module ftext
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="comment">-- @copyright 2021 Damian Monogue
+</span><span class="comment">-- @copyright 2022 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span><span class="keyword">local</span> ftext = {}
+<span class="keyword">local</span> dec = {<span class="string">"d"</span>, <span class="string">"decimal"</span>, <span class="string">"dec"</span>}
+<span class="keyword">local</span> hex = {<span class="string">"h"</span>, <span class="string">"hexidecimal"</span>, <span class="string">"hex"</span>}
+<span class="keyword">local</span> col = {<span class="string">"c"</span>, <span class="string">"color"</span>, <span class="string">"colour"</span>, <span class="string">"col"</span>, <span class="string">"name"</span>}
+
+<span class="comment">--- Performs wordwrapping on a string, given a length limit. Does not understand colour tags and will count them as characters in the string
+</span><span class="comment">-- @tparam string str the string to wordwrap
+</span><a id="17"></a><span class="comment">-- @tparam number limit the line length to wrap at
+</span><span class="keyword">function</span> ftext.<span class="function-name">wordWrap</span>(str, limit, indent, indent1)
+  <span class="comment">-- pulled from http://lua-users.org/wiki/StringRecipes
+</span>  indent = indent <span class="keyword">or</span> <span class="string">""</span>
+  indent1 = indent1 <span class="keyword">or</span> indent
+  limit = limit <span class="keyword">or</span> <span class="number">72</span>
+  <span class="keyword">local</span> here = <span class="number">1</span> - #indent1
+  <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">check</span>(sp, st, word, fi)
+    <span class="keyword">if</span> fi - here &gt; limit <span class="keyword">then</span>
+      here = st - #indent
+      <span class="keyword">return</span> <span class="string">"\n"</span> .. indent .. word
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> indent1 .. str:<span class="function-name">gsub</span>(<span class="string">"(%s+)()(%S+)()"</span>, check)
+<span class="keyword">end</span>
+
+<span class="comment">--- Performs wordwrapping on a string, while ignoring color tags of a given type.
+</span><span class="comment">-- @tparam string text the string you are wordwrapping
+</span><span class="comment">-- @tparam number limit the line length to wrap at
+</span><a id="36"></a><span class="comment">-- @tparam string type What type of color codes to ignore. 'c' for cecho, 'd' for decho, 'h' for hecho, and anything else or nil to pass the string on to wordWrap
+</span><span class="keyword">function</span> ftext.<span class="function-name">xwrap</span>(text, limit, <span class="global">type</span>)
+  <span class="keyword">local</span> colorPattern
+  <span class="keyword">if</span> <span class="global">table</span>.<span class="function-name">contains</span>(dec, <span class="global">type</span>) <span class="keyword">then</span>
+    colorPattern = _Echos.Patterns.Decimal[<span class="number">1</span>]
+  <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(hex, <span class="global">type</span>) <span class="keyword">then</span>
+    colorPattern = _Echos.Patterns.Hex[<span class="number">1</span>]
+  <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(col, <span class="global">type</span>) <span class="keyword">then</span>
+    colorPattern = _Echos.Patterns.Color[<span class="number">1</span>]
+  <span class="keyword">else</span>
+    <span class="keyword">return</span> ftext.<span class="function-name">wordWrap</span>(text, limit)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> strippedString = rex.<span class="function-name">gsub</span>(text, colorPattern, <span class="string">""</span>)
+  <span class="keyword">local</span> strippedLines = ftext.<span class="function-name">wordWrap</span>(strippedString, limit):<span class="function-name">split</span>(<span class="string">"\n"</span>)
+  <span class="keyword">local</span> lineIndex = <span class="number">1</span>
+  <span class="keyword">local</span> line = <span class="string">""</span>
+  <span class="keyword">local</span> strLine = <span class="string">""</span>
+  <span class="keyword">local</span> lines = {}
+  <span class="keyword">local</span> strLines = {}
+  <span class="keyword">local</span> workingLine = strippedLines[lineIndex]:<span class="function-name">split</span>(<span class="string">""</span>)
+  <span class="keyword">local</span> workingLineLength = #workingLine
+  <span class="keyword">local</span> lineColumn = <span class="number">0</span>
+  <span class="keyword">for</span> str, color, res <span class="keyword">in</span> rex.<span class="function-name">split</span>(text, colorPattern) <span class="keyword">do</span>
+    <span class="keyword">if</span> res <span class="keyword">then</span>
+      <span class="keyword">if</span> <span class="global">type</span> == <span class="string">"Hex"</span> <span class="keyword">then</span>
+        color = <span class="string">"#r"</span>
+      <span class="keyword">elseif</span> <span class="global">type</span> == <span class="string">"Dec"</span> <span class="keyword">then</span>
+        color = <span class="string">"&lt;r&gt;"</span>
+      <span class="keyword">elseif</span> <span class="global">type</span> == <span class="string">"Color"</span> <span class="keyword">then</span>
+        color = <span class="string">"&lt;reset&gt;"</span>
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    color = color <span class="keyword">or</span> <span class="string">""</span>
+    <span class="keyword">local</span> strLen = str:<span class="function-name">len</span>()
+    <span class="keyword">if</span> lineColumn + strLen &lt;= workingLineLength <span class="keyword">then</span>
+      strLine = strLine .. str
+      line = line .. str .. color
+      lineColumn = lineColumn + strLen
+    <span class="keyword">else</span>
+      <span class="keyword">local</span> neededChars = workingLineLength - lineColumn
+      <span class="keyword">local</span> take = str:<span class="function-name">sub</span>(<span class="number">1</span>, neededChars)
+      <span class="keyword">local</span> leave = str:<span class="function-name">sub</span>(neededChars + <span class="number">1</span>, -<span class="number">1</span>)
+      strLine = strLine .. take
+      line = line .. take
+      <span class="global">table</span>.<span class="function-name">insert</span>(lines, line)
+      <span class="global">table</span>.<span class="function-name">insert</span>(strLines, strLine)
+      line = <span class="string">""</span>
+      strLine = <span class="string">""</span>
+      lineIndex = lineIndex + <span class="number">1</span>
+      workingLine = strippedLines[lineIndex]:<span class="function-name">split</span>(<span class="string">""</span>)
+      workingLineLength = #workingLine
+      lineColumn = <span class="number">0</span>
+      <span class="keyword">if</span> leave:<span class="function-name">sub</span>(<span class="number">1</span>, <span class="number">1</span>) == <span class="string">" "</span> <span class="keyword">then</span>
+        leave = leave:<span class="function-name">sub</span>(<span class="number">2</span>, -<span class="number">1</span>)
+      <span class="keyword">end</span>
+      <span class="keyword">while</span> leave ~= <span class="string">""</span> <span class="keyword">do</span>
+        take = leave:<span class="function-name">sub</span>(<span class="number">1</span>, workingLineLength)
+        leave = leave:<span class="function-name">sub</span>(workingLineLength + <span class="number">1</span>, -<span class="number">1</span>)
+        <span class="keyword">if</span> leave:<span class="function-name">sub</span>(<span class="number">1</span>, <span class="number">1</span>) == <span class="string">" "</span> <span class="keyword">then</span>
+          leave = leave:<span class="function-name">sub</span>(<span class="number">2</span>, -<span class="number">1</span>)
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> take:<span class="function-name">len</span>() &lt; workingLineLength <span class="keyword">then</span>
+          lineColumn = take:<span class="function-name">len</span>()
+          line = line .. take .. color
+          strLine = strLine .. take
+        <span class="keyword">else</span>
+          lineIndex = lineIndex + <span class="number">1</span>
+          workingLine = strippedLines[lineIndex]
+          <span class="keyword">if</span> workingLine <span class="keyword">then</span>
+            workingLine = strippedLines[lineIndex]:<span class="function-name">split</span>(<span class="string">""</span>)
+            workingLineLength = #workingLine
+          <span class="keyword">end</span>
+          <span class="global">table</span>.<span class="function-name">insert</span>(lines, take)
+          <span class="global">table</span>.<span class="function-name">insert</span>(strLines, take)
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> leave == <span class="string">"\n"</span> <span class="keyword">then</span>
+          <span class="global">table</span>.<span class="function-name">insert</span>(lines, leave)
+          <span class="global">table</span>.<span class="function-name">insert</span>(strLines, leave)
+          leave = <span class="string">""</span>
+        <span class="keyword">end</span>
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> line ~= <span class="string">""</span> <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(lines, line)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> <span class="global">table</span>.<span class="function-name">concat</span>(lines, <span class="string">"\n"</span>)
+<span class="keyword">end</span>
+
+<span class="comment">--- The main course, this function returns a formatted string, based on a table of options
+</span><span class="comment">-- @tparam string str the string to format
+</span><span class="comment">-- @tparam table opts the table of options which control the formatting
+</span><span class="comment">-- &lt;br&gt;&lt;br&gt;Table of options
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;wrap&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Should it wordwrap to multiple lines?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;formatType&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Determines how it formats for color. 'c' for cecho, 'd' for decho, 'h' for hecho, and anything else for no colors&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;""&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;width&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;How wide should we format the text?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;80&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;cap&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;what characters to use for the endcap.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;""&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;capColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;what color to make the endcap?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;the correct 'white' for your formatType&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;spacer&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What character to use for empty space. Must be a single character&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;" "&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;spacerColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;what color should the spacer be?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;the correct 'white' for your formatType&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;textColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;what color should the text itself be?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;the correct 'white' for your formatType&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;alignment&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;How should the text be aligned within the width. "center", "left", or "right"&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"center"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;nogap&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Should we put a literal space between the spacer character and the text?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;inside&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Put the spacers inside the caps?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;mirror&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Should the endcap be reversed on the right? IE [[ becomes ]]&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;truncate&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Cut the string to width. Is superceded by wrap being true.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/tbody&gt;
+</span><a id="203"></a><span class="comment">-- &lt;/table&gt;
+</span><span class="keyword">function</span> ftext.<span class="function-name">fText</span>(str, opts)
+  <span class="keyword">local</span> options = ftext.<span class="function-name">fixFormatOptions</span>(str, opts)
+  <span class="keyword">if</span> options.wrap <span class="keyword">and</span> (options.strLen &gt; options.effWidth) <span class="keyword">then</span>
+    <span class="keyword">local</span> wrapped = <span class="string">""</span>
+    <span class="keyword">if</span> str:<span class="function-name">find</span>(<span class="string">"\n"</span>) <span class="keyword">then</span>
+      <span class="keyword">for</span> _,line <span class="keyword">in</span> <span class="global">ipairs</span>(str:<span class="function-name">split</span>(<span class="string">"\n"</span>)) <span class="keyword">do</span>
+        <span class="keyword">local</span> newline = <span class="string">"\n"</span>
+        <span class="keyword">if</span> _ == <span class="number">1</span> <span class="keyword">then</span> newline = <span class="string">""</span> <span class="keyword">end</span>
+        wrapped = wrapped .. newline .. ftext.<span class="function-name">xwrap</span>(line, options.effWidth, options.formatType)
+      <span class="keyword">end</span>
+    <span class="keyword">else</span>
+      wrapped = ftext.<span class="function-name">xwrap</span>(str, options.effWidth, options.formatType)
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> lines = wrapped:<span class="function-name">split</span>(<span class="string">"\n"</span>)
+    <span class="keyword">local</span> formatted = {}
+    options.fixed = <span class="keyword">false</span>
+    <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(lines) <span class="keyword">do</span>
+      <span class="global">table</span>.<span class="function-name">insert</span>(formatted, ftext.<span class="function-name">fLine</span>(line, options))
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> <span class="global">table</span>.<span class="function-name">concat</span>(formatted, <span class="string">"\n"</span>)
+  <span class="keyword">else</span>
+    <span class="keyword">return</span> ftext.<span class="function-name">fLine</span>(str, options)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- internal function, used to set defaults and type correct the options table
+</span><span class="keyword">function</span> ftext.<span class="function-name">fixFormatOptions</span>(str, opts)
+  <span class="keyword">if</span> opts.fixed <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="global">table</span>.<span class="function-name">deepcopy</span>(opts)
+  <span class="keyword">end</span>
+  <span class="comment">-- Set up all the things we might call the different echo types
+</span>  <span class="keyword">if</span> opts == <span class="keyword">nil</span> <span class="keyword">then</span>
+    opts = {}
+  <span class="keyword">end</span> <span class="comment">-- don't overwrite options if they passed them
+</span>  <span class="comment">-- but if they passed something other than a table as the options than oopsie!
+</span>  <span class="keyword">if</span> <span class="global">type</span>(opts) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"Improper argument: options expected to be passed as table"</span>)
+  <span class="keyword">end</span>
+  <span class="comment">-- now we make a copy of the table, so we don't edit the original during all this
+</span>  <span class="keyword">local</span> options = <span class="global">table</span>.<span class="function-name">deepcopy</span>(opts)
+  <span class="keyword">if</span> options.wrap == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options.wrap = <span class="keyword">true</span>
+  <span class="keyword">end</span> <span class="comment">-- wrap by default.
+</span>  <span class="keyword">if</span> options.truncate == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options.truncate = <span class="keyword">false</span>
+  <span class="keyword">end</span> <span class="comment">-- do not truncate by default
+</span>  options.formatType = options.formatType <span class="keyword">or</span> <span class="string">""</span> <span class="comment">-- by default, no color formatting.
+</span>  options.width = options.width <span class="keyword">or</span> <span class="number">80</span> <span class="comment">-- default 80 width
+</span>  options.cap = options.cap <span class="keyword">or</span> <span class="string">""</span> <span class="comment">-- no cap by default
+</span>  options.spacer = options.spacer <span class="keyword">or</span> <span class="string">" "</span> <span class="comment">-- default spacer is the space character
+</span>  options.alignment = options.alignment <span class="keyword">or</span> <span class="string">"center"</span> <span class="comment">-- default alignment is centered
+</span>  <span class="keyword">if</span> options.nogap == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options.nogap = <span class="keyword">false</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> options.inside == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options.inside = <span class="keyword">false</span>
+  <span class="keyword">end</span> <span class="comment">-- by default, we don't put the spacer inside
+</span>  <span class="keyword">if</span> <span class="keyword">not</span> options.mirror == <span class="keyword">false</span> <span class="keyword">then</span>
+    options.mirror = options.mirror <span class="keyword">or</span> <span class="keyword">true</span>
+  <span class="keyword">end</span> <span class="comment">-- by default, we do want to use mirroring for the caps
+</span>  <span class="comment">-- setup default options for colors based on the color formatting type
+</span>  <span class="keyword">if</span> <span class="global">table</span>.<span class="function-name">contains</span>(dec, options.formatType) <span class="keyword">then</span>
+    options.capColor = options.capColor <span class="keyword">or</span> <span class="string">"&lt;255,255,255&gt;"</span>
+    options.spacerColor = options.spacerColor <span class="keyword">or</span> <span class="string">"&lt;255,255,255&gt;"</span>
+    options.textColor = options.textColor <span class="keyword">or</span> <span class="string">"&lt;255,255,255&gt;"</span>
+    options.colorReset = <span class="string">"&lt;r&gt;"</span>
+    options.colorPattern = _Echos.Patterns.Decimal[<span class="number">1</span>]
+  <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(hex, options.formatType) <span class="keyword">then</span>
+    options.capColor = options.capColor <span class="keyword">or</span> <span class="string">"#FFFFFF"</span>
+    options.spacerColor = options.spacerColor <span class="keyword">or</span> <span class="string">"#FFFFFF"</span>
+    options.textColor = options.textColor <span class="keyword">or</span> <span class="string">"#FFFFFF"</span>
+    options.colorReset = <span class="string">"#r"</span>
+    options.colorPattern = _Echos.Patterns.Hex[<span class="number">1</span>]
+  <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(col, options.formatType) <span class="keyword">then</span>
+    options.capColor = options.capColor <span class="keyword">or</span> <span class="string">"&lt;white&gt;"</span>
+    options.spacerColor = options.spacerColor <span class="keyword">or</span> <span class="string">"&lt;white&gt;"</span>
+    options.textColor = options.textColor <span class="keyword">or</span> <span class="string">"&lt;white&gt;"</span>
+    options.colorReset = <span class="string">"&lt;reset&gt;"</span>
+    options.colorPattern = _Echos.Patterns.Color[<span class="number">1</span>]
+  <span class="keyword">else</span>
+    options.capColor = <span class="string">""</span>
+    options.spacerColor = <span class="string">""</span>
+    options.textColor = <span class="string">""</span>
+    options.colorReset = <span class="string">""</span>
+    options.colorPattern = <span class="string">""</span>
+  <span class="keyword">end</span>
+  options.originalString = str
+  options.strippedString = rex.<span class="function-name">gsub</span>(<span class="global">tostring</span>(str), options.colorPattern, <span class="string">""</span>)
+  options.strLen = <span class="global">string</span>.<span class="function-name">len</span>(options.strippedString)
+  options.leftCap = options.cap
+  options.rightCap = options.cap
+  options.capLen = <span class="global">string</span>.<span class="function-name">len</span>(options.cap)
+  <span class="keyword">local</span> gapSpaces = <span class="number">0</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> options.nogap <span class="keyword">then</span>
+    <span class="keyword">if</span> options.alignment == <span class="string">"center"</span> <span class="keyword">then</span>
+      gapSpaces = <span class="number">2</span>
+    <span class="keyword">else</span>
+      gapSpaces = <span class="number">1</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  options.nontextlength = options.width - options.strLen - gapSpaces
+  options.leftPadLen = <span class="global">math</span>.<span class="function-name">floor</span>(options.nontextlength / <span class="number">2</span>)
+  options.rightPadLen = options.nontextlength - options.leftPadLen
+  options.effWidth = options.width - ((options.capLen * gapSpaces) + gapSpaces)
+  <span class="keyword">if</span> options.capLen &gt; options.leftPadLen <span class="keyword">then</span>
+    options.cap = options.cap:<span class="function-name">sub</span>(<span class="number">1</span>, options.leftPadLen)
+    options.capLen = <span class="global">string</span>.<span class="function-name">len</span>(options.cap)
+  <span class="keyword">end</span>
+  options.fixed = <span class="keyword">true</span>
+  <span class="keyword">return</span> options
+<span class="keyword">end</span>
+
+<span class="comment">-- internal function, processes a single line of the wrapped string.
+</span><span class="keyword">function</span> ftext.<span class="function-name">fLine</span>(str, opts)
+  <span class="keyword">local</span> options = ftext.<span class="function-name">fixFormatOptions</span>(str, opts)
+  <span class="keyword">local</span> truncate, strLen, width = options.truncate, options.strLen, options.width
+  <span class="keyword">if</span> truncate <span class="keyword">and</span> strLen &gt; width <span class="keyword">then</span>
+    <span class="keyword">local</span> wrapped = ftext.<span class="function-name">xwrap</span>(str, options.effWidth, options.formatType)
+    <span class="keyword">local</span> lines = wrapped:<span class="function-name">split</span>(<span class="string">"\n"</span>)
+    str = lines[<span class="number">1</span>]
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> leftCap = options.leftCap
+  <span class="keyword">local</span> rightCap = options.rightCap
+  <span class="keyword">local</span> leftPadLen = options.leftPadLen
+  <span class="keyword">local</span> rightPadLen = options.rightPadLen
+  <span class="keyword">local</span> capLen = options.capLen
+
+  <span class="keyword">if</span> options.alignment == <span class="string">"center"</span> <span class="keyword">then</span> <span class="comment">-- we're going to center something
+</span>    <span class="keyword">if</span> options.mirror <span class="keyword">then</span> <span class="comment">-- if we're reversing the left cap and the right cap (IE {{[[ turns into ]]}} )
+</span>      rightCap = <span class="global">string</span>.<span class="function-name">gsub</span>(rightCap, <span class="string">"&lt;"</span>, <span class="string">"&gt;"</span>)
+      rightCap = <span class="global">string</span>.<span class="function-name">gsub</span>(rightCap, <span class="string">"%["</span>, <span class="string">"%]"</span>)
+      rightCap = <span class="global">string</span>.<span class="function-name">gsub</span>(rightCap, <span class="string">"{"</span>, <span class="string">"}"</span>)
+      rightCap = <span class="global">string</span>.<span class="function-name">gsub</span>(rightCap, <span class="string">"%("</span>, <span class="string">"%)"</span>)
+      rightCap = <span class="global">string</span>.<span class="function-name">reverse</span>(rightCap)
+    <span class="keyword">end</span> <span class="comment">-- otherwise, they'll be the same, so don't do anything
+</span>    <span class="keyword">if</span> <span class="keyword">not</span> options.nogap <span class="keyword">then</span>
+      str = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">" %s "</span>, str)
+    <span class="keyword">end</span>
+
+  <span class="keyword">elseif</span> options.alignment == <span class="string">"right"</span> <span class="keyword">then</span> <span class="comment">-- we'll right-align the text
+</span>    leftPadLen = leftPadLen + rightPadLen
+    rightPadLen = <span class="number">0</span>
+    rightCap = <span class="string">""</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> options.nogap <span class="keyword">then</span>
+      str = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">" %s"</span>, str)
+    <span class="keyword">end</span>
+
+  <span class="keyword">else</span> <span class="comment">-- Ok, so if it's not center or right, we assume it's left. We don't do justified. Sorry.
+</span>    rightPadLen = rightPadLen + leftPadLen
+    leftPadLen = <span class="number">0</span>
+    leftCap = <span class="string">""</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> options.nogap <span class="keyword">then</span>
+      str = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s "</span>, str)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span> <span class="comment">-- that's it, took care of both left, right, and center formattings, now to output the durn thing.
+</span>  <span class="keyword">local</span> fullLeftCap = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, options.capColor, leftCap, options.colorReset)
+  <span class="keyword">local</span> fullLeftSpacer = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, options.spacerColor, <span class="global">string</span>.<span class="function-name">rep</span>(options.spacer, (leftPadLen - capLen)), options.colorReset)
+  <span class="keyword">local</span> fullText = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, options.textColor, str, options.colorReset)
+  <span class="keyword">local</span> fullRightSpacer = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, options.spacerColor, <span class="global">string</span>.<span class="function-name">rep</span>(options.spacer, (rightPadLen - capLen)), options.colorReset)
+  <span class="keyword">local</span> fullRightCap = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, options.capColor, rightCap, options.colorReset)
+
+  <span class="keyword">if</span> options.inside <span class="keyword">then</span>
+    <span class="comment">-- "endcap===== some text =====endcap"
+</span>    <span class="comment">-- "endcap===== some text =====pacdne"
+</span>    <span class="comment">-- "endcap================= some text"
+</span>    <span class="comment">-- "some text =================endcap"
+</span>    <span class="keyword">local</span> finalString = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s%s%s"</span>, fullLeftCap, fullLeftSpacer, fullText, fullRightSpacer, fullRightCap)
+    <span class="keyword">return</span> finalString
+  <span class="keyword">else</span>
+    <span class="comment">-- "=====endcap some text endcap====="
+</span>    <span class="comment">-- "=====endcap some text pacdne====="
+</span>    <span class="comment">-- "=================endcap some text"
+</span>    <span class="comment">-- "some text endcap================="
+</span>
+    <span class="keyword">local</span> finalString = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s%s%s"</span>, fullLeftSpacer, fullLeftCap, fullText, fullRightCap, fullRightSpacer)
+    <span class="keyword">return</span> finalString
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- Functions below here are honestly for backwards compatibility and subject to removal soon.
+</span><span class="comment">-- They just force some options table overrides for the most part.
+</span>
+<span class="comment">-- no colors, no wrap
+</span><span class="keyword">function</span> ftext.<span class="function-name">align</span>(str, opts)
+  <span class="keyword">local</span> options = {}
+  <span class="keyword">if</span> opts == <span class="keyword">nil</span> <span class="keyword">then</span>
+    opts = {}
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">type</span>(opts) == <span class="string">"table"</span> <span class="keyword">then</span>
+    options = <span class="global">table</span>.<span class="function-name">deepcopy</span>(opts)
+    options.formatType = <span class="string">""</span>
+    options.wrap = <span class="keyword">false</span>
+  <span class="keyword">else</span>
+    <span class="global">error</span>(<span class="string">"Improper argument: options expected to be passed as table"</span>)
+  <span class="keyword">end</span>
+  options = ftext.<span class="function-name">fixFormatOptions</span>(str, options)
+  <span class="keyword">return</span> ftext.<span class="function-name">fLine</span>(str, options)
+<span class="keyword">end</span>
+
+<span class="comment">-- decho formatting, no wrap
+</span><span class="keyword">function</span> ftext.<span class="function-name">dalign</span>(str, opts)
+  <span class="keyword">local</span> options = {}
+  <span class="keyword">if</span> opts == <span class="keyword">nil</span> <span class="keyword">then</span>
+    opts = {}
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">type</span>(opts) == <span class="string">"table"</span> <span class="keyword">then</span>
+    options = <span class="global">table</span>.<span class="function-name">deepcopy</span>(opts)
+    options.formatType = <span class="string">"d"</span>
+    options.wrap = <span class="keyword">false</span>
+  <span class="keyword">else</span>
+    <span class="global">error</span>(<span class="string">"Improper argument: options expected to be passed as table"</span>)
+  <span class="keyword">end</span>
+  options = ftext.<span class="function-name">fixFormatOptions</span>(str, options)
+  <span class="keyword">return</span> ftext.<span class="function-name">fLine</span>(str, options)
+<span class="keyword">end</span>
+
+<span class="comment">-- cecho formatting, no wrap
+</span><span class="keyword">function</span> ftext.<span class="function-name">calign</span>(str, opts)
+  <span class="keyword">local</span> options = {}
+  <span class="keyword">if</span> opts == <span class="keyword">nil</span> <span class="keyword">then</span>
+    opts = {}
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">type</span>(opts) == <span class="string">"table"</span> <span class="keyword">then</span>
+    options = <span class="global">table</span>.<span class="function-name">deepcopy</span>(opts)
+    options.formatType = <span class="string">"c"</span>
+    options.wrap = <span class="keyword">false</span>
+  <span class="keyword">else</span>
+    <span class="global">error</span>(<span class="string">"Improper argument: options expected to be passed as table"</span>)
+  <span class="keyword">end</span>
+  options = ftext.<span class="function-name">fixFormatOptions</span>(str, options)
+  <span class="keyword">return</span> ftext.<span class="function-name">fLine</span>(str, options)
+<span class="keyword">end</span>
+
+<span class="comment">-- hecho formatting, no wrap
+</span><span class="keyword">function</span> ftext.<span class="function-name">halign</span>(str, opts)
+  <span class="keyword">local</span> options = {}
+  <span class="keyword">if</span> opts == <span class="keyword">nil</span> <span class="keyword">then</span>
+    opts = {}
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">type</span>(opts) == <span class="string">"table"</span> <span class="keyword">then</span>
+    options = <span class="global">table</span>.<span class="function-name">deepcopy</span>(opts)
+    options.formatType = <span class="string">"h"</span>
+    options.wrap = <span class="keyword">false</span>
+  <span class="keyword">else</span>
+    <span class="global">error</span>(<span class="string">"Improper argument: options expected to be passed as table"</span>)
+  <span class="keyword">end</span>
+  options = ftext.<span class="function-name">fixFormatOptions</span>(str, options)
+  <span class="keyword">return</span> ftext.<span class="function-name">fLine</span>(str, options)
+<span class="keyword">end</span>
+
+<span class="comment">-- literally just fText but forces cecho formatting
+</span><span class="keyword">function</span> ftext.<span class="function-name">cfText</span>(str, opts)
+  <span class="keyword">local</span> options = {}
+  <span class="keyword">if</span> opts == <span class="keyword">nil</span> <span class="keyword">then</span>
+    opts = {}
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">type</span>(opts) == <span class="string">"table"</span> <span class="keyword">then</span>
+    options = <span class="global">table</span>.<span class="function-name">deepcopy</span>(opts)
+    options.formatType = <span class="string">"c"</span>
+  <span class="keyword">else</span>
+    <span class="global">error</span>(<span class="string">"Improper argument: options expected to be passed as table"</span>)
+  <span class="keyword">end</span>
+  options = ftext.<span class="function-name">fixFormatOptions</span>(str, options)
+  <span class="keyword">return</span> ftext.<span class="function-name">fText</span>(str, options)
+<span class="keyword">end</span>
+
+<span class="comment">-- fText but forces decho formatting
+</span><span class="keyword">function</span> ftext.<span class="function-name">dfText</span>(str, opts)
+  <span class="keyword">local</span> options = {}
+  <span class="keyword">if</span> opts == <span class="keyword">nil</span> <span class="keyword">then</span>
+    opts = {}
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">type</span>(opts) == <span class="string">"table"</span> <span class="keyword">then</span>
+    options = <span class="global">table</span>.<span class="function-name">deepcopy</span>(opts)
+    options.formatType = <span class="string">"d"</span>
+  <span class="keyword">else</span>
+    <span class="global">error</span>(<span class="string">"Improper argument: options expected to be passed as table"</span>)
+  <span class="keyword">end</span>
+  options = ftext.<span class="function-name">fixFormatOptions</span>(str, options)
+  <span class="keyword">return</span> ftext.<span class="function-name">fText</span>(str, options)
+<span class="keyword">end</span>
+
+<span class="comment">-- fText but forces hecho formatting
+</span><span class="keyword">function</span> ftext.<span class="function-name">hfText</span>(str, opts)
+  <span class="keyword">local</span> options = {}
+  <span class="keyword">if</span> opts == <span class="keyword">nil</span> <span class="keyword">then</span>
+    opts = {}
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">type</span>(opts) == <span class="string">"table"</span> <span class="keyword">then</span>
+    options = <span class="global">table</span>.<span class="function-name">deepcopy</span>(opts)
+    options.formatType = <span class="string">"h"</span>
+  <span class="keyword">else</span>
+    <span class="global">error</span>(<span class="string">"Improper argument: options expected to be passed as table"</span>)
+  <span class="keyword">end</span>
+  options = ftext.<span class="function-name">fixFormatOptions</span>(str, options)
+  <span class="keyword">return</span> ftext.<span class="function-name">fText</span>(str, options)
+<span class="keyword">end</span>
+
+<span class="comment">--- Stand alone text formatter object. Remembers the options you set and can be adjusted as needed
+</span><span class="comment">-- @type ftext.TextFormatter
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span>
+<span class="keyword">local</span> TextFormatter = {}
+TextFormatter.validFormatTypes = {<span class="string">'d'</span>, <span class="string">'dec'</span>, <span class="string">'decimal'</span>, <span class="string">'h'</span>, <span class="string">'hex'</span>, <span class="string">'hexidecimal'</span>, <span class="string">'c'</span>, <span class="string">'color'</span>, <span class="string">'colour'</span>, <span class="string">'col'</span>, <span class="string">'name'</span>, <span class="string">'none'</span>, <span class="string">'e'</span>, <span class="string">'plain'</span>, <span class="string">''</span>}
+
+<span class="comment">--- Set's the formatting type whether it's for cecho, decho, or hecho
+</span><a id="512"></a><span class="comment">-- @tparam string typeToSet What type of formatter is this? Valid options are { 'd', 'dec', 'decimal', 'h', 'hex', 'hexidecimal', 'c', 'color', 'colour', 'col', 'name'}
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setType</span>(typeToSet)
+  <span class="keyword">local</span> isNotValid = <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(self.validFormatTypes, typeToSet)
+  <span class="keyword">if</span> isNotValid <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setType: Invalid argument, valid types are:"</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(self.validFormatTypes, <span class="string">", "</span>))
+  <span class="keyword">end</span>
+  self.options.formatType = typeToSet
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TextFormatter:<span class="function-name">toBoolean</span>(thing)
+  <span class="keyword">if</span> <span class="global">type</span>(thing) ~= <span class="string">"boolean"</span> <span class="keyword">then</span>
+    <span class="keyword">if</span> thing == <span class="string">"true"</span> <span class="keyword">then</span>
+      thing = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> thing == <span class="string">"false"</span> <span class="keyword">then</span>
+      thing = <span class="keyword">false</span>
+    <span class="keyword">else</span>
+      <span class="keyword">return</span> <span class="keyword">nil</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> thing
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TextFormatter:<span class="function-name">checkString</span>(str)
+  <span class="keyword">if</span> <span class="global">type</span>(str) ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="global">tostring</span>(str) <span class="keyword">then</span>
+      str = <span class="global">tostring</span>(str)
+    <span class="keyword">else</span>
+      <span class="keyword">return</span> <span class="keyword">nil</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> str
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets whether or not we should do word wrapping.
+</span><a id="546"></a><span class="comment">-- @tparam boolean shouldWrap should we do wordwrapping?
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setWrap</span>(shouldWrap)
+  <span class="keyword">local</span> argumentType = <span class="global">type</span>(shouldWrap)
+  shouldWrap = self:<span class="function-name">toBoolean</span>(shouldWrap)
+  <span class="keyword">if</span> shouldWrap == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setWrap(shouldWrap) Argument error, boolean expected, got "</span> .. argumentType ..
+            <span class="string">", if you want to set the number of characters wide to format for, use setWidth()"</span>)
+  <span class="keyword">end</span>
+  self.options.wrap = shouldWrap
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the width we should format for
+</span><a id="558"></a><span class="comment">-- @tparam number width the width we should format for
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setWidth</span>(width)
+  <span class="keyword">if</span> <span class="global">type</span>(width) ~= <span class="string">"number"</span> <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="global">tonumber</span>(width) <span class="keyword">then</span>
+      width = <span class="global">tonumber</span>(width)
+    <span class="keyword">else</span>
+      <span class="global">error</span>(<span class="string">"TextFormatter:setWidth(width): Argument error, number expected, got "</span> .. <span class="global">type</span>(width))
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  self.options.width = width
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the cap for the formatter
+</span><a id="571"></a><span class="comment">-- @tparam string cap the string to use for capping the formatted string.
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setCap</span>(cap)
+  <span class="keyword">local</span> argumentType = <span class="global">type</span>(cap)
+  <span class="keyword">local</span> cap = self:<span class="function-name">checkString</span>(cap)
+  <span class="keyword">if</span> cap == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setCap(cap): Argument error, string expect, got "</span> .. argumentType)
+  <span class="keyword">end</span>
+  self.options.cap = cap
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the color for the format cap
+</span><a id="582"></a><span class="comment">-- @tparam string capColor Color which can be formatted via Geyser.Color.parse()
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setCapColor</span>(capColor)
+  <span class="keyword">local</span> argumentType = <span class="global">type</span>(capColor)
+  <span class="keyword">local</span> capColor = self:<span class="function-name">checkString</span>(capColor)
+  <span class="keyword">if</span> capColor == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setCapColor(capColor): Argument error, string expected, got "</span> .. argumentType)
+  <span class="keyword">end</span>
+  self.options.capColor = capColor
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the color for spacing character
+</span><a id="593"></a><span class="comment">-- @tparam string spacerColor Color which can be formatted via Geyser.Color.parse()
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setSpacerColor</span>(spacerColor)
+  <span class="keyword">local</span> argumentType = <span class="global">type</span>(spacerColor)
+  <span class="keyword">local</span> spacerColor = self:<span class="function-name">checkString</span>(spacerColor)
+  <span class="keyword">if</span> spacerColor == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setSpacerColor(spacerColor): Argument error, string expected, got "</span> .. argumentType)
+  <span class="keyword">end</span>
+  self.options.spacerColor = spacerColor
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the color for formatted text
+</span><a id="604"></a><span class="comment">-- @tparam string textColor Color which can be formatted via Geyser.Color.parse()
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setTextColor</span>(textColor)
+  <span class="keyword">local</span> argumentType = <span class="global">type</span>(textColor)
+  <span class="keyword">local</span> textColor = self:<span class="function-name">checkString</span>(textColor)
+  <span class="keyword">if</span> textColor == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setTextColor(textColor): Argument error, string expected, got "</span> .. argumentType)
+  <span class="keyword">end</span>
+  self.options.textColor = textColor
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the spacing character to use. Should be a single character
+</span><a id="615"></a><span class="comment">-- @tparam string spacer the character to use for spacing
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setSpacer</span>(spacer)
+  <span class="keyword">local</span> argumentType = <span class="global">type</span>(spacer)
+  <span class="keyword">local</span> spacer = self:<span class="function-name">checkString</span>(spacer)
+  <span class="keyword">if</span> spacer == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setSpacer(spacer): Argument error, string expect, got "</span> .. argumentType)
+  <span class="keyword">end</span>
+  self.options.spacer = spacer
+<span class="keyword">end</span>
+
+<span class="comment">--- Set the alignment to format for
+</span><a id="626"></a><span class="comment">-- @tparam string alignment How to align the formatted string. Valid options are 'left', 'right', or 'center'
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setAlignment</span>(alignment)
+  <span class="keyword">local</span> validAlignments = {<span class="string">"left"</span>, <span class="string">"right"</span>, <span class="string">"center"</span>}
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">table</span>.<span class="function-name">contains</span>(validAlignments, alignment) <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setAlignment(alignment): Argument error: Only valid arguments for setAlignment are 'left', 'right', or 'center'. You sent"</span> ..
+            alignment)
+  <span class="keyword">end</span>
+  self.options.alignment = alignment
+<span class="keyword">end</span>
+
+<span class="comment">--- Set whether the the spacer should go inside the the cap or outside of it
+</span><a id="637"></a><span class="comment">-- @tparam boolean spacerInside
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setInside</span>(spacerInside)
+  <span class="keyword">local</span> argumentType = <span class="global">type</span>(spacerInside)
+  spacerInside = self:<span class="function-name">toBoolean</span>(spacerInside)
+  <span class="keyword">if</span> spacerInside == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setInside(spacerInside) Argument error, boolean expected, got "</span> .. argumentType)
+  <span class="keyword">end</span>
+  self.options.inside = spacerInside
+<span class="keyword">end</span>
+
+<span class="comment">--- Set whether we should mirror/reverse the caps. IE &lt;&lt; becomes &gt;&gt; if set to true
+</span><a id="648"></a><span class="comment">-- @tparam boolean shouldMirror
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setMirror</span>(shouldMirror)
+  <span class="keyword">local</span> argumentType = <span class="global">type</span>(shouldMirror)
+  shouldMirror = self:<span class="function-name">toBoolean</span>(shouldMirror)
+  <span class="keyword">if</span> shouldMirror == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setMirror(shouldMirror): Argument error, boolean expected, got "</span> .. argumentType)
+  <span class="keyword">end</span>
+  self.options.mirror = shouldMirror
+<span class="keyword">end</span>
+
+<span class="comment">--- Set whether we should remove the gap spaces between the text and spacer characters. "===some text===" if set to true, "== some text ==" if set to false
+</span><a id="659"></a><span class="comment">-- @tparam boolean noGap
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">setNoGap</span>(noGap)
+  <span class="keyword">local</span> argumentType = <span class="global">type</span>(noGap)
+  noGap = self:<span class="function-name">toBoolean</span>(noGap)
+  <span class="keyword">if</span> noGap == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:setNoGap(noGap): Argument error, boolean expected, got "</span> .. argumentType)
+  <span class="keyword">end</span>
+  self.options.noGap = noGap
+<span class="keyword">end</span>
+
+<a id="669"></a><span class="comment">--- Enables truncation (cutting to length). You still need to ensure wrap is disabled, as it supercedes.
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">enableTruncate</span>()
+  self.options.truncate = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<a id="674"></a><span class="comment">--- Disables truncation (cutting to length). You still need to ensure wrap is enabled if you want it to wrap.
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">disableTruncate</span>()
+  self.options.truncate = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Format a string based on the stored options
+</span><a id="680"></a><span class="comment">-- @tparam string str The string to format
+</span><span class="keyword">function</span> TextFormatter:<span class="function-name">format</span>(str)
+  <span class="keyword">return</span> ftext.<span class="function-name">fText</span>(str, self.options)
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates and returns a new TextFormatter.
+</span><span class="comment">-- @tparam table options the options for the text formatter to use when running format()
+</span><span class="comment">-- &lt;br&gt;&lt;br&gt;Table of options
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;wrap&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Should it wordwrap to multiple lines?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;formatType&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Determines how it formats for color. 'c' for cecho, 'd' for decho, 'h' for hecho, and anything else for no colors&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"c"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;width&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;How wide should we format the text?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;80&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;cap&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;what characters to use for the endcap.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;""&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;capColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;what color to make the endcap?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;the correct 'white' for your formatType&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;spacer&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What character to use for empty space. Must be a single character&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;" "&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;spacerColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;what color should the spacer be?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;the correct 'white' for your formatType&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;textColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;what color should the text itself be?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;the correct 'white' for your formatType&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;alignment&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;How should the text be aligned within the width. "center", "left", or "right"&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"center"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;nogap&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Should we put a literal space between the spacer character and the text?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;inside&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Put the spacers inside the caps?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;mirror&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Should the endcap be reversed on the right? IE [[ becomes ]]&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;truncate&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Cut the string to width. Is superceded by wrap being true.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/tbody&gt;
+</span><span class="comment">-- &lt;/table&gt;
+</span><span class="comment">-- @usage
+</span><span class="comment">-- local TextFormatter = require("MDK.ftext").TextFormatter
+</span><span class="comment">-- myFormatter = TextFormatter:new( {
+</span><span class="comment">--   width = 40,
+</span><span class="comment">--   cap = "[CAP]",
+</span><span class="comment">--   capColor = "&lt;orange&gt;",
+</span><span class="comment">--   textColor = "&lt;light_blue&gt;"
+</span><span class="comment">-- })
+</span><span class="comment">-- myMessage = "This is a test of the emergency broadcasting system. This is only a test"
+</span><span class="comment">-- cecho(myFormatter:format(myMessage))
+</span><a id="773"></a>
+<span class="keyword">function</span> TextFormatter:<span class="function-name">new</span>(options)
+  <span class="keyword">if</span> options == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options = {}
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> options <span class="keyword">and</span> <span class="global">type</span>(options) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TextFormatter:new(options): Argument error, table expected, got "</span> .. <span class="global">type</span>(options))
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> me = {}
+  me.options = {formatType = <span class="string">"c"</span>, wrap = <span class="keyword">true</span>, width = <span class="number">80</span>, cap = <span class="string">""</span>, spacer = <span class="string">" "</span>, alignment = <span class="string">"center"</span>, inside = <span class="keyword">true</span>, mirror = <span class="keyword">false</span>}
+  <span class="keyword">for</span> option, value <span class="keyword">in</span> <span class="global">pairs</span>(options) <span class="keyword">do</span>
+    me.options[option] = value
+  <span class="keyword">end</span>
+  <span class="global">setmetatable</span>(me, self)
+  self.__index = self
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+ftext.TextFormatter = TextFormatter
+
+<span class="comment">--- Easy formatting for text tables
+</span><span class="comment">-- @type ftext.TableMaker
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span>
+<span class="keyword">local</span> TableMaker = {
+  headCharacter = <span class="string">"*"</span>,
+  footCharacter = <span class="string">"*"</span>,
+  edgeCharacter = <span class="string">"*"</span>,
+  rowSeparator = <span class="string">"-"</span>,
+  separator = <span class="string">"|"</span>,
+  separateRows = <span class="keyword">true</span>,
+  colorReset = <span class="string">"&lt;reset&gt;"</span>,
+  formatType = <span class="string">"c"</span>,
+  printHeaders = <span class="keyword">true</span>,
+  autoEcho = <span class="keyword">false</span>,
+  title = <span class="string">""</span>,
+  printTitle = <span class="keyword">false</span>,
+  headerTitle = <span class="keyword">false</span>,
+  forceHeaderSeparator = <span class="keyword">false</span>,
+  autoEchoConsole = <span class="string">"main"</span>,
+}
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">checkPosition</span>(position, func)
+  <span class="keyword">if</span> position == <span class="keyword">nil</span> <span class="keyword">then</span>
+    position = <span class="number">0</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">type</span>(position) ~= <span class="string">"number"</span> <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="global">tonumber</span>(position) <span class="keyword">then</span>
+      position = <span class="global">tonumber</span>(position)
+    <span class="keyword">else</span>
+      <span class="global">error</span>(func .. <span class="string">": Argument error: position expected as number, got "</span> .. <span class="global">type</span>(position))
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> position
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">insert</span>(tbl, pos, item)
+  <span class="keyword">if</span> pos ~= <span class="number">0</span> <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(tbl, pos, item)
+  <span class="keyword">else</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(tbl, item)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Get the TextFormatter which defines the format of a specific column
+</span><a id="839"></a><span class="comment">-- @tparam number position The position of the column you're getting, counting from the left. If not provided will return the last column.
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">getColumn</span>(position)
+  position = position <span class="keyword">or</span> #self.columns
+  position = self:<span class="function-name">checkPosition</span>(position, <span class="string">"TableMaker:getColumn(position)"</span>)
+  <span class="keyword">return</span> self.columns[position]
+<span class="keyword">end</span>
+
+<span class="comment">--- Adds a column definition for the table.
+</span><span class="comment">-- @tparam table options Table of options suitable for a TextFormatter object. See https://github.com/demonnic/fText/wiki/fText
+</span><a id="848"></a><span class="comment">-- @tparam number position The position of the column you're adding, counting from the left. If not provided will add it as the last column
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">addColumn</span>(options, position)
+  <span class="keyword">if</span> options == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options = {}
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">type</span>(options) == <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TableMaker:addColumn(options, position): Argument error: options expected as table, got "</span> .. <span class="global">type</span>(options))
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> options = <span class="global">table</span>.<span class="function-name">deepcopy</span>(options)
+  position = self:<span class="function-name">checkPosition</span>(position, <span class="string">"TableMaker:addColumn(options, position)"</span>)
+  options.width = options.width <span class="keyword">or</span> <span class="number">20</span>
+  options.name = options.name <span class="keyword">or</span> <span class="string">""</span>
+  <span class="keyword">local</span> formatter = TextFormatter:<span class="function-name">new</span>(options)
+  self:<span class="function-name">insert</span>(self.columns, position, formatter)
+<span class="keyword">end</span>
+
+<span class="comment">--- Deletes a column at the given position
+</span><a id="865"></a><span class="comment">-- @tparam number position the column you wish to delete
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">deleteColumn</span>(position)
+  <span class="keyword">if</span> position == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TableMaker:deleteColumn(position): Argument Error: position as number expected, got nil"</span>)
+  <span class="keyword">end</span>
+  position = self:<span class="function-name">checkPosition</span>(position)
+  <span class="keyword">local</span> maxColumn = #self.columns
+  <span class="keyword">if</span> position &gt; maxColumn <span class="keyword">then</span>
+    <span class="global">error</span>(
+      <span class="string">"TableMaker:deleteColumn(position): Argument Error: position provided was larger than number of columns in the table. Number of columns: "</span> ..
+        #self.columns)
+  <span class="keyword">end</span>
+  <span class="global">table</span>.<span class="function-name">remove</span>(self.columns, position)
+<span class="keyword">end</span>
+
+<span class="comment">--- Replaces a column at a specific position with the newly provided formatting
+</span><span class="comment">-- @tparam table options table of options suitable for a TextFormatter object. See https://github.com/demonnic/fText/wiki/fText
+</span><a id="882"></a><span class="comment">-- @tparam number position which column you are replacing, counting from the left.
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">replaceColumn</span>(options, position)
+  <span class="keyword">if</span> position == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TableMaker:replaceColumn(options, position): Argument error: position as number expected, got nil"</span>)
+  <span class="keyword">end</span>
+  position = self:<span class="function-name">checkPosition</span>(position)
+  <span class="keyword">if</span> <span class="global">type</span>(options) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TableMaker:replaceColumn(options, position): Argument error: options as table expected, got "</span> .. <span class="global">type</span>(options))
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> #self.columns &lt; position <span class="keyword">then</span>
+    <span class="global">error</span>(
+      <span class="string">"TableMaker:replaceColumn(options, position): you cannot specify a position higher than the number of columns currently in the TableMaker. You sent:"</span> ..
+        position .. <span class="string">" and there are: "</span> .. #self.columns .. <span class="string">"columns in the TableMaker"</span>)
+  <span class="keyword">end</span>
+  options.width = options.width <span class="keyword">or</span> <span class="number">20</span>
+  options.name = options.name <span class="keyword">or</span> <span class="string">""</span>
+  <span class="keyword">local</span> formatter = TextFormatter:<span class="function-name">new</span>(options)
+  self.columns[position] = formatter
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the row of output at a specific position
+</span><span class="comment">-- @tparam number position The position of the row you want to get, coutning from the top down. If not provided defaults to the last row in the table
+</span><a id="904"></a><span class="comment">-- @return table of entries in the specified row
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">getRow</span>(position)
+  position = position <span class="keyword">or</span> #self.rows
+  position = self:<span class="function-name">checkPosition</span>(position, <span class="string">"TableMaker:getRow(position)"</span>)
+  <span class="keyword">return</span> self.rows[position]
+<span class="keyword">end</span>
+
+<span class="comment">--- Adds a row of output to the table
+</span><span class="comment">-- @tparam table columnEntries This indexed table contains an entry for each column in the table. Entries in the table must be strings, a table of options for insertPopup or insertLink, or a function which returns one of these things
+</span><a id="913"></a><span class="comment">-- @tparam number position position for the row you want to add, counting from the top down. If not provided defaults to the last line in the table.
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">addRow</span>(columnEntries, position)
+  <span class="keyword">local</span> columnEntriesType = <span class="global">type</span>(columnEntries)
+  <span class="keyword">if</span> columnEntriesType ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TableMaker:addRow(columnEntries, position): Argument error, columnEntries expected as table, got "</span> .. columnEntriesType)
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> _, entry <span class="keyword">in</span> <span class="global">ipairs</span>(columnEntries) <span class="keyword">do</span>
+    <span class="keyword">local</span> entryCheck = self:<span class="function-name">checkEntry</span>(entry)
+    <span class="keyword">if</span> entryCheck == <span class="number">0</span> <span class="keyword">then</span>
+      <span class="keyword">if</span> <span class="global">type</span>(entry) == <span class="string">"function"</span> <span class="keyword">then</span>
+        <span class="global">error</span>(
+          <span class="string">"TableMaker:addRow(columnEntries, position): Argument Error, you provided a function for a columnEntry but it does not return a string. We need a string. It was entry number "</span> ..
+            _ .. <span class="string">"in columnEntries"</span>)
+      <span class="keyword">else</span>
+        <span class="global">error</span>(<span class="string">"TableMaker:addRow(columnEntries, position): Argument error, columnEntries items expected as string, got:"</span> .. <span class="global">type</span>(entry))
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  position = self:<span class="function-name">checkPosition</span>(position, <span class="string">"TableMaker:addRow(columnEntries, position)"</span>)
+  self:<span class="function-name">insert</span>(self.rows, position, columnEntries)
+<span class="keyword">end</span>
+
+<span class="comment">--- Deletes the row at the given position
+</span><a id="936"></a><span class="comment">-- @tparam number position the row to delete
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">deleteRow</span>(position)
+  <span class="keyword">if</span> position == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TableMaker:deleteRow(position): Argument Error: position as number expected, got nil"</span>)
+  <span class="keyword">end</span>
+  position = self:<span class="function-name">checkPosition</span>(position, <span class="string">"TableMaker:deleteRow(position)"</span>)
+  <span class="keyword">local</span> maxRow = #self.rows
+  <span class="keyword">if</span> position &gt; maxRow <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TableMaker:deleteRow(position): Argument Error: position given was &gt; the number of rows we have # of rows is:"</span> .. maxRow)
+  <span class="keyword">end</span>
+  <span class="global">table</span>.<span class="function-name">remove</span>(self.rows, position)
+<span class="keyword">end</span>
+
+<span class="comment">--- Replaces a row of output in the table
+</span><span class="comment">-- @tparam table columnEntries This indexed table contains an entry for each column in the table. Entries in the table must be strings, a table of options for insertPopup or insertLink, or a function which returns one of these things
+</span><a id="951"></a><span class="comment">-- @tparam number position position for the row you want to add, counting from the top down.
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">replaceRow</span>(columnEntries, position)
+  <span class="keyword">if</span> position == <span class="keyword">nil</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TableMaker:replaceRow(columnEntries, position): ArgumentError: position expected as number, received nil"</span>)
+  <span class="keyword">end</span>
+  position = self:<span class="function-name">checkPosition</span>(position, <span class="string">"TableMaker:replaceRow(columnEntries, position)"</span>)
+  <span class="keyword">if</span> #self.rows &lt; position <span class="keyword">then</span>
+    <span class="global">error</span>(
+      <span class="string">"TableMaker:replaceRow(columnEntries, position): position cannot be greater than the number of rows already in the tablemaker. You provided: "</span> ..
+        position .. <span class="string">" and there are "</span> .. #self.rows .. <span class="string">"rows in the TableMaker"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> _, entry <span class="keyword">in</span> <span class="global">ipairs</span>(columnEntries) <span class="keyword">do</span>
+    <span class="keyword">local</span> entryCheck = self:<span class="function-name">checkEntry</span>(entry)
+    <span class="keyword">if</span> entryCheck == <span class="number">0</span> <span class="keyword">then</span>
+      <span class="keyword">if</span> <span class="global">type</span>(entry) == <span class="string">"function"</span> <span class="keyword">then</span>
+        <span class="global">error</span>(
+          <span class="string">"TableMaker:replaceRow(columnEntries, position): Argument Error: you provided a function for a columnEntry but it does not return a string. We need a string. It was entry number "</span> ..
+            _ .. <span class="string">"in columnEntries"</span>)
+      <span class="keyword">else</span>
+        <span class="global">error</span>(<span class="string">"TableMaker:replaceRow(columnEntries, position): Argument error: columnEntries items expected as string, got:"</span> .. <span class="global">type</span>(entry))
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  self.rows[position] = columnEntries
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">checkEntry</span>(entry)
+  <span class="keyword">local</span> allowedTypes = {<span class="string">"string"</span>}
+  <span class="keyword">if</span> self.allowPopups <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(allowedTypes, <span class="string">"table"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> entryType = <span class="global">type</span>(entry)
+  <span class="keyword">if</span> entryType == <span class="string">"function"</span> <span class="keyword">then</span>
+    entryType = <span class="global">type</span>(<span class="function-name">entry</span>())
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">table</span>.<span class="function-name">contains</span>(allowedTypes, entryType) <span class="keyword">then</span>
+    <span class="keyword">return</span> entry
+  <span class="keyword">else</span>
+    <span class="keyword">return</span> <span class="number">0</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">checkNumber</span>(num)
+  <span class="keyword">if</span> num == <span class="keyword">nil</span> <span class="keyword">then</span>
+    num = <span class="number">0</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">tonumber</span>(num) <span class="keyword">then</span>
+    num = <span class="number">0</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> <span class="global">tonumber</span>(num)
+<span class="keyword">end</span>
+
+<span class="comment">--- Get the contents and formatter for a specific cell
+</span><span class="comment">-- @tparam number row the row number of the cell, counted top down.
+</span><span class="comment">-- @tparam number column the column number of the cell, counted from the left.
+</span><a id="1006"></a><span class="comment">-- @return the base text and TextFormatter for the cell at the specific row and column number
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">getCell</span>(row, column)
+  <span class="keyword">local</span> rowType = <span class="global">type</span>(row)
+  <span class="keyword">local</span> columnType = <span class="global">type</span>(column)
+  <span class="keyword">local</span> maxRow = #self.rows
+  <span class="keyword">local</span> maxColumn = #self.columns
+  <span class="keyword">local</span> ae = <span class="string">"TableMaker:getCell(row, column): Argument error:"</span>
+  row = self:<span class="function-name">checkNumber</span>(row)
+  column = self:<span class="function-name">checkNumber</span>(column)
+  <span class="keyword">if</span> row == <span class="number">0</span> <span class="keyword">then</span>
+    <span class="keyword">if</span> rowType ~= <span class="string">"number"</span> <span class="keyword">then</span>
+      <span class="function-name">printError</span>(<span class="function-name">f</span><span class="string">"{ae} row as number expected, got {rowType}"</span>, <span class="keyword">true</span>, <span class="keyword">true</span>)
+    <span class="keyword">else</span>
+      <span class="function-name">printError</span>(<span class="function-name">f</span><span class="string">"{ae} rows start at 1, and you asked for row 0"</span>, <span class="keyword">true</span>, <span class="keyword">true</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">elseif</span> column == <span class="number">0</span> <span class="keyword">then</span>
+    <span class="keyword">if</span> columnType ~= <span class="string">"number"</span> <span class="keyword">then</span>
+      <span class="function-name">printError</span>(<span class="function-name">f</span><span class="string">"{ae} column as number expected, got {columnType}"</span>, <span class="keyword">true</span>, <span class="keyword">true</span>)
+    <span class="keyword">else</span>
+      <span class="function-name">printError</span>(<span class="function-name">f</span><span class="string">"{ae} columns start at 1, and you asked for column 0"</span>, <span class="keyword">true</span>, <span class="keyword">true</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">elseif</span> row &gt; maxRow <span class="keyword">then</span>
+    <span class="function-name">printError</span>(<span class="function-name">f</span><span class="string">"{ae} row exceeds number of rows in table ({maxRow})"</span>)
+  <span class="keyword">elseif</span> column &gt; maxColumn <span class="keyword">then</span>
+    <span class="function-name">printError</span>(<span class="function-name">f</span><span class="string">"{ae} column exceeds number of columns in table ({maxColumn})"</span>, <span class="keyword">true</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> self.rows[row][column], self.columns[column]
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets a specific cell's display information
+</span><span class="comment">-- @tparam number row the row number of the cell, counted from the top down
+</span><span class="comment">-- @tparam number column the column number of the cell, counted from the left
+</span><a id="1038"></a><span class="comment">-- @param entry What to set the entry to. Must be a string, or a table of options for insertLink/insertPopup if allowPopups is set. Or a function which returns one of these things
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setCell</span>(row, column, entry)
+  <span class="keyword">local</span> maxRow = #self.rows
+  <span class="keyword">local</span> maxColumn = #self.columns
+  <span class="keyword">local</span> ae = <span class="string">"TableMaker:setCell(row, column, entry): Argument Error:"</span>
+  row = self:<span class="function-name">checkNumber</span>(row)
+  <span class="keyword">if</span> row == <span class="number">0</span> <span class="keyword">then</span>
+    <span class="global">error</span>(ae .. <span class="string">" row must be a number, you provided "</span> .. <span class="global">type</span>(row))
+  <span class="keyword">end</span>
+  column = self:<span class="function-name">checkNumber</span>(column)
+  <span class="keyword">if</span> column == <span class="number">0</span> <span class="keyword">then</span>
+    <span class="global">error</span>(ae .. <span class="string">" column must be a number, you provided "</span> .. <span class="global">type</span>(column))
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> row &gt; maxRow <span class="keyword">then</span>
+    <span class="global">error</span>(ae .. <span class="string">" row is higher than the number of rows in the table. Highest row:"</span> .. maxRow)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> column &gt; maxColumn <span class="keyword">then</span>
+    <span class="global">error</span>(ae .. <span class="string">" column is higher than the number of columns in the table. Highest column:"</span> .. maxColumn)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> entryType = <span class="global">type</span>(entry)
+  entry = self:<span class="function-name">checkEntry</span>(entry)
+  <span class="keyword">if</span> entry == <span class="number">0</span> <span class="keyword">then</span>
+    <span class="keyword">if</span> entryType == <span class="string">"function"</span> <span class="keyword">then</span>
+      <span class="global">error</span>(ae .. <span class="string">" entry was provided as a function, but does not return a string. We need a string in the end"</span>)
+    <span class="keyword">else</span>
+      <span class="global">error</span>(<span class="string">"TableMaker:setCell(row, column, entry): Argument Error: entry must be a string, or a function which returns a string. You provided a "</span> .. entryType)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  self.rows[row][column] = entry
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">totalWidth</span>()
+  <span class="keyword">local</span> width = <span class="number">0</span>
+  <span class="keyword">local</span> numberOfColumns = #self.columns
+  <span class="keyword">local</span> separatorWidth = <span class="global">string</span>.<span class="function-name">len</span>(self.separator)
+  <span class="keyword">local</span> edgeWidth = <span class="global">string</span>.<span class="function-name">len</span>(self.edgeCharacter) * <span class="number">2</span>
+  <span class="keyword">for</span> _, column <span class="keyword">in</span> <span class="global">ipairs</span>(self.columns) <span class="keyword">do</span>
+    width = width + column.options.width
+  <span class="keyword">end</span>
+  separatorWidth = separatorWidth * (numberOfColumns - <span class="number">1</span>)
+  width = width + edgeWidth + separatorWidth
+  <span class="keyword">return</span> width
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">getType</span>()
+  <span class="keyword">local</span> dec = {<span class="string">"d"</span>, <span class="string">"decimal"</span>, <span class="string">"dec"</span>}
+  <span class="keyword">local</span> hex = {<span class="string">"h"</span>, <span class="string">"hexidecimal"</span>, <span class="string">"hex"</span>}
+  <span class="keyword">local</span> col = {<span class="string">"c"</span>, <span class="string">"color"</span>, <span class="string">"colour"</span>, <span class="string">"col"</span>, <span class="string">"name"</span>}
+  <span class="keyword">if</span> <span class="global">table</span>.<span class="function-name">contains</span>(dec, self.formatType) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="string">'d'</span>
+  <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(hex, self.formatType) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="string">'h'</span>
+  <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(col, self.formatType) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="string">'c'</span>
+  <span class="keyword">else</span>
+    <span class="keyword">return</span> <span class="string">''</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">echo</span>(message, echoType, ...)
+  <span class="keyword">local</span> fType = self:<span class="function-name">getType</span>()
+  <span class="keyword">local</span> consoleType = <span class="global">type</span>(self.autoEchoConsole)
+  <span class="keyword">local</span> console = <span class="string">""</span>
+  <span class="keyword">if</span> echoType == <span class="keyword">nil</span> <span class="keyword">then</span>
+    echoType = <span class="string">""</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> consoleType == <span class="string">"string"</span> <span class="keyword">then</span>
+    console = self.autoEchoConsole
+  <span class="keyword">elseif</span> consoleType == <span class="string">"nil"</span> <span class="keyword">then</span>
+    console = <span class="string">"main"</span>
+  <span class="keyword">else</span>
+    console = self.autoEchoConsole.name
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> functionName = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%secho%s"</span>, fType, echoType)
+  <span class="keyword">local</span> func = _G[functionName]
+  <span class="keyword">if</span> echoType == <span class="string">""</span> <span class="keyword">then</span>
+    <span class="function-name">func</span>(console, message)
+  <span class="keyword">else</span>
+    <span class="function-name">func</span>(console, message, ...)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">scanRow</span>(rowToScan)
+  <span class="keyword">local</span> row = <span class="global">table</span>.<span class="function-name">deepcopy</span>(rowToScan)
+  <span class="keyword">local</span> rowEntries = #row
+  <span class="keyword">local</span> numberOfColumns = #self.columns
+  <span class="keyword">local</span> columns = {}
+  <span class="keyword">local</span> linesInRow = <span class="number">0</span>
+  <span class="keyword">local</span> rowText = <span class="string">""</span>
+  <span class="keyword">local</span> ec = self.frameColor .. self.edgeCharacter .. self.colorReset
+  <span class="keyword">local</span> sep = self.separatorColor .. self.separator .. self.colorReset
+
+  <span class="keyword">if</span> rowEntries &lt; numberOfColumns <span class="keyword">then</span>
+    <span class="keyword">local</span> entriesNeeded = numberOfColumns - rowEntries
+    <span class="keyword">for</span> i = <span class="number">1</span>, entriesNeeded <span class="keyword">do</span>
+      <span class="global">table</span>.<span class="function-name">insert</span>(row, <span class="string">""</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> index, formatter <span class="keyword">in</span> <span class="global">ipairs</span>(self.columns) <span class="keyword">do</span>
+    <span class="keyword">local</span> str = row[index]
+    <span class="keyword">local</span> column = <span class="string">""</span>
+    <span class="keyword">if</span> <span class="global">type</span>(str) == <span class="string">"function"</span> <span class="keyword">then</span>
+      str = <span class="function-name">str</span>()
+    <span class="keyword">end</span>
+    column = formatter:<span class="function-name">format</span>(str)
+    <span class="global">table</span>.<span class="function-name">insert</span>(columns, column:<span class="function-name">split</span>(<span class="string">"\n"</span>))
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> _, rowLines <span class="keyword">in</span> <span class="global">ipairs</span>(columns) <span class="keyword">do</span>
+    <span class="keyword">if</span> linesInRow &lt; #rowLines <span class="keyword">then</span>
+      linesInRow = #rowLines
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> index, rowLines <span class="keyword">in</span> <span class="global">ipairs</span>(columns) <span class="keyword">do</span>
+    <span class="keyword">if</span> #rowLines &lt; linesInRow <span class="keyword">then</span>
+      <span class="keyword">local</span> neededLines = linesInRow - #rowLines
+      <span class="keyword">for</span> i = <span class="number">1</span>, neededLines <span class="keyword">do</span>
+        <span class="global">table</span>.<span class="function-name">insert</span>(rowLines, self.columns[index]:<span class="function-name">format</span>(<span class="string">""</span>))
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> i = <span class="number">1</span>, linesInRow <span class="keyword">do</span>
+    <span class="keyword">local</span> thisLine = ec
+    <span class="keyword">for</span> index, column <span class="keyword">in</span> <span class="global">ipairs</span>(columns) <span class="keyword">do</span>
+      <span class="keyword">if</span> index == <span class="number">1</span> <span class="keyword">then</span>
+        thisLine = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s"</span>, thisLine, column[i])
+      <span class="keyword">else</span>
+        thisLine = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, thisLine, sep, column[i])
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    thisLine = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s"</span>, thisLine, ec)
+    <span class="keyword">if</span> rowText == <span class="string">""</span> <span class="keyword">then</span>
+      rowText = thisLine
+    <span class="keyword">else</span>
+      rowText = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s\n%s"</span>, rowText, thisLine)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> rowText
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">echoRow</span>(rowToScan)
+  <span class="keyword">local</span> row = <span class="global">table</span>.<span class="function-name">deepcopy</span>(rowToScan)
+  <span class="keyword">local</span> rowEntries = #row
+  <span class="keyword">local</span> numberOfColumns = #self.columns
+  <span class="keyword">local</span> columns = {}
+  <span class="keyword">local</span> linesInRow = <span class="number">0</span>
+  <span class="keyword">local</span> ec = self.frameColor .. self.edgeCharacter .. self.colorReset
+  <span class="keyword">local</span> sep = self.separatorColor .. self.separator .. self.colorReset
+  <span class="keyword">if</span> rowEntries &lt; numberOfColumns <span class="keyword">then</span>
+    <span class="keyword">local</span> entriesNeeded = numberOfColumns - rowEntries
+    <span class="keyword">for</span> i = <span class="number">1</span>, entriesNeeded <span class="keyword">do</span>
+      <span class="global">table</span>.<span class="function-name">insert</span>(row, <span class="string">""</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> index, formatter <span class="keyword">in</span> <span class="global">ipairs</span>(self.columns) <span class="keyword">do</span>
+    <span class="keyword">local</span> str = row[index]
+    <span class="keyword">local</span> column = <span class="string">""</span>
+    <span class="keyword">if</span> <span class="global">type</span>(str) == <span class="string">"function"</span> <span class="keyword">then</span>
+      str = <span class="function-name">str</span>()
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> <span class="global">type</span>(str) == <span class="string">"table"</span> <span class="keyword">then</span>
+      str = str[<span class="number">1</span>]
+    <span class="keyword">end</span>
+    column = formatter:<span class="function-name">format</span>(str)
+    <span class="global">table</span>.<span class="function-name">insert</span>(columns, column:<span class="function-name">split</span>(<span class="string">"\n"</span>))
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> _, rowLines <span class="keyword">in</span> <span class="global">ipairs</span>(columns) <span class="keyword">do</span>
+    <span class="keyword">if</span> linesInRow &lt; #rowLines <span class="keyword">then</span>
+      linesInRow = #rowLines
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> index, rowLines <span class="keyword">in</span> <span class="global">ipairs</span>(columns) <span class="keyword">do</span>
+    <span class="keyword">if</span> #rowLines &lt; linesInRow <span class="keyword">then</span>
+      <span class="keyword">local</span> neededLines = linesInRow - #rowLines
+      <span class="keyword">for</span> i = <span class="number">1</span>, neededLines <span class="keyword">do</span>
+        <span class="global">table</span>.<span class="function-name">insert</span>(rowLines, self.columns[index]:<span class="function-name">format</span>(<span class="string">""</span>))
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> i = <span class="number">1</span>, linesInRow <span class="keyword">do</span>
+    self:<span class="function-name">echo</span>(ec)
+    <span class="keyword">for</span> index, column <span class="keyword">in</span> <span class="global">ipairs</span>(columns) <span class="keyword">do</span>
+      <span class="keyword">local</span> message = column[i]
+      <span class="keyword">if</span> index ~= <span class="number">1</span> <span class="keyword">then</span>
+        self:<span class="function-name">echo</span>(sep)
+      <span class="keyword">end</span>
+      <span class="keyword">if</span> <span class="global">type</span>(row[index]) == <span class="string">"string"</span> <span class="keyword">then</span>
+        self:<span class="function-name">echo</span>(message)
+      <span class="keyword">elseif</span> <span class="global">type</span>(row[index]) == <span class="string">"table"</span> <span class="keyword">then</span>
+        <span class="keyword">local</span> rowEntry = row[index]
+        <span class="keyword">local</span> echoType = <span class="string">""</span>
+        <span class="keyword">if</span> <span class="global">type</span>(rowEntry[<span class="number">2</span>]) == <span class="string">"string"</span> <span class="keyword">then</span>
+          echoType = <span class="string">"Link"</span>
+        <span class="keyword">elseif</span> <span class="global">type</span>(rowEntry[<span class="number">2</span>]) == <span class="string">"table"</span> <span class="keyword">then</span>
+          echoType = <span class="string">"Popup"</span>
+        <span class="keyword">end</span>
+        self:<span class="function-name">echo</span>(message, echoType, rowEntry[<span class="number">2</span>], rowEntry[<span class="number">3</span>], rowEntry[<span class="number">4</span>] <span class="keyword">or</span> <span class="keyword">true</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    self:<span class="function-name">echo</span>(ec)
+    self:<span class="function-name">echo</span>(<span class="string">"\n"</span>)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">makeHeader</span>()
+  <span class="keyword">local</span> totalWidth = self:<span class="function-name">totalWidth</span>()
+  <span class="keyword">local</span> ec = self.frameColor .. self.edgeCharacter .. self.colorReset
+  <span class="keyword">local</span> sep = self.separatorColor .. self.separator .. self.colorReset
+  <span class="keyword">local</span> header = self.frameColor .. <span class="global">string</span>.<span class="function-name">rep</span>(self.headCharacter, totalWidth) .. self.colorReset
+  <span class="keyword">local</span> columnHeaders = <span class="string">""</span>
+  <span class="keyword">if</span> self.printHeaders <span class="keyword">then</span>
+    <span class="keyword">local</span> columnEntries = {}
+    <span class="keyword">for</span> _, v <span class="keyword">in</span> <span class="global">ipairs</span>(self.columns) <span class="keyword">do</span>
+      <span class="global">table</span>.<span class="function-name">insert</span>(columnEntries, v:<span class="function-name">format</span>(v.options.name))
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> divWithNewlines = self.headerTitle <span class="keyword">and</span> header <span class="keyword">or</span> self:<span class="function-name">createRowDivider</span>()
+    divWithNewlines = <span class="string">"\n"</span> .. divWithNewlines
+    columnHeaders = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"\n%s%s%s%s"</span>, ec, <span class="global">table</span>.<span class="function-name">concat</span>(columnEntries, sep), ec, (self.separateRows <span class="keyword">or</span> self.forceHeaderSeparator) <span class="keyword">and</span> divWithNewlines <span class="keyword">or</span> <span class="string">''</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> title = self:<span class="function-name">makeTitle</span>(totalWidth, header)
+  header = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, header, title, columnHeaders)
+  <span class="keyword">return</span> header
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">makeTitle</span>(totalWidth, header)
+  <span class="keyword">if</span> <span class="keyword">not</span> self.printTitle <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="string">""</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> title = ftext.<span class="function-name">fText</span>(self.title, {width = totalWidth, alignment = <span class="string">"center"</span>, cap = self.headCharacter, capColor = self.frameColor, inside = <span class="keyword">true</span>, textColor = self.titleColor, formatType = self.formatType})
+  title = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"\n%s\n%s"</span>, title, header)
+  <span class="keyword">return</span> title
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">createRowDivider</span>()
+  <span class="keyword">local</span> columnPieces = {}
+  <span class="keyword">for</span> _, v <span class="keyword">in</span> <span class="global">ipairs</span>(self.columns) <span class="keyword">do</span>
+    <span class="keyword">local</span> piece = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, self.separatorColor, <span class="global">string</span>.<span class="function-name">rep</span>(self.rowSeparator, v.options.width), self.colorReset)
+    <span class="global">table</span>.<span class="function-name">insert</span>(columnPieces, piece)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> ec = self.frameColor .. self.edgeCharacter .. self.colorReset
+  <span class="keyword">local</span> sep = self.separatorColor .. self.separator .. self.colorReset
+  <span class="keyword">return</span> <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, ec, <span class="global">table</span>.<span class="function-name">concat</span>(columnPieces, sep), ec)
+<span class="keyword">end</span>
+
+<span class="comment">--- set the title of the table
+</span><a id="1282"></a><span class="comment">-- @tparam string title The title of the table.
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setTitle</span>(title)
+  self.title = title
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- set the rowSeparator for the table
+</span><a id="1289"></a><span class="comment">-- @tparam string char The row separator to use
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setRowSeparator</span>(char)
+  self.rowSeparator = char
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- set the edgeCharacter for the table
+</span><a id="1296"></a><span class="comment">-- @tparam string char The edge character to use
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setEdgeCharacter</span>(char)
+  self.edgeCharacter = char
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- set the foot character for the table
+</span><a id="1303"></a><span class="comment">-- @tparam string char The foot character to use
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setFootCharacter</span>(char)
+  self.footCharacter = char
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- set the head character for the table
+</span><a id="1310"></a><span class="comment">-- @tparam string char The head character to use
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setHeadCharacter</span>(char)
+  self.headCharacter = char
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- set the column separator character for the table
+</span><a id="1317"></a><span class="comment">-- @tparam string char The separator character to use
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setSeparator</span>(char)
+  self.separator = char
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- set the title color for the table
+</span><a id="1324"></a><span class="comment">-- @tparam string color The title color to use. Should match the color type of the tablemaker (cecho by default)
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setTitleColor</span>(color)
+  self.titleColor = color
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- set the title color for the table
+</span><a id="1331"></a><span class="comment">-- @tparam string color The separator color to use. Should match the color type of the tablemaker (cecho by default)
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setSeparatorColor</span>(color)
+  self.separatorColor = color
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- set the title color for the table
+</span><a id="1338"></a><span class="comment">-- @tparam string color The frame color to use. Should match the color type of the tablemaker (cecho by default)
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setFrameColor</span>(color)
+  self.frameColor = color
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1344"></a><span class="comment">--- Force a separator between the header and first row, even if the row separator is disabled for the overall table
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">enableForceHeaderSeparator</span>()
+  self.forceHeaderSeparator = <span class="keyword">true</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1350"></a><span class="comment">--- Do not force a separator between the header and first row, even if the row separator is disabled for the overall table
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">disableForceHeaderSeparator</span>()
+  self.forceHeaderSeparator = <span class="keyword">false</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1356"></a><span class="comment">--- Enable using the title separator for the column headers as well
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">enableHeaderTitle</span>()
+  self.headerTitle = <span class="keyword">true</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1362"></a><span class="comment">--- Disable using the title separator for the column headers as well
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">disableHeaderTitle</span>()
+  self.headerTitle = <span class="keyword">false</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1368"></a><span class="comment">--- enable printing the title of the table
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">enablePrintTitle</span>()
+  self.printTitle = <span class="keyword">true</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1374"></a><span class="comment">--- disable printing the title of the table
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">disablePrintTitle</span>()
+  self.printTitle = <span class="keyword">false</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1380"></a><span class="comment">--- enable printing of the column headers
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">enablePrintHeaders</span>()
+  self.printHeaders = <span class="keyword">true</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1386"></a><span class="comment">--- disable printing of the column headers
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">disablePrintHeaders</span>()
+  self.printHeaders = <span class="keyword">false</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1392"></a><span class="comment">--- enable printing the separator line between rows
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">enableRowSeparator</span>()
+  self.separateRows = <span class="keyword">true</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1398"></a><span class="comment">--- enable printing the separator line between rows
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">disableRowSeparator</span>()
+  self.separateRows = <span class="keyword">false</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1404"></a><span class="comment">--- enables making cells which incorporate insertLink/insertPopup
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">enablePopups</span>()
+  self.autoEcho = <span class="keyword">true</span>
+  self.allowPopups = <span class="keyword">true</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1411"></a><span class="comment">--- enables autoEcho so that when assemble is called it echos automatically
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">enableAutoEcho</span>()
+  self.autoEcho = <span class="keyword">true</span>
+  self:<span class="function-name">assemble</span>()
+<span class="keyword">end</span>
+
+<a id="1417"></a><span class="comment">--- disables autoecho. Cannot be used if allowPopups is set
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">disableAutoEcho</span>()
+  <span class="keyword">if</span> self.allowPopups <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TableMaker:disableAutoEcho(): you cannot disable autoEcho once you have enabled popups."</span>)
+  <span class="keyword">else</span>
+    self.autoEcho = <span class="keyword">false</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1426"></a><span class="comment">--- Enables automatically clearing the miniconsole we echo to
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">enableAutoClear</span>()
+  self.autoClear = <span class="keyword">true</span>
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1432"></a><span class="comment">--- Disables automatically clearing the miniconsole we echo to
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">disableAutoClear</span>()
+  self.autoClear = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Set the miniconsole to echo to
+</span><a id="1438"></a><span class="comment">-- @param console The miniconsole to autoecho to. Set to "main" or do not pass the parameter to autoecho to the main console. Can be a string name of the console, or a Geyser MiniConsole
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">setAutoEchoConsole</span>(console)
+  <span class="keyword">local</span> funcName = <span class="string">"TableMaker:setAutoEchoConsole(console)"</span>
+  <span class="keyword">if</span> console == <span class="keyword">nil</span> <span class="keyword">then</span>
+    console = <span class="string">"main"</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> consoleType = <span class="global">type</span>(console)
+  <span class="keyword">if</span> consoleType ~= <span class="string">"string"</span> <span class="keyword">and</span> consoleType ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="global">error</span>(funcName .. <span class="string">" ArgumentError: console as string or a Geyser MiniConsole or UserWindow expected, got "</span> .. consoleType)
+  <span class="keyword">elseif</span> consoleType == <span class="string">"table"</span> <span class="keyword">and</span> <span class="keyword">not</span> (console.<span class="global">type</span> == <span class="string">"miniConsole"</span> <span class="keyword">or</span> console.<span class="global">type</span> == <span class="string">"userwindow"</span>) <span class="keyword">then</span>
+    <span class="global">error</span>(funcName .. <span class="string">" ArgumentError: console received was a table and may be a Geyser object, but console.type is not miniConsole, it is "</span> ..
+            console.<span class="global">type</span>)
+  <span class="keyword">end</span>
+  self.autoEchoConsole = console
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span> self:<span class="function-name">assemble</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="1455"></a><span class="comment">--- Assemble the table. If autoEcho is enabled/set to true, will automatically echo. Otherwise, returns the formatted string to echo the table
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">assemble</span>()
+  <span class="keyword">if</span> self.allowPopups <span class="keyword">and</span> self.autoEcho <span class="keyword">then</span>
+    self:<span class="function-name">popupAssemble</span>()
+  <span class="keyword">else</span>
+    <span class="keyword">return</span> self:<span class="function-name">textAssemble</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">popupAssemble</span>()
+  <span class="keyword">if</span> self.autoClear <span class="keyword">then</span>
+    <span class="keyword">local</span> console = self.autoEchoConsole
+    <span class="keyword">if</span> console <span class="keyword">and</span> console ~= <span class="string">"main"</span> <span class="keyword">then</span>
+      <span class="keyword">if</span> <span class="global">type</span>(console) == <span class="string">"table"</span> <span class="keyword">then</span>
+        console = console.name
+      <span class="keyword">end</span>
+      <span class="function-name">clearWindow</span>(console)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> divWithNewLines = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s\n"</span>, self:<span class="function-name">createRowDivider</span>())
+  <span class="keyword">local</span> header = self:<span class="function-name">makeHeader</span>() .. <span class="string">"\n"</span>
+  <span class="keyword">local</span> footer = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s\n"</span>, self.frameColor, <span class="global">string</span>.<span class="function-name">rep</span>(self.footCharacter, self:<span class="function-name">totalWidth</span>()), self.colorReset)
+  self:<span class="function-name">echo</span>(header)
+  <span class="keyword">for</span> _, row <span class="keyword">in</span> <span class="global">ipairs</span>(self.rows) <span class="keyword">do</span>
+    <span class="keyword">if</span> _ ~= <span class="number">1</span> <span class="keyword">and</span> self.separateRows <span class="keyword">then</span>
+      self:<span class="function-name">echo</span>(divWithNewLines)
+    <span class="keyword">end</span>
+    self:<span class="function-name">echoRow</span>(row)
+  <span class="keyword">end</span>
+  self:<span class="function-name">echo</span>(footer)
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TableMaker:<span class="function-name">textAssemble</span>()
+  <span class="keyword">local</span> sheet = <span class="string">""</span>
+  <span class="keyword">local</span> rows = {}
+  <span class="keyword">for</span> _, row <span class="keyword">in</span> <span class="global">ipairs</span>(self.rows) <span class="keyword">do</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(rows, self:<span class="function-name">scanRow</span>(row))
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> divWithNewlines = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"\n%s\n"</span>, self:<span class="function-name">createRowDivider</span>())
+  <span class="keyword">local</span> footer = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, self.frameColor, <span class="global">string</span>.<span class="function-name">rep</span>(self.footCharacter, self:<span class="function-name">totalWidth</span>()), self.colorReset)
+  sheet = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s\n%s\n%s\n"</span>, self:<span class="function-name">makeHeader</span>(), <span class="global">table</span>.<span class="function-name">concat</span>(rows, self.separateRows <span class="keyword">and</span> divWithNewlines <span class="keyword">or</span> <span class="string">"\n"</span>), footer)
+  <span class="keyword">if</span> self.autoEcho <span class="keyword">then</span>
+    <span class="keyword">local</span> console = self.autoEchoConsole <span class="keyword">or</span> <span class="string">"main"</span>
+    <span class="keyword">if</span> <span class="global">type</span>(console) == <span class="string">"table"</span> <span class="keyword">then</span>
+      console = console.name
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> self.autoClear <span class="keyword">and</span> console ~= <span class="string">"main"</span> <span class="keyword">then</span>
+      <span class="function-name">clearWindow</span>(console)
+    <span class="keyword">end</span>
+    self:<span class="function-name">echo</span>(sheet)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> sheet
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates and returns a new TableMaker.
+</span><span class="comment">-- see https://github.com/demonnic/MDK/wiki/fText%3A-TableMaker%3A-Examples for usage
+</span><span class="comment">-- @tparam table options table of options for the TableMaker object
+</span><span class="comment">-- &lt;br&gt;&lt;br&gt;Table of new options
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;formatType&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Determines how it formats for color. 'c' for cecho, 'd' for decho, 'h' for hecho, and anything else for no colors&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;c&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;printHeaders&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;print top row as header&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;headCharacter&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;The character used to construct the very top of the table. A solid line of these characters is used&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"*"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;footCharacter&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;The character used to construct the very bottom of the table. A solid line of these characters is used&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"*"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;edgeCharacter&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;the character used to form the left and right edges of the table. There is one on either side of every line&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"*"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;frameColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;The color to use for the frame. The frame is the border around the outside edge of the table (headCharacter, footCharacter, and edgeCharacters will all be this color).&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;the correct 'white' for your formatType&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;rowSeparator&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;the character used to form the lines between rows of text&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"-"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;separator&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Character used between columns.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"|"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;separatorColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;the color used for the separators, the things which divide the rows and columns internally. (separator and rowSeparator will be this color)&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;frameColor&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;autoEcho&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;echo the table automatically in addition to returning the string representation?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;autoEchoConsole&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;MiniConsole to autoEcho to&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"main"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;autoClear&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;If autoEchoing, and not echoing to the main console, should we clear the console before outputting?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;allowPopups&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;setting this to true allows you to make cells in the table clickable, as well as give them right-click menus.&lt;br&gt;
+</span><span class="comment">--                        Please see Clickable Tables &lt;a href="https://github.com/demonnic/fText/wiki/ClickableTables"&gt;HERE&lt;/a&gt;&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;separateRows&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;When false, will not print the separator line between rows&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;title&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;The overall title of the table. Displayed at the top&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;""&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;titleColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What color to use for the title text&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;formatColor&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;printTitle&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Should we print the title of the table at the very tip-top?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;headerTitle&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Use the same separator for the column headers as the title/top, rather than the row separator&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;formatColor&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;forceHeaderSeparator&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Force a separator between the column headers and the first row, even if rowSeparator is false.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/tbody&gt;
+</span><a id="1619"></a><span class="comment">-- &lt;/table&gt;
+</span><span class="keyword">function</span> TableMaker:<span class="function-name">new</span>(options)
+  <span class="keyword">local</span> funcName = <span class="string">"TableMaker:new(options)"</span>
+  <span class="keyword">local</span> me = {}
+  <span class="global">setmetatable</span>(me, self)
+  self.__index = self
+  <span class="keyword">if</span> options == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options = {}
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">type</span>(options) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="string">"TableMaker:new(options): ArgumentError: options expected as table, got "</span> .. <span class="global">type</span>(options))
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> options = <span class="global">table</span>.<span class="function-name">deepcopy</span>(options)
+  <span class="keyword">if</span> options.allowPopups == <span class="keyword">true</span> <span class="keyword">then</span>
+    options.autoEcho = <span class="keyword">true</span>
+  <span class="keyword">else</span>
+    options.allowPopups = <span class="keyword">false</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> columns = <span class="keyword">false</span>
+  <span class="keyword">if</span> options.columns <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="global">type</span>(options.columns) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+      <span class="global">error</span>(<span class="string">"TableMaker:new(options): option error: You provided an options.columns entry of type "</span> .. <span class="global">type</span>(options.columns) ..
+              <span class="string">" and columns must a table with entries suitable for TableFormatter:addColumn()."</span>)
+    <span class="keyword">end</span>
+    columns = <span class="global">table</span>.<span class="function-name">deepcopy</span>(options.columns)
+    options.columns = <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> rows = <span class="keyword">false</span>
+  <span class="keyword">if</span> options.rows <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="global">type</span>(options.rows) ~= <span class="string">"table"</span> <span class="keyword">then</span>
+      <span class="global">error</span>(<span class="string">"TableMaker:new(options): option error: You provided an options.rows entry of type "</span> .. <span class="global">type</span>(options.rows) ..
+              <span class="string">" and rows must be a table with entrys suitable for TableFormatter:addRow()"</span>)
+    <span class="keyword">end</span>
+    rows = <span class="global">table</span>.<span class="function-name">deepcopy</span>(options.rows)
+    options.rows = <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> option, value <span class="keyword">in</span> <span class="global">pairs</span>(options) <span class="keyword">do</span>
+    me[option] = value
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> dec = {<span class="string">"d"</span>, <span class="string">"decimal"</span>, <span class="string">"dec"</span>}
+  <span class="keyword">local</span> hex = {<span class="string">"h"</span>, <span class="string">"hexidecimal"</span>, <span class="string">"hex"</span>}
+  <span class="keyword">local</span> col = {<span class="string">"c"</span>, <span class="string">"color"</span>, <span class="string">"colour"</span>, <span class="string">"col"</span>, <span class="string">"name"</span>}
+  <span class="keyword">if</span> <span class="global">table</span>.<span class="function-name">contains</span>(dec, me.formatType) <span class="keyword">then</span>
+    me.frameColor = me.frameColor <span class="keyword">or</span> <span class="string">"&lt;255,255,255&gt;"</span>
+    me.separatorColor = me.separatorColor <span class="keyword">or</span> me.frameColor
+    me.titleColor = me.titleColor <span class="keyword">or</span> me.frameColor
+    me.colorReset = <span class="string">"&lt;r&gt;"</span>
+  <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(hex, me.formatType) <span class="keyword">then</span>
+    me.frameColor = me.frameColor <span class="keyword">or</span> <span class="string">"#ffffff"</span>
+    me.separatorColor = me.separatorColor <span class="keyword">or</span> me.frameColor
+    me.titleColor = me.titleColor <span class="keyword">or</span> me.frameColor
+    me.colorReset = <span class="string">"#r"</span>
+  <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(col, me.formatType) <span class="keyword">then</span>
+    me.frameColor = me.frameColor <span class="keyword">or</span> <span class="string">"&lt;white&gt;"</span>
+    me.separatorColor = me.separatorColor <span class="keyword">or</span> me.frameColor
+    me.titleColor = me.titleColor <span class="keyword">or</span> me.frameColor
+    me.colorReset = <span class="string">"&lt;reset&gt;"</span>
+  <span class="keyword">else</span>
+    me.frameColor = <span class="string">""</span>
+    me.separatorColor = <span class="string">""</span>
+    me.titleColor = <span class="string">""</span>
+    me.colorReset = <span class="string">""</span>
+  <span class="keyword">end</span>
+  me.columns = {}
+  me.rows = {}
+  <span class="keyword">if</span> columns <span class="keyword">then</span>
+    <span class="keyword">for</span> _, column <span class="keyword">in</span> <span class="global">ipairs</span>(columns) <span class="keyword">do</span>
+      me:<span class="function-name">addColumn</span>(column)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> rows <span class="keyword">then</span>
+    <span class="keyword">for</span> _, row <span class="keyword">in</span> <span class="global">ipairs</span>(rows) <span class="keyword">do</span>
+      me:<span class="function-name">addRow</span>(row)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+ftext.TableMaker = TableMaker
+
+<span class="keyword">return</span> ftext</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><strong>textgauge.lua</strong></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>textgauge.lua</h2>
+<pre>
+<span class="comment">--- Creates a text based gauge, for use in miniconsoles and the like.
+</span><span class="comment">-- @classmod TextGauge
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="comment">-- @copyright 2021 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span><span class="keyword">local</span> TextGauge = {width = <span class="number">24</span>, fillCharacter = <span class="string">":"</span>, emptyCharacter = <span class="string">"-"</span>, showPercent = <span class="keyword">true</span>, showPercentSymbol = <span class="keyword">true</span>, format = <span class="string">"c"</span>, value = <span class="number">50</span>}
+
+<span class="comment">--- Creates a new TextGauge.
+</span><span class="comment">-- @tparam[opt] table options The table of options you would like the TextGauge to start with.
+</span><span class="comment">-- &lt;br&gt;&lt;br&gt;Table of new options
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;width&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;How many characters wide to make the gauge&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;24&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;fillCharacter&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What character to use for the 'full' part of the gauge&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;:&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;overflowCharacter&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What character to use for &gt;100% part of the gauge&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;if not set, it uses whatever you set fillCharacter to&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;emptyCharacter&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What character to use for the 'empty' part of the gauge&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;-&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;showPercentSymbol&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Should we show the % sign itself?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;showPercent&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Should we show what % of the gauge is filled?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;value&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;How much of the gauge should be filled&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;50&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;format&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What type of color formatting to use? 'c' for cecho, 'd' for decho, 'h' for hecho&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;c&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;fillColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What color to make the full part of the bar?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"DarkOrange" or equivalent for your format type&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;emptyColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;what color to use for the empty part of the bar?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"white" or format appropriate equivalent&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;percentColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What color to print the percentage numvers in, if shown?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"white" or fortmat appropriate equivalent&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;percentSymbolColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What color to make the % if shown?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;If not set, uses what percentColor is set to.&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;overflowColor&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What color to make the &gt;100% portion of the bar?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;If not set, will use the same color as fillColor&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/tbody&gt;
+</span><span class="comment">-- &lt;/table&gt;
+</span><span class="comment">-- @usage
+</span><span class="comment">-- local TextGauge = require("MDK.textgauge")
+</span><span class="comment">-- myTextGauge = TextGauge:new()
+</span><a id="92"></a><span class="comment">-- gaugeText = myTextGauge:setValue(382, 830)
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">new</span>(options)
+  options = options <span class="keyword">or</span> {}
+  <span class="keyword">local</span> optionsType = <span class="global">type</span>(options)
+  <span class="global">assert</span>(optionsType == <span class="string">"table"</span> <span class="keyword">or</span> optionsType == <span class="string">"nil"</span>, <span class="string">"TextGauge:new(options): options expected as table, got "</span> .. optionsType)
+  <span class="keyword">local</span> me = <span class="global">table</span>.<span class="function-name">deepcopy</span>(options)
+  <span class="global">setmetatable</span>(me, self)
+  self.__index = self
+  me:<span class="function-name">setDefaultColors</span>()
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the width in characters of the gauge
+</span><a id="105"></a><span class="comment">-- @tparam number width number of characters wide to make the gauge
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setWidth</span>(width)
+  <span class="keyword">local</span> widthType = <span class="global">type</span>(width)
+  <span class="global">assert</span>(widthType == <span class="string">"number"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"TextGauge:setWidth(width): width as number expected, got %s"</span>, widthType))
+  self.width = width
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TextGauge:<span class="function-name">setFormat</span>(format)
+  self.format = self:<span class="function-name">getColorType</span>(format)
+  self:<span class="function-name">setDefaultColors</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the character to use for the 'full' part of the gauge
+</span><a id="118"></a><span class="comment">-- @tparam string character the character to use.
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setFillCharacter</span>(character)
+  <span class="global">assert</span>(character ~= <span class="keyword">nil</span>, <span class="string">"TextGauge:setFillCharacter(character): character required, got nil"</span>)
+  <span class="global">assert</span>(utf8.<span class="function-name">len</span>(character) == <span class="number">1</span>, <span class="string">"TextGauge:setFillCharacter(character): character must be a single character"</span>)
+  self.fillCharacter = character
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the character to use for the 'overflow' (&gt;100%) part of the gauge
+</span><a id="126"></a><span class="comment">-- @tparam string character the character to use.
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setOverflowCharacter</span>(character)
+  <span class="global">assert</span>(character ~= <span class="keyword">nil</span>, <span class="string">"TextGauge:setOverflowCharacter(character): character required, got nil"</span>)
+  <span class="global">assert</span>(utf8.<span class="function-name">len</span>(character) == <span class="number">1</span>, <span class="string">"TextGauge:setOverflowCharacter(character): character must be a single character"</span>)
+  self.overflowCharacter = character
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the character to use for the 'full' part of the gauge
+</span><a id="134"></a><span class="comment">-- @tparam string character the character to use.
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setEmptyCharacter</span>(character)
+  <span class="global">assert</span>(character ~= <span class="keyword">nil</span>, <span class="string">"TextGauge:setEmptyCharacter(character): character required, got nil"</span>)
+  <span class="global">assert</span>(utf8.<span class="function-name">len</span>(character) == <span class="number">1</span>, <span class="string">"TextGauge:setEmptyCharacter(character): character must be a single character"</span>)
+  self.emptyCharacter = character
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the fill color for the gauge.
+</span><a id="142"></a><span class="comment">-- @tparam string color the color to use for the full portion of the gauge. Will be run through Geyser.Golor
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setFillColor</span>(color)
+  <span class="global">assert</span>(color ~= <span class="keyword">nil</span>, <span class="string">"TextGauge:setFillColor(color): color required, got nil"</span>)
+  self.fillColor = color
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the overflow color for the gauge.
+</span><a id="149"></a><span class="comment">-- @tparam string color the color to use for the full portion of the gauge. Will be run through Geyser.Golor
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setOverflowColor</span>(color)
+  <span class="global">assert</span>(color ~= <span class="keyword">nil</span>, <span class="string">"TextGauge:setOverflowColor(color): color required, got nil"</span>)
+  self.overflowColor = color
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the empty color for the gauge.
+</span><a id="156"></a><span class="comment">-- @tparam string color the color to use for the empty portion of the gauge. Will be run through Geyser.Golor
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setEmptyColor</span>(color)
+  <span class="global">assert</span>(color ~= <span class="keyword">nil</span>, <span class="string">"TextGauge:setEmptyColor(color): color required, got nil"</span>)
+  self.emptyColor = color
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the fill color for the gauge.
+</span><a id="163"></a><span class="comment">-- @tparam string color the color to use for the numeric value. Will be run through Geyser.Golor
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setPercentColor</span>(color)
+  <span class="global">assert</span>(color ~= <span class="keyword">nil</span>, <span class="string">"TextGauge:setPercentColor(color): color required, got nil"</span>)
+  self.percentColor = color
+<span class="keyword">end</span>
+<span class="comment">--- Sets the fill color for the gauge.
+</span><a id="169"></a><span class="comment">-- @tparam string color the color to use for the numeric value. Will be run through Geyser.Golor
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setPercentSymbolColor</span>(color)
+  <span class="global">assert</span>(color ~= <span class="keyword">nil</span>, <span class="string">"TextGauge:setPercentSymbolColor(color): color required, got nil"</span>)
+  self.percentSymbolColor = color
+<span class="keyword">end</span>
+
+<a id="175"></a><span class="comment">--- Enables reversing the fill direction (right to left instead of the usual left to right)
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">enableReverse</span>()
+  self.reverse = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<a id="180"></a><span class="comment">--- Disables reversing the fill direction (go back to the usual left to right)
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">disableReverse</span>()
+  self.reverse = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<a id="185"></a><span class="comment">--- Enables showing the percent value of the gauge
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">enableShowPercent</span>()
+  self.showPercent = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<a id="190"></a><span class="comment">--- Disables showing the percent value of the gauge
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">disableShowPercent</span>()
+  self.showPercent = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<a id="195"></a><span class="comment">--- Enables showing the percent symbol (appears after the value)
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">enableShowPercentSymbol</span>()
+  self.showPercentSymbol = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<a id="200"></a><span class="comment">--- Enables showing the percent symbol (appears after the value)
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">disableShowPercentSymbol</span>()
+  self.showPercentSymbol = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> TextGauge:<span class="function-name">getColorType</span>(format)
+  format = format <span class="keyword">or</span> self.format
+  <span class="keyword">local</span> dec = {<span class="string">"d"</span>, <span class="string">"decimal"</span>, <span class="string">"dec"</span>, <span class="string">"decho"</span>}
+  <span class="keyword">local</span> hex = {<span class="string">"h"</span>, <span class="string">"hexidecimal"</span>, <span class="string">"hex"</span>, <span class="string">"hecho"</span>}
+  <span class="keyword">local</span> col = {<span class="string">"c"</span>, <span class="string">"color"</span>, <span class="string">"colour"</span>, <span class="string">"col"</span>, <span class="string">"name"</span>, <span class="string">"cecho"</span>}
+  <span class="keyword">if</span> <span class="global">table</span>.<span class="function-name">contains</span>(col, format) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="string">"c"</span>
+  <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(dec, format) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="string">"d"</span>
+  <span class="keyword">elseif</span> <span class="global">table</span>.<span class="function-name">contains</span>(hex, format) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="string">"h"</span>
+  <span class="keyword">else</span>
+    <span class="keyword">return</span> <span class="string">""</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- internal function, used at instantiation to ensure some colors are set
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setDefaultColors</span>()
+  <span class="keyword">local</span> colorType = self:<span class="function-name">getColorType</span>()
+  <span class="keyword">if</span> colorType == <span class="string">"c"</span> <span class="keyword">then</span>
+    self.percentColor = self.percentColor <span class="keyword">or</span> <span class="string">"white"</span>
+    self.percentSymbolColor = self.percentSymbolColor <span class="keyword">or</span> self.percentColor
+    self.fillColor = self.fillColor <span class="keyword">or</span> <span class="string">"DarkOrange"</span>
+    self.emptyColor = self.emptyColor <span class="keyword">or</span> <span class="string">"white"</span>
+    self.resetColor = <span class="string">"&lt;reset&gt;"</span>
+  <span class="keyword">elseif</span> colorType == <span class="string">"d"</span> <span class="keyword">then</span>
+    self.percentColor = self.percentColor <span class="keyword">or</span> <span class="string">"&lt;255,255,255&gt;"</span>
+    self.percentSymbolColor = self.percentSymbolColor <span class="keyword">or</span> self.percentColor
+    self.fillColor = self.fillColor <span class="keyword">or</span> <span class="string">"&lt;255,140,0&gt;"</span>
+    self.emptyColor = self.emptyColor <span class="keyword">or</span> <span class="string">"&lt;255,255,255&gt;"</span>
+    self.resetColor = <span class="string">"&lt;r&gt;"</span>
+  <span class="keyword">elseif</span> colorType == <span class="string">"h"</span> <span class="keyword">then</span>
+    self.percentColor = self.percentColor <span class="keyword">or</span> <span class="string">"#ffffff"</span>
+    self.percentSymbolColor = self.percentSymbolColor <span class="keyword">or</span> self.percentColor
+    self.fillColor = self.fillColor <span class="keyword">or</span> <span class="string">"#ff8c00"</span>
+    self.emptyColor = self.emptyColor <span class="keyword">or</span> <span class="string">"#ffffff"</span>
+    self.resetColor = <span class="string">"#r"</span>
+  <span class="keyword">else</span>
+    self.percentColor = self.percentColor <span class="keyword">or</span> <span class="string">""</span>
+    self.percentSymbolColor = self.percentSymbolColor <span class="keyword">or</span> self.percentColor
+    self.fillColor = self.fillColor <span class="keyword">or</span> <span class="string">""</span>
+    self.emptyColor = self.emptyColor <span class="keyword">or</span> <span class="string">""</span>
+    self.resetColor = <span class="string">""</span>
+  <span class="keyword">end</span>
+  self.overflowColor = self.overflowColor <span class="keyword">or</span> self.fillColor
+<span class="keyword">end</span>
+
+<span class="comment">-- Internal function used to route Geyser.Color based on internally stored format
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">getColor</span>(color)
+  <span class="keyword">local</span> colorType = self:<span class="function-name">getColorType</span>()
+  <span class="keyword">if</span> colorType == <span class="string">"c"</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"&lt;%s&gt;"</span>, color) <span class="comment">-- pass the color back in &lt;&gt; for cecho
+</span>  <span class="keyword">elseif</span> colorType == <span class="string">"d"</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> Geyser.Color.<span class="function-name">hdec</span>(color) <span class="comment">-- return it in decho format
+</span>  <span class="keyword">elseif</span> colorType == <span class="string">"h"</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> Geyser.Color.<span class="function-name">hex</span>(color) <span class="comment">-- return it in hex format
+</span>  <span class="keyword">else</span>
+    <span class="keyword">return</span> <span class="string">""</span> <span class="comment">-- return an empty string for noncolored output
+</span>  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Used to set the gauge's value and return the string representation of the gauge
+</span><span class="comment">-- @tparam[opt] number current current value. If no value is passed it will use the stored value. Defaults to 50 to prevent errors.
+</span><span class="comment">-- @tparam[opt] number max maximum value. If not passed, the internally stored one will be used. Defaults to 100 so that it can be used with single values as a percent
+</span><span class="comment">-- @usage myGauge:setValue(55) -- sets the gauge to 55% full
+</span><a id="270"></a><span class="comment">-- @usage myGauge:setValue(2345, 2780) -- will figure out what the percentage fill is based on the given current/max values
+</span><span class="keyword">function</span> TextGauge:<span class="function-name">setValue</span>(current, max)
+  current = current <span class="keyword">or</span> self.value
+  <span class="global">assert</span>(<span class="global">type</span>(current) == <span class="string">"number"</span>, <span class="string">"TextGauge:setValue(current,max) current as number expected, got "</span> .. <span class="global">type</span>(current))
+  <span class="global">assert</span>(max == <span class="keyword">nil</span> <span class="keyword">or</span> <span class="global">type</span>(max) == <span class="string">"number"</span>, <span class="string">"TextGauge:setValue(current, max) option max as number expected, got "</span> .. <span class="global">type</span>(max))
+  <span class="keyword">if</span> current &lt; <span class="number">0</span> <span class="keyword">then</span>
+    current = <span class="number">0</span>
+  <span class="keyword">end</span>
+  max = max <span class="keyword">or</span> <span class="number">100</span>
+  <span class="keyword">local</span> value = <span class="global">math</span>.<span class="function-name">floor</span>(current / max * <span class="number">100</span>)
+  self.value = value
+  <span class="keyword">local</span> width = self.width
+  <span class="keyword">local</span> percentString = <span class="string">""</span>
+  <span class="keyword">local</span> percentSymbolString = <span class="string">""</span>
+  <span class="keyword">local</span> fillCharacter = self.fillCharacter
+  <span class="keyword">local</span> overflowCharacter = self.overflowCharacter <span class="keyword">or</span> fillCharacter
+  <span class="keyword">local</span> emptyCharacter = self.emptyCharacter
+  <span class="keyword">local</span> fillColor = self:<span class="function-name">getColor</span>(self.fillColor)
+  <span class="keyword">local</span> overflowColor = self:<span class="function-name">getColor</span>(self.overflowColor)
+  <span class="keyword">local</span> emptyColor = self:<span class="function-name">getColor</span>(self.emptyColor)
+  <span class="keyword">local</span> percentColor = self:<span class="function-name">getColor</span>(self.percentColor)
+  <span class="keyword">local</span> percentSymbolColor = self:<span class="function-name">getColor</span>(self.percentSymbolColor)
+  <span class="keyword">local</span> resetColor = self.resetColor
+  <span class="keyword">if</span> self.showPercent <span class="keyword">then</span>
+    percentString = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%02d%s"</span>, percentColor, value, resetColor)
+    width = width - <span class="number">2</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.showPercentSymbol <span class="keyword">then</span>
+    percentSymbolString = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, percentSymbolColor, <span class="string">"%"</span>, resetColor)
+    width = width - <span class="number">1</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> perc = value / <span class="number">100</span>
+  <span class="keyword">local</span> overflow = perc - <span class="number">1</span>
+  <span class="keyword">if</span> overflow &lt; <span class="number">0</span> <span class="keyword">then</span>
+    overflow = <span class="number">0</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> overflow &gt; <span class="number">1</span> <span class="keyword">then</span>
+    perc = <span class="number">2</span>
+    overflow = <span class="number">1</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> overflowWidth = <span class="global">math</span>.<span class="function-name">floor</span>(overflow * width)
+  <span class="keyword">local</span> fillWidth = <span class="global">math</span>.<span class="function-name">floor</span>((perc - overflow) * width)
+  <span class="keyword">local</span> emptyWidth = width - fillWidth
+  fillWidth = fillWidth - overflowWidth
+  <span class="keyword">if</span> value &gt;= <span class="number">100</span> <span class="keyword">and</span> self.showPercent <span class="keyword">then</span>
+    fillWidth = fillWidth - <span class="number">1</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> value &gt;= <span class="number">200</span> <span class="keyword">and</span> self.showPercent <span class="keyword">then</span>
+    overflowWidth = overflowWidth - <span class="number">1</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> result = <span class="string">""</span>
+  <span class="keyword">if</span> self.reverse <span class="keyword">then</span>
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s%s%s%s%s%s%s%s%s"</span>, emptyColor, <span class="global">string</span>.<span class="function-name">rep</span>(emptyCharacter, emptyWidth), resetColor,fillColor, <span class="global">string</span>.<span class="function-name">rep</span>(fillCharacter, fillWidth), resetColor, overflowColor, <span class="global">string</span>.<span class="function-name">rep</span>(overflowCharacter, overflowWidth), resetColor, percentString, percentSymbolString, resetColor)
+  <span class="keyword">else</span>
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s%s%s%s%s%s%s%s%s"</span>, overflowColor, <span class="global">string</span>.<span class="function-name">rep</span>(overflowCharacter, overflowWidth), fillColor,
+                  <span class="global">string</span>.<span class="function-name">rep</span>(fillCharacter, fillWidth), resetColor, emptyColor, <span class="global">string</span>.<span class="function-name">rep</span>(emptyCharacter, emptyWidth), resetColor,
+                  percentString, percentSymbolString, resetColor)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<a id="331"></a><span class="comment">--- Synonym for setValue
+</span><span class="keyword">function</span> TextGauge:<span class="global">print</span>(...)
+  self:<span class="function-name">setValue</span>(...)
+<span class="keyword">end</span>
+
+<span class="keyword">return</span> TextGauge</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

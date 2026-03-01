@@ -1,0 +1,1585 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><strong>demontools.lua</strong></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>demontools.lua</h2>
+<pre>
+<span class="comment">--- Collection of miscellaneous functions and tools which don't necessarily warrant their own module/class
+</span><span class="comment">-- @module demontools
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span><span class="keyword">local</span> DemonTools = {}
+<span class="keyword">local</span> cheatConsole = Geyser.MiniConsole:<span class="function-name">new</span>({name = <span class="string">"DemonnicCheatConsole"</span>, width = <span class="number">4000</span>, wrapWidth = <span class="number">10000</span>, color = <span class="string">"black"</span>})
+cheatConsole:<span class="function-name">hide</span>()
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">exists</span>(path)
+  path = path:<span class="function-name">gsub</span>(<span class="string">[[\$]]</span>, <span class="string">""</span>)
+  path = path:<span class="function-name">gsub</span>(<span class="string">[[/$]]</span>, <span class="string">""</span>)
+  <span class="keyword">return</span> <span class="global">io</span>.<span class="function-name">exists</span>(path)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">isWindows</span>()
+  <span class="keyword">return</span> <span class="global">package</span>.config:<span class="function-name">sub</span>(<span class="number">1</span>, <span class="number">1</span>) == <span class="string">[[\]]</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">isDir</span>(path)
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="function-name">exists</span>(path) <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">false</span> <span class="keyword">end</span>
+    path = path:<span class="function-name">gsub</span>(<span class="string">[[\]]</span>, <span class="string">"/"</span>)
+  <span class="keyword">if</span> path:<span class="function-name">ends</span>(<span class="string">"/"</span>) <span class="keyword">then</span>
+    path = path:<span class="function-name">sub</span>(<span class="number">1</span>,-<span class="number">2</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> ok, err, code = lfs.<span class="function-name">attributes</span>(path, <span class="string">"mode"</span>)
+  <span class="keyword">if</span> ok <span class="keyword">then</span>
+    <span class="keyword">if</span> ok == <span class="string">"directory"</span> <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="keyword">true</span>
+    <span class="keyword">else</span>
+      <span class="keyword">return</span> <span class="keyword">false</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> ok, err, code
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">mkdir_p</span>(path)
+  path = path:<span class="function-name">gsub</span>(<span class="string">"\\", "</span>/<span class="string">")
+  local pathTbl = path:split("</span>/<span class="string">")
+  local cwd = "</span>/<span class="string">"
+  if isWindows() then
+    cwd = "</span><span class="string">"
+  end
+  for index, dirName in ipairs(pathTbl) do
+    if index == 1 then
+      cwd = cwd .. dirName
+    else
+      cwd = cwd .. "</span>/<span class="string">" .. dirName
+      cwd = cwd:gsub("</span>//<span class="string">", "</span>/<span class="string">")
+    end
+    if not table.contains({"</span>/<span class="string">", "</span>C:<span class="string">"}, cwd) and not exists(cwd) then
+      local ok, err = lfs.mkdir(cwd)
+      if not ok then
+        return ok, err
+      end
+    end
+  end
+  return true
+end
+
+local htmlHeader = [=[  &lt;!DOCTYPE HTML PUBLIC "</span>-//W3C//DTD HTML <span class="number">4.01</span> Transitional//<span class="function-name">EN</span><span class="string">"
+"</span>http://www.w3.org/TR/html4/loose.<span class="function-name">dtd</span><span class="string">"&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="</span>Content-<span class="function-name">Type</span><span class="string">" content="</span>text/html;charset=utf-<span class="number">8</span><span class="string">" &gt;
+    &lt;link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'&gt;
+    &lt;style type="</span>text/<span class="function-name">css</span><span class="string">"&gt;
+      body {
+        background-color: black;
+        font-family: 'Droid Sans Mono';
+        white-space: pre;
+        font-size: 12px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+&lt;body&gt;&lt;span&gt;
+]=]
+
+local htmlHeaderPattern = [=[  &lt;!DOCTYPE HTML PUBLIC "</span>%-//W3C//DTD HTML <span class="number">4.01</span> Transitional//<span class="function-name">EN</span><span class="string">"
+"</span>http://www.w3.org/TR/html4/loose.<span class="function-name">dtd</span><span class="string">"&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta http%-equiv="</span>Content%-<span class="function-name">Type</span><span class="string">" content="</span>text/html;charset=utf%-<span class="number">8</span><span class="string">" &gt;
+    &lt;link href='http://fonts.googleapis.com/css%?family=Droid%+Sans%+Mono' rel='stylesheet' type='text/css'&gt;
+    &lt;style type="</span>text/<span class="function-name">css</span><span class="string">"&gt;
+      body {
+        background%-color: black;
+        font%-family: 'Droid Sans Mono';
+        white%-space: pre;
+        font%-size: 12px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+&lt;body&gt;&lt;span&gt;
+]=]
+
+-- Internal function, used to turn a string variable name into a value
+local function getValueAt(accessString)
+  local ok, err = pcall(loadstring("</span><span class="keyword">return</span> <span class="string">" .. tostring(accessString)))
+  if ok then return err end
+  return nil, err
+end
+
+-- internal sorting function, sorts first by hue, then luminosity, then value
+local function sortColorsByHue(lhs, rhs)
+  local lh, ll, lv = unpack(lhs.sort)
+  local rh, rl, rv = unpack(rhs.sort)
+  if lh &lt; rh then
+    return true
+  elseif lh &gt; rh then
+    return false
+  elseif ll &lt; rl then
+    return true
+  elseif ll &gt; rl then
+    return false
+  else
+    return lv &lt; rv
+  end
+end
+
+-- internal sorting function, removes _ from snake_case and compares to camelCase
+local function sortColorsByName(a, b)
+  local aname = string.gsub(string.lower(a.name), "</span><span class="function-name">_</span><span class="string">", "</span><span class="string">")
+  local bname = string.gsub(string.lower(b.name), "</span><span class="function-name">_</span><span class="string">", "</span><span class="string">")
+  return aname &lt; bname
+end
+
+-- internal function used to turn sorted colors table into columns
+local function chunkify(tbl, num_chunks)
+  local pop = function(t)
+    return table.remove(t, 1)
+  end
+  tbl = table.deepcopy(tbl)
+  local tblsize = #tbl
+  local base_chunk_size = tblsize / num_chunks
+  local chunky_chunks = tblsize % num_chunks
+  local chunks = {}
+  for i = 1, num_chunks do
+    local chunk_size = base_chunk_size
+    if i &lt;= chunky_chunks then
+      chunk_size = chunk_size + 1
+    end
+    local chunk = {}
+    for j = 1, chunk_size do
+      chunk[j] = pop(tbl)
+    end
+    chunks[i] = chunk
+  end
+  return chunks
+end
+
+-- internal function, converts rgb to hsv
+-- found at https://github.com/EmmanuelOga/columns/blob/master/utils/color.lua#L89
+local function rgbToHsv(r, g, b)
+  r, g, b = r / 255, g / 255, b / 255
+  local max, min = math.max(r, g, b), math.min(r, g, b)
+  local h, s, v
+  v = max
+  local d = max - min
+  if max == 0 then
+    s = 0
+  else
+    s = d / max
+  end
+  if max == min then
+    h = 0
+    -- achromatic
+  else
+    if max == r then
+      h = (g - b) / d
+      if g &lt; b then
+        h = h + 6
+      end
+    elseif max == g then
+      h = (b - r) / d + 2
+    elseif max == b then
+      h = (r - g) / d + 4
+    end
+    h = h / 6
+  end
+  return h, s, v
+end
+
+-- internal stepping function, removes some of the noise for a more pleasing sort
+-- cribbed from the python on https://www.alanzucconi.com/2015/09/30/colour-sorting/
+local function step(r, g, b)
+  local lum = math.sqrt(.241 * r + .691 * g + .068 * b)
+  local reps = 8
+  local h, s, v = rgbToHsv(r, g, b)
+  local h2 = math.floor(h * reps)
+  local lum2 = math.floor(lum * reps)
+  local v2 = math.floor(v * reps)
+  if h2 % 2 == 1 then
+    v2 = reps - v2
+    lum2 = reps - lum2
+  end
+  return h2, lum2, v2
+end
+
+local function calc_luminosity(r, g, b)
+  r = r &lt; 11 and r / (255 * 12.92) or ((0.055 + r / 255) / 1.055) ^ 2.4
+  g = g &lt; 11 and g / (255 * 12.92) or ((0.055 + g / 255) / 1.055) ^ 2.4
+  b = b &lt; 11 and b / (255 * 12.92) or ((0.055 + b / 255) / 1.055) ^ 2.4
+  return (0.2126 * r) + (0.7152 * g) + (0.0722 * b)
+end
+
+local function include(color, options)
+  if options.removeDupes and (string.find(color, "</span><span class="function-name">_</span><span class="string">") and not color:starts("</span><span class="function-name">ansi</span><span class="string">")) or string.find(color:lower(), 'gray') then
+    return false
+  end
+  if options.removeAnsi255 and string.find(color, "</span>ansi_%d%d%<span class="function-name">d</span><span class="string">") then
+    return false
+  end
+end
+
+local function echoColor(color, options)
+  local rgb = color.rgb
+  local fgc = "</span><span class="function-name">white</span><span class="string">"
+  if calc_luminosity(unpack(rgb)) &gt; 0.5 then
+    fgc = "</span><span class="function-name">black</span><span class="string">"
+  end
+  local colorString
+  if options.justText then
+    colorString = string.format('&lt;%s:%s&gt; %-23s&lt;reset&gt; ', color.name, 'black', color.name)
+  else
+    colorString = string.format('&lt;%s:%s&gt; %-23s&lt;reset&gt; ', fgc, color.name, color.name)
+  end
+  if options.window == "</span><span class="function-name">main</span><span class="string">" then
+    if options.echoOnly then
+      cecho(colorString)
+    else
+      cechoLink(colorString, [[appendCmdLine("</span>]] .. color.name .. <span class="string">[[")]]</span>, <span class="global">table</span>.<span class="function-name">concat</span>(rgb, <span class="string">", "</span>), <span class="keyword">true</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">else</span>
+    <span class="keyword">if</span> options.echoOnly <span class="keyword">then</span>
+      <span class="function-name">cecho</span>(options.window, colorString)
+    <span class="keyword">else</span>
+      <span class="function-name">cechoLink</span>(options.window, colorString, <span class="string">[[appendCmdLine("]]</span> .. color.name .. <span class="string">[[")]]</span>, <span class="global">table</span>.<span class="function-name">concat</span>(rgb, <span class="string">", "</span>), <span class="keyword">true</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> cnames = {}
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">_color_name</span>(rgb)
+  <span class="keyword">if</span> cnames[rgb] <span class="keyword">then</span>
+    <span class="keyword">return</span> cnames[rgb]
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> least_distance = <span class="global">math</span>.huge
+  <span class="keyword">local</span> cname = <span class="string">""</span>
+  <span class="keyword">for</span> name, color <span class="keyword">in</span> <span class="global">pairs</span>(color_table) <span class="keyword">do</span>
+    <span class="keyword">local</span> color_distance = <span class="global">math</span>.<span class="function-name">sqrt</span>((color[<span class="number">1</span>] - rgb[<span class="number">1</span>]) ^ <span class="number">2</span> + (color[<span class="number">2</span>] - rgb[<span class="number">2</span>]) ^ <span class="number">2</span> + (color[<span class="number">3</span>] - rgb[<span class="number">3</span>]) ^ <span class="number">2</span>)
+    <span class="keyword">if</span> color_distance &lt; least_distance <span class="keyword">then</span>
+      least_distance = color_distance
+      cname = name
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  cnames[rgb] = cname
+  <span class="keyword">return</span> cname
+<span class="keyword">end</span>
+
+<span class="comment">-- converts decho color information to ansi escape sequences
+</span><span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">rgbToAnsi</span>(rgb)
+  <span class="keyword">local</span> result = <span class="string">""</span>
+  <span class="keyword">local</span> cols = rgb:<span class="function-name">split</span>(<span class="string">":"</span>)
+  <span class="keyword">local</span> fore = cols[<span class="number">1</span>]
+  <span class="keyword">local</span> back = cols[<span class="number">2</span>]
+  <span class="keyword">if</span> fore ~= <span class="string">""</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> components = fore:<span class="function-name">split</span>(<span class="string">","</span>)
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s\27[38:2::%s:%s:%sm"</span>, result, components[<span class="number">1</span>] <span class="keyword">or</span> <span class="string">"0"</span>, components[<span class="number">2</span>] <span class="keyword">or</span> <span class="string">"0"</span>, components[<span class="number">3</span>] <span class="keyword">or</span> <span class="string">"0"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> back <span class="keyword">then</span>
+    <span class="keyword">local</span> components = back:<span class="function-name">split</span>(<span class="string">","</span>)
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s\27[48:2::%s:%s:%sm"</span>, result, components[<span class="number">1</span>] <span class="keyword">or</span> <span class="string">"0"</span>, components[<span class="number">2</span>] <span class="keyword">or</span> <span class="string">"0"</span>, components[<span class="number">3</span>] <span class="keyword">or</span> <span class="string">"0"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="comment">-- converts a 6 digit hex color code to ansi escape sequence
+</span><span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">hexToAnsi</span>(hexcode)
+  <span class="keyword">local</span> result = <span class="string">""</span>
+  <span class="keyword">local</span> cols = hexcode:<span class="function-name">split</span>(<span class="string">","</span>)
+  <span class="keyword">local</span> fore = cols[<span class="number">1</span>]
+  <span class="keyword">local</span> back = cols[<span class="number">2</span>]
+  <span class="keyword">if</span> fore ~= <span class="string">""</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> components = {<span class="global">tonumber</span>(fore:<span class="function-name">sub</span>(<span class="number">1</span>, <span class="number">2</span>), <span class="number">16</span>), <span class="global">tonumber</span>(fore:<span class="function-name">sub</span>(<span class="number">3</span>, <span class="number">4</span>), <span class="number">16</span>), <span class="global">tonumber</span>(fore:<span class="function-name">sub</span>(<span class="number">5</span>, <span class="number">6</span>), <span class="number">16</span>)}
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s\27[38:2::%s:%s:%sm"</span>, result, components[<span class="number">1</span>] <span class="keyword">or</span> <span class="string">"0"</span>, components[<span class="number">2</span>] <span class="keyword">or</span> <span class="string">"0"</span>, components[<span class="number">3</span>] <span class="keyword">or</span> <span class="string">"0"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> back <span class="keyword">then</span>
+    <span class="keyword">local</span> components = {<span class="global">tonumber</span>(back:<span class="function-name">sub</span>(<span class="number">1</span>, <span class="number">2</span>), <span class="number">16</span>), <span class="global">tonumber</span>(back:<span class="function-name">sub</span>(<span class="number">3</span>, <span class="number">4</span>), <span class="number">16</span>), <span class="global">tonumber</span>(back:<span class="function-name">sub</span>(<span class="number">5</span>, <span class="number">6</span>), <span class="number">16</span>)}
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s\27[48:2::%s:%s:%sm"</span>, result, components[<span class="number">1</span>] <span class="keyword">or</span> <span class="string">"0"</span>, components[<span class="number">2</span>] <span class="keyword">or</span> <span class="string">"0"</span>, components[<span class="number">3</span>] <span class="keyword">or</span> <span class="string">"0"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">hexToRgb</span>(hexcode)
+  <span class="keyword">local</span> result = <span class="string">"&lt;"</span>
+  <span class="keyword">local</span> cols = hexcode:<span class="function-name">split</span>(<span class="string">","</span>)
+  <span class="keyword">local</span> fore = cols[<span class="number">1</span>]
+  <span class="keyword">local</span> back = cols[<span class="number">2</span>]
+  <span class="keyword">if</span> fore ~= <span class="string">""</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> r, g, b = Geyser.Color.<span class="function-name">parse</span>(<span class="string">"#"</span> .. fore)
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s,%s,%s"</span>, result, r, g, b)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> back <span class="keyword">then</span>
+    <span class="keyword">local</span> r, g, b = Geyser.Color.<span class="function-name">parse</span>(<span class="string">"#"</span> .. back)
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s:%s,%s,%s"</span>, result, r, g, b)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s&gt;"</span>, result)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">rgbToHex</span>(rgb)
+  <span class="keyword">local</span> result = <span class="string">"#"</span>
+  <span class="keyword">local</span> cols = rgb:<span class="function-name">split</span>(<span class="string">":"</span>)
+  <span class="keyword">local</span> fore = cols[<span class="number">1</span>]
+  <span class="keyword">local</span> back = cols[<span class="number">2</span>]
+  <span class="keyword">if</span> fore ~= <span class="string">""</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> r, g, b = <span class="global">unpack</span>(<span class="global">string</span>.<span class="function-name">split</span>(fore, <span class="string">","</span>))
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%02x%02x%02x"</span>, result, r, g, b)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> back <span class="keyword">then</span>
+    <span class="keyword">local</span> r, g, b = <span class="global">unpack</span>(<span class="global">string</span>.<span class="function-name">split</span>(back, <span class="string">","</span>))
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s,%02x%02x%02x"</span>, result, r, g, b)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">rgbToCname</span>(rgb)
+  <span class="keyword">local</span> result = <span class="string">"&lt;"</span>
+  <span class="keyword">local</span> cols = rgb:<span class="function-name">split</span>(<span class="string">":"</span>)
+  <span class="keyword">local</span> fore = cols[<span class="number">1</span>]
+  <span class="keyword">local</span> back = cols[<span class="number">2</span>]
+  <span class="keyword">if</span> fore ~= <span class="string">""</span> <span class="keyword">then</span>
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s"</span>, result, <span class="function-name">_color_name</span>(fore:<span class="function-name">split</span>(<span class="string">","</span>)))
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> back <span class="keyword">then</span>
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s:%s"</span>, result, <span class="function-name">_color_name</span>(back:<span class="function-name">split</span>(<span class="string">","</span>)))
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s&gt;"</span>, result)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">cnameToRgb</span>(cname)
+  <span class="keyword">local</span> result = <span class="string">"&lt;"</span>
+  <span class="keyword">local</span> cols = cname:<span class="function-name">split</span>(<span class="string">":"</span>)
+  <span class="keyword">local</span> fore = cols[<span class="number">1</span>]
+  <span class="keyword">local</span> back = cols[<span class="number">2</span>]
+  <span class="keyword">if</span> fore ~= <span class="string">""</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> rgb = color_table[fore] <span class="keyword">or</span> {<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>}
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s"</span>, result, <span class="global">table</span>.<span class="function-name">concat</span>(rgb, <span class="string">","</span>))
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> back <span class="keyword">then</span>
+    <span class="keyword">local</span> rgb = color_table[back] <span class="keyword">or</span> {<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>}
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s:%s"</span>, result, <span class="global">table</span>.<span class="function-name">concat</span>(rgb, <span class="string">","</span>))
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s&gt;"</span>, result)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">toFromDecho</span>(from, to, text)
+  <span class="keyword">local</span> patterns = {d = _Echos.Patterns.Decimal[<span class="number">1</span>], c = _Echos.Patterns.Color[<span class="number">1</span>], h = _Echos.Patterns.Hex[<span class="number">1</span>]}
+  <span class="keyword">local</span> funcs = {d = {c = rgbToCname, h = rgbToHex, a = rgbToAnsi}, c = {d = cnameToRgb}, h = {d = hexToRgb}}
+  <span class="keyword">local</span> resetCodes = {d = <span class="string">"&lt;r&gt;"</span>, h = <span class="string">"#r"</span>, c = <span class="string">"&lt;reset&gt;"</span>, a = <span class="string">"\27[39;49m"</span>}
+
+  <span class="keyword">local</span> colorPattern = patterns[from]
+  <span class="keyword">local</span> func = funcs[from][to]
+  <span class="keyword">local</span> reset = resetCodes[to]
+  <span class="keyword">local</span> result = <span class="string">""</span>
+  <span class="keyword">for</span> str, color, res <span class="keyword">in</span> rex.<span class="function-name">split</span>(text, colorPattern) <span class="keyword">do</span>
+    result = result .. str
+    <span class="keyword">if</span> color <span class="keyword">then</span>
+      <span class="keyword">if</span> color:<span class="function-name">sub</span>(<span class="number">1</span>, <span class="number">1</span>) == <span class="string">"|"</span> <span class="keyword">then</span>
+        color = color:<span class="function-name">gsub</span>(<span class="string">"|c"</span>, <span class="string">"#"</span>)
+      <span class="keyword">end</span>
+      <span class="keyword">if</span> from == <span class="string">"h"</span> <span class="keyword">then</span>
+        result = result .. <span class="function-name">func</span>(color:<span class="function-name">sub</span>(<span class="number">2</span>, -<span class="number">1</span>))
+      <span class="keyword">else</span>
+        result = result .. <span class="function-name">func</span>(color:<span class="function-name">match</span>(<span class="string">"&lt;(.+)&gt;"</span>))
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> res <span class="keyword">then</span>
+      result = result .. reset
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">decho2cecho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">toFromDecho</span>(<span class="string">"d"</span>, <span class="string">"c"</span>, text)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">cecho2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">toFromDecho</span>(<span class="string">"c"</span>, <span class="string">"d"</span>, text)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">decho2hecho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">toFromDecho</span>(<span class="string">"d"</span>, <span class="string">"h"</span>, text)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">hecho2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">toFromDecho</span>(<span class="string">"h"</span>, <span class="string">"d"</span>, text)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">cecho2ansi</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">cecho2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2ansi</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">cecho2hecho</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">cecho2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2hecho</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">hecho2cecho</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">hecho2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2cecho</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">ansi2decho</span>(tstring)
+  <span class="keyword">local</span> cpattern = <span class="string">[=[\e\[([0-9;:]+)m]=]</span>
+  <span class="keyword">local</span> result = <span class="string">""</span>
+  <span class="keyword">local</span> resets = {<span class="string">"39;49"</span>, <span class="string">"00"</span>, <span class="string">"0"</span>}
+  <span class="keyword">local</span> colours = {
+    [<span class="number">0</span>] = color_table.ansiBlack,
+    [<span class="number">1</span>] = color_table.ansiRed,
+    [<span class="number">2</span>] = color_table.ansiGreen,
+    [<span class="number">3</span>] = color_table.ansiYellow,
+    [<span class="number">4</span>] = color_table.ansiBlue,
+    [<span class="number">5</span>] = color_table.ansiMagenta,
+    [<span class="number">6</span>] = color_table.ansiCyan,
+    [<span class="number">7</span>] = color_table.ansiWhite,
+  }
+  <span class="keyword">local</span> lightColours = {
+    [<span class="number">0</span>] = color_table.ansiLightBlack,
+    [<span class="number">1</span>] = color_table.ansiLightRed,
+    [<span class="number">2</span>] = color_table.ansiLightGreen,
+    [<span class="number">3</span>] = color_table.ansiLightYellow,
+    [<span class="number">4</span>] = color_table.ansiLightBlue,
+    [<span class="number">5</span>] = color_table.ansiLightMagenta,
+    [<span class="number">6</span>] = color_table.ansiLightCyan,
+    [<span class="number">7</span>] = color_table.ansiLightWhite,
+  }
+
+  <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">colorCodeToRGB</span>(color, parts)
+    <span class="keyword">local</span> rgb
+    <span class="keyword">if</span> color ~= <span class="number">8</span> <span class="keyword">then</span>
+      rgb = colours[color]
+    <span class="keyword">else</span>
+      <span class="keyword">if</span> parts[<span class="number">2</span>] == <span class="string">"5"</span> <span class="keyword">then</span>
+        <span class="keyword">local</span> color_number = <span class="global">tonumber</span>(parts[<span class="number">3</span>])
+        <span class="keyword">if</span> color_number &lt; <span class="number">8</span> <span class="keyword">then</span>
+          rgb = colours[color_number]
+        <span class="keyword">elseif</span> color_number &gt; <span class="number">7</span> <span class="keyword">and</span> color_number &lt; <span class="number">16</span> <span class="keyword">then</span>
+          rgb = lightColours[color_number - <span class="number">8</span>]
+        <span class="keyword">else</span>
+          rgb = color_table[<span class="string">"ansi_"</span> .. color_number]
+        <span class="keyword">end</span>
+      <span class="keyword">elseif</span> parts[<span class="number">2</span>] == <span class="string">"2"</span> <span class="keyword">then</span>
+        <span class="keyword">local</span> r = parts[<span class="number">4</span>] <span class="keyword">or</span> <span class="number">0</span>
+        <span class="keyword">local</span> g = parts[<span class="number">5</span>] <span class="keyword">or</span> <span class="number">0</span>
+        <span class="keyword">local</span> b = parts[<span class="number">6</span>] <span class="keyword">or</span> <span class="number">0</span>
+        <span class="keyword">if</span> r == <span class="string">""</span> <span class="keyword">then</span>
+          r = <span class="number">0</span>
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> g == <span class="string">""</span> <span class="keyword">then</span>
+          g = <span class="number">0</span>
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> b == <span class="string">""</span> <span class="keyword">then</span>
+          b = <span class="number">0</span>
+        <span class="keyword">end</span>
+        rgb = {r, g, b}
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> rgb
+  <span class="keyword">end</span>
+
+  <span class="keyword">for</span> str, color <span class="keyword">in</span> rex.<span class="function-name">split</span>(tstring, cpattern) <span class="keyword">do</span>
+    result = result .. str
+    <span class="keyword">if</span> color <span class="keyword">then</span>
+      <span class="keyword">if</span> <span class="global">table</span>.<span class="function-name">contains</span>(resets, color) <span class="keyword">then</span>
+        result = result .. <span class="string">"&lt;r&gt;"</span>
+      <span class="keyword">else</span>
+        <span class="keyword">local</span> parts
+        <span class="keyword">if</span> color:<span class="function-name">find</span>(<span class="string">";"</span>) <span class="keyword">then</span>
+          parts = color:<span class="function-name">split</span>(<span class="string">";"</span>)
+        <span class="keyword">else</span>
+          parts = color:<span class="function-name">split</span>(<span class="string">":"</span>)
+        <span class="keyword">end</span>
+        <span class="keyword">local</span> code = parts[<span class="number">1</span>]
+        <span class="keyword">if</span> code:<span class="function-name">starts</span>(<span class="string">"3"</span>) <span class="keyword">then</span>
+          color = <span class="global">tonumber</span>(code:<span class="function-name">sub</span>(<span class="number">2</span>, <span class="number">2</span>))
+          <span class="keyword">local</span> rgb = <span class="function-name">colorCodeToRGB</span>(color, parts)
+          result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s&lt;%s,%s,%s&gt;"</span>, result, rgb[<span class="number">1</span>], rgb[<span class="number">2</span>], rgb[<span class="number">3</span>])
+        <span class="keyword">elseif</span> code:<span class="function-name">starts</span>(<span class="string">"4"</span>) <span class="keyword">then</span>
+          color = <span class="global">tonumber</span>(code:<span class="function-name">sub</span>(<span class="number">2</span>, <span class="number">2</span>))
+          <span class="keyword">local</span> rgb = <span class="function-name">colorCodeToRGB</span>(color, parts)
+          result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s&lt;:%s,%s,%s&gt;"</span>, result, rgb[<span class="number">1</span>], rgb[<span class="number">2</span>], rgb[<span class="number">3</span>])
+        <span class="keyword">elseif</span> <span class="global">tonumber</span>(code) &gt;= <span class="number">90</span> <span class="keyword">and</span> <span class="global">tonumber</span>(code) &lt;= <span class="number">97</span> <span class="keyword">then</span>
+          <span class="keyword">local</span> rgb = colours[<span class="global">tonumber</span>(code) - <span class="number">90</span>]
+          result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s&lt;%s,%s,%s&gt;"</span>, result, rgb[<span class="number">1</span>], rgb[<span class="number">2</span>], rgb[<span class="number">3</span>])
+        <span class="keyword">elseif</span> <span class="global">tonumber</span>(code) &gt;= <span class="number">100</span> <span class="keyword">and</span> <span class="global">tonumber</span>(code) &lt;= <span class="number">107</span> <span class="keyword">then</span>
+          <span class="keyword">local</span> rgb = colours[<span class="global">tonumber</span>(code) - <span class="number">100</span>]
+          result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s&lt;:%s,%s,%s&gt;"</span>, result, rgb[<span class="number">1</span>], rgb[<span class="number">2</span>], rgb[<span class="number">3</span>])
+        <span class="keyword">end</span>
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">decho2ansi</span>(text)
+  <span class="keyword">local</span> colorPattern = _Echos.Patterns.Decimal[<span class="number">1</span>]
+  <span class="keyword">local</span> result = <span class="string">""</span>
+  <span class="keyword">for</span> str, color, res <span class="keyword">in</span> rex.<span class="function-name">split</span>(text, colorPattern) <span class="keyword">do</span>
+    result = result .. str
+    <span class="keyword">if</span> color <span class="keyword">then</span>
+      result = result .. <span class="function-name">rgbToAnsi</span>(color:<span class="function-name">match</span>(<span class="string">"&lt;(.+)&gt;"</span>))
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> res <span class="keyword">then</span>
+      result = result .. <span class="string">"\27[39;49m"</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">hecho2ansi</span>(text)
+  <span class="keyword">local</span> colorPattern = _Echos.Patterns.Hex[<span class="number">1</span>]
+  <span class="keyword">local</span> result = <span class="string">""</span>
+  <span class="keyword">for</span> str, color, res <span class="keyword">in</span> rex.<span class="function-name">split</span>(text, colorPattern) <span class="keyword">do</span>
+    result = result .. str
+    <span class="keyword">if</span> color <span class="keyword">then</span>
+      <span class="keyword">if</span> color:<span class="function-name">sub</span>(<span class="number">1</span>, <span class="number">1</span>) == <span class="string">"|"</span> <span class="keyword">then</span>
+        color = color:<span class="function-name">gsub</span>(<span class="string">"|c"</span>, <span class="string">"#"</span>)
+      <span class="keyword">end</span>
+      result = result .. <span class="function-name">hexToAnsi</span>(color:<span class="function-name">sub</span>(<span class="number">2</span>, -<span class="number">1</span>))
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> res <span class="keyword">then</span>
+      result = result .. <span class="string">"\27[39;49m"</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">ansi2hecho</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">ansi2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2hecho</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">displayColors</span>(options)
+  options = options <span class="keyword">or</span> {}
+  <span class="keyword">local</span> optionsType = <span class="global">type</span>(options)
+  <span class="global">assert</span>(optionsType == <span class="string">"table"</span>, <span class="string">"displayColors(options) argument error: options as table expects, got "</span> .. optionsType)
+  options.cols = options.cols <span class="keyword">or</span> <span class="number">4</span>
+  options.search = options.search <span class="keyword">or</span> <span class="string">""</span>
+  options.sort = options.sort <span class="keyword">or</span> <span class="keyword">false</span>
+  <span class="keyword">if</span> options.removeDupes == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options.removeDupes = <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> options.removeAnsi255 == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options.removeAnsi255 = <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> options.columnSort == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options.columnSort = <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="global">type</span>(options.window) == <span class="string">"table"</span> <span class="keyword">then</span>
+    options.window = options.window.name
+  <span class="keyword">end</span>
+  options.window = options.window <span class="keyword">or</span> <span class="string">"main"</span>
+  <span class="keyword">local</span> color_table = options.color_table <span class="keyword">or</span> color_table
+  <span class="keyword">local</span> cols, search, sort = options.cols, options.search, options.sort
+  <span class="keyword">local</span> colors = {}
+  <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">pairs</span>(color_table) <span class="keyword">do</span>
+    <span class="keyword">local</span> color = {}
+    color.rgb = v
+    color.name = k
+    color.sort = {<span class="function-name">step</span>(<span class="global">unpack</span>(v))}
+    <span class="keyword">if</span> <span class="function-name">include</span>(k, options) <span class="keyword">and</span> k:<span class="function-name">lower</span>():<span class="function-name">find</span>(search) <span class="keyword">then</span>
+      <span class="global">table</span>.<span class="function-name">insert</span>(colors, color)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> sort <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">sort</span>(colors, sortColorsByName)
+  <span class="keyword">else</span>
+    <span class="global">table</span>.<span class="function-name">sort</span>(colors, sortColorsByHue)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> options.columnSort <span class="keyword">then</span>
+    <span class="keyword">local</span> columns_table = <span class="function-name">chunkify</span>(colors, cols)
+    <span class="keyword">local</span> lines = #columns_table[<span class="number">1</span>]
+    <span class="keyword">for</span> i = <span class="number">1</span>, lines <span class="keyword">do</span>
+      <span class="keyword">for</span> j = <span class="number">1</span>, cols <span class="keyword">do</span>
+        <span class="keyword">local</span> color = columns_table[j][i]
+        <span class="keyword">if</span> color <span class="keyword">then</span>
+          <span class="function-name">echoColor</span>(color, options)
+        <span class="keyword">end</span>
+      <span class="keyword">end</span>
+      <span class="function-name">echo</span>(options.window, <span class="string">"\n"</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">else</span>
+    <span class="keyword">local</span> i = <span class="number">1</span>
+    <span class="keyword">for</span> _, k <span class="keyword">in</span> <span class="global">ipairs</span>(colors) <span class="keyword">do</span>
+      <span class="function-name">echoColor</span>(k, options)
+      <span class="keyword">if</span> i == cols <span class="keyword">then</span>
+        <span class="function-name">echo</span>(options.window, <span class="string">"\n"</span>)
+        i = <span class="number">1</span>
+      <span class="keyword">else</span>
+        i = i + <span class="number">1</span>
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> i ~= <span class="number">1</span> <span class="keyword">then</span>
+      <span class="function-name">echo</span>(options.window, <span class="string">"\n"</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">cecho2string</span>(text)
+  <span class="keyword">local</span> pattern = _Echos.Patterns.Color[<span class="number">2</span>]
+  <span class="keyword">local</span> result = rex.<span class="function-name">gsub</span>(text, pattern, <span class="string">""</span>)
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">decho2string</span>(text)
+  <span class="keyword">local</span> pattern = _Echos.Patterns.Decimal[<span class="number">2</span>]
+  <span class="keyword">local</span> result = rex.<span class="function-name">gsub</span>(text, pattern, <span class="string">""</span>)
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">hecho2string</span>(text)
+  <span class="keyword">local</span> pattern = _Echos.Patterns.Hex[<span class="number">2</span>]
+  <span class="keyword">local</span> result = rex.<span class="function-name">gsub</span>(text, pattern, <span class="string">""</span>)
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">append2decho</span>()
+  cheatConsole:<span class="function-name">clear</span>()
+  cheatConsole:<span class="function-name">appendBuffer</span>()
+  <span class="keyword">local</span> str = <span class="function-name">copy2decho</span>(cheatConsole.name)
+  cheatConsole:<span class="function-name">clear</span>()
+  <span class="keyword">return</span> str
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">html2decho</span>(text)
+  text = text:<span class="function-name">gsub</span>(htmlHeaderPattern, <span class="string">""</span>)
+  text = text:<span class="function-name">gsub</span>(<span class="string">"&lt;span style='color: rgb%((%d+,%d+,%d+)%);background: rgb%((%d+,%d+,%d+)%);'&gt;"</span>, <span class="string">"&lt;%1:%2&gt;"</span>)
+  text = text:<span class="function-name">gsub</span>(<span class="string">"&lt;br&gt;"</span>, <span class="string">"\n"</span>)
+  text = text:<span class="function-name">gsub</span>(<span class="string">"&lt;/span&gt;"</span>, <span class="string">""</span>)
+  <span class="keyword">return</span> text
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">html2cecho</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">html2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2cecho</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">html2hecho</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">html2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2hecho</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">html2ansi</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">html2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2ansi</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">html2string</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">html2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2string</span>(text)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">consoleToString</span>(options)
+  options = options <span class="keyword">or</span> {}
+  options.win = options.win <span class="keyword">or</span> <span class="string">"main"</span>
+  options.format = options.format <span class="keyword">or</span> <span class="string">"d"</span>
+  options.start_line = options.start_line <span class="keyword">or</span> <span class="number">0</span>
+  <span class="keyword">if</span> options.includeHtmlWrapper == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options.includeHtmlWrapper = <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> console_line_count = options.win == <span class="string">"main"</span> <span class="keyword">and</span> <span class="function-name">getLineCount</span>() <span class="keyword">or</span> <span class="function-name">getLineCount</span>(options.win)
+  <span class="keyword">if</span> <span class="keyword">not</span> options.end_line <span class="keyword">then</span>
+    options.end_line = console_line_count
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> options.end_line &gt; console_line_count <span class="keyword">then</span>
+    options.end_line = console_line_count
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> start, finish, format = options.start_line, options.end_line, options.format
+  <span class="keyword">local</span> current_x, current_y
+  <span class="keyword">if</span> options.win == <span class="string">"main"</span> <span class="keyword">then</span>
+    current_x = <span class="function-name">getColumnNumber</span>()
+    current_y = <span class="function-name">getLineNumber</span>()
+  <span class="keyword">else</span>
+    current_x = <span class="function-name">getColumnNumber</span>(options.win)
+    current_y = <span class="function-name">getLineNumber</span>(options.win)
+  <span class="keyword">end</span>
+
+  <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">move</span>(x, y)
+    <span class="keyword">if</span> options.win == <span class="string">"main"</span> <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="function-name">moveCursor</span>(x, y)
+    <span class="keyword">else</span>
+      <span class="keyword">return</span> <span class="function-name">moveCursor</span>(options.win, x, y)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">gcl</span>()
+    <span class="keyword">local</span> win, raw
+    <span class="keyword">if</span> options.win ~= <span class="string">"main"</span> <span class="keyword">then</span>
+      win = options.win
+      raw = <span class="function-name">getCurrentLine</span>(win)
+    <span class="keyword">else</span>
+      win = <span class="keyword">nil</span>
+      raw = <span class="function-name">getCurrentLine</span>()
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> raw == <span class="string">""</span> <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="string">""</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> format == <span class="string">"h"</span> <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="function-name">copy2html</span>(win)
+    <span class="keyword">elseif</span> format == <span class="string">"d"</span> <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="function-name">copy2decho</span>(win)
+    <span class="keyword">elseif</span> format == <span class="string">"a"</span> <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="function-name">decho2ansi</span>(<span class="function-name">copy2decho</span>(win))
+    <span class="keyword">elseif</span> format == <span class="string">"c"</span> <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="function-name">decho2cecho</span>(<span class="function-name">copy2decho</span>(win))
+    <span class="keyword">elseif</span> format == <span class="string">"x"</span> <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="function-name">decho2hecho</span>(<span class="function-name">copy2decho</span>(win))
+    <span class="keyword">elseif</span> format == <span class="string">"r"</span> <span class="keyword">then</span>
+      <span class="keyword">return</span> raw
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> lines = {}
+  <span class="keyword">if</span> format == <span class="string">"h"</span> <span class="keyword">and</span> options.includeHtmlWrapper <span class="keyword">then</span>
+    lines[#lines + <span class="number">1</span>] = htmlHeader
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> line_number = start, finish <span class="keyword">do</span>
+    <span class="function-name">move</span>(<span class="number">0</span>, line_number)
+    lines[#lines + <span class="number">1</span>] = <span class="function-name">gcl</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> format == <span class="string">"h"</span> <span class="keyword">and</span> options.includeHtmlWrapper <span class="keyword">then</span>
+    lines[#lines + <span class="number">1</span>] = <span class="string">"&lt;/span&gt;&lt;/body&gt;&lt;/html&gt;"</span>
+  <span class="keyword">end</span>
+  <span class="function-name">moveCursor</span>(current_x, current_y)
+  <span class="keyword">return</span> <span class="global">table</span>.<span class="function-name">concat</span>(lines, <span class="string">"\n"</span>)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">decho2html</span>(text)
+  cheatConsole:<span class="function-name">clear</span>()
+  text = text:<span class="function-name">gsub</span>(<span class="string">"\n"</span>, <span class="string">"&lt;br&gt;"</span>)
+  cheatConsole:<span class="function-name">decho</span>(text)
+  <span class="keyword">local</span> html = <span class="function-name">copy2html</span>(cheatConsole.name)
+  cheatConsole:<span class="function-name">clear</span>()
+  <span class="keyword">return</span> html
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">cecho2html</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">cecho2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2html</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">hecho2html</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">hecho2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2html</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">ansi2html</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">ansi2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2html</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">scientific_round</span>(number, sigDigits)
+  <span class="keyword">local</span> decimalPlace = <span class="global">string</span>.<span class="function-name">find</span>(number, <span class="string">"%."</span>)
+  <span class="keyword">if</span> <span class="keyword">not</span> decimalPlace <span class="keyword">or</span> (sigDigits &lt; decimalPlace) <span class="keyword">then</span>
+    <span class="keyword">local</span> numberTable = {}
+    <span class="keyword">local</span> count = <span class="number">1</span>
+    <span class="keyword">for</span> digit <span class="keyword">in</span> <span class="global">string</span>.<span class="function-name">gmatch</span>(number, <span class="string">"%d"</span>) <span class="keyword">do</span>
+      <span class="global">table</span>.<span class="function-name">insert</span>(numberTable, digit)
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> endNumber = <span class="string">""</span>
+    <span class="keyword">for</span> i, digit <span class="keyword">in</span> <span class="global">ipairs</span>(numberTable) <span class="keyword">do</span>
+      <span class="keyword">if</span> i &lt; sigDigits <span class="keyword">then</span>
+        endNumber = endNumber .. digit
+      <span class="keyword">end</span>
+      <span class="keyword">if</span> i == sigDigits <span class="keyword">then</span>
+        <span class="keyword">if</span> <span class="global">tonumber</span>(numberTable[i + <span class="number">1</span>]) &gt;= <span class="number">5</span> <span class="keyword">then</span>
+          endNumber = endNumber .. digit + <span class="number">1</span>
+        <span class="keyword">else</span>
+          endNumber = endNumber .. digit
+        <span class="keyword">end</span>
+      <span class="keyword">end</span>
+      <span class="keyword">if</span> i &gt; sigDigits <span class="keyword">and</span> (<span class="keyword">not</span> decimalPlace <span class="keyword">or</span> (i &lt; decimalPlace)) <span class="keyword">then</span>
+        endNumber = endNumber .. <span class="string">"0"</span>
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> <span class="global">tonumber</span>(endNumber)
+  <span class="keyword">else</span>
+    <span class="keyword">local</span> decimalDigits = sigDigits - decimalPlace + <span class="number">1</span>
+    <span class="keyword">return</span> <span class="global">tonumber</span>(<span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%"</span> .. decimalPlace - <span class="number">1</span> .. <span class="string">"."</span> .. decimalDigits .. <span class="string">"f"</span>, number))
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">roundInt</span>(number)
+  <span class="keyword">return</span> <span class="global">math</span>.<span class="function-name">floor</span>(number + <span class="number">0.5</span>)
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> <span class="global">string</span>.<span class="function-name">tobyte</span>(self)
+  <span class="keyword">return</span> (self:<span class="function-name">gsub</span>(<span class="string">'.'</span>, <span class="keyword">function</span>(c)
+    <span class="keyword">return</span> <span class="global">string</span>.<span class="function-name">byte</span>(c)
+  <span class="keyword">end</span>))
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> <span class="global">string</span>.<span class="function-name">tocolor</span>(self)
+  <span class="comment">-- This next bit takes the string and 'unshuffles' it, breaking it into odds and evens
+</span>  <span class="comment">-- reverses the evens, then adds the odds to the new even set. So demonnic becomes cnoedmni
+</span>  <span class="comment">-- this makes sure that names which are similar in the beginning don't color the same
+</span>  <span class="comment">-- especially since we have to cut the number for the random seed due to OSX using a default
+</span>  <span class="comment">-- randomseed if you feed it something too large, which made every name longer than 7 characters
+</span>  <span class="comment">-- always the same color, no matter what it was.
+</span>  <span class="keyword">local</span> strTable = {}
+  <span class="keyword">local</span> part1 = {}
+  <span class="keyword">local</span> part2 = {}
+  _ = self:<span class="function-name">gsub</span>(<span class="string">"."</span>, <span class="keyword">function</span>(c)
+    <span class="global">table</span>.<span class="function-name">insert</span>(strTable, c)
+  <span class="keyword">end</span>)
+  <span class="keyword">for</span> index, value <span class="keyword">in</span> <span class="global">ipairs</span>(strTable) <span class="keyword">do</span>
+    <span class="keyword">if</span> (index % <span class="number">2</span> == <span class="number">0</span>) <span class="keyword">then</span>
+      <span class="global">table</span>.<span class="function-name">insert</span>(part1, value)
+    <span class="keyword">else</span>
+      <span class="global">table</span>.<span class="function-name">insert</span>(part2, value)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> newStr = <span class="global">string</span>.<span class="function-name">reverse</span>(<span class="global">table</span>.<span class="function-name">concat</span>(part1)) .. <span class="global">table</span>.<span class="function-name">concat</span>(part2)
+  <span class="comment">-- end munging of the original string to get more uniqueness
+</span>  <span class="global">math</span>.<span class="function-name">randomseed</span>(<span class="global">string</span>.<span class="function-name">cut</span>(newStr:<span class="function-name">tobyte</span>(), <span class="number">18</span>))
+  <span class="keyword">local</span> r = <span class="global">math</span>.<span class="function-name">random</span>(<span class="number">0</span>, <span class="number">255</span>)
+  <span class="keyword">local</span> g = <span class="global">math</span>.<span class="function-name">random</span>(<span class="number">0</span>, <span class="number">255</span>)
+  <span class="keyword">local</span> b = <span class="global">math</span>.<span class="function-name">random</span>(<span class="number">0</span>, <span class="number">255</span>)
+  <span class="global">math</span>.<span class="function-name">randomseed</span>(<span class="global">os</span>.<span class="function-name">time</span>())
+  <span class="keyword">return</span> {r, g, b}
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">colorMunge</span>(strForColor, strToEcho, format)
+  format = format <span class="keyword">or</span> <span class="string">'d'</span>
+  <span class="keyword">local</span> rgb = strForColor:<span class="function-name">tocolor</span>()
+  <span class="keyword">local</span> color
+  <span class="keyword">if</span> format == <span class="string">"d"</span> <span class="keyword">then</span>
+    color = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"&lt;%s&gt;"</span>, <span class="global">table</span>.<span class="function-name">concat</span>(rgb, <span class="string">","</span>))
+  <span class="keyword">elseif</span> format == <span class="string">"c"</span> <span class="keyword">then</span>
+    color = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"&lt;%s&gt;"</span>, <span class="function-name">_color_name</span>(rgb))
+  <span class="keyword">elseif</span> format == <span class="string">"h"</span> <span class="keyword">then</span>
+    color = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"#%02x%02x%02x"</span>, rgb[<span class="number">1</span>], rgb[<span class="number">2</span>], rgb[<span class="number">3</span>])
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> color .. strToEcho
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">colorMungeEcho</span>(strForColor, strToEcho, format, win)
+  format = format <span class="keyword">or</span> <span class="string">"d"</span>
+  win = win <span class="keyword">or</span> <span class="string">"main"</span>
+  <span class="keyword">local</span> str = <span class="function-name">colorMunge</span>(strForColor, strToEcho, format)
+  <span class="keyword">local</span> func
+  <span class="keyword">if</span> format == <span class="string">"d"</span> <span class="keyword">then</span>
+    func = decho
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> format == <span class="string">"c"</span> <span class="keyword">then</span>
+    func = cecho
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> format == <span class="string">"h"</span> <span class="keyword">then</span>
+    func = hecho
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> win == <span class="string">"main"</span> <span class="keyword">then</span>
+    <span class="function-name">func</span>(str)
+  <span class="keyword">else</span>
+    <span class="function-name">func</span>(win, str)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">milliToHuman</span>(milliseconds)
+  <span class="keyword">local</span> totalseconds = <span class="global">math</span>.<span class="function-name">floor</span>(milliseconds / <span class="number">1000</span>)
+  milliseconds = milliseconds % <span class="number">1000</span>
+  <span class="keyword">local</span> seconds = totalseconds % <span class="number">60</span>
+  <span class="keyword">local</span> minutes = <span class="global">math</span>.<span class="function-name">floor</span>(totalseconds / <span class="number">60</span>)
+  <span class="keyword">local</span> hours = <span class="global">math</span>.<span class="function-name">floor</span>(minutes / <span class="number">60</span>)
+  minutes = minutes % <span class="number">60</span>
+  <span class="keyword">return</span> <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%02d:%02d:%02d:%03d"</span>, hours, minutes, seconds, milliseconds)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes a list table and returns it as a table of 'chunks'. If the table has 12 items and you ask for 3 chunks, each chunk will have 4 items in it
+</span><span class="comment">-- @tparam table tbl The table you want to turn into chunks. Must be traversable using ipairs()
+</span><span class="comment">-- @tparam number num_chunks The number of chunks to turn the table into
+</span><span class="comment">-- @usage local dt = require("MDK.demontools")
+</span><span class="comment">-- testTable = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten" }
+</span><span class="comment">-- display(dt.chunkify(testTable, 3))
+</span><span class="comment">-- --displays the following
+</span><span class="comment">-- {
+</span><span class="comment">--   {
+</span><span class="comment">--     "one",
+</span><span class="comment">--     "two",
+</span><span class="comment">--     "three",
+</span><span class="comment">--     "four"
+</span><span class="comment">--   },
+</span><span class="comment">--   {
+</span><span class="comment">--     "five",
+</span><span class="comment">--     "six",
+</span><span class="comment">--     "seven"
+</span><span class="comment">--   },
+</span><span class="comment">--   {
+</span><span class="comment">--     "eight",
+</span><span class="comment">--     "nine",
+</span><span class="comment">--     "ten"
+</span><span class="comment">--   }
+</span><span class="comment">-- }
+</span>
+<span class="keyword">function</span> DemonTools.<span class="function-name">chunkify</span>(tbl, num_chunks)
+  <span class="keyword">return</span> <span class="function-name">chunkify</span>(tbl, num_chunks)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an ansi colored text string and returns a cecho colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage   dt.ansi2cecho("[31mTest")
+</span><span class="comment">-- --returns "&lt;ansiRed&gt;Test"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">ansi2cecho</span>(text)
+  <span class="keyword">local</span> dtext = <span class="function-name">ansi2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2cecho</span>(dtext)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an ansi colored text string and returns a decho colored one. Handles 256 color SGR codes better than Mudlet's ansi2decho
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage   dt.ansi2decho("[31mTest") --returns "&lt;128,0,0&gt;Test"
+</span><span class="comment">-- @usage dt.ansi2decho("[38:2::127:0:0mTest") --returns "&lt;127,0,0&gt;Test"
+</span><span class="comment">-- @usage ansi2decho("[38:2::127:0:0mTest") -- doesn't parse this format of colors and so returns "[38:2::127:0:0mTest"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">ansi2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">ansi2decho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an ansi colored text string and returns a hecho colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage   dt.ansi2hecho("[31mTest")
+</span><span class="comment">-- --returns "#800000Test"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">ansi2hecho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">ansi2hecho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an cecho colored text string and returns a decho colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage  dt.cecho2decho("&lt;green&gt;Test") --returns "&lt;0,255,0&gt;Test"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">cecho2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">cecho2decho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an cecho colored text string and returns an ansi colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage dt.cecho2ansi("&lt;green&gt;Test") --returns "[38:2::0:255:0mTest"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">cecho2ansi</span>(text)
+  <span class="keyword">return</span> <span class="function-name">cecho2ansi</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an cecho colored text string and returns a hecho colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage dt.cecho2hecho("&lt;green&gt;Test") --returns "#00ff00Test"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">cecho2hecho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">cecho2hecho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an decho colored text string and returns a cecho colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage   dt.decho2cecho("&lt;127,0,0:0,0,127&gt;Test") --returns "&lt;ansiRed:ansi_blue&gt;Test"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">decho2cecho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2cecho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an decho colored text string and returns an ansi colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage dt.decho2ansi("&lt;127,0,0:0,0,127&gt;Test") --returns "[38:2::127:0:0m[48:2::0:0:127mTest"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">decho2ansi</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2ansi</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an decho colored text string and returns an hecho colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage dt.decho2hecho("&lt;127,0,0:0,0,127&gt;Test") --returns "#7f0000,00007fTest"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">decho2hecho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2hecho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes a decho colored text string and returns html.
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">decho2html</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2html</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes a cecho colored text string and returns html.
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">cecho2html</span>(text)
+  <span class="keyword">return</span> <span class="function-name">cecho2html</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes a hecho colored text string and returns html.
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">hecho2html</span>(text)
+  <span class="keyword">return</span> <span class="function-name">hecho2html</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an ansi colored text string and returns html.
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">ansi2html</span>(text)
+  <span class="keyword">return</span> <span class="function-name">ansi2html</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns a cecho string
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">html2cecho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">html2cecho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns a decho string
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">html2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">html2decho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns an ansi string
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">html2ansi</span>(text)
+  <span class="keyword">return</span> <span class="function-name">html2ansi</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns an hecho string
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">html2hecho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">html2hecho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes a cecho string and returns it without the formatting
+</span><span class="comment">-- @param text the text to transform
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">cecho2string</span>(text)
+  <span class="keyword">return</span> <span class="function-name">cecho2string</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes a decho string and returns it without the formatting
+</span><span class="comment">-- @param text the text to transform
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">decho2string</span>(text)
+  <span class="keyword">return</span> <span class="function-name">decho2string</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes a hecho string and returns it without the formatting
+</span><span class="comment">-- @param text the text to transform
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">hecho2string</span>(text)
+  <span class="keyword">return</span> <span class="function-name">hecho2string</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an html colored string of the sort turned out by the DemonTools *2html functions and returns a clean string
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">html2string</span>(text)
+  <span class="keyword">return</span> <span class="function-name">html2string</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an hecho colored text string and returns a ansi colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage dt.hecho2ansi("#7f0000,00007fTest") --returns "[38:2::127:0:0m[48:2::0:0:127mTest"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">hecho2ansi</span>(text)
+  <span class="keyword">return</span> <span class="function-name">hecho2ansi</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an hecho colored text string and returns a cecho colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage   dt.hecho2cecho("#7f0000,00007fTest") --returns "&lt;ansiRed:ansi_blue&gt;Test"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">hecho2cecho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">hecho2cecho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes an hecho colored text string and returns a decho colored one
+</span><span class="comment">-- @tparam string text the text to convert
+</span><span class="comment">-- @usage   dt.hecho2decho("#7f0000,00007fTest") --returns "&lt;127,0,0:0,0,127&gt;Test"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">hecho2decho</span>(text)
+  <span class="keyword">return</span> <span class="function-name">hecho2decho</span>(text)
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes the currently copy()ed item and returns it as a decho string
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">append2decho</span>()
+  <span class="keyword">return</span> <span class="function-name">append2decho</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Dump the contents of a miniconsole, user window, or the main window in one of several formats, as determined by a table of options
+</span><span class="comment">-- @tparam table options Table of options which controls which console and how it returns the data.
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;format&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What format to return the text as? 'h' for html, 'c' for cecho, 'a' for ansi, 'd' for decho, and 'x' for hecho&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"d"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;win&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;what console/window to dump the buffer of?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"main"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;start_line&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What line to start dumping the buffer from?&lt;/td&gt;
+</span><a id="905"></a><span class="comment">--     &lt;td class="tg-1"&gt;0&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;end_line&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What line to stop dumping the buffer on?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Last line of the console&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><a id="913"></a><span class="comment">--     &lt;td class="tg-1"&gt;includeHtmlWrapper&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;If the format is html, should it include the front and back portions required to make it a functioning html page?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/tbody&gt;
+</span><span class="comment">-- &lt;/table&gt;
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">consoleToString</span>(options)
+  <span class="keyword">return</span> <span class="function-name">consoleToString</span>(options)
+<span class="keyword">end</span>
+
+<a id="923"></a><span class="comment">--- Alternative to Mudlet's showColors(), this one has additional options.
+</span><span class="comment">-- @tparam table options table of options which control the output of displayColors
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><a id="931"></a><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;cols&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Number of columsn wide to display the colors in&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;4&lt;/td&gt;
+</span><a id="938"></a><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;search&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;If not the empty string, will check colors against string.find using this property.&lt;br&gt;IE if set to "blue" only colors which include the word 'blue' would be listed&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;""&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><a id="945"></a><span class="comment">--     &lt;td class="tg-1"&gt;sort&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;If true, sorts alphabetically. Otherwise sorts based on the color value&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;echoOnly&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;If true, colors will not be clickable links&lt;/td&gt;
+</span><a id="952"></a><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;window&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What window/console to echo the colors out to.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"main"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><a id="959"></a><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;removeDupes&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;If true, will remove snake_case entries and 'gray' in favor of 'grey'&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;columnSort&lt;/td&gt;
+</span><a id="966"></a><span class="comment">--     &lt;td class="tg-1"&gt;If true, will print top-to-bottom, then left-to-right. false is like showColors&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;justText&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;If true, will echo the text in the color and leave the background black.&lt;br&gt;If false, the background will be the colour(like showColors).&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><a id="973"></a><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;color_table&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Table of colors to display. If you provide your own table, it must be in the same format as Mudlet's own color_table&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;color_table&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><a id="979"></a><span class="comment">-- &lt;/tbody&gt;
+</span><span class="comment">-- &lt;/table&gt;
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">displayColors</span>(options)
+  <span class="keyword">return</span> <span class="function-name">displayColors</span>(options)
+<span class="keyword">end</span>
+
+<a id="985"></a><span class="comment">--- Rounds a number to the nearest whole integer
+</span><span class="comment">-- @param number the number to round off
+</span><span class="comment">-- @usage dt.roundInt(8.3) -- returns 8
+</span><span class="comment">-- @usage dt.roundInt(10.7) -- returns 11
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">roundInt</span>(number)
+  <span class="keyword">local</span> num = <span class="global">tonumber</span>(number)
+  <span class="keyword">local</span> numType = <span class="global">type</span>(num)<a id="991"></a>
+  <span class="global">assert</span>(numType == <span class="string">"number"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"DemonTools.roundInt(number): number as number expected, got %s"</span>, <span class="global">type</span>(number)))
+  <span class="keyword">return</span> <span class="function-name">roundInt</span>(num)
+<span class="keyword">end</span>
+
+<span class="comment">--- Rounds a number to a specified number of significant digits
+</span><a id="997"></a><span class="comment">-- @tparam number number the number to round
+</span><span class="comment">-- @tparam number sig_digits the number of significant digits to keep
+</span><span class="comment">-- @usage dt.scientific_round(1348290, 3) -- will return 1350000
+</span><span class="comment">-- @usage dt.scientific_found(123.3452, 5) -- will return 123.34
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">scientific_round</span>(number, sig_digits)
+  <span class="keyword">return</span> <span class="function-name">scientific_round</span>(number, sig_digits)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns a color table {r,g,b} derived from str. Will return the same color every time for the same string.
+</span><span class="comment">-- @tparam string str the string to turn into a color.
+</span><span class="comment">-- @usage   dt.string2color("Demonnic") --returns { 131, 122, 209 }
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">string2color</span>(str)
+  <span class="keyword">return</span> <span class="global">string</span>.<span class="function-name">tocolor</span>(str)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns a colored string where strForColor is run through DemonTools.string2color and applied to strToColor based on format.
+</span><span class="comment">-- @tparam string strForColor the string to turn into a color using DemonTools.string2color
+</span><span class="comment">-- @tparam string strToColor the string you want to color based on strForColor
+</span><span class="comment">-- @param format What format to use for the color portion. "d" for decho, "c" for cecho, or "h" for hecho. Defaults to "d"
+</span><span class="comment">-- @usage   dt.colorMunge("Demonnic", "Test") --returns "&lt;131,122,209&gt;Test"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">colorMunge</span>(strForColor, strToColor, format)
+  <span class="keyword">return</span> <span class="function-name">colorMunge</span>(strForColor, strToColor, format)
+<span class="keyword">end</span>
+
+<span class="comment">--- Like colorMunge but also echos the result to win.
+</span><span class="comment">-- @tparam string strForColor the string to turn into a color using DemonTools.string2color
+</span><span class="comment">-- @tparam string strToEcho the string you want to color and echo based on strForColor
+</span><span class="comment">-- @param format What format to use for the color portion. "d" for decho, "c" for cecho, or "h" for hecho. Defaults to "d"
+</span><span class="comment">-- @param win the window to echo to. You must provide the format if you want to change the window. Defaults to "main"
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">colorMungeEcho</span>(strForColor, strToEcho, format, win)
+  <span class="function-name">colorMungeEcho</span>(strForColor, strToEcho, format, win)
+<span class="keyword">end</span>
+
+<span class="comment">--- Converts milliseconds to hours:minutes:seconds:milliseconds
+</span><span class="comment">-- @tparam number milliseconds the number of milliseconds to convert
+</span><span class="comment">-- @tparam boolean tbl if true, returns the time as a key/value table instead
+</span><span class="comment">-- @usage dt.milliToHuman(37194572) --returns "10:19:54:572"
+</span><span class="comment">-- @usage display(dt.milliToHuman(37194572, true))
+</span><span class="comment">-- {
+</span><span class="comment">--   minutes = 19,
+</span><span class="comment">--   original = 37194572,
+</span><span class="comment">--   hours = 10,
+</span><span class="comment">--   milliseconds = 572,
+</span><span class="comment">--   seconds = 54
+</span><span class="comment">-- }
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">milliToHuman</span>(milliseconds, tbl)
+  <span class="keyword">local</span> human = <span class="function-name">milliToHuman</span>(milliseconds)
+  <span class="keyword">local</span> output
+  <span class="keyword">if</span> tbl <span class="keyword">then</span>
+    <span class="keyword">local</span> timetbl = human:<span class="function-name">split</span>(<span class="string">":"</span>)
+    output = {
+      hours = <span class="global">tonumber</span>(timetbl[<span class="number">1</span>]),
+      minutes = <span class="global">tonumber</span>(timetbl[<span class="number">2</span>]),
+      seconds = <span class="global">tonumber</span>(timetbl[<span class="number">3</span>]),
+      milliseconds = <span class="global">tonumber</span>(timetbl[<span class="number">4</span>]),
+      original = milliseconds,
+    }
+  <span class="keyword">else</span>
+    output = human
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> output
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes the name of a variable as a string and returns the value. "health" will return the value in varable health, "gmcp.Char.Vitals" will return the table at gmcp.Char.Vitals, etc
+</span><span class="comment">-- @tparam string variableString the string name of the variable you want the value of
+</span><span class="comment">-- @usage currentHP = 50
+</span><span class="comment">-- dt.getValueAt("currentHP") -- returns 50
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">getValueAt</span>(variableString)
+  <span class="keyword">return</span> <span class="function-name">getValueAt</span>(variableString)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns if a file or directory exists on the filesystem
+</span><span class="comment">-- @tparam string path the path to the file or directory to check
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">exists</span>(path)
+  <span class="keyword">return</span> <span class="function-name">exists</span>(path)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns if a path is a directory or not
+</span><span class="comment">-- @tparam string path the path to check
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">isDir</span>(path)
+  <span class="keyword">return</span> <span class="function-name">isDir</span>(path)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns true if running on windows, false otherwise
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">isWindows</span>()
+  <span class="keyword">return</span> <span class="function-name">isWindows</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates a directory, creating each directory as necessary along the way.
+</span><span class="comment">-- @tparam string path the path to create
+</span><span class="keyword">function</span> DemonTools.<span class="function-name">mkdir_p</span>(path)
+  <span class="keyword">return</span> <span class="function-name">mkdir_p</span>(path)
+<span class="keyword">end</span>
+
+DemonTools.htmlHeader = htmlHeader
+DemonTools.htmlHeaderPattern = htmlHeaderPattern
+
+<span class="keyword">local</span> echoOutputs = {
+  Color = {
+    [<span class="string">"\27reset"</span>] = <span class="string">"&lt;reset&gt;"</span>,
+    [<span class="string">"\27bold"</span>] = <span class="string">"&lt;b&gt;"</span>,
+    [<span class="string">"\27boldoff"</span>] = <span class="string">"&lt;/b&gt;"</span>,
+    [<span class="string">"\27italics"</span>] = <span class="string">"&lt;i&gt;"</span>,
+    [<span class="string">"\27italicsoff"</span>] = <span class="string">"&lt;/i&gt;"</span>,
+    [<span class="string">"\27underline"</span>] = <span class="string">"&lt;u&gt;"</span>,
+    [<span class="string">"\27underlineoff"</span>] = <span class="string">"&lt;/u&gt;"</span>,
+    [<span class="string">"\27strikethrough"</span>] = <span class="string">"&lt;s&gt;"</span>,
+    [<span class="string">"\27strikethroughoff"</span>] = <span class="string">"&lt;/s&gt;"</span>,
+    [<span class="string">"\27overline"</span>] = <span class="string">"&lt;o&gt;"</span>,
+    [<span class="string">"\27overlineoff"</span>] = <span class="string">"&lt;/o&gt;"</span>,
+  },
+  Decimal = {
+    [<span class="string">"\27reset"</span>] = <span class="string">"&lt;r&gt;"</span>,
+    [<span class="string">"\27bold"</span>] = <span class="string">"&lt;b&gt;"</span>,
+    [<span class="string">"\27boldoff"</span>] = <span class="string">"&lt;/b&gt;"</span>,
+    [<span class="string">"\27italics"</span>] = <span class="string">"&lt;i&gt;"</span>,
+    [<span class="string">"\27italicsoff"</span>] = <span class="string">"&lt;/i&gt;"</span>,
+    [<span class="string">"\27underline"</span>] = <span class="string">"&lt;u&gt;"</span>,
+    [<span class="string">"\27underlineoff"</span>] = <span class="string">"&lt;/u&gt;"</span>,
+    [<span class="string">"\27strikethrough"</span>] = <span class="string">"&lt;s&gt;"</span>,
+    [<span class="string">"\27strikethroughoff"</span>] = <span class="string">"&lt;/s&gt;"</span>,
+    [<span class="string">"\27overline"</span>] = <span class="string">"&lt;o&gt;"</span>,
+    [<span class="string">"\27overlineoff"</span>] = <span class="string">"&lt;/o&gt;"</span>,
+  },
+  Hex = {
+    [<span class="string">"\27reset"</span>] = <span class="string">"#r"</span>,
+    [<span class="string">"\27bold"</span>] = <span class="string">"#b"</span>,
+    [<span class="string">"\27boldoff"</span>] = <span class="string">"#/b"</span>,
+    [<span class="string">"\27italics"</span>] = <span class="string">"#i"</span>,
+    [<span class="string">"\27italicsoff"</span>] = <span class="string">"#/i"</span>,
+    [<span class="string">"\27underline"</span>] = <span class="string">"#u"</span>,
+    [<span class="string">"\27underlineoff"</span>] = <span class="string">"#/u"</span>,
+    [<span class="string">"\27strikethrough"</span>] = <span class="string">"#s"</span>,
+    [<span class="string">"\27strikethroughoff"</span>] = <span class="string">"#/s"</span>,
+    [<span class="string">"\27overline"</span>] = <span class="string">"#o"</span>,
+    [<span class="string">"\27overlineoff"</span>] = <span class="string">"#/o"</span>,
+  }
+}
+
+<span class="keyword">local</span> echoPatterns = _Echos.Patterns
+<span class="keyword">local</span> echoProcess = _Echos.Process
+
+<span class="keyword">function</span> DemonTools.<span class="function-name">toHTML</span>(t, reset)
+  reset = reset <span class="keyword">or</span> {
+    background = { <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span> },
+    bold = <span class="keyword">false</span>,
+    foreground = { <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span> },
+    italic = <span class="keyword">false</span>,
+    overline = <span class="keyword">false</span>,
+    reverse = <span class="keyword">false</span>,
+    strikeout = <span class="keyword">false</span>,
+    underline = <span class="keyword">false</span>
+  }
+  <span class="keyword">local</span> format = <span class="global">table</span>.<span class="function-name">deepcopy</span>(reset)
+  <span class="keyword">local</span> result = <span class="function-name">getHTMLformat</span>(format)
+  <span class="keyword">for</span> _,v <span class="keyword">in</span> <span class="global">ipairs</span>(t) <span class="keyword">do</span>
+    <span class="keyword">local</span> formatChanged = <span class="keyword">false</span>
+    <span class="keyword">if</span> <span class="global">type</span>(v) == <span class="string">"table"</span> <span class="keyword">then</span>
+      <span class="keyword">if</span> v.fg <span class="keyword">then</span>
+        format.foreground = {v.fg[<span class="number">1</span>], v.fg[<span class="number">2</span>], v.fg[<span class="number">3</span>]}
+        formatChanged = <span class="keyword">true</span>
+      <span class="keyword">end</span>
+      <span class="keyword">if</span> v.bg <span class="keyword">then</span>
+        format.background = {v.bg[<span class="number">1</span>], v.bg[<span class="number">2</span>], v.bg[<span class="number">3</span>]}
+        formatChanged = <span class="keyword">true</span>
+      <span class="keyword">end</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27bold"</span> <span class="keyword">then</span>
+      format.bold = <span class="keyword">true</span>
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27boldoff"</span> <span class="keyword">then</span>
+      format.bold = <span class="keyword">false</span>
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27italics"</span> <span class="keyword">then</span>
+      format.italic = <span class="keyword">true</span>
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27italicsoff"</span> <span class="keyword">then</span>
+      format.italic = <span class="keyword">false</span>
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27underline"</span> <span class="keyword">then</span>
+      format.underline = <span class="keyword">true</span>
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27underlineoff"</span> <span class="keyword">then</span>
+      format.underline = <span class="keyword">false</span>
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27strikethrough"</span> <span class="keyword">then</span>
+      format.strikeout = <span class="keyword">true</span>
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27strikethroughoff"</span> <span class="keyword">then</span>
+      format.strikeout = <span class="keyword">false</span>
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27overline"</span> <span class="keyword">then</span>
+      format.overline = <span class="keyword">true</span>
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27overlineoff"</span> <span class="keyword">then</span>
+      format.overline = <span class="keyword">false</span>
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">elseif</span> v == <span class="string">"\27reset"</span> <span class="keyword">then</span>
+      format = <span class="global">table</span>.<span class="function-name">deepcopy</span>(reset)
+      formatChanged = <span class="keyword">true</span>
+    <span class="keyword">end</span>
+    v = formatChanged <span class="keyword">and</span> <span class="function-name">getHTMLformat</span>(format) <span class="keyword">or</span> v
+    result = result .. v
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">toEcho</span>(colorType, colors)
+  colorType = colorType:<span class="function-name">lower</span>()
+  <span class="keyword">local</span> result
+  <span class="keyword">if</span> colorType == <span class="string">"hex"</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> fg,bg = <span class="string">""</span>, <span class="string">""</span>
+    <span class="keyword">if</span> colors.fg <span class="keyword">then</span>
+      fg = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%02x%02x%02x"</span>, <span class="global">unpack</span>(colors.fg))
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> colors.bg <span class="keyword">then</span>
+      bg = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">",%02x%02x%02x"</span>, <span class="global">unpack</span>(colors.bg))
+    <span class="keyword">end</span>
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"#%s%s"</span>, fg, bg)
+  <span class="keyword">elseif</span> colorType == <span class="string">"color"</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> fg,bg = <span class="string">""</span>,<span class="string">""</span>
+    <span class="keyword">if</span> colors.fg <span class="keyword">then</span>
+      fg = <span class="function-name">closestColor</span>(colors.fg)
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> colors.bg <span class="keyword">then</span>
+      bg = <span class="string">":"</span> .. <span class="function-name">closestColor</span>(colors.bg[<span class="number">1</span>], colors.bg[<span class="number">2</span>], colors.bg[<span class="number">3</span>])
+    <span class="keyword">end</span>
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"&lt;%s%s&gt;"</span>, fg, bg)
+  <span class="keyword">elseif</span> colorType == <span class="string">"decimal"</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> fg,bg = <span class="string">""</span>, <span class="string">""</span>
+    <span class="keyword">if</span> colors.fg <span class="keyword">then</span>
+      fg = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%d,%d,%d"</span>, <span class="global">unpack</span>(colors.fg))
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> colors.bg <span class="keyword">then</span>
+      bg = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">":%d,%d,%d"</span>, <span class="global">unpack</span>(colors.bg))
+    <span class="keyword">end</span>
+    result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"&lt;%s%s&gt;"</span>, fg, bg)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> DemonTools.<span class="function-name">echoConverter</span>(str, from, to, resetFormat)
+  <span class="keyword">local</span> strType, fromType, toType, resetType = <span class="global">type</span>(str), <span class="global">type</span>(from), <span class="global">type</span>(to), <span class="global">type</span>(resetFormat)
+  <span class="keyword">local</span> errTemplate = <span class="string">"bad argument #{argNum} type ({argName} as string expected, got {argType})"</span>
+  <span class="keyword">local</span> argNum, argName, argType
+  <span class="keyword">local</span> err = <span class="keyword">false</span>
+  <span class="keyword">if</span> strType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    argNum = <span class="number">1</span>
+    argName = <span class="string">"str"</span>
+    argType = strType
+    err = <span class="keyword">true</span>
+  <span class="keyword">elseif</span> fromType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    argNum = <span class="number">2</span>
+    argName = <span class="string">"from"</span>
+    argType = fromType
+    err = <span class="keyword">true</span>
+  <span class="keyword">elseif</span> toType ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    argNum = <span class="number">3</span>
+    argName = <span class="string">"to"</span>
+    argType = toType
+    err = <span class="keyword">true</span>
+  <span class="keyword">elseif</span> resetFormat <span class="keyword">and</span> resetType ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    argType = resetType
+    errTemplate = <span class="string">"bad argument #4 type (optional resetFormat as table of formatting options expected, got {argType})"</span>
+    err = <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> err <span class="keyword">then</span>
+    <span class="function-name">printError</span>(<span class="function-name">f</span>(errTemplate), <span class="keyword">true</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+  from = from:<span class="function-name">title</span>()
+  <span class="keyword">local</span> t = <span class="function-name">echoProcess</span>(str, from)
+  <span class="keyword">if</span> <span class="keyword">not</span> echoPatterns[from] <span class="keyword">then</span>
+    <span class="keyword">local</span> msg = <span class="string">"argument #4 (from) must be a valid echo type. Valid types are: "</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(<span class="global">table</span>.<span class="function-name">keys</span>(echoPatterns), <span class="string">","</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> processed = <span class="function-name">echoProcess</span>(str, from)
+  <span class="keyword">if</span> to:<span class="function-name">lower</span>() == <span class="string">"html"</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> DemonTools.<span class="function-name">toHTML</span>(processed, resetFormat)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> outputs = echoOutputs[to]
+  <span class="keyword">if</span> <span class="keyword">not</span> outputs <span class="keyword">then</span>
+    <span class="keyword">local</span> msg = <span class="string">"argument #3 (to) must be a valid echo type. Valid types are: "</span> .. <span class="global">table</span>.<span class="function-name">concat</span>(<span class="global">table</span>.<span class="function-name">keys</span>(echoOutputs), <span class="string">","</span>)
+    <span class="function-name">printError</span>(msg, <span class="keyword">true</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> result = <span class="string">""</span>
+  <span class="keyword">for</span> _, token <span class="keyword">in</span> <span class="global">ipairs</span>(processed) <span class="keyword">do</span>
+    <span class="keyword">local</span> formatter = outputs[token]
+    <span class="keyword">if</span> formatter <span class="keyword">and</span> token:<span class="function-name">find</span>(<span class="string">"\27"</span>) <span class="keyword">then</span>
+      result = result .. formatter
+    <span class="keyword">elseif</span> <span class="global">type</span>(token) == <span class="string">"table"</span> <span class="keyword">then</span>
+      result = result .. <span class="function-name">toEcho</span>(to, token)
+    <span class="keyword">else</span>
+      result = result .. token
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="keyword">return</span> DemonTools</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

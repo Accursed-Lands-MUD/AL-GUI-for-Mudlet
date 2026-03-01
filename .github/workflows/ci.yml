@@ -1,25 +1,25 @@
-name: Build project using muddler and upload artifact                                                                               
-                                                                                                                                      
-  on:
-    push:                                                                                                                             
-      branches: [ main ]                 
-    pull_request:                                                                                                                     
-      branches: [ main ]                 
+name: Build project using muddler and upload artifact
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-      steps:
-        - uses: actions/checkout@v4
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-        - name: Muddle
-          uses: demonnic/build-with-muddler@main
-          with:
-            workingDir: ${{ github.workspace }}/alui
+    steps:
+      - uses: actions/checkout@v4
 
-        - name: Upload Artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: alui.mpackage
-            path: alui/build/alui.mpackage
+      - name: Muddle
+        uses: demonnic/build-with-muddler@main
+        with:
+          workingDir: ${{ github.workspace }}/alui
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: alui.mpackage
+          path: alui/build/alui.mpackage

@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><strong>chyron.lua</strong></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>chyron.lua</h2>
+<pre>
+<span class="comment">--- Creates a label with a scrolling text element. It is highly recommended you use a monospace font for this label.
+</span><span class="comment">-- @classmod Chyron
+</span><span class="comment">-- @author Delra
+</span><span class="comment">-- @copyright 2019
+</span><span class="comment">-- @author Damian Monogue
+</span><span class="comment">-- @copyright 2020
+</span><span class="keyword">local</span> Chyron = {
+  name = <span class="string">"ChyronClass"</span>,
+  text = <span class="string">""</span>,
+  displayWidth = <span class="number">28</span>,
+  updateTime = <span class="number">200</span>,
+  font = <span class="string">"Bitstream Vera Sans Mono"</span>,
+  fontSize = <span class="string">"9"</span>,
+  autoWidth = <span class="keyword">true</span>,
+  delimiter = <span class="string">"|"</span>,
+  pos = <span class="number">1</span>,
+  enabled = <span class="keyword">true</span>,
+  alignment = <span class="string">"center"</span>,
+}
+
+<span class="comment">--- Creates a new Chyron label
+</span><span class="comment">-- @tparam table cons table of constraints which configures the EMCO.
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;text&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;The text to scroll on the label&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;""&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;updateTime&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Milliseconds between movements (one letter shift)&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;200&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;displayWidth&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;How many chars wide to display the text&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;28&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;delimiter&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;This character will be inserted with a space either side to mark the stop/start of the message&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"|"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;enabled&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Should the chyron scroll?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;font&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;What font to use for the Chyron? Available in Geyser.Label but we define a default.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;"Bitstream Vera Sans Mono"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;fontSize&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What font size to use for the Chyron? Available in Geyser.Label but we define a default.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;9&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;autoWidth&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Should the Chyron resize to just fit the text?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;alignment&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;What alignment(left/right/center) to use for the Chyron text? Available in Geyser.Label but we define a default.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"center"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/tbody&gt;
+</span><span class="comment">-- &lt;/table&gt;
+</span><a id="80"></a><span class="comment">-- @tparam GeyserObject container The container to use as the parent for the Chyron
+</span><span class="keyword">function</span> Chyron:<span class="function-name">new</span>(cons, container)
+  cons = cons <span class="keyword">or</span> {}
+  cons.<span class="global">type</span> = cons.<span class="global">type</span> <span class="keyword">or</span> <span class="string">"Chyron"</span>
+  <span class="keyword">local</span> me = self.parent:<span class="function-name">new</span>(cons, container)
+  <span class="global">setmetatable</span>(me, self)
+  self.__index = self
+  me.pos = <span class="number">0</span>
+  me:<span class="function-name">setDisplayWidth</span>(me.displayWidth)
+  me:<span class="function-name">setMessage</span>(me.text)
+  <span class="keyword">if</span> me.enabled <span class="keyword">then</span>
+    me:<span class="function-name">start</span>()
+  <span class="keyword">else</span>
+    me:<span class="function-name">stop</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the numver of characters of the text to display at once
+</span><a id="99"></a><span class="comment">-- @tparam number displayWidth number of characters to show at once
+</span><span class="keyword">function</span> Chyron:<span class="function-name">setDisplayWidth</span>(displayWidth)
+  displayWidth = displayWidth <span class="keyword">or</span> self.displayWidth
+  self.displayWidth = displayWidth
+  <span class="keyword">if</span> self.autoWidth <span class="keyword">then</span>
+    <span class="keyword">local</span> width = <span class="function-name">calcFontSize</span>(self.fontSize, self.font)
+    self:<span class="function-name">resize</span>(width * (displayWidth + <span class="number">2</span>), self.height)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> self.enabled <span class="keyword">then</span>
+    self.pos = self.pos - <span class="number">1</span>
+    self:<span class="function-name">doScroll</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Override setFontSize to call setDisplayWidth in order to resize if necessary
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> Chyron:<span class="function-name">setFontSize</span>(fontSize)
+  Geyser.Label.<span class="function-name">setFontSize</span>(self, fontSize)
+  self:<span class="function-name">setDisplayWidth</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Override setFont to call setDisplayWidth in order to resize if necessary
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> Chyron:<span class="function-name">setFont</span>(font)
+  Geyser.Label.<span class="function-name">setFont</span>(self, font)
+  self:<span class="function-name">setDisplayWidth</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns the proper section of text
+</span><span class="comment">-- @local
+</span><span class="comment">-- @param start number the character to start at
+</span><span class="comment">-- @param length number the length of the text you want to extract
+</span><span class="keyword">function</span> Chyron:<span class="function-name">scrollText</span>(start, length)
+  <span class="keyword">local</span> t = self.textTable
+  <span class="keyword">local</span> s = <span class="string">''</span>
+  <span class="keyword">local</span> e = start + length
+  <span class="keyword">for</span> i = start - <span class="number">1</span>, e - <span class="number">2</span> <span class="keyword">do</span>
+    <span class="keyword">local</span> n = (i % #t) + <span class="number">1</span>
+    s = s .. t[n]
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> s
+<span class="keyword">end</span>
+
+<span class="comment">--- scroll the text
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> Chyron:<span class="function-name">doScroll</span>()
+  self.pos = self.pos + <span class="number">1</span>
+  <span class="keyword">local</span> displayString = self:<span class="function-name">scrollText</span>(self.pos, self.displayWidth)
+  self:<span class="function-name">echo</span>(<span class="string">'&amp;lt;'</span> .. displayString .. <span class="string">'&amp;gt;'</span>)
+  self.message = self.text
+<span class="keyword">end</span>
+
+<a id="151"></a><span class="comment">--- Sets the Chyron from the first position, without changing enabled status
+</span><span class="keyword">function</span> Chyron:<span class="function-name">reset</span>()
+  self.pos = <span class="number">0</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> self.enabled <span class="keyword">then</span>
+    self:<span class="function-name">doScroll</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="159"></a><span class="comment">--- Stops the Chyron with its current display
+</span><span class="keyword">function</span> Chyron:<span class="function-name">pause</span>()
+  self.enabled = <span class="keyword">false</span>
+  <span class="keyword">if</span> self.timer <span class="keyword">then</span>
+    <span class="function-name">killTimer</span>(self.timer)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="167"></a><span class="comment">--- Start the Chyron back up from wherever it currently is
+</span><span class="keyword">function</span> Chyron:<span class="function-name">start</span>()
+  self.enabled = <span class="keyword">true</span>
+  <span class="keyword">if</span> self.timer <span class="keyword">then</span>
+    <span class="function-name">killTimer</span>(self.timer)
+  <span class="keyword">end</span>
+  self.timer = <span class="function-name">tempTimer</span>(self.updateTime / <span class="number">1000</span>, <span class="keyword">function</span>()
+    self:<span class="function-name">doScroll</span>()
+  <span class="keyword">end</span>, <span class="keyword">true</span>)
+<span class="keyword">end</span>
+
+<span class="comment">--- Change the update time for the Chyron
+</span><a id="179"></a><span class="comment">-- @param updateTime number new updateTime in milliseconds
+</span><span class="keyword">function</span> Chyron:<span class="function-name">setUpdateTime</span>(updateTime)
+  self.updateTime = updateTime <span class="keyword">or</span> self.updateTime
+  <span class="keyword">if</span> self.timer <span class="keyword">then</span>
+    <span class="function-name">killTimer</span>(self.timer)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.enabled <span class="keyword">then</span>
+    self:<span class="function-name">start</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="190"></a><span class="comment">--- Enable autoWidth adjustment
+</span><span class="keyword">function</span> Chyron:<span class="function-name">enableAutoWidth</span>()
+  self.autoWidth = <span class="keyword">true</span>
+  self:<span class="function-name">setDisplayWidth</span>()
+<span class="keyword">end</span>
+
+<a id="196"></a><span class="comment">--- Disable autoWidth adjustment
+</span><span class="keyword">function</span> Chyron:<span class="function-name">disableAutoWidth</span>()
+  self.autoWidth = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<a id="201"></a><span class="comment">--- Stop the Chyron, and reset it to the original position
+</span><span class="keyword">function</span> Chyron:<span class="function-name">stop</span>()
+  <span class="keyword">if</span> self.timer <span class="keyword">then</span>
+    <span class="function-name">killTimer</span>(self.timer)
+  <span class="keyword">end</span>
+  self.enabled = <span class="keyword">false</span>
+  self.pos = <span class="number">0</span>
+  self:<span class="function-name">doScroll</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Change the text being scrolled on the Chyron
+</span><a id="212"></a><span class="comment">-- @param message string message the text you want to have scroll on the Chyron
+</span><span class="keyword">function</span> Chyron:<span class="function-name">setMessage</span>(message)
+  self.text = message
+  self.pos = <span class="number">0</span>
+  message = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s %s "</span>, message, self.delimiter)
+  <span class="keyword">local</span> t = {}
+  <span class="keyword">for</span> i = <span class="number">1</span>, #message <span class="keyword">do</span>
+    t[i] = message:<span class="function-name">sub</span>(i, i)
+  <span class="keyword">end</span>
+  self.textTable = t
+  <span class="keyword">if</span> <span class="keyword">not</span> self.enabled <span class="keyword">then</span>
+    self:<span class="function-name">doScroll</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Change the delimiter used to show the beginning and end of the message
+</span><a id="228"></a><span class="comment">-- @param delimiter string the new delimiter to use. I recommend using one character.
+</span><span class="keyword">function</span> Chyron:<span class="function-name">setDelimiter</span>(delimiter)
+  self.delimiter = delimiter
+<span class="keyword">end</span>
+
+Chyron.parent = Geyser.Label
+<span class="global">setmetatable</span>(Chyron, Geyser.Label)
+
+<span class="keyword">return</span> Chyron</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

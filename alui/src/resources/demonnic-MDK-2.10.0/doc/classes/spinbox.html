@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><strong>spinbox</strong></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>spinbox</code></h1>
+<p>A Geyser object to create a spinbox for adjusting a number</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2023</li>
+        <li><strong>License</strong>: MIT, see https://raw.githubusercontent.com/demonnic/MDK/main/src/scripts/LICENSE.lua</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#spinbox:new">spinbox:new(cons, container)</a></td>
+	<td class="summary">Creates a new spinbox.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#spinbox:setValue">spinbox:setValue(value)</a></td>
+	<td class="summary">Used to directly set the value of the spinbox.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#spinbox:generateStyles">spinbox:generateStyles()</a></td>
+	<td class="summary">(Re)generates the stylesheets for the spinbox
+ Should not need to call but if you change something and it doesn't take effect
+ you can try calling this followed by applyStyles</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#spinbox:applyStyles">spinbox:applyStyles()</a></td>
+	<td class="summary">Applies updated stylesheets to the components of the spinbox
+ Should not need to call this directly</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#spinbox:setActiveButtonColor">spinbox:setActiveButtonColor(color)</a></td>
+	<td class="summary">sets the color for active buttons on the spinbox</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#spinbox:setInactiveButtonColor">spinbox:setInactiveButtonColor(color)</a></td>
+	<td class="summary">sets the color for inactive buttons on the spinbox</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#spinbox:setCallBack">spinbox:setCallBack(func)</a></td>
+	<td class="summary">Set a callback function for the spinbox to call any time the value of the spinbox is changed
+ the function will be called as func(self.value, self.name)</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "spinbox:new"></a>
+    <strong>spinbox:new(cons, container)</strong>
+    <a style="float:right;" href="../source/spinbox.lua.html#89">line 89</a>
+    </dt>
+    <dd>
+    Creates a new spinbox.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">cons</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         a table containing the options for this spinbox.
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">min</td>
+     <td class="tg-1">The minimum value for this spinbox</td>
+     <td class="tg-1">0</td>
+   </tr>
+   <tr>
+     <td class="tg-2">max</td>
+     <td class="tg-2">The maximum value for this spinbox</td>
+     <td class="tg-2">10</td>
+   </tr>
+   <tr>
+     <td class="tg-1">activeButtonColor</td>
+     <td class="tg-1">The color the up/down buttons should be when they are active/able to be used</td>
+     <td class="tg-1">gray</td>
+   </tr>
+   <tr>
+     <td class="tg-2">inactiveButtonColor</td>
+     <td class="tg-2">The color the up/down buttons should be when they are inactive/unable to be used</td>
+     <td class="tg-2">dimgray</td>
+   </tr>
+   <tr>
+     <td class="tg-1">integer</td>
+     <td class="tg-1">Boolean value. When true, values must always be integers (no decimal place)</td>
+     <td class="tg-1">true</td>
+   </tr>
+   <tr>
+     <td class="tg-2">delta</td>
+     <td class="tg-2">The amount to change the spinbox's value when the up or down button is pressed.</td>
+     <td class="tg-2">1</td>
+   </tr>
+   <tr>
+     <td class="tg-1">upArrowLocation</td>
+     <td class="tg-1">The location of the up arrow image. Either a web URL where it can be downloaded, or the location on disk to read it from</td>
+     <td class="tg-1">https://demonnic.github.io/image-assets/uparrow.png</td>
+   </tr>
+   <tr>
+     <td class="tg-2">downArrowLocation</td>
+     <td class="tg-2">The location of the down arrow image. Either a web URL where it can be downloaded, or the location on disk to read it from</td>
+     <td class="tg-2">https://demonnic.github.io/image-assets/downarrow.png</td>
+   <tr>
+     <td class="tg-1">callBack</td>
+     <td class="tg-1">The function to run when the spinbox's value is updated. Is called with parameters (self.name, value, oldValue)</td>
+     <td class="tg-1">nil</td>
+   </tr>
+   </tr>
+</tbody>
+</table>
+        </li>
+        <li><span class="parameter">container</span>
+         The Geyser container for this spinbox
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "spinbox:setValue"></a>
+    <strong>spinbox:setValue(value)</strong>
+    <a style="float:right;" href="../source/spinbox.lua.html#270">line 270</a>
+    </dt>
+    <dd>
+    Used to directly set the value of the spinbox.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+         The new value to set
+ Rounds the value to an integer if the spinbox is integer only.
+ Checks if the new value is within the min/max range and clamps it if not.
+ Updates the display label with the new value.
+ Applies any styles that depend on the value.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "spinbox:generateStyles"></a>
+    <strong>spinbox:generateStyles()</strong>
+    <a style="float:right;" href="../source/spinbox.lua.html#387">line 387</a>
+    </dt>
+    <dd>
+    (Re)generates the stylesheets for the spinbox
+ Should not need to call but if you change something and it doesn't take effect
+ you can try calling this followed by applyStyles
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "spinbox:applyStyles"></a>
+    <strong>spinbox:applyStyles()</strong>
+    <a style="float:right;" href="../source/spinbox.lua.html#412">line 412</a>
+    </dt>
+    <dd>
+    Applies updated stylesheets to the components of the spinbox
+ Should not need to call this directly
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "spinbox:setActiveButtonColor"></a>
+    <strong>spinbox:setActiveButtonColor(color)</strong>
+    <a style="float:right;" href="../source/spinbox.lua.html#430">line 430</a>
+    </dt>
+    <dd>
+    sets the color for active buttons on the spinbox
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         any valid color formatting string, such a "red" or "#880000" or "<128,0,0>" or a table of colors, like {128, 0,0}. See Geyser.Color.parse at https://www.mudlet.org/geyser/files/geyser/GeyserColor.html#Geyser.Color.parse
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "spinbox:setInactiveButtonColor"></a>
+    <strong>spinbox:setInactiveButtonColor(color)</strong>
+    <a style="float:right;" href="../source/spinbox.lua.html#445">line 445</a>
+    </dt>
+    <dd>
+    sets the color for inactive buttons on the spinbox
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         any valid color formatting string, such a "<red>" or "red" or "<128,0,0>" or a table of colors, like {128, 0,0}. See Geyser.Color.parse at https://www.mudlet.org/geyser/files/geyser/GeyserColor.html#Geyser.Color.parse
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "spinbox:setCallBack"></a>
+    <strong>spinbox:setCallBack(func)</strong>
+    <a style="float:right;" href="../source/spinbox.lua.html#472">line 472</a>
+    </dt>
+    <dd>
+    Set a callback function for the spinbox to call any time the value of the spinbox is changed
+ the function will be called as func(self.value, self.name)
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">func</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

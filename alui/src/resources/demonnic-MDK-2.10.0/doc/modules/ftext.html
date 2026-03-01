@@ -1,0 +1,1780 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Class_ftext_TextFormatter">Class ftext.TextFormatter </a></li>
+<li><a href="#Class_ftext_TableMaker">Class ftext.TableMaker </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><strong>ftext</strong></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>ftext</code></h1>
+<p>ftext
+ functions to format and print text, and the objects which use them</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2020 Damian Monogue,2021 Damian Monogue,2022 Damian Monogue</li>
+        <li><strong>License</strong>: MIT, see LICENSE.lua</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#wordWrap">wordWrap(str, limit)</a></td>
+	<td class="summary">Performs wordwrapping on a string, given a length limit.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xwrap">xwrap(text, limit, type)</a></td>
+	<td class="summary">Performs wordwrapping on a string, while ignoring color tags of a given type.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#fText">fText(str, opts)</a></td>
+	<td class="summary">The main course, this function returns a formatted string, based on a table of options</td>
+	</tr>
+</table>
+<h2><a href="#Class_ftext_TextFormatter">Class ftext.TextFormatter </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setType">TextFormatter:setType(typeToSet)</a></td>
+	<td class="summary">Set's the formatting type whether it's for cecho, decho, or hecho</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setWrap">TextFormatter:setWrap(shouldWrap)</a></td>
+	<td class="summary">Sets whether or not we should do word wrapping.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setWidth">TextFormatter:setWidth(width)</a></td>
+	<td class="summary">Sets the width we should format for</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setCap">TextFormatter:setCap(cap)</a></td>
+	<td class="summary">Sets the cap for the formatter</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setCapColor">TextFormatter:setCapColor(capColor)</a></td>
+	<td class="summary">Sets the color for the format cap</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setSpacerColor">TextFormatter:setSpacerColor(spacerColor)</a></td>
+	<td class="summary">Sets the color for spacing character</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setTextColor">TextFormatter:setTextColor(textColor)</a></td>
+	<td class="summary">Sets the color for formatted text</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setSpacer">TextFormatter:setSpacer(spacer)</a></td>
+	<td class="summary">Sets the spacing character to use.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setAlignment">TextFormatter:setAlignment(alignment)</a></td>
+	<td class="summary">Set the alignment to format for</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setInside">TextFormatter:setInside(spacerInside)</a></td>
+	<td class="summary">Set whether the the spacer should go inside the the cap or outside of it</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setMirror">TextFormatter:setMirror(shouldMirror)</a></td>
+	<td class="summary">Set whether we should mirror/reverse the caps.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:setNoGap">TextFormatter:setNoGap(noGap)</a></td>
+	<td class="summary">Set whether we should remove the gap spaces between the text and spacer characters.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:enableTruncate">TextFormatter:enableTruncate()</a></td>
+	<td class="summary">Enables truncation (cutting to length).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:disableTruncate">TextFormatter:disableTruncate()</a></td>
+	<td class="summary">Disables truncation (cutting to length).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:format">TextFormatter:format(str)</a></td>
+	<td class="summary">Format a string based on the stored options</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TextFormatter:new">TextFormatter:new(options)</a></td>
+	<td class="summary">Creates and returns a new TextFormatter.</td>
+	</tr>
+</table>
+<h2><a href="#Class_ftext_TableMaker">Class ftext.TableMaker </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:getColumn">TableMaker:getColumn(position)</a></td>
+	<td class="summary">Get the TextFormatter which defines the format of a specific column</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:addColumn">TableMaker:addColumn(options, position)</a></td>
+	<td class="summary">Adds a column definition for the table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:deleteColumn">TableMaker:deleteColumn(position)</a></td>
+	<td class="summary">Deletes a column at the given position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:replaceColumn">TableMaker:replaceColumn(options, position)</a></td>
+	<td class="summary">Replaces a column at a specific position with the newly provided formatting</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:getRow">TableMaker:getRow(position)</a></td>
+	<td class="summary">Gets the row of output at a specific position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:addRow">TableMaker:addRow(columnEntries, position)</a></td>
+	<td class="summary">Adds a row of output to the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:deleteRow">TableMaker:deleteRow(position)</a></td>
+	<td class="summary">Deletes the row at the given position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:replaceRow">TableMaker:replaceRow(columnEntries, position)</a></td>
+	<td class="summary">Replaces a row of output in the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:getCell">TableMaker:getCell(row, column)</a></td>
+	<td class="summary">Get the contents and formatter for a specific cell</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setCell">TableMaker:setCell(row, column, entry)</a></td>
+	<td class="summary">Sets a specific cell's display information</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setTitle">TableMaker:setTitle(title)</a></td>
+	<td class="summary">set the title of the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setRowSeparator">TableMaker:setRowSeparator(char)</a></td>
+	<td class="summary">set the rowSeparator for the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setEdgeCharacter">TableMaker:setEdgeCharacter(char)</a></td>
+	<td class="summary">set the edgeCharacter for the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setFootCharacter">TableMaker:setFootCharacter(char)</a></td>
+	<td class="summary">set the foot character for the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setHeadCharacter">TableMaker:setHeadCharacter(char)</a></td>
+	<td class="summary">set the head character for the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setSeparator">TableMaker:setSeparator(char)</a></td>
+	<td class="summary">set the column separator character for the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setTitleColor">TableMaker:setTitleColor(color)</a></td>
+	<td class="summary">set the title color for the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setSeparatorColor">TableMaker:setSeparatorColor(color)</a></td>
+	<td class="summary">set the title color for the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setFrameColor">TableMaker:setFrameColor(color)</a></td>
+	<td class="summary">set the title color for the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:enableForceHeaderSeparator">TableMaker:enableForceHeaderSeparator()</a></td>
+	<td class="summary">Force a separator between the header and first row, even if the row separator is disabled for the overall table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:disableForceHeaderSeparator">TableMaker:disableForceHeaderSeparator()</a></td>
+	<td class="summary">Do not force a separator between the header and first row, even if the row separator is disabled for the overall table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:enableHeaderTitle">TableMaker:enableHeaderTitle()</a></td>
+	<td class="summary">Enable using the title separator for the column headers as well</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:disableHeaderTitle">TableMaker:disableHeaderTitle()</a></td>
+	<td class="summary">Disable using the title separator for the column headers as well</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:enablePrintTitle">TableMaker:enablePrintTitle()</a></td>
+	<td class="summary">enable printing the title of the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:disablePrintTitle">TableMaker:disablePrintTitle()</a></td>
+	<td class="summary">disable printing the title of the table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:enablePrintHeaders">TableMaker:enablePrintHeaders()</a></td>
+	<td class="summary">enable printing of the column headers</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:disablePrintHeaders">TableMaker:disablePrintHeaders()</a></td>
+	<td class="summary">disable printing of the column headers</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:enableRowSeparator">TableMaker:enableRowSeparator()</a></td>
+	<td class="summary">enable printing the separator line between rows</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:disableRowSeparator">TableMaker:disableRowSeparator()</a></td>
+	<td class="summary">enable printing the separator line between rows</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:enablePopups">TableMaker:enablePopups()</a></td>
+	<td class="summary">enables making cells which incorporate insertLink/insertPopup</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:enableAutoEcho">TableMaker:enableAutoEcho()</a></td>
+	<td class="summary">enables autoEcho so that when assemble is called it echos automatically</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:disableAutoEcho">TableMaker:disableAutoEcho()</a></td>
+	<td class="summary">disables autoecho.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:enableAutoClear">TableMaker:enableAutoClear()</a></td>
+	<td class="summary">Enables automatically clearing the miniconsole we echo to</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:disableAutoClear">TableMaker:disableAutoClear()</a></td>
+	<td class="summary">Disables automatically clearing the miniconsole we echo to</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:setAutoEchoConsole">TableMaker:setAutoEchoConsole(console)</a></td>
+	<td class="summary">Set the miniconsole to echo to</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:assemble">TableMaker:assemble()</a></td>
+	<td class="summary">Assemble the table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#TableMaker:new">TableMaker:new(options)</a></td>
+	<td class="summary">Creates and returns a new TableMaker.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "wordWrap"></a>
+    <strong>wordWrap(str, limit)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#17">line 17</a>
+    </dt>
+    <dd>
+    Performs wordwrapping on a string, given a length limit.  Does not understand colour tags and will count them as characters in the string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string to wordwrap
+        </li>
+        <li><span class="parameter">limit</span>
+            <span class="types"><span class="type">number</span></span>
+         the line length to wrap at
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xwrap"></a>
+    <strong>xwrap(text, limit, type)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#36">line 36</a>
+    </dt>
+    <dd>
+    Performs wordwrapping on a string, while ignoring color tags of a given type.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string you are wordwrapping
+        </li>
+        <li><span class="parameter">limit</span>
+            <span class="types"><span class="type">number</span></span>
+         the line length to wrap at
+        </li>
+        <li><span class="parameter">type</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         What type of color codes to ignore. 'c' for cecho, 'd' for decho, 'h' for hecho, and anything else or nil to pass the string on to wordWrap
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "fText"></a>
+    <strong>fText(str, opts)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#203">line 203</a>
+    </dt>
+    <dd>
+    The main course, this function returns a formatted string, based on a table of options
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string to format
+        </li>
+        <li><span class="parameter">opts</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the table of options which control the formatting
+ <br><br>Table of options
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">wrap</td>
+     <td class="tg-1">Should it wordwrap to multiple lines?</td>
+     <td class="tg-1">true</td>
+   </tr>
+   <tr>
+     <td class="tg-2">formatType</td>
+     <td class="tg-2">Determines how it formats for color. 'c' for cecho, 'd' for decho, 'h' for hecho, and anything else for no colors</td>
+     <td class="tg-2">""</td>
+   </tr>
+   <tr>
+     <td class="tg-1">width</td>
+     <td class="tg-1">How wide should we format the text?</td>
+     <td class="tg-1">80</td>
+   </tr>
+   <tr>
+     <td class="tg-2">cap</td>
+     <td class="tg-2">what characters to use for the endcap.</td>
+     <td class="tg-2">""</td>
+   </tr>
+   <tr>
+     <td class="tg-1">capColor</td>
+     <td class="tg-1">what color to make the endcap?</td>
+     <td class="tg-1">the correct 'white' for your formatType</td>
+   </tr>
+   <tr>
+     <td class="tg-2">spacer</td>
+     <td class="tg-2">What character to use for empty space. Must be a single character</td>
+     <td class="tg-2">" "</td>
+   </tr>
+   <tr>
+     <td class="tg-1">spacerColor</td>
+     <td class="tg-1">what color should the spacer be?</td>
+     <td class="tg-1">the correct 'white' for your formatType</td>
+   </tr>
+   <tr>
+     <td class="tg-2">textColor</td>
+     <td class="tg-2">what color should the text itself be?</td>
+     <td class="tg-2">the correct 'white' for your formatType</td>
+   </tr>
+   <tr>
+     <td class="tg-1">alignment</td>
+     <td class="tg-1">How should the text be aligned within the width. "center", "left", or "right"</td>
+     <td class="tg-1">"center"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">nogap</td>
+     <td class="tg-2">Should we put a literal space between the spacer character and the text?</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">inside</td>
+     <td class="tg-1">Put the spacers inside the caps?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">mirror</td>
+     <td class="tg-2">Should the endcap be reversed on the right? IE [[ becomes ]]</td>
+     <td class="tg-2">true</td>
+   </tr>
+     <td class="tg-1">truncate</td>
+     <td class="tg-1">Cut the string to width. Is superceded by wrap being true.</td>
+     <td class="tg-1">false</td>
+   </tr>
+ </tbody>
+ </table>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Class_ftext_TextFormatter"></a>Class ftext.TextFormatter </h2>
+
+          <div class="section-description">
+          Stand alone text formatter object.  Remembers the options you set and can be adjusted as needed
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "TextFormatter:setType"></a>
+    <strong>TextFormatter:setType(typeToSet)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#512">line 512</a>
+    </dt>
+    <dd>
+    Set's the formatting type whether it's for cecho, decho, or hecho
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">typeToSet</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         What type of formatter is this? Valid options are { 'd', 'dec', 'decimal', 'h', 'hex', 'hexidecimal', 'c', 'color', 'colour', 'col', 'name'}
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setWrap"></a>
+    <strong>TextFormatter:setWrap(shouldWrap)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#546">line 546</a>
+    </dt>
+    <dd>
+    Sets whether or not we should do word wrapping.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">shouldWrap</span>
+            <span class="types"><span class="type">boolean</span></span>
+         should we do wordwrapping?
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setWidth"></a>
+    <strong>TextFormatter:setWidth(width)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#558">line 558</a>
+    </dt>
+    <dd>
+    Sets the width we should format for
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">width</span>
+            <span class="types"><span class="type">number</span></span>
+         the width we should format for
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setCap"></a>
+    <strong>TextFormatter:setCap(cap)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#571">line 571</a>
+    </dt>
+    <dd>
+    Sets the cap for the formatter
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">cap</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string to use for capping the formatted string.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setCapColor"></a>
+    <strong>TextFormatter:setCapColor(capColor)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#582">line 582</a>
+    </dt>
+    <dd>
+    Sets the color for the format cap
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">capColor</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Color which can be formatted via Geyser.Color.parse()
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setSpacerColor"></a>
+    <strong>TextFormatter:setSpacerColor(spacerColor)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#593">line 593</a>
+    </dt>
+    <dd>
+    Sets the color for spacing character
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">spacerColor</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Color which can be formatted via Geyser.Color.parse()
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setTextColor"></a>
+    <strong>TextFormatter:setTextColor(textColor)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#604">line 604</a>
+    </dt>
+    <dd>
+    Sets the color for formatted text
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">textColor</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Color which can be formatted via Geyser.Color.parse()
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setSpacer"></a>
+    <strong>TextFormatter:setSpacer(spacer)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#615">line 615</a>
+    </dt>
+    <dd>
+    Sets the spacing character to use.  Should be a single character
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">spacer</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the character to use for spacing
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setAlignment"></a>
+    <strong>TextFormatter:setAlignment(alignment)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#626">line 626</a>
+    </dt>
+    <dd>
+    Set the alignment to format for
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">alignment</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         How to align the formatted string. Valid options are 'left', 'right', or 'center'
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setInside"></a>
+    <strong>TextFormatter:setInside(spacerInside)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#637">line 637</a>
+    </dt>
+    <dd>
+    Set whether the the spacer should go inside the the cap or outside of it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">spacerInside</span>
+            <span class="types"><span class="type">boolean</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setMirror"></a>
+    <strong>TextFormatter:setMirror(shouldMirror)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#648">line 648</a>
+    </dt>
+    <dd>
+    Set whether we should mirror/reverse the caps.  IE << becomes >> if set to true
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">shouldMirror</span>
+            <span class="types"><span class="type">boolean</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:setNoGap"></a>
+    <strong>TextFormatter:setNoGap(noGap)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#659">line 659</a>
+    </dt>
+    <dd>
+    Set whether we should remove the gap spaces between the text and spacer characters.  "===some text===" if set to true, "== some text ==" if set to false
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">noGap</span>
+            <span class="types"><span class="type">boolean</span></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:enableTruncate"></a>
+    <strong>TextFormatter:enableTruncate()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#669">line 669</a>
+    </dt>
+    <dd>
+    Enables truncation (cutting to length).  You still need to ensure wrap is disabled, as it supercedes.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:disableTruncate"></a>
+    <strong>TextFormatter:disableTruncate()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#674">line 674</a>
+    </dt>
+    <dd>
+    Disables truncation (cutting to length).  You still need to ensure wrap is enabled if you want it to wrap.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:format"></a>
+    <strong>TextFormatter:format(str)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#680">line 680</a>
+    </dt>
+    <dd>
+    Format a string based on the stored options
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The string to format
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TextFormatter:new"></a>
+    <strong>TextFormatter:new(options)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#773">line 773</a>
+    </dt>
+    <dd>
+    Creates and returns a new TextFormatter.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the options for the text formatter to use when running format()
+ <br><br>Table of options
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">wrap</td>
+     <td class="tg-1">Should it wordwrap to multiple lines?</td>
+     <td class="tg-1">true</td>
+   </tr>
+   <tr>
+     <td class="tg-2">formatType</td>
+     <td class="tg-2">Determines how it formats for color. 'c' for cecho, 'd' for decho, 'h' for hecho, and anything else for no colors</td>
+     <td class="tg-2">"c"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">width</td>
+     <td class="tg-1">How wide should we format the text?</td>
+     <td class="tg-1">80</td>
+   </tr>
+   <tr>
+     <td class="tg-2">cap</td>
+     <td class="tg-2">what characters to use for the endcap.</td>
+     <td class="tg-2">""</td>
+   </tr>
+   <tr>
+     <td class="tg-1">capColor</td>
+     <td class="tg-1">what color to make the endcap?</td>
+     <td class="tg-1">the correct 'white' for your formatType</td>
+   </tr>
+   <tr>
+     <td class="tg-2">spacer</td>
+     <td class="tg-2">What character to use for empty space. Must be a single character</td>
+     <td class="tg-2">" "</td>
+   </tr>
+   <tr>
+     <td class="tg-1">spacerColor</td>
+     <td class="tg-1">what color should the spacer be?</td>
+     <td class="tg-1">the correct 'white' for your formatType</td>
+   </tr>
+   <tr>
+     <td class="tg-2">textColor</td>
+     <td class="tg-2">what color should the text itself be?</td>
+     <td class="tg-2">the correct 'white' for your formatType</td>
+   </tr>
+   <tr>
+     <td class="tg-1">alignment</td>
+     <td class="tg-1">How should the text be aligned within the width. "center", "left", or "right"</td>
+     <td class="tg-1">"center"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">nogap</td>
+     <td class="tg-2">Should we put a literal space between the spacer character and the text?</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">inside</td>
+     <td class="tg-1">Put the spacers inside the caps?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">mirror</td>
+     <td class="tg-2">Should the endcap be reversed on the right? IE [[ becomes ]]</td>
+     <td class="tg-2">true</td>
+   </tr>
+     <td class="tg-1">truncate</td>
+     <td class="tg-1">Cut the string to width. Is superceded by wrap being true.</td>
+     <td class="tg-1">false</td>
+   </tr>
+ </tbody>
+ </table>
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> TextFormatter = <span class="global">require</span>(<span class="string">"MDK.ftext"</span>).TextFormatter
+myFormatter = TextFormatter:<span class="function-name">new</span>( {
+  width = <span class="number">40</span>,
+  cap = <span class="string">"[CAP]"</span>,
+  capColor = <span class="string">"&lt;orange&gt;"</span>,
+  textColor = <span class="string">"&lt;light_blue&gt;"</span>
+})
+myMessage = <span class="string">"This is a test of the emergency broadcasting system. This is only a test"</span>
+<span class="function-name">cecho</span>(myFormatter:<span class="function-name">format</span>(myMessage))</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Class_ftext_TableMaker"></a>Class ftext.TableMaker </h2>
+
+          <div class="section-description">
+          Easy formatting for text tables
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "TableMaker:getColumn"></a>
+    <strong>TableMaker:getColumn(position)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#839">line 839</a>
+    </dt>
+    <dd>
+    Get the TextFormatter which defines the format of a specific column
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">number</span></span>
+         The position of the column you're getting, counting from the left. If not provided will return the last column.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:addColumn"></a>
+    <strong>TableMaker:addColumn(options, position)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#848">line 848</a>
+    </dt>
+    <dd>
+    Adds a column definition for the table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Table of options suitable for a TextFormatter object. See https://github.com/demonnic/fText/wiki/fText
+        </li>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">number</span></span>
+         The position of the column you're adding, counting from the left. If not provided will add it as the last column
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:deleteColumn"></a>
+    <strong>TableMaker:deleteColumn(position)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#865">line 865</a>
+    </dt>
+    <dd>
+    Deletes a column at the given position
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">number</span></span>
+         the column you wish to delete
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:replaceColumn"></a>
+    <strong>TableMaker:replaceColumn(options, position)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#882">line 882</a>
+    </dt>
+    <dd>
+    Replaces a column at a specific position with the newly provided formatting
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table of options suitable for a TextFormatter object. See https://github.com/demonnic/fText/wiki/fText
+        </li>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">number</span></span>
+         which column you are replacing, counting from the left.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:getRow"></a>
+    <strong>TableMaker:getRow(position)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#904">line 904</a>
+    </dt>
+    <dd>
+    Gets the row of output at a specific position
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">number</span></span>
+         The position of the row you want to get, coutning from the top down. If not provided defaults to the last row in the table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        table of entries in the specified row
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:addRow"></a>
+    <strong>TableMaker:addRow(columnEntries, position)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#913">line 913</a>
+    </dt>
+    <dd>
+    Adds a row of output to the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">columnEntries</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         This indexed table contains an entry for each column in the table. Entries in the table must be strings, a table of options for insertPopup or insertLink, or a function which returns one of these things
+        </li>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">number</span></span>
+         position for the row you want to add, counting from the top down. If not provided defaults to the last line in the table.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:deleteRow"></a>
+    <strong>TableMaker:deleteRow(position)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#936">line 936</a>
+    </dt>
+    <dd>
+    Deletes the row at the given position
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">number</span></span>
+         the row to delete
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:replaceRow"></a>
+    <strong>TableMaker:replaceRow(columnEntries, position)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#951">line 951</a>
+    </dt>
+    <dd>
+    Replaces a row of output in the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">columnEntries</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         This indexed table contains an entry for each column in the table. Entries in the table must be strings, a table of options for insertPopup or insertLink, or a function which returns one of these things
+        </li>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">number</span></span>
+         position for the row you want to add, counting from the top down.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:getCell"></a>
+    <strong>TableMaker:getCell(row, column)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1006">line 1006</a>
+    </dt>
+    <dd>
+    Get the contents and formatter for a specific cell
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">row</span>
+            <span class="types"><span class="type">number</span></span>
+         the row number of the cell, counted top down.
+        </li>
+        <li><span class="parameter">column</span>
+            <span class="types"><span class="type">number</span></span>
+         the column number of the cell, counted from the left.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        the base text and TextFormatter for the cell at the specific row and column number
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setCell"></a>
+    <strong>TableMaker:setCell(row, column, entry)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1038">line 1038</a>
+    </dt>
+    <dd>
+    Sets a specific cell's display information
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">row</span>
+            <span class="types"><span class="type">number</span></span>
+         the row number of the cell, counted from the top down
+        </li>
+        <li><span class="parameter">column</span>
+            <span class="types"><span class="type">number</span></span>
+         the column number of the cell, counted from the left
+        </li>
+        <li><span class="parameter">entry</span>
+         What to set the entry to. Must be a string, or a table of options for insertLink/insertPopup if allowPopups is set. Or a function which returns one of these things
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setTitle"></a>
+    <strong>TableMaker:setTitle(title)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1282">line 1282</a>
+    </dt>
+    <dd>
+    set the title of the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">title</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The title of the table.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setRowSeparator"></a>
+    <strong>TableMaker:setRowSeparator(char)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1289">line 1289</a>
+    </dt>
+    <dd>
+    set the rowSeparator for the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">char</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The row separator to use
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setEdgeCharacter"></a>
+    <strong>TableMaker:setEdgeCharacter(char)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1296">line 1296</a>
+    </dt>
+    <dd>
+    set the edgeCharacter for the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">char</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The edge character to use
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setFootCharacter"></a>
+    <strong>TableMaker:setFootCharacter(char)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1303">line 1303</a>
+    </dt>
+    <dd>
+    set the foot character for the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">char</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The foot character to use
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setHeadCharacter"></a>
+    <strong>TableMaker:setHeadCharacter(char)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1310">line 1310</a>
+    </dt>
+    <dd>
+    set the head character for the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">char</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The head character to use
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setSeparator"></a>
+    <strong>TableMaker:setSeparator(char)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1317">line 1317</a>
+    </dt>
+    <dd>
+    set the column separator character for the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">char</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The separator character to use
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setTitleColor"></a>
+    <strong>TableMaker:setTitleColor(color)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1324">line 1324</a>
+    </dt>
+    <dd>
+    set the title color for the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The title color to use. Should match the color type of the tablemaker (cecho by default)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setSeparatorColor"></a>
+    <strong>TableMaker:setSeparatorColor(color)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1331">line 1331</a>
+    </dt>
+    <dd>
+    set the title color for the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The separator color to use. Should match the color type of the tablemaker (cecho by default)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setFrameColor"></a>
+    <strong>TableMaker:setFrameColor(color)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1338">line 1338</a>
+    </dt>
+    <dd>
+    set the title color for the table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The frame color to use. Should match the color type of the tablemaker (cecho by default)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:enableForceHeaderSeparator"></a>
+    <strong>TableMaker:enableForceHeaderSeparator()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1344">line 1344</a>
+    </dt>
+    <dd>
+    Force a separator between the header and first row, even if the row separator is disabled for the overall table
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:disableForceHeaderSeparator"></a>
+    <strong>TableMaker:disableForceHeaderSeparator()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1350">line 1350</a>
+    </dt>
+    <dd>
+    Do not force a separator between the header and first row, even if the row separator is disabled for the overall table
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:enableHeaderTitle"></a>
+    <strong>TableMaker:enableHeaderTitle()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1356">line 1356</a>
+    </dt>
+    <dd>
+    Enable using the title separator for the column headers as well
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:disableHeaderTitle"></a>
+    <strong>TableMaker:disableHeaderTitle()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1362">line 1362</a>
+    </dt>
+    <dd>
+    Disable using the title separator for the column headers as well
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:enablePrintTitle"></a>
+    <strong>TableMaker:enablePrintTitle()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1368">line 1368</a>
+    </dt>
+    <dd>
+    enable printing the title of the table
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:disablePrintTitle"></a>
+    <strong>TableMaker:disablePrintTitle()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1374">line 1374</a>
+    </dt>
+    <dd>
+    disable printing the title of the table
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:enablePrintHeaders"></a>
+    <strong>TableMaker:enablePrintHeaders()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1380">line 1380</a>
+    </dt>
+    <dd>
+    enable printing of the column headers
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:disablePrintHeaders"></a>
+    <strong>TableMaker:disablePrintHeaders()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1386">line 1386</a>
+    </dt>
+    <dd>
+    disable printing of the column headers
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:enableRowSeparator"></a>
+    <strong>TableMaker:enableRowSeparator()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1392">line 1392</a>
+    </dt>
+    <dd>
+    enable printing the separator line between rows
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:disableRowSeparator"></a>
+    <strong>TableMaker:disableRowSeparator()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1398">line 1398</a>
+    </dt>
+    <dd>
+    enable printing the separator line between rows
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:enablePopups"></a>
+    <strong>TableMaker:enablePopups()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1404">line 1404</a>
+    </dt>
+    <dd>
+    enables making cells which incorporate insertLink/insertPopup
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:enableAutoEcho"></a>
+    <strong>TableMaker:enableAutoEcho()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1411">line 1411</a>
+    </dt>
+    <dd>
+    enables autoEcho so that when assemble is called it echos automatically
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:disableAutoEcho"></a>
+    <strong>TableMaker:disableAutoEcho()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1417">line 1417</a>
+    </dt>
+    <dd>
+    disables autoecho.  Cannot be used if allowPopups is set
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:enableAutoClear"></a>
+    <strong>TableMaker:enableAutoClear()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1426">line 1426</a>
+    </dt>
+    <dd>
+    Enables automatically clearing the miniconsole we echo to
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:disableAutoClear"></a>
+    <strong>TableMaker:disableAutoClear()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1432">line 1432</a>
+    </dt>
+    <dd>
+    Disables automatically clearing the miniconsole we echo to
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:setAutoEchoConsole"></a>
+    <strong>TableMaker:setAutoEchoConsole(console)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1438">line 1438</a>
+    </dt>
+    <dd>
+    Set the miniconsole to echo to
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">console</span>
+         The miniconsole to autoecho to. Set to "main" or do not pass the parameter to autoecho to the main console. Can be a string name of the console, or a Geyser MiniConsole
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:assemble"></a>
+    <strong>TableMaker:assemble()</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1455">line 1455</a>
+    </dt>
+    <dd>
+    Assemble the table.  If autoEcho is enabled/set to true, will automatically echo. Otherwise, returns the formatted string to echo the table
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "TableMaker:new"></a>
+    <strong>TableMaker:new(options)</strong>
+    <a style="float:right;" href="../source/ftext.lua.html#1619">line 1619</a>
+    </dt>
+    <dd>
+    Creates and returns a new TableMaker.
+ see https://github.com/demonnic/MDK/wiki/fText%3A-TableMaker%3A-Examples for usage
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table of options for the TableMaker object
+ <br><br>Table of new options
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">formatType</td>
+     <td class="tg-1">Determines how it formats for color. 'c' for cecho, 'd' for decho, 'h' for hecho, and anything else for no colors</td>
+     <td class="tg-1">c</td>
+   </tr>
+   <tr>
+     <td class="tg-2">printHeaders</td>
+     <td class="tg-2">print top row as header</td>
+     <td class="tg-2">true</td>
+   </tr>
+   <tr>
+     <td class="tg-1">headCharacter</td>
+     <td class="tg-1">The character used to construct the very top of the table. A solid line of these characters is used</td>
+     <td class="tg-1">"*"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">footCharacter</td>
+     <td class="tg-2">The character used to construct the very bottom of the table. A solid line of these characters is used</td>
+     <td class="tg-2">"*"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">edgeCharacter</td>
+     <td class="tg-1">the character used to form the left and right edges of the table. There is one on either side of every line</td>
+     <td class="tg-1">"*"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">frameColor</td>
+     <td class="tg-2">The color to use for the frame. The frame is the border around the outside edge of the table (headCharacter, footCharacter, and edgeCharacters will all be this color).</td>
+     <td class="tg-2">the correct 'white' for your formatType</td>
+   </tr>
+   <tr>
+     <td class="tg-1">rowSeparator</td>
+     <td class="tg-1">the character used to form the lines between rows of text</td>
+     <td class="tg-1">"-"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">separator</td>
+     <td class="tg-2">Character used between columns.</td>
+     <td class="tg-2">"|"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">separatorColor</td>
+     <td class="tg-1">the color used for the separators, the things which divide the rows and columns internally. (separator and rowSeparator will be this color)</td>
+     <td class="tg-1">frameColor</td>
+   </tr>
+   <tr>
+     <td class="tg-2">autoEcho</td>
+     <td class="tg-2">echo the table automatically in addition to returning the string representation?</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">autoEchoConsole</td>
+     <td class="tg-1">MiniConsole to autoEcho to</td>
+     <td class="tg-1">"main"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">autoClear</td>
+     <td class="tg-2">If autoEchoing, and not echoing to the main console, should we clear the console before outputting?</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">allowPopups</td>
+     <td class="tg-1">setting this to true allows you to make cells in the table clickable, as well as give them right-click menus.<br>
+                        Please see Clickable Tables <a href="https://github.com/demonnic/fText/wiki/ClickableTables">HERE</a></td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">separateRows</td>
+     <td class="tg-2">When false, will not print the separator line between rows</td>
+     <td class="tg-2">true</td>
+   </tr>
+   <tr>
+     <td class="tg-1">title</td>
+     <td class="tg-1">The overall title of the table. Displayed at the top</td>
+     <td class="tg-1">""</td>
+   </tr>
+   <tr>
+     <td class="tg-2">titleColor</td>
+     <td class="tg-2">What color to use for the title text</td>
+     <td class="tg-2">formatColor</td>
+   </tr>
+   <tr>
+     <td class="tg-1">printTitle</td>
+     <td class="tg-1">Should we print the title of the table at the very tip-top?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">headerTitle</td>
+     <td class="tg-2">Use the same separator for the column headers as the title/top, rather than the row separator</td>
+     <td class="tg-2">formatColor</td>
+   </tr>
+   <tr>
+     <td class="tg-1">forceHeaderSeparator</td>
+     <td class="tg-1">Force a separator between the column headers and the first row, even if rowSeparator is false.</td>
+     <td class="tg-1">false</td>
+   </tr>
+ </tbody>
+ </table>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

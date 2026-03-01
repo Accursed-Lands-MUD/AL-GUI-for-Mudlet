@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><strong>aliasmgr</strong></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>aliasmgr</code></h1>
+<p>Alias Manager</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2022 Damian Monogue</li>
+        <li><strong>License</strong>: MIT, see LICENSE.lua</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:new">aliasmgr:new()</a></td>
+	<td class="summary">Creates a new alias manager</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:register">aliasmgr:register(name, regex, func)</a></td>
+	<td class="summary">Registers an alias with the alias manager</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:add">aliasmgr:add(name, regex, func)</a></td>
+	<td class="summary">Registers an alias with the alias manager.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:disable">aliasmgr:disable(name)</a></td>
+	<td class="summary">Disables an alias, but does not delete it so it can be enabled later without being redefined</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:disableAll">aliasmgr:disableAll()</a></td>
+	<td class="summary">Disables all aliases registered with the manager</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:enable">aliasmgr:enable(name)</a></td>
+	<td class="summary">Enables an alias by name</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:enableAll">aliasmgr:enableAll()</a></td>
+	<td class="summary">Enables all aliases registered with the manager</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:kill">aliasmgr:kill(name)</a></td>
+	<td class="summary">Kill an alias, deleting it from the manager</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:killAll">aliasmgr:killAll()</a></td>
+	<td class="summary">Kills all aliases registered with the manager, clearing it out</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:delete">aliasmgr:delete(name)</a></td>
+	<td class="summary">Kills an alias, deleting it from the manager</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:deleteAll">aliasmgr:deleteAll()</a></td>
+	<td class="summary">Kills all aliases, deleting them from the manager</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#aliasmgr:getAliases">aliasmgr:getAliases()</a></td>
+	<td class="summary">Returns the list of aliases and the information being tracked for them</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "aliasmgr:new"></a>
+    <strong>aliasmgr:new()</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#10">line 10</a>
+    </dt>
+    <dd>
+    Creates a new alias manager
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:register"></a>
+    <strong>aliasmgr:register(name, regex, func)</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#27">line 27</a>
+    </dt>
+    <dd>
+    Registers an alias with the alias manager
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         the name for the alias
+        </li>
+        <li><span class="parameter">regex</span>
+         the regular expression the alias matches against
+        </li>
+        <li><span class="parameter">func</span>
+         The code to run when the alias matches. Can wrap code in [[ ]] or pass an actual function
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:add"></a>
+    <strong>aliasmgr:add(name, regex, func)</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#63">line 63</a>
+    </dt>
+    <dd>
+    Registers an alias with the alias manager.  Alias for register
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         the name for the alias
+        </li>
+        <li><span class="parameter">regex</span>
+         the regular expression the alias matches against
+        </li>
+        <li><span class="parameter">func</span>
+         The code to run when the alias matches. Can wrap code in [[ ]] or pass an actual function
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/aliasmgr.html#aliasmgr:register">register</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:disable"></a>
+    <strong>aliasmgr:disable(name)</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#70">line 70</a>
+    </dt>
+    <dd>
+    Disables an alias, but does not delete it so it can be enabled later without being redefined
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         the name of the alias to disable
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if the alias exists and gets disabled, false if it does not exist or is already disabled
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:disableAll"></a>
+    <strong>aliasmgr:disableAll()</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#86">line 86</a>
+    </dt>
+    <dd>
+    Disables all aliases registered with the manager
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:enable"></a>
+    <strong>aliasmgr:enable(name)</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#96">line 96</a>
+    </dt>
+    <dd>
+    Enables an alias by name
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         the name of the alias to enable
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if the alias exists and was enabled, false if it does not exist.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:enableAll"></a>
+    <strong>aliasmgr:enableAll()</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#110">line 110</a>
+    </dt>
+    <dd>
+    Enables all aliases registered with the manager
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:kill"></a>
+    <strong>aliasmgr:kill(name)</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#121">line 121</a>
+    </dt>
+    <dd>
+    Kill an alias, deleting it from the manager
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         the name of the alias to kill
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if the alias exists and gets deleted, false if the alias does not exist
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:killAll"></a>
+    <strong>aliasmgr:killAll()</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#137">line 137</a>
+    </dt>
+    <dd>
+    Kills all aliases registered with the manager, clearing it out
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:delete"></a>
+    <strong>aliasmgr:delete(name)</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#148">line 148</a>
+    </dt>
+    <dd>
+    Kills an alias, deleting it from the manager
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+         the name of the alias to delete
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if the alias exists and gets deleted, false if the alias does not exist
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/aliasmgr.html#aliasmgr:kill">kill</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:deleteAll"></a>
+    <strong>aliasmgr:deleteAll()</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#154">line 154</a>
+    </dt>
+    <dd>
+    Kills all aliases, deleting them from the manager
+
+
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/aliasmgr.html#aliasmgr:killAll">killAll</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "aliasmgr:getAliases"></a>
+    <strong>aliasmgr:getAliases()</strong>
+    <a style="float:right;" href="../source/aliasmgr.lua.html#160">line 160</a>
+    </dt>
+    <dd>
+    Returns the list of aliases and the information being tracked for them
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        the table of alias information, with names as keys and a table of information as the values.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

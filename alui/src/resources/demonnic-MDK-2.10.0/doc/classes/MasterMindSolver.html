@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><strong>MasterMindSolver</strong></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>MasterMindSolver</code></h1>
+<p>Interactive object which helps you solve a Master Mind puzzle.</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2021 Damian Monogue,2008,2009 Konstantinos Asimakis for code used to turn an index number into a guess (indexToGuess method)</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#mastermindsolver:new">mastermindsolver:new(options)</a></td>
+	<td class="summary">Creates a new Master Mind solver</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#mastermindsolver:reducePossible">mastermindsolver:reducePossible(guess, coloredPins, whitePins)</a></td>
+	<td class="summary">Function used to reduce the remaining possible answers, given a guess and the answer to that guess.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#mastermindsolver:checkLastSuggestion">mastermindsolver:checkLastSuggestion(coloredPins, whitePins)</a></td>
+	<td class="summary">Function which assumes you used the last suggested guess from the solver, and reduces the number of possible correct solutions based on the answer given</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#mastermindsolver:getValidGuess">mastermindsolver:getValidGuess(useActions)</a></td>
+	<td class="summary">Used to get one of the remaining valid possible guesses</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "mastermindsolver:new"></a>
+    <strong>mastermindsolver:new(options)</strong>
+    <a style="float:right;" href="../source/MasterMindSolver.lua.html#81">line 81</a>
+    </dt>
+    <dd>
+    Creates a new Master Mind solver
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table of configuration options for the solver
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">places</td>
+     <td class="tg-1">How many spots in the code we're breaking?</td>
+     <td class="tg-1">4</td>
+   </tr>
+   <tr>
+     <td class="tg-2">items</td>
+     <td class="tg-2">The table of colors/gemstones/whatever which can be part of the code</td>
+     <td class="tg-2">{"red", "orange", "yellow", "green", "blue", "purple"}</td>
+   </tr>
+   <tr>
+     <td class="tg-1">template</td>
+     <td class="tg-1">The string template to use for the guess. Within the template, |t is replaced by the item. Used as the command if autoSend is true</td>
+     <td class="tg-1">"|t"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">autoSend</td>
+     <td class="tg-2">Should we send the guess directly to the server?</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">allowDuplicates</td>
+     <td class="tg-1">Can the same item be used more than once in a code?</td>
+     <td class="tg-1">true</td>
+   </tr>
+   <tr>
+     <td class="tg-2">singleCommand</td>
+     <td class="tg-2">If true, combines the guess into a single command, with each one separated by the separator</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">separator</td>
+     <td class="tg-1">If sending the guess as a single command, what should we put between the guesses to separate them?</td>
+     <td class="tg-1">" "</td>
+   </tr>
+ </tbody>
+ </table>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mastermindsolver:reducePossible"></a>
+    <strong>mastermindsolver:reducePossible(guess, coloredPins, whitePins)</strong>
+    <a style="float:right;" href="../source/MasterMindSolver.lua.html#178">line 178</a>
+    </dt>
+    <dd>
+    Function used to reduce the remaining possible answers, given a guess and the answer to that guess.  This is not undoable.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">guess</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         guess which the answer belongs to. Uses numbers, rather than item names. IE { 1, 1, 2, 2} rather than { "blue", "blue", "green", "green" }
+        </li>
+        <li><span class="parameter">coloredPins</span>
+            <span class="types"><span class="type">number</span></span>
+         how many parts of the guess are both the right color and the right place
+        </li>
+        <li><span class="parameter">whitePins</span>
+            <span class="types"><span class="type">number</span></span>
+         how many parts of the guess are the right color, but in the wrong place
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if you solved the puzzle (coloredPins == number of positions in the code), or false otherwise
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mastermindsolver:checkLastSuggestion"></a>
+    <strong>mastermindsolver:checkLastSuggestion(coloredPins, whitePins)</strong>
+    <a style="float:right;" href="../source/MasterMindSolver.lua.html#202">line 202</a>
+    </dt>
+    <dd>
+    Function which assumes you used the last suggested guess from the solver, and reduces the number of possible correct solutions based on the answer given
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">coloredPins</span>
+            <span class="types"><span class="type">number</span></span>
+         how many parts of the guess are both the right color and the right place
+        </li>
+        <li><span class="parameter">whitePins</span>
+            <span class="types"><span class="type">number</span></span>
+         how many parts of the guess are the right color, but in the wrong place
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if you solved the puzzle (coloredPins == number of positions in the code), or false otherwise
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/MasterMindSolver.html#mastermindsolver:reducePossible">MasterMindSolver:reducePossible</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "mastermindsolver:getValidGuess"></a>
+    <strong>mastermindsolver:getValidGuess(useActions)</strong>
+    <a style="float:right;" href="../source/MasterMindSolver.lua.html#208">line 208</a>
+    </dt>
+    <dd>
+    Used to get one of the remaining valid possible guesses
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">useActions</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will return the guess as the commands which would be sent, rather than the numbered items
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

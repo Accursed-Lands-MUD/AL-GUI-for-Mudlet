@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><strong>mastermindsolver.lua</strong></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>mastermindsolver.lua</h2>
+<pre>
+<span class="comment">--- Interactive object which helps you solve a Master Mind puzzle.
+</span><span class="comment">-- @classmod MasterMindSolver
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2021 Damian Monogue
+</span><span class="comment">-- @copyright 2008,2009 Konstantinos Asimakis for code used to turn an index number into a guess (indexToGuess method)
+</span><span class="keyword">local</span> MasterMindSolver = {
+  places = <span class="number">4</span>,
+  items = {<span class="string">"red"</span>, <span class="string">"orange"</span>, <span class="string">"yellow"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>, <span class="string">"purple"</span>},
+  template = <span class="string">"|t"</span>,
+  autoSend = <span class="keyword">false</span>,
+  singleCommand = <span class="keyword">false</span>,
+  separator = <span class="string">" "</span>,
+  allowDuplicates = <span class="keyword">true</span>,
+}
+<span class="keyword">local</span> mod, floor, random, randomseed = <span class="global">math</span>.mod, <span class="global">math</span>.floor, <span class="global">math</span>.random, <span class="global">math</span>.randomseed
+<span class="keyword">local</span> initialGuess = {{<span class="number">1</span>}, {<span class="number">1</span>, <span class="number">2</span>}, {<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>}, {<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>}, {<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>}, {<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>}, {<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>}, {<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>}}
+
+<span class="comment">--- Removes duplicate elements from a list
+</span><span class="comment">-- @param tbl the table you want to remove dupes from
+</span><span class="comment">-- @local
+</span><span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">tableUnique</span>(tbl)
+  <span class="keyword">local</span> used = {}
+  <span class="keyword">local</span> result = {}
+  <span class="keyword">for</span> _, item <span class="keyword">in</span> <span class="global">ipairs</span>(tbl) <span class="keyword">do</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> used[item] <span class="keyword">then</span>
+      result[#result + <span class="number">1</span>] = item
+      used[item] = <span class="keyword">true</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> result
+<span class="keyword">end</span>
+
+<span class="comment">--- Creates a new Master Mind solver
+</span><span class="comment">-- @tparam table options table of configuration options for the solver
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;places&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;How many spots in the code we're breaking?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;4&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;items&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;The table of colors/gemstones/whatever which can be part of the code&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;{"red", "orange", "yellow", "green", "blue", "purple"}&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;template&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;The string template to use for the guess. Within the template, |t is replaced by the item. Used as the command if autoSend is true&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;"|t"&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;autoSend&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Should we send the guess directly to the server?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;allowDuplicates&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;Can the same item be used more than once in a code?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;singleCommand&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;If true, combines the guess into a single command, with each one separated by the separator&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;separator&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;If sending the guess as a single command, what should we put between the guesses to separate them?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;" "&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/tbody&gt;
+</span><a id="81"></a><span class="comment">-- &lt;/table&gt;
+</span><span class="keyword">function</span> MasterMindSolver:<span class="function-name">new</span>(options)
+  <span class="keyword">if</span> options == <span class="keyword">nil</span> <span class="keyword">then</span>
+    options = {}
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> optionsType = <span class="global">type</span>(options)
+  <span class="keyword">if</span> optionsType ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="global">error</span>(<span class="function-name">f</span> <span class="string">"MasterMindSolver:new(options): options as table expected, got {tostring(options)} of type: {optionsType}"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> me = options
+  <span class="global">setmetatable</span>(me, self)
+  self.__index = self
+  me:<span class="function-name">populateInitialSet</span>()
+  <span class="keyword">if</span> <span class="keyword">not</span> me.allowDuplicates <span class="keyword">then</span>
+    me.initialGuessMade = <span class="keyword">true</span> <span class="comment">-- skip the preset initial guess, they assume duplicates
+</span>  <span class="keyword">end</span>
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes a guess number (4, or 1829, or any number from 1 - &lt;total possible combinations&gt;) and returns the
+</span><span class="comment">-- actual guess.
+</span><span class="comment">-- @tparam number index which guess to generate
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> MasterMindSolver:<span class="function-name">indexToGuess</span>(index)
+  <span class="keyword">local</span> guess = {}
+  <span class="keyword">local</span> options = #self.items
+  <span class="keyword">for</span> place = <span class="number">1</span>, self.places <span class="keyword">do</span>
+    guess[place] = <span class="function-name">mod</span>(<span class="function-name">floor</span>((index - <span class="number">1</span>) / options ^ (place - <span class="number">1</span>)), options) + <span class="number">1</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> guess
+<span class="keyword">end</span>
+
+<span class="comment">--- Compares a guess with the solution and returns the answer
+</span><span class="comment">-- @tparam table guess The guess you are checking, as numbers. { 1 , 1, 2, 2 } as an example
+</span><span class="comment">-- @tparam table solution the solution you are checking against, as numbers. { 3, 4, 1, 6 } as an example.
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> MasterMindSolver:<span class="function-name">compare</span>(guess, solution)
+  <span class="keyword">local</span> coloredPins = <span class="number">0</span>
+  <span class="keyword">local</span> whitePins = <span class="number">0</span>
+  <span class="keyword">local</span> usedGuessPlace = {}
+  <span class="keyword">local</span> usedSolutionPlace = {}
+  <span class="keyword">local</span> places = self.places
+  <span class="keyword">for</span> place = <span class="number">1</span>, places <span class="keyword">do</span>
+    <span class="keyword">if</span> guess[place] == solution[place] <span class="keyword">then</span>
+      coloredPins = coloredPins + <span class="number">1</span>
+      usedGuessPlace[place] = <span class="keyword">true</span>
+      usedSolutionPlace[place] = <span class="keyword">true</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">for</span> guessPlace = <span class="number">1</span>, places <span class="keyword">do</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> usedGuessPlace[guessPlace] <span class="keyword">then</span>
+      <span class="keyword">for</span> solutionPlace = <span class="number">1</span>, places <span class="keyword">do</span>
+        <span class="keyword">if</span> <span class="keyword">not</span> usedSolutionPlace[solutionPlace] <span class="keyword">then</span>
+          <span class="keyword">if</span> guess[guessPlace] == solution[solutionPlace] <span class="keyword">then</span>
+            whitePins = whitePins + <span class="number">1</span>
+            usedSolutionPlace[solutionPlace] = <span class="keyword">true</span>
+            <span class="keyword">break</span>
+          <span class="keyword">end</span>
+        <span class="keyword">end</span>
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> coloredPins, whitePins
+<span class="keyword">end</span>
+
+<span class="comment">--- Generates an initial table of all guesses from 1 to &lt;total possible&gt; that are valid.
+</span><span class="comment">-- If allowDuplicates is false, will filter out any of the possible combinations which contain duplicates
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> MasterMindSolver:<span class="function-name">populateInitialSet</span>()
+  <span class="keyword">local</span> possible = {}
+  <span class="keyword">local</span> allowDuplicates = self.allowDuplicates
+  <span class="keyword">local</span> places = self.places
+  <span class="keyword">local</span> numberOfItems = #self.items
+  <span class="keyword">local</span> totalCombos = numberOfItems ^ places
+  <span class="keyword">local</span> numberRemaining = <span class="number">0</span>
+  <span class="keyword">for</span> entry = <span class="number">1</span>, totalCombos <span class="keyword">do</span>
+    <span class="keyword">local</span> useItem = <span class="keyword">true</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> allowDuplicates <span class="keyword">then</span>
+      <span class="keyword">local</span> guess = self:<span class="function-name">indexToGuess</span>(entry)
+      <span class="keyword">local</span> guessUnique = <span class="function-name">tableUnique</span>(guess)
+      <span class="keyword">if</span> #guessUnique ~= self.places <span class="keyword">then</span>
+        useItem = <span class="keyword">false</span>
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> useItem <span class="keyword">then</span>
+      possible[entry] = <span class="keyword">true</span>
+      numberRemaining = numberRemaining + <span class="number">1</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  self.possible = possible
+  self.numberRemaining = numberRemaining
+<span class="keyword">end</span>
+
+<span class="comment">--- Function used to reduce the remaining possible answers, given a guess and the answer to that guess. This is not undoable.
+</span><span class="comment">-- @tparam table guess guess which the answer belongs to. Uses numbers, rather than item names. IE { 1, 1, 2, 2} rather than { "blue", "blue", "green", "green" }
+</span><span class="comment">-- @tparam number coloredPins how many parts of the guess are both the right color and the right place
+</span><span class="comment">-- @tparam number whitePins how many parts of the guess are the right color, but in the wrong place
+</span><a id="178"></a><span class="comment">-- @return true if you solved the puzzle (coloredPins == number of positions in the code), or false otherwise
+</span><span class="keyword">function</span> MasterMindSolver:<span class="function-name">reducePossible</span>(guess, coloredPins, whitePins)
+  <span class="keyword">if</span> coloredPins == #guess <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> possible = self.possible
+  <span class="keyword">local</span> numberRemaining = <span class="number">0</span>
+  <span class="keyword">for</span> entry, _ <span class="keyword">in</span> <span class="global">pairs</span>(possible) <span class="keyword">do</span>
+    <span class="keyword">local</span> testColor, testWhite = self:<span class="function-name">compare</span>(guess, self:<span class="function-name">indexToGuess</span>(entry))
+    <span class="keyword">if</span> testColor ~= coloredPins <span class="keyword">or</span> testWhite ~= whitePins <span class="keyword">then</span>
+      possible[entry] = <span class="keyword">nil</span>
+    <span class="keyword">else</span>
+      numberRemaining = numberRemaining + <span class="number">1</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  self.possible = possible
+  self.numberRemaining = numberRemaining
+  <span class="keyword">return</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Function which assumes you used the last suggested guess from the solver, and reduces the number of possible correct solutions based on the answer given
+</span><span class="comment">-- @see MasterMindSolver:reducePossible
+</span><span class="comment">-- @tparam number coloredPins how many parts of the guess are both the right color and the right place
+</span><span class="comment">-- @tparam number whitePins how many parts of the guess are the right color, but in the wrong place
+</span><a id="202"></a><span class="comment">-- @return true if you solved the puzzle (coloredPins == number of positions in the code), or false otherwise
+</span><span class="keyword">function</span> MasterMindSolver:<span class="function-name">checkLastSuggestion</span>(coloredPins, whitePins)
+  <span class="keyword">return</span> self:<span class="function-name">reducePossible</span>(self.guess, coloredPins, whitePins)
+<span class="keyword">end</span>
+
+<span class="comment">--- Used to get one of the remaining valid possible guesses
+</span><a id="208"></a><span class="comment">-- @tparam boolean useActions if true, will return the guess as the commands which would be sent, rather than the numbered items
+</span><span class="keyword">function</span> MasterMindSolver:<span class="function-name">getValidGuess</span>(useActions)
+  <span class="keyword">local</span> guess
+  <span class="keyword">if</span> <span class="keyword">not</span> self.initialGuessMade <span class="keyword">then</span>
+    self.initialGuessMade = <span class="keyword">true</span>
+    guess = initialGuess[self.places]
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> guess <span class="keyword">then</span>
+    <span class="keyword">local</span> possible = self.possible
+    <span class="keyword">local</span> keys = <span class="global">table</span>.<span class="function-name">keys</span>(possible)
+    <span class="function-name">randomseed</span>(<span class="global">os</span>.<span class="function-name">time</span>())
+    guess = self:<span class="function-name">indexToGuess</span>(keys[<span class="function-name">random</span>(#keys)])
+  <span class="keyword">end</span>
+  self.guess = guess
+  <span class="keyword">if</span> self.autoSend <span class="keyword">then</span>
+    self:<span class="function-name">sendGuess</span>(guess)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> useActions <span class="keyword">then</span>
+    <span class="keyword">return</span> self:<span class="function-name">guessToActions</span>(guess)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> guess
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes a guess and converts the numbers to commands/actions. IE guessToActions({1, 1, 2, 2}) might return { "blue", "blue", "green", "green" }
+</span><span class="comment">-- @tparam table guess the guess to convert as numbers. IE { 1, 1, 2, 2}
+</span><span class="comment">-- @return table of commands/actions correlating to the numbers in the guess.
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> MasterMindSolver:<span class="function-name">guessToActions</span>(guess)
+  <span class="keyword">local</span> actions = {}
+  <span class="keyword">for</span> index, itemNumber <span class="keyword">in</span> <span class="global">ipairs</span>(guess) <span class="keyword">do</span>
+    <span class="keyword">local</span> item = self.items[itemNumber]
+    actions[index] = self.template:<span class="function-name">gsub</span>(<span class="string">"|t"</span>, item)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> actions
+<span class="keyword">end</span>
+
+<span class="comment">--- Handles sending the commands to the game for a guess
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> MasterMindSolver:<span class="function-name">sendGuess</span>(guess)
+  <span class="keyword">local</span> actions = self:<span class="function-name">guessToActions</span>(guess)
+  <span class="keyword">if</span> self.singleCommand <span class="keyword">then</span>
+    <span class="function-name">send</span>(<span class="global">table</span>.<span class="function-name">concat</span>(actions, self.separator))
+  <span class="keyword">else</span>
+    <span class="function-name">sendAll</span>(<span class="global">unpack</span>(actions))
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">return</span> MasterMindSolver</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

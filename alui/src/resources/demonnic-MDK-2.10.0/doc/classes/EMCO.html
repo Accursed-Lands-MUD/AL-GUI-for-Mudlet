@@ -1,0 +1,3347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><strong>EMCO</strong></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>EMCO</code></h1>
+<p>Embeddable Multi Console Object.</p>
+<p>
+ This is essentially YATCO, but with some tweaks, updates, and it returns an object
+ similar to Geyser so that you can a.) have multiple of them and b.) easily embed it
+ into your existing UI as you would any other Geyser element.</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2020 Damian Monogue,2021 Damian Monogue</li>
+        <li><strong>License</strong>: MIT, see LICENSE.lua</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#emco:new">emco:new(cons, container)</a></td>
+	<td class="summary">Creates a new Embeddable Multi Console Object.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:miniConvertYATCO">emco:miniConvertYATCO()</a></td>
+	<td class="summary">Scans for the old YATCO configuration values and prints out a set of constraints to use.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:convertYATCO">emco:convertYATCO()</a></td>
+	<td class="summary">Echos to the main console a script object you can add which will fully convert YATCO to EMCO.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:display">emco:display(tabName, tabName, item[, any])</a></td>
+	<td class="summary">Display the contents of one or more variables to an EMCO tab.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:removeTab">emco:removeTab(tabName)</a></td>
+	<td class="summary">Remove a tab from the EMCO</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:addTab">emco:addTab(tabName[, position])</a></td>
+	<td class="summary">Adds a tab to the EMCO object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:switchTab">emco:switchTab(tabName)</a></td>
+	<td class="summary">Switches the active, visible tab of the EMCO to tabName</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:cycleTab">emco:cycleTab(reverse)</a></td>
+	<td class="summary">Cycles between the tabs in order</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setBufferSize">emco:setBufferSize(bufferSize, deleteLines)</a></td>
+	<td class="summary">Sets the buffer size and number of lines to delete for all managed miniconsoles.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setBackgroundImage">emco:setBackgroundImage(tabName, imagePath, mode)</a></td>
+	<td class="summary">Sets the background image for a tab's console.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:resetBackgroundImage">emco:resetBackgroundImage(tabName)</a></td>
+	<td class="summary">Resets the background image on a tab's console, returning it to the background color</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:replay">emco:replay(tabName, numLines)</a></td>
+	<td class="summary">Replays the last numLines lines from the log for tabName</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:replayAll">emco:replayAll(numLines)</a></td>
+	<td class="summary">Replays the last numLines in all miniconsoles</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:processTemplate">emco:processTemplate(str, tabName)</a></td>
+	<td class="summary">Formats the string through EMCO's template.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setPath">emco:setPath(path)</a></td>
+	<td class="summary">Sets the path for the EMCO for logging</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setFileName">emco:setFileName(fileName)</a></td>
+	<td class="summary">Sets the fileName for the EMCO for logging</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setCmdLineStyleSheet">emco:setCmdLineStyleSheet(styleSheet)</a></td>
+	<td class="summary">Sets the stylesheet for command lines in this EMCO</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableCmdLine">emco:enableCmdLine(tabName, template)</a></td>
+	<td class="summary">Enables the commandLine on the specified tab.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableAllCmdLines">emco:enableAllCmdLines()</a></td>
+	<td class="summary">Enables all command lines, using whatever template they may currently have set</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableAllCmdLines">emco:disableAllCmdLines()</a></td>
+	<td class="summary">Disables all commands line, but does not change their template</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableCmdLine">emco:disableCmdLine(tabName)</a></td>
+	<td class="summary">Disables the command line for a particular tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setCmdAction">emco:setCmdAction(tabName, template)</a></td>
+	<td class="summary">Sets the command action for a tab's command line.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:resetCmdAction">emco:resetCmdAction(tabName)</a></td>
+	<td class="summary">Resets the command action for tabName's miniconsole, which makes it work like the normal commandline</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:getCmdLine">emco:getCmdLine(tabName)</a></td>
+	<td class="summary">Gets the contents of tabName's cmdLine</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:printCmd">emco:printCmd(tabName, txt)</a></td>
+	<td class="summary">Prints to tabName's command line</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:clearCmd">emco:clearCmd(tabName)</a></td>
+	<td class="summary">Clears tabName's command line</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:appendCmd">emco:appendCmd(tabName, txt)</a></td>
+	<td class="summary">Appends text to tabName's command line</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:reset">emco:reset()</a></td>
+	<td class="summary">resets the object, redrawing everything</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:fuzzyBoolean">emco:fuzzyBoolean(bool)</a></td>
+	<td class="summary">Expands boolean definitions to be more flexible.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:clear">emco:clear(tabName)</a></td>
+	<td class="summary">clears a specific tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:clearAll">emco:clearAll()</a></td>
+	<td class="summary">clears all the tabs</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setTabFont">emco:setTabFont(font)</a></td>
+	<td class="summary">sets the font for all tabs</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setSingleTabFont">emco:setSingleTabFont(tabName, font)</a></td>
+	<td class="summary">sets the font for a single tab.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setFont">emco:setFont(font)</a></td>
+	<td class="summary">sets the font for all the miniconsoles</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setSingleWindowFont">emco:setSingleWindowFont(tabName, font)</a></td>
+	<td class="summary">sets the font for a specific miniconsole.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setTabFontSize">emco:setTabFontSize(fontSize)</a></td>
+	<td class="summary">sets the font size for all tabs</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setTabAlignment">emco:setTabAlignment(alignment)</a></td>
+	<td class="summary">Sets the alignment for all the tabs</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableTabUnderline">emco:enableTabUnderline()</a></td>
+	<td class="summary">enables underline on all tabs</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableTabUnderline">emco:disableTabUnderline()</a></td>
+	<td class="summary">disables underline on all tabs</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableTabItalics">emco:enableTabItalics()</a></td>
+	<td class="summary">enables italics on all tabs</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableTabItalics">emco:disableTabItalics()</a></td>
+	<td class="summary">enables italics on all tabs</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableTabBold">emco:enableTabBold()</a></td>
+	<td class="summary">enables bold on all tabs</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableTabBold">emco:disableTabBold()</a></td>
+	<td class="summary">disables bold on all tabs</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableCustomTimestampColor">emco:enableCustomTimestampColor()</a></td>
+	<td class="summary">enables custom colors for the timestamp, if displayed</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableCustomTimestampColor">emco:disableCustomTimestampColor()</a></td>
+	<td class="summary">disables custom colors for the timestamp, if displayed</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableTimestamp">emco:enableTimestamp()</a></td>
+	<td class="summary">enables the display of timestamps</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableTimestamp">emco:disableTimestamp()</a></td>
+	<td class="summary">disables the display of timestamps</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setTimestampFormat">emco:setTimestampFormat(format)</a></td>
+	<td class="summary">Sets the formatting for the timestamp, if enabled</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setTimestampBGColor">emco:setTimestampBGColor(color)</a></td>
+	<td class="summary">Sets the background color for the timestamp, if customTimestampColor is enabled.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setTimestampFGColor">emco:setTimestampFGColor(color)</a></td>
+	<td class="summary">Sets the foreground color for the timestamp, if customTimestampColor is enabled.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setAllTabName">emco:setAllTabName(allTabName)</a></td>
+	<td class="summary">Sets the 'all' tab name.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableAllTab">emco:enableAllTab()</a></td>
+	<td class="summary">Enables use of the 'all' tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableAllTab">emco:disableAllTab()</a></td>
+	<td class="summary">Disables use of the 'all' tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableMapTab">emco:enableMapTab()</a></td>
+	<td class="summary">Enables tying the Mudlet Mapper to one of the tabs.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableMapTab">emco:disableMapTab()</a></td>
+	<td class="summary">disables binding the Mudlet Mapper to one of the tabs.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setMapTabName">emco:setMapTabName(mapTabName)</a></td>
+	<td class="summary">sets the name of the tab to bind the Mudlet Map.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableBlinkFromAll">emco:enableBlinkFromAll()</a></td>
+	<td class="summary">Enables tab blinking even if you're on the 'all' tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableBlinkFromAll">emco:disableBlinkFromAll()</a></td>
+	<td class="summary">Disables tab blinking when you're on the 'all' tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableGag">emco:enableGag()</a></td>
+	<td class="summary">Enables gagging of the line passed in to :append(tabName)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableGag">emco:disableGag()</a></td>
+	<td class="summary">Disables gagging of the line passed in to :append(tabName)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableBlink">emco:enableBlink()</a></td>
+	<td class="summary">Enables tab blinking when new information comes in to an inactive tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableBlink">emco:disableBlink()</a></td>
+	<td class="summary">Disables tab blinking when new information comes in to an inactive tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enablePreserveBackground">emco:enablePreserveBackground()</a></td>
+	<td class="summary">Enables preserving the chat's background over the background of an incoming :append()</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disablePreserveBackground">emco:disablePreserveBackground()</a></td>
+	<td class="summary">Enables preserving the chat's background over the background of an incoming :append()</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setBlinkTime">emco:setBlinkTime(blinkTime)</a></td>
+	<td class="summary">Sets how long in seconds to wait between blinks</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setFontSize">emco:setFontSize(fontSize)</a></td>
+	<td class="summary">Sets the font size of the attached consoles</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setInactiveTabCSS">emco:setInactiveTabCSS(stylesheet)</a></td>
+	<td class="summary">Sets the inactiveTabCSS</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setActiveTabCSS">emco:setActiveTabCSS(stylesheet)</a></td>
+	<td class="summary">Sets the activeTabCSS</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setActiveTabFGColor">emco:setActiveTabFGColor(color)</a></td>
+	<td class="summary">Sets the FG color for the active tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setInactiveTabFGColor">emco:setInactiveTabFGColor(color)</a></td>
+	<td class="summary">Sets the FG color for the inactive tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setActiveTabBGColor">emco:setActiveTabBGColor(color)</a></td>
+	<td class="summary">Sets the BG color for the active tab.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setInactiveTabBGColor">emco:setInactiveTabBGColor(color)</a></td>
+	<td class="summary">Sets the BG color for the inactive tab.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setConsoleColor">emco:setConsoleColor(color)</a></td>
+	<td class="summary">Sets the BG color for the consoles attached to this object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setTabBoxCSS">emco:setTabBoxCSS(css)</a></td>
+	<td class="summary">Sets the CSS to use for the tab box which contains the tabs for the object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setTabBoxColor">emco:setTabBoxColor(color)</a></td>
+	<td class="summary">Sets the color to use for the tab box background</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setConsoleContainerColor">emco:setConsoleContainerColor(color)</a></td>
+	<td class="summary">Sets the color for the container which holds the consoles attached to this object.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setConsoleContainerCSS">emco:setConsoleContainerCSS(css)</a></td>
+	<td class="summary">Sets the CSS to use for the container which holds the consoles attached to this object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setGap">emco:setGap(gap)</a></td>
+	<td class="summary">Sets the amount of space to use between the tabs and the consoles</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setTabHeight">emco:setTabHeight(tabHeight)</a></td>
+	<td class="summary">Sets the height of the tabs in pixels</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableAutoWrap">emco:enableAutoWrap()</a></td>
+	<td class="summary">Enables autowrap for the object, and by extension all attached consoles.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableAutoWrap">emco:disableAutoWrap()</a></td>
+	<td class="summary">Disables autowrap for the object, and by extension all attached consoles.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:setWrap">emco:setWrap(wrapAt)</a></td>
+	<td class="summary">Sets the number of characters to wordwrap the attached consoles at.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:append">emco:append(tabName, excludeAll)</a></td>
+	<td class="summary">Appends the current line from the MUD to a tab.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:addNotifyTab">emco:addNotifyTab(tabName)</a></td>
+	<td class="summary">Adds a tab to the list of tabs to send OS toast/popup notifications for</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:removeNotifyTab">emco:removeNotifyTab(tabName)</a></td>
+	<td class="summary">Removes a tab from the list of tabs to send OS toast/popup notifications for</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:addGag">emco:addGag(pattern)</a></td>
+	<td class="summary">Adds a pattern to the gag list for the EMCO</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:removeGag">emco:removeGag(pattern)</a></td>
+	<td class="summary">Removes a pattern from the gag list for the EMCO</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:matchesGag">emco:matchesGag(str)</a></td>
+	<td class="summary">Checks if a string matches any of the EMCO's gag patterns</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableNotifyWithFocus">emco:enableNotifyWithFocus()</a></td>
+	<td class="summary">Enables sending OS notifications even if Mudlet has focus</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableNotifyWithFocus">emco:disableNotifyWithFocus()</a></td>
+	<td class="summary">Disables sending OS notifications if Mudlet has focus</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:cecho">emco:cecho(tabName, message, excludeAll)</a></td>
+	<td class="summary">cecho to a tab, maintaining functionality</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:decho">emco:decho(tabName, message, excludeAll)</a></td>
+	<td class="summary">decho to a tab, maintaining functionality</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:hecho">emco:hecho(tabName, message, excludeAll)</a></td>
+	<td class="summary">hecho to a tab, maintaining functionality</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:echo">emco:echo(tabName, message, excludeAll)</a></td>
+	<td class="summary">echo to a tab, maintaining functionality</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:cechoLink">emco:cechoLink(tabName, text, command, hint, excludeAll)</a></td>
+	<td class="summary">cechoLink to a tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:dechoLink">emco:dechoLink(tabName, text, command, hint, excludeAll)</a></td>
+	<td class="summary">dechoLink to a tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:hechoLink">emco:hechoLink(tabName, text, command, hint, excludeAll)</a></td>
+	<td class="summary">hechoLink to a tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:echoLink">emco:echoLink(tabName, text, command, hint, useCurrentFormat, excludeAll)</a></td>
+	<td class="summary">echoLink to a tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:cechoPopup">emco:cechoPopup(tabName, text, commands, hints, excludeAll)</a></td>
+	<td class="summary">cechoPopup to a tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:dechoPopup">emco:dechoPopup(tabName, text, commands, hints, excludeAll)</a></td>
+	<td class="summary">dechoPopup to a tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:hechoPopup">emco:hechoPopup(tabName, text, commands, hints, excludeAll)</a></td>
+	<td class="summary">hechoPopup to a tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:echoPopup">emco:echoPopup(tabName, text, commands, hints, useCurrentFormat, excludeAll)</a></td>
+	<td class="summary">echoPopup to a tab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:addAllTabExclusion">emco:addAllTabExclusion(tabName)</a></td>
+	<td class="summary">adds a tab to the exclusion list for echoing to the allTab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:removeAllTabExclusion">emco:removeAllTabExclusion(tabName)</a></td>
+	<td class="summary">removess a tab from the exclusion list for echoing to the allTab</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableBlankLine">emco:enableBlankLine()</a></td>
+	<td class="summary">Enable placing a blank line between all messages.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableBlankLine">emco:disableBlankLine()</a></td>
+	<td class="summary">Enable placing a blank line between all messages.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableScrollbars">emco:enableScrollbars()</a></td>
+	<td class="summary">Enable scrollbars for the miniconsoles</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableScrollbars">emco:disableScrollbars()</a></td>
+	<td class="summary">Disable scrollbars for the miniconsoles</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:save">emco:save()</a></td>
+	<td class="summary">Save an EMCO's configuration for reloading later.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:load">emco:load()</a></td>
+	<td class="summary">Load and apply a saved config for this EMCO</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableTabLogging">emco:enableTabLogging(tabName)</a></td>
+	<td class="summary">Enables logging for tabName</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableTabLogging">emco:disableTabLogging(tabName)</a></td>
+	<td class="summary">Disables logging for tabName</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:enableAllLogging">emco:enableAllLogging()</a></td>
+	<td class="summary">Enables logging on all EMCO managed consoles</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#emco:disableAllLogging">emco:disableAllLogging()</a></td>
+	<td class="summary">Disables logging on all EMCO managed consoles</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "emco:new"></a>
+    <strong>emco:new(cons, container)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#367">line 367</a>
+    </dt>
+    <dd>
+    Creates a new Embeddable Multi Console Object.
+ <br>see https://github.com/demonnic/EMCO/wiki for information on valid constraints and defaults
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">cons</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table of constraints which configures the EMCO.
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">timestamp</td>
+     <td class="tg-1">display timestamps on the miniconsoles?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">blankLine</td>
+     <td class="tg-2">put a blank line between appends/echos?</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">scrollbars</td>
+     <td class="tg-1">enable scrollbars for the miniconsoles?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">customTimestampColor</td>
+     <td class="tg-2">if showing timestamps, use a custom color?</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">mapTab</td>
+     <td class="tg-1">should we attach the Mudlet Mapper to this EMCO?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">mapTabName</td>
+     <td class="tg-2">Which tab should we attach the map to?
+                     <br>If mapTab is true and you do not set this, it will throw an error</td>
+     <td class="tg-2"></td>
+   </tr>
+   <tr>
+     <td class="tg-1">blinkFromAll</td>
+     <td class="tg-1">should tabs still blink, even if you're on the 'all' tab?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">preserveBackground</td>
+     <td class="tg-2">preserve the miniconsole background color during append()?</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">gag</td>
+     <td class="tg-1">when running :append(), should we also gag the line?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">timestampFormat</td>
+     <td class="tg-2">Format string for the timestamp. Uses getTime()</td>
+     <td class="tg-2">"HH:mm:ss"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">timestampBGColor</td>
+     <td class="tg-1">Custom BG color to use for timestamps. Any valid Geyser.Color works.</td>
+     <td class="tg-1">"blue"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">timestampFGColor</td>
+     <td class="tg-2">Custom FG color to use for timestamps. Any valid Geyser.Color works</td>
+     <td class="tg-2">"red"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">allTab</td>
+     <td class="tg-1">Should we send everything to an 'all' tab?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">allTabName</td>
+     <td class="tg-2">And which tab should we use for the 'all' tab?</td>
+     <td class="tg-2">"All"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">blink</td>
+     <td class="tg-1">Should we blink tabs that have been written to since you looked at them?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">blinkTime</td>
+     <td class="tg-2">How long to wait between blinks, in seconds?</td>
+     <td class="tg-2">3</td>
+   </tr>
+   <tr>
+     <td class="tg-1">fontSize</td>
+     <td class="tg-1">What font size to use for the miniconsoles?</td>
+     <td class="tg-1">9</td>
+   </tr>
+   <tr>
+     <td class="tg-2">font</td>
+     <td class="tg-2">What font to use for the miniconsoles?</td>
+     <td class="tg-2"></td>
+   </tr>
+   <tr>
+     <td class="tg-1">tabFont</td>
+     <td class="tg-1">What font to use for the tabs?</td>
+     <td class="tg-1"></td>
+   </tr>
+   <tr>
+     <td class="tg-2">activeTabCss</td>
+     <td class="tg-2">What css to use for the active tab?</td>
+     <td class="tg-2">""</td>
+   </tr>
+   <tr>
+     <td class="tg-1">inactiveTabCSS</td>
+     <td class="tg-1">What css to use for the inactive tabs?</td>
+     <td class="tg-1">""</td>
+   </tr>
+   <tr>
+     <td class="tg-2">activeTabFGColor</td>
+     <td class="tg-2">What color to use for the text on the active tab. Any Geyser.Color works.</td>
+     <td class="tg-2">"purple"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">inactiveTabFGColor</td>
+     <td class="tg-1">What color to use for the text on the inactive tabs. Any Geyser.Color works.</td>
+     <td class="tg-1">"white"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">activeTabBGColor</td>
+     <td class="tg-2">What BG color to use for the active tab? Any Geyser.Color works. Overriden by activeTabCSS</td>
+     <td class="tg-2">"<0,180,0>"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">inactiveTabBGColor</td>
+     <td class="tg-1">What BG color to use for the inactavie tabs? Any Geyser.Color works. Overridden by inactiveTabCSS</td>
+     <td class="tg-1">"<60,60,60>"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">consoleColor</td>
+     <td class="tg-2">Default background color for the miniconsoles. Any Geyser.Color works</td>
+     <td class="tg-2">"black"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">tabBoxCSS</td>
+     <td class="tg-1">tss for the entire tabBox (not individual tabs)</td>
+     <td class="tg-1">""</td>
+   </tr>
+   <tr>
+     <td class="tg-2">tabBoxColor</td>
+     <td class="tg-2">What color to use for the tabBox? Any Geyser.Color works. Overridden by tabBoxCSS</td>
+     <td class="tg-2">"black"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">consoleContainerCSS</td>
+     <td class="tg-1">CSS to use for the container holding the miniconsoles</td>
+     <td class="tg-1">""</td>
+   </tr>
+   <tr>
+     <td class="tg-2">consoleContainerColor</td>
+     <td class="tg-2">Color to use for the container holding the miniconsole. Any Geyser.Color works. Overridden by consoleContainerCSS</td>
+     <td class="tg-2">"black"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">gap</td>
+     <td class="tg-1">How many pixels to place between the tabs and the miniconsoles?</td>
+     <td class="tg-1">1</td>
+   </tr>
+   <tr>
+     <td class="tg-2">consoles</td>
+     <td class="tg-2">List of the tabs for this EMCO in table format</td>
+     <td class="tg-2">{ "All" }</td>
+   </tr>
+   <tr>
+     <td class="tg-1">allTabExclusions</td>
+     <td class="tg-1">List of the tabs which should never echo to the 'all' tab in table format</td>
+     <td class="tg-1">{}</td>
+   </tr>
+   <tr>
+     <td class="tg-2">tabHeight</td>
+     <td class="tg-2">How many pixels high should the tabs be?</td>
+     <td class="tg-2">25</td>
+   </tr>
+   <tr>
+     <td class="tg-1">autoWrap</td>
+     <td class="tg-1">Use autoWrap for the miniconsoles?</td>
+     <td class="tg-1">true</td>
+   </tr>
+   <tr>
+     <td class="tg-2">wrapAt</td>
+     <td class="tg-2">How many characters to wrap it, if autoWrap is turned off?</td>
+     <td class="tg-2">300</td>
+   </tr>
+   <tr>
+     <td class="tg-1">leftMargin</td>
+     <td class="tg-1">Number of pixels to put between the left edge of the EMCO and the miniconsole?</td>
+     <td class="tg-1">0</td>
+   </tr>
+   <tr>
+     <td class="tg-2">rightMargin</td>
+     <td class="tg-2">Number of pixels to put between the right edge of the EMCO and the miniconsole?</td>
+     <td class="tg-2">0</td>
+   </tr>
+   <tr>
+     <td class="tg-1">bottomMargin</td>
+     <td class="tg-1">Number of pixels to put between the bottom edge of the EMCO and the miniconsole?</td>
+     <td class="tg-1">0</td>
+   </tr>
+   <tr>
+     <td class="tg-2">topMargin</td>
+     <td class="tg-2">Number of pixels to put between the top edge of the miniconsole container, and the miniconsole? This is in addition to gap</td>
+     <td class="tg-2">0</td>
+   </tr>
+   <tr>
+     <td class="tg-1">timestampExceptions</td>
+     <td class="tg-1">Table of tabnames which should not get timestamps even if timestamps are turned on</td>
+     <td class="tg-1">{}</td>
+   </tr>
+   <tr>
+     <td class="tg-2">tabFontSize</td>
+     <td class="tg-2">Font size for the tabs</td>
+     <td class="tg-2">8</td>
+   </tr>
+   <tr>
+     <td class="tg-1">tabBold</td>
+     <td class="tg-1">Should the tab text be bold? Boolean value</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">tabItalics</td>
+     <td class="tg-2">Should the tab text be italicized?</td>
+     <td class="tg-2">false</td>
+   </tr>
+   <tr>
+     <td class="tg-1">tabUnderline</td>
+     <td class="tg-1">Should the tab text be underlined?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">tabAlignment</td>
+     <td class="tg-2">Valid alignments are 'c', 'center', 'l', 'left', 'r', 'right', or '' to not include the alignment as part of the echo (to allow the stylesheet to handle it)</td>
+     <td class="tg-2">'c'</td>
+   </tr>
+   <tr>
+     <td class="tg-1">commandLine</td>
+     <td class="tg-1">Should we enable commandlines for the miniconsoles?</td>
+     <td class="tg-1">false</td>
+   </tr>
+   <tr>
+     <td class="tg-2">cmdActions</td>
+     <td class="tg-2">A table with console names as keys, and values which are templates for the command to send. see the setCustomCommandline function for more</td>
+     <td class="tg-2">{}</td>
+   </tr>
+   <tr>
+     <td class="tg-1">cmdLineStyleSheet</td>
+     <td class="tg-1">What stylesheet to use for the command lines.</td>
+     <td class="tg-1">"QPlainTextEdit {\n      border: 1px solid grey;\n    }\n"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">backgroundImages</td>
+     <td class="tg-2">A table containing definitions for the background images. Each entry should have a key the same name as the tab it applies to, with entries "image" which is the path to the image file,<br>and "mode" which determines how it is displayed. "border" stretches, "center" center, "tile" tiles, and "style". See Mudletwikilink for details.</td>
+     <td class="tg-2">{}</td>
+   </tr>
+   <tr>
+     <td class="tg-1">bufferSize</td>
+     <td class="tg-1">Number of lines of scrollback to keep for the miniconsoles</td>
+     <td class="tg-1">100000</td>
+   </tr>
+   <tr>
+     <td class="tg-2">deleteLines</td>
+     <td class="tg-2">Number of lines to delete if a console's buffer fills up.</td>
+     <td class="tg-2">1000</td>
+   </tr>
+   <tr>
+     <td class="tg-1">gags</td>
+     <td class="tg-1">A table of Lua patterns you wish to gag from being added to the EMCO. Useful for removing mob says and such example: {[[^A green leprechaun says, ".*"$]], "^Bob The Dark Lord of the Keep mutters darkly to himself.$"} see <a href="http://lua-users.org/wiki/PatternsTutorial">this tutorial</a> on Lua patterns for more information.</td>
+     <td class="tg-1">{}</td>
+   </tr>
+   <tr>
+     <td class="tg-2">notifyTabs</td>
+     <td class="tg-2">Tables containing the names of all tabs you want to send notifications. IE {"Says", "Tells", "Org"}</td>
+     <td class="tg-2">{}</td>
+   </tr>
+   <tr>
+     <td class="tg-1">notifyWithFocus</td>
+     <td class="tg-1">If true, EMCO will send notifications even if Mudlet has focus. If false, it will only send them when Mudlet does NOT have focus.</td>
+     <td class="tg-1">false</td>
+   </tr>
+ </tbody>
+ </table>
+        </li>
+        <li><span class="parameter">container</span>
+            <span class="types"><span class="type">GeyserObject</span></span>
+         The container to use as the parent for the EMCO
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        the newly created EMCO
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:miniConvertYATCO"></a>
+    <strong>emco:miniConvertYATCO()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#554">line 554</a>
+    </dt>
+    <dd>
+    Scans for the old YATCO configuration values and prints out a set of constraints to use.
+ with EMCO to achieve the same effect. Is just the invocation
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:convertYATCO"></a>
+    <strong>emco:convertYATCO()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#565">line 565</a>
+    </dt>
+    <dd>
+    Echos to the main console a script object you can add which will fully convert YATCO to EMCO.
+ This replaces the demonnic.chat variable with a newly created EMCO object, so that the main
+ functions used to place information on the consoles (append(), cecho(), etc) should continue to
+ work in the user's triggers and events.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:display"></a>
+    <strong>emco:display(tabName, tabName, item[, any])</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#611">line 611</a>
+    </dt>
+    <dd>
+    Display the contents of one or more variables to an EMCO tab.  like display() but targets the miniconsole
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+         string the tab to displayu to
+        </li>
+        <li><span class="parameter">tabName</span>
+         string the tab to displayu to
+        </li>
+        <li><span class="parameter">item</span>
+         any The thing to display()
+        </li>
+        <li><span class="parameter">any</span>
+         item2 another thing to display()
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:removeTab"></a>
+    <strong>emco:removeTab(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#621">line 621</a>
+    </dt>
+    <dd>
+    Remove a tab from the EMCO
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+         string the name of the tab you want to remove from the EMCO
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:addTab"></a>
+    <strong>emco:addTab(tabName[, position])</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#648">line 648</a>
+    </dt>
+    <dd>
+    Adds a tab to the EMCO object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to add
+        </li>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">number</span></span>
+         position in the tab switcher to put this tab
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:switchTab"></a>
+    <strong>emco:switchTab(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#669">line 669</a>
+    </dt>
+    <dd>
+    Switches the active, visible tab of the EMCO to tabName
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+         string the name of the tab to show
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:cycleTab"></a>
+    <strong>emco:cycleTab(reverse)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#697">line 697</a>
+    </dt>
+    <dd>
+    Cycles between the tabs in order
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">reverse</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Defaults to false. When true, moves backward through the tab list rather than forward.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setBufferSize"></a>
+    <strong>emco:setBufferSize(bufferSize, deleteLines)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#778">line 778</a>
+    </dt>
+    <dd>
+    Sets the buffer size and number of lines to delete for all managed miniconsoles.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">bufferSize</span>
+            <span class="types"><span class="type">number</span></span>
+         number of lines of scrollback to maintain in the miniconsoles. Uses current value if nil is passed
+        </li>
+        <li><span class="parameter">deleteLines</span>
+            <span class="types"><span class="type">number</span></span>
+         number of line to delete if the buffer filles up. Uses current value if nil is passed
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setBackgroundImage"></a>
+    <strong>emco:setBackgroundImage(tabName, imagePath, mode)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#795">line 795</a>
+    </dt>
+    <dd>
+    Sets the background image for a tab's console.  use EMCO:resetBackgroundImage(tabName) to remove an image.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the tab to change the background image for.
+        </li>
+        <li><span class="parameter">imagePath</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the path to the image file to use.
+        </li>
+        <li><span class="parameter">mode</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the mode to use. Will default to "center" if not provided.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:resetBackgroundImage"></a>
+    <strong>emco:resetBackgroundImage(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#817">line 817</a>
+    </dt>
+    <dd>
+    Resets the background image on a tab's console, returning it to the background color
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the tab to change the background image for.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:replay"></a>
+    <strong>emco:replay(tabName, numLines)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#848">line 848</a>
+    </dt>
+    <dd>
+    Replays the last numLines lines from the log for tabName
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+         the name of the tab to replay
+        </li>
+        <li><span class="parameter">numLines</span>
+         the number of lines to replay
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:replayAll"></a>
+    <strong>emco:replayAll(numLines)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#861">line 861</a>
+    </dt>
+    <dd>
+    Replays the last numLines in all miniconsoles
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">numLines</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:processTemplate"></a>
+    <strong>emco:processTemplate(str, tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#874">line 874</a>
+    </dt>
+    <dd>
+    Formats the string through EMCO's template.  |E is replaced with the EMCO's name. |N is replaced with the tab's name.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+         the string to replace tokens in
+        </li>
+        <li><span class="parameter">tabName</span>
+         optional, if included will be used for |N in the templated string.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setPath"></a>
+    <strong>emco:setPath(path)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#884">line 884</a>
+    </dt>
+    <dd>
+    Sets the path for the EMCO for logging
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+         the template for the path. @see EMCO:new()
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setFileName"></a>
+    <strong>emco:setFileName(fileName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#900">line 900</a>
+    </dt>
+    <dd>
+    Sets the fileName for the EMCO for logging
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">fileName</span>
+         the template for the path. @see EMCO:new()
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setCmdLineStyleSheet"></a>
+    <strong>emco:setCmdLineStyleSheet(styleSheet)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#916">line 916</a>
+    </dt>
+    <dd>
+    Sets the stylesheet for command lines in this EMCO
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">styleSheet</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the stylesheet to use for the command line. See https://wiki.mudlet.org/w/Manual:Lua_Functions#setCmdLineStyleSheet for examples
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableCmdLine"></a>
+    <strong>emco:enableCmdLine(tabName, template)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#929">line 929</a>
+    </dt>
+    <dd>
+    Enables the commandLine on the specified tab.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to turn the commandLine on for
+        </li>
+        <li><span class="parameter">template</span>
+         the template for the commandline to use, or the function to run when enter is hit.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myEMCO:<span class="function-name">enableCmdLine</span>(tabName, template)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "emco:enableAllCmdLines"></a>
+    <strong>emco:enableAllCmdLines()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#942">line 942</a>
+    </dt>
+    <dd>
+    Enables all command lines, using whatever template they may currently have set
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableAllCmdLines"></a>
+    <strong>emco:disableAllCmdLines()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#949">line 949</a>
+    </dt>
+    <dd>
+    Disables all commands line, but does not change their template
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableCmdLine"></a>
+    <strong>emco:disableCmdLine(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#957">line 957</a>
+    </dt>
+    <dd>
+    Disables the command line for a particular tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to disable the command line of.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setCmdAction"></a>
+    <strong>emco:setCmdAction(tabName, template)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#970">line 970</a>
+    </dt>
+    <dd>
+    Sets the command action for a tab's command line.  Can either be a template string to send where '|t' is replaced by the text sent, or a funnction which takes the text
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to set the command action on
+        </li>
+        <li><span class="parameter">template</span>
+         the template for the commandline to use, or the function to run when enter is hit.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <li><pre class="example">myEMCO:<span class="function-name">setCmdAction</span>(<span class="string">"CT"</span>, <span class="string">"ct |t"</span>) <span class="comment">-- will send everything in the CT tab's command line to CT by doing "ct Hi there!" if you type "Hi there!" in CT's command line</span></pre></li>
+        <li><pre class="example">myEMCO:<span class="function-name">setCmdAction</span>(<span class="string">"CT"</span>, <span class="keyword">function</span>(txt) <span class="function-name">send</span>(<span class="string">"ct "</span> .. txt) <span class="keyword">end</span>) <span class="comment">-- functionally the same as the above</span></pre></li>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "emco:resetCmdAction"></a>
+    <strong>emco:resetCmdAction(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#997">line 997</a>
+    </dt>
+    <dd>
+    Resets the command action for tabName's miniconsole, which makes it work like the normal commandline
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to reset the cmdAction for
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:getCmdLine"></a>
+    <strong>emco:getCmdLine(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1004">line 1004</a>
+    </dt>
+    <dd>
+    Gets the contents of tabName's cmdLine
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+         the name of the tab to get the commandline of
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:printCmd"></a>
+    <strong>emco:printCmd(tabName, txt)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1011">line 1011</a>
+    </dt>
+    <dd>
+    Prints to tabName's command line
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+         the tab whose command line you want to print to
+        </li>
+        <li><span class="parameter">txt</span>
+         the text to print to the command line
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:clearCmd"></a>
+    <strong>emco:clearCmd(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1017">line 1017</a>
+    </dt>
+    <dd>
+    Clears tabName's command line
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the tab whose command line you want to clear
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:appendCmd"></a>
+    <strong>emco:appendCmd(tabName, txt)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1024">line 1024</a>
+    </dt>
+    <dd>
+    Appends text to tabName's command line
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the tab whose command line you want to append to
+        </li>
+        <li><span class="parameter">txt</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to append to the command line
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:reset"></a>
+    <strong>emco:reset()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1029">line 1029</a>
+    </dt>
+    <dd>
+    resets the object, redrawing everything
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:fuzzyBoolean"></a>
+    <strong>emco:fuzzyBoolean(bool)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1071">line 1071</a>
+    </dt>
+    <dd>
+    Expands boolean definitions to be more flexible.
+ <br>True values are "true", "yes", "0", 0, and true
+ <br>False values are "false", "no", "1", 1, false, and nil
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">bool</span>
+         item to test for truthiness
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:clear"></a>
+    <strong>emco:clear(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1092">line 1092</a>
+    </dt>
+    <dd>
+    clears a specific tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to clear
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:clearAll"></a>
+    <strong>emco:clearAll()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1104">line 1104</a>
+    </dt>
+    <dd>
+    clears all the tabs
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setTabFont"></a>
+    <strong>emco:setTabFont(font)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1114">line 1114</a>
+    </dt>
+    <dd>
+    sets the font for all tabs
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">font</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the font to use.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setSingleTabFont"></a>
+    <strong>emco:setSingleTabFont(tabName, font)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1124">line 1124</a>
+    </dt>
+    <dd>
+    sets the font for a single tab.  If you use setTabFont this will be overridden
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the tab to change the font of
+        </li>
+        <li><span class="parameter">font</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the font to use for that tab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setFont"></a>
+    <strong>emco:setFont(font)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1134">line 1134</a>
+    </dt>
+    <dd>
+    sets the font for all the miniconsoles
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">font</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the font to use
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setSingleWindowFont"></a>
+    <strong>emco:setSingleWindowFont(tabName, font)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1153">line 1153</a>
+    </dt>
+    <dd>
+    sets the font for a specific miniconsole.  If setFont is called this will be overridden
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of window to set the font for
+        </li>
+        <li><span class="parameter">font</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the font to use
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setTabFontSize"></a>
+    <strong>emco:setTabFontSize(fontSize)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1170">line 1170</a>
+    </dt>
+    <dd>
+    sets the font size for all tabs
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">fontSize</span>
+            <span class="types"><span class="type">number</span></span>
+         the font size to use for the tabs
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setTabAlignment"></a>
+    <strong>emco:setTabAlignment(alignment)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1179">line 1179</a>
+    </dt>
+    <dd>
+    Sets the alignment for all the tabs
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">alignment</span>
+         Valid alignments are 'c', 'center', 'l', 'left', 'r', 'right', or '' to not include the alignment as part of the echo
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableTabUnderline"></a>
+    <strong>emco:enableTabUnderline()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1187">line 1187</a>
+    </dt>
+    <dd>
+    enables underline on all tabs
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableTabUnderline"></a>
+    <strong>emco:disableTabUnderline()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1195">line 1195</a>
+    </dt>
+    <dd>
+    disables underline on all tabs
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableTabItalics"></a>
+    <strong>emco:enableTabItalics()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1203">line 1203</a>
+    </dt>
+    <dd>
+    enables italics on all tabs
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableTabItalics"></a>
+    <strong>emco:disableTabItalics()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1211">line 1211</a>
+    </dt>
+    <dd>
+    enables italics on all tabs
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableTabBold"></a>
+    <strong>emco:enableTabBold()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1219">line 1219</a>
+    </dt>
+    <dd>
+    enables bold on all tabs
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableTabBold"></a>
+    <strong>emco:disableTabBold()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1227">line 1227</a>
+    </dt>
+    <dd>
+    disables bold on all tabs
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableCustomTimestampColor"></a>
+    <strong>emco:enableCustomTimestampColor()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1235">line 1235</a>
+    </dt>
+    <dd>
+    enables custom colors for the timestamp, if displayed
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableCustomTimestampColor"></a>
+    <strong>emco:disableCustomTimestampColor()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1240">line 1240</a>
+    </dt>
+    <dd>
+    disables custom colors for the timestamp, if displayed
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableTimestamp"></a>
+    <strong>emco:enableTimestamp()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1245">line 1245</a>
+    </dt>
+    <dd>
+    enables the display of timestamps
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableTimestamp"></a>
+    <strong>emco:disableTimestamp()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1250">line 1250</a>
+    </dt>
+    <dd>
+    disables the display of timestamps
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setTimestampFormat"></a>
+    <strong>emco:setTimestampFormat(format)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1256">line 1256</a>
+    </dt>
+    <dd>
+    Sets the formatting for the timestamp, if enabled
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">format</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Format string which describes the display of the timestamp. See: https://wiki.mudlet.org/w/Manual:Lua_Functions#getTime
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setTimestampBGColor"></a>
+    <strong>emco:setTimestampBGColor(color)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1269">line 1269</a>
+    </dt>
+    <dd>
+    Sets the background color for the timestamp, if customTimestampColor is enabled.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setTimestampFGColor"></a>
+    <strong>emco:setTimestampFGColor(color)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1274">line 1274</a>
+    </dt>
+    <dd>
+    Sets the foreground color for the timestamp, if customTimestampColor is enabled.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setAllTabName"></a>
+    <strong>emco:setAllTabName(allTabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1281">line 1281</a>
+    </dt>
+    <dd>
+    Sets the 'all' tab name.
+ <br>This is the name of the tab itself
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">allTabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         name of the tab to use as the all tab. Must be a tab which exists in the object.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableAllTab"></a>
+    <strong>emco:enableAllTab()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1294">line 1294</a>
+    </dt>
+    <dd>
+    Enables use of the 'all' tab
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableAllTab"></a>
+    <strong>emco:disableAllTab()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1299">line 1299</a>
+    </dt>
+    <dd>
+    Disables use of the 'all' tab
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableMapTab"></a>
+    <strong>emco:enableMapTab()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1305">line 1305</a>
+    </dt>
+    <dd>
+    Enables tying the Mudlet Mapper to one of the tabs.
+ <br>mapTabName must be set, or this will error. Forces a redraw of the entire object
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableMapTab"></a>
+    <strong>emco:disableMapTab()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1318">line 1318</a>
+    </dt>
+    <dd>
+    disables binding the Mudlet Mapper to one of the tabs.
+ <br>CAUTION: this may have unexpected behaviour, as you can only open one Mapper console per profile
+ so you can't really unbind it. Binding of the Mudlet Mapper is best decided at instantiation.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setMapTabName"></a>
+    <strong>emco:setMapTabName(mapTabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1327">line 1327</a>
+    </dt>
+    <dd>
+    sets the name of the tab to bind the Mudlet Map.
+ <br>Forces a redraw of the object
+ <br>CAUTION: Mudlet only allows one Map object to be open at one time, so if you are going to attach the map to an object
+ you should probably do it at instantiation.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">mapTabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         name of the tab to connect the Mudlet Map to.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableBlinkFromAll"></a>
+    <strong>emco:enableBlinkFromAll()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1340">line 1340</a>
+    </dt>
+    <dd>
+    Enables tab blinking even if you're on the 'all' tab
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableBlinkFromAll"></a>
+    <strong>emco:disableBlinkFromAll()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1345">line 1345</a>
+    </dt>
+    <dd>
+    Disables tab blinking when you're on the 'all' tab
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableGag"></a>
+    <strong>emco:enableGag()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1350">line 1350</a>
+    </dt>
+    <dd>
+    Enables gagging of the line passed in to :append(tabName)
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableGag"></a>
+    <strong>emco:disableGag()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1355">line 1355</a>
+    </dt>
+    <dd>
+    Disables gagging of the line passed in to :append(tabName)
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableBlink"></a>
+    <strong>emco:enableBlink()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1360">line 1360</a>
+    </dt>
+    <dd>
+    Enables tab blinking when new information comes in to an inactive tab
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableBlink"></a>
+    <strong>emco:disableBlink()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1370">line 1370</a>
+    </dt>
+    <dd>
+    Disables tab blinking when new information comes in to an inactive tab
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enablePreserveBackground"></a>
+    <strong>emco:enablePreserveBackground()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1379">line 1379</a>
+    </dt>
+    <dd>
+    Enables preserving the chat's background over the background of an incoming :append()
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disablePreserveBackground"></a>
+    <strong>emco:disablePreserveBackground()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1384">line 1384</a>
+    </dt>
+    <dd>
+    Enables preserving the chat's background over the background of an incoming :append()
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setBlinkTime"></a>
+    <strong>emco:setBlinkTime(blinkTime)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1390">line 1390</a>
+    </dt>
+    <dd>
+    Sets how long in seconds to wait between blinks
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">blinkTime</span>
+            <span class="types"><span class="type">number</span></span>
+         time in seconds to wait between blinks
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setFontSize"></a>
+    <strong>emco:setFontSize(fontSize)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1417">line 1417</a>
+    </dt>
+    <dd>
+    Sets the font size of the attached consoles
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">fontSize</span>
+            <span class="types"><span class="type">number</span></span>
+         font size for attached consoles
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setInactiveTabCSS"></a>
+    <strong>emco:setInactiveTabCSS(stylesheet)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1475">line 1475</a>
+    </dt>
+    <dd>
+    Sets the inactiveTabCSS
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">stylesheet</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the stylesheet to use for inactive tabs.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setActiveTabCSS"></a>
+    <strong>emco:setActiveTabCSS(stylesheet)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1482">line 1482</a>
+    </dt>
+    <dd>
+    Sets the activeTabCSS
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">stylesheet</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the stylesheet to use for active tab.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setActiveTabFGColor"></a>
+    <strong>emco:setActiveTabFGColor(color)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1489">line 1489</a>
+    </dt>
+    <dd>
+    Sets the FG color for the active tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setInactiveTabFGColor"></a>
+    <strong>emco:setInactiveTabFGColor(color)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1496">line 1496</a>
+    </dt>
+    <dd>
+    Sets the FG color for the inactive tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setActiveTabBGColor"></a>
+    <strong>emco:setActiveTabBGColor(color)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1504">line 1504</a>
+    </dt>
+    <dd>
+    Sets the BG color for the active tab.
+ <br>NOTE: If you set CSS for the active tab, it will override this setting.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setInactiveTabBGColor"></a>
+    <strong>emco:setInactiveTabBGColor(color)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1512">line 1512</a>
+    </dt>
+    <dd>
+    Sets the BG color for the inactive tab.
+ <br>NOTE: If you set CSS for the inactive tab, it will override this setting.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setConsoleColor"></a>
+    <strong>emco:setConsoleColor(color)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1519">line 1519</a>
+    </dt>
+    <dd>
+    Sets the BG color for the consoles attached to this object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setTabBoxCSS"></a>
+    <strong>emco:setTabBoxCSS(css)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1536">line 1536</a>
+    </dt>
+    <dd>
+    Sets the CSS to use for the tab box which contains the tabs for the object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">css</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The css styling to use for the tab box
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setTabBoxColor"></a>
+    <strong>emco:setTabBoxColor(color)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1549">line 1549</a>
+    </dt>
+    <dd>
+    Sets the color to use for the tab box background
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setConsoleContainerColor"></a>
+    <strong>emco:setConsoleContainerColor(color)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1561">line 1561</a>
+    </dt>
+    <dd>
+    Sets the color for the container which holds the consoles attached to this object.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         Color string suitable for decho or hecho, or color name eg "purple", or table of colors {r,g,b}
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setConsoleContainerCSS"></a>
+    <strong>emco:setConsoleContainerCSS(css)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1568">line 1568</a>
+    </dt>
+    <dd>
+    Sets the CSS to use for the container which holds the consoles attached to this object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">css</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         CSS to use for the container
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setGap"></a>
+    <strong>emco:setGap(gap)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1580">line 1580</a>
+    </dt>
+    <dd>
+    Sets the amount of space to use between the tabs and the consoles
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">gap</span>
+            <span class="types"><span class="type">number</span></span>
+         Number of pixels to keep between the tabs and consoles
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setTabHeight"></a>
+    <strong>emco:setTabHeight(tabHeight)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1594">line 1594</a>
+    </dt>
+    <dd>
+    Sets the height of the tabs in pixels
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabHeight</span>
+            <span class="types"><span class="type">number</span></span>
+         the height of the tabs for the object, in pixels
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableAutoWrap"></a>
+    <strong>emco:enableAutoWrap()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1609">line 1609</a>
+    </dt>
+    <dd>
+    Enables autowrap for the object, and by extension all attached consoles.
+ <br>To enable autoWrap for a specific miniconsole only, call myEMCO.windows[tabName]:enableAutoWrap()
+ but be warned if you do this it may be overwritten by future calls to EMCO:enableAutoWrap() or :disableAutoWrap()
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableAutoWrap"></a>
+    <strong>emco:disableAutoWrap()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1623">line 1623</a>
+    </dt>
+    <dd>
+    Disables autowrap for the object, and by extension all attached consoles.
+ <br>To disable autoWrap for a specific miniconsole only, call myEMCO.windows[tabName]:disableAutoWrap()
+ but be warned if you do this it may be overwritten by future calls to EMCO:enableAutoWrap() or :disableAutoWrap()
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:setWrap"></a>
+    <strong>emco:setWrap(wrapAt)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1637">line 1637</a>
+    </dt>
+    <dd>
+    Sets the number of characters to wordwrap the attached consoles at.
+ <br>it is generally recommended to make use of autoWrap unless you need
+ a specific width for some reason
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">wrapAt</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:append"></a>
+    <strong>emco:append(tabName, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1660">line 1660</a>
+    </dt>
+    <dd>
+    Appends the current line from the MUD to a tab.
+ <br>depending on this object's configuration, may gag the line
+ <br>depending on this object's configuration, may gag the next prompt
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the tab to append the line to
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:addNotifyTab"></a>
+    <strong>emco:addNotifyTab(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1692">line 1692</a>
+    </dt>
+    <dd>
+    Adds a tab to the list of tabs to send OS toast/popup notifications for
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of a tab to enable notifications for
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if it was added, false if it was already included, nil if the tab does not exist.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:removeNotifyTab"></a>
+    <strong>emco:removeNotifyTab(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1706">line 1706</a>
+    </dt>
+    <dd>
+    Removes a tab from the list of tabs to send OS toast/popup notifications for
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of a tab to disable notifications for
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if it was removed, false if it wasn't enabled to begin with, nil if the tab does not exist.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:addGag"></a>
+    <strong>emco:addGag(pattern)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1720">line 1720</a>
+    </dt>
+    <dd>
+    Adds a pattern to the gag list for the EMCO
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pattern</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         a Lua pattern to gag. http://lua-users.org/wiki/PatternsTutorial
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if it was added, false if it was already included.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:removeGag"></a>
+    <strong>emco:removeGag(pattern)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1731">line 1731</a>
+    </dt>
+    <dd>
+    Removes a pattern from the gag list for the EMCO
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pattern</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         a Lua pattern to no longer gag. http://lua-users.org/wiki/PatternsTutorial
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if it was removed, false if it was not there to remove.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:matchesGag"></a>
+    <strong>emco:matchesGag(str)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1742">line 1742</a>
+    </dt>
+    <dd>
+    Checks if a string matches any of the EMCO's gag patterns
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The text you're testing against the gag patterns
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        false if it does not match any gag patterns. true and the matching pattern if it does match.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableNotifyWithFocus"></a>
+    <strong>emco:enableNotifyWithFocus()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1752">line 1752</a>
+    </dt>
+    <dd>
+    Enables sending OS notifications even if Mudlet has focus
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableNotifyWithFocus"></a>
+    <strong>emco:disableNotifyWithFocus()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1757">line 1757</a>
+    </dt>
+    <dd>
+    Disables sending OS notifications if Mudlet has focus
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:cecho"></a>
+    <strong>emco:cecho(tabName, message, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1875">line 1875</a>
+    </dt>
+    <dd>
+    cecho to a tab, maintaining functionality
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to cecho to
+        </li>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the message to cecho to that tab's console
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:decho"></a>
+    <strong>emco:decho(tabName, message, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1885">line 1885</a>
+    </dt>
+    <dd>
+    decho to a tab, maintaining functionality
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to decho to
+        </li>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the message to decho to that tab's console
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:hecho"></a>
+    <strong>emco:hecho(tabName, message, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1895">line 1895</a>
+    </dt>
+    <dd>
+    hecho to a tab, maintaining functionality
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to hecho to
+        </li>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the message to hecho to that tab's console
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:echo"></a>
+    <strong>emco:echo(tabName, message, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1905">line 1905</a>
+    </dt>
+    <dd>
+    echo to a tab, maintaining functionality
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to echo to
+        </li>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the message to echo to that tab's console
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:cechoLink"></a>
+    <strong>emco:cechoLink(tabName, text, command, hint, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1982">line 1982</a>
+    </dt>
+    <dd>
+    cechoLink to a tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to cechoLink to
+        </li>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text underlying the link
+        </li>
+        <li><span class="parameter">command</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the lua code to run in string format
+        </li>
+        <li><span class="parameter">hint</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the tooltip hint to use for the link
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:dechoLink"></a>
+    <strong>emco:dechoLink(tabName, text, command, hint, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#1994">line 1994</a>
+    </dt>
+    <dd>
+    dechoLink to a tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to dechoLink to
+        </li>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text underlying the link
+        </li>
+        <li><span class="parameter">command</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the lua code to run in string format
+        </li>
+        <li><span class="parameter">hint</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the tooltip hint to use for the link
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:hechoLink"></a>
+    <strong>emco:hechoLink(tabName, text, command, hint, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2006">line 2006</a>
+    </dt>
+    <dd>
+    hechoLink to a tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to hechoLink to
+        </li>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text underlying the link
+        </li>
+        <li><span class="parameter">command</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the lua code to run in string format
+        </li>
+        <li><span class="parameter">hint</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the tooltip hint to use for the link
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:echoLink"></a>
+    <strong>emco:echoLink(tabName, text, command, hint, useCurrentFormat, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2019">line 2019</a>
+    </dt>
+    <dd>
+    echoLink to a tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to echoLink to
+        </li>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text underlying the link
+        </li>
+        <li><span class="parameter">command</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the lua code to run in string format
+        </li>
+        <li><span class="parameter">hint</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the tooltip hint to use for the link
+        </li>
+        <li><span class="parameter">useCurrentFormat</span>
+            <span class="types"><span class="type">boolean</span></span>
+         use the format for the window or blue on black (hyperlink colors)
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:cechoPopup"></a>
+    <strong>emco:cechoPopup(tabName, text, commands, hints, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2031">line 2031</a>
+    </dt>
+    <dd>
+    cechoPopup to a tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to cechoPopup to
+        </li>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text underlying the link
+        </li>
+        <li><span class="parameter">commands</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the lua code to run in string format
+        </li>
+        <li><span class="parameter">hints</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the tooltip hint to use for the link
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:dechoPopup"></a>
+    <strong>emco:dechoPopup(tabName, text, commands, hints, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2043">line 2043</a>
+    </dt>
+    <dd>
+    dechoPopup to a tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to dechoPopup to
+        </li>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text underlying the link
+        </li>
+        <li><span class="parameter">commands</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the lua code to run in string format
+        </li>
+        <li><span class="parameter">hints</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the tooltip hint to use for the link
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:hechoPopup"></a>
+    <strong>emco:hechoPopup(tabName, text, commands, hints, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2055">line 2055</a>
+    </dt>
+    <dd>
+    hechoPopup to a tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to hechoPopup to
+        </li>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text underlying the link
+        </li>
+        <li><span class="parameter">commands</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the lua code to run in string format
+        </li>
+        <li><span class="parameter">hints</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the tooltip hint to use for the link
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:echoPopup"></a>
+    <strong>emco:echoPopup(tabName, text, commands, hints, useCurrentFormat, excludeAll)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2068">line 2068</a>
+    </dt>
+    <dd>
+    echoPopup to a tab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to echoPopup to
+        </li>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text underlying the link
+        </li>
+        <li><span class="parameter">commands</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the lua code to run in string format
+        </li>
+        <li><span class="parameter">hints</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the tooltip hint to use for the link
+        </li>
+        <li><span class="parameter">useCurrentFormat</span>
+            <span class="types"><span class="type">boolean</span></span>
+         use the format for the window or blue on black (hyperlink colors)
+        </li>
+        <li><span class="parameter">excludeAll</span>
+            <span class="types"><span class="type">boolean</span></span>
+         if true, will exclude this from being mirrored to the allTab
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:addAllTabExclusion"></a>
+    <strong>emco:addAllTabExclusion(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2076">line 2076</a>
+    </dt>
+    <dd>
+    adds a tab to the exclusion list for echoing to the allTab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to add to the exclusion list
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:removeAllTabExclusion"></a>
+    <strong>emco:removeAllTabExclusion(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2086">line 2086</a>
+    </dt>
+    <dd>
+    removess a tab from the exclusion list for echoing to the allTab
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab to remove from the exclusion list
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableBlankLine"></a>
+    <strong>emco:enableBlankLine()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2124">line 2124</a>
+    </dt>
+    <dd>
+    Enable placing a blank line between all messages.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableBlankLine"></a>
+    <strong>emco:disableBlankLine()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2129">line 2129</a>
+    </dt>
+    <dd>
+    Enable placing a blank line between all messages.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableScrollbars"></a>
+    <strong>emco:enableScrollbars()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2134">line 2134</a>
+    </dt>
+    <dd>
+    Enable scrollbars for the miniconsoles
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableScrollbars"></a>
+    <strong>emco:disableScrollbars()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2140">line 2140</a>
+    </dt>
+    <dd>
+    Disable scrollbars for the miniconsoles
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:save"></a>
+    <strong>emco:save()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2160">line 2160</a>
+    </dt>
+    <dd>
+    Save an EMCO's configuration for reloading later.  Filename is based on the EMCO's name property.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:load"></a>
+    <strong>emco:load()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2229">line 2229</a>
+    </dt>
+    <dd>
+    Load and apply a saved config for this EMCO
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableTabLogging"></a>
+    <strong>emco:enableTabLogging(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2310">line 2310</a>
+    </dt>
+    <dd>
+    Enables logging for tabName
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab you want to enable logging for
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableTabLogging"></a>
+    <strong>emco:disableTabLogging(tabName)</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2323">line 2323</a>
+    </dt>
+    <dd>
+    Disables logging for tabName
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tabName</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the name of the tab you want to disable logging for
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:enableAllLogging"></a>
+    <strong>emco:enableAllLogging()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2335">line 2335</a>
+    </dt>
+    <dd>
+    Enables logging on all EMCO managed consoles
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "emco:disableAllLogging"></a>
+    <strong>emco:disableAllLogging()</strong>
+    <a style="float:right;" href="../source/EMCO.lua.html#2343">line 2343</a>
+    </dt>
+    <dd>
+    Disables logging on all EMCO managed consoles
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

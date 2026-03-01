@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><strong>revisionator</strong></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>revisionator</code></h1>
+<p>The revisionator provides a standardized way of migrating configurations between revisions
+ for instance, it will track what the currently applied revision number is, and when you tell
+ tell it to migrate, it will apply every individual migration between the currently applied
+ revision and the latest/current revision.</p>
+<p> This should allow for more seamlessly moving from
+ an older version of a package to a new one.</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2023</li>
+        <li><strong>License</strong>: MIT, see https://raw.githubusercontent.com/demonnic/MDK/main/src/scripts/LICENSE.lua</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#revisionator:new">revisionator:new(options)</a></td>
+	<td class="summary">Creates a new revisionator</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#revisionator:getAppliedPatch">revisionator:getAppliedPatch()</a></td>
+	<td class="summary">Get the currently applied revision from file</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#revisionator:migrate">revisionator:migrate()</a></td>
+	<td class="summary">go through all the patches in order and apply any which are still necessary</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#revisionator:addPatch">revisionator:addPatch(func[, position])</a></td>
+	<td class="summary">add a patch to the table of patches</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "revisionator:new"></a>
+    <strong>revisionator:new(options)</strong>
+    <a style="float:right;" href="../source/revisionator.lua.html#47">line 47</a>
+    </dt>
+    <dd>
+    Creates a new revisionator
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         the options to create the revisionator with.
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">name</td>
+     <td class="tg-1">The name of the revisionator. This is absolutely required, as the name is used for tracking the currently applied patch level</td>
+     <td class="tg-1">raises an error if not provided</td>
+   </tr>
+   <tr>
+     <td class="tg-2">patches</td>
+     <td class="tg-2">A table of patch functions. It is traversed using ipairs, so must be in the form of {function1, function2, function3} etc. If you do not provide it, you can add the patches by calling :addPatch for each patch in order.</td>
+     <td class="tg-2">{}</td>
+   </tr>
+</tbody>
+</table>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "revisionator:getAppliedPatch"></a>
+    <strong>revisionator:getAppliedPatch()</strong>
+    <a style="float:right;" href="../source/revisionator.lua.html#65">line 65</a>
+    </dt>
+    <dd>
+    Get the currently applied revision from file
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        the revision number currently applied, or 0 if it can't read a current version
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        nil</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "revisionator:migrate"></a>
+    <strong>revisionator:migrate()</strong>
+    <a style="float:right;" href="../source/revisionator.lua.html#86">line 86</a>
+    </dt>
+    <dd>
+    go through all the patches in order and apply any which are still necessary
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span></span>
+        true if it successfully applied patches, false if it was already at the latest patch level
+    </ol>
+     <h3>Or</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">nil</span></span>
+        </li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        error message</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "revisionator:addPatch"></a>
+    <strong>revisionator:addPatch(func[, position])</strong>
+    <a style="float:right;" href="../source/revisionator.lua.html#111">line 111</a>
+    </dt>
+    <dd>
+    add a patch to the table of patches
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">func</span>
+            <span class="types"><span class="type">function</span></span>
+         the function to run as the patch
+        </li>
+        <li><span class="parameter">position</span>
+            <span class="types"><span class="type">number</span></span>
+         which patch to insert it as? If not supplied, inserts it as the last patch. Which is usually what you want.
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

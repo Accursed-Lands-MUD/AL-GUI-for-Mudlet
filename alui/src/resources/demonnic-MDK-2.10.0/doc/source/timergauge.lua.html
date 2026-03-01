@@ -1,0 +1,628 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><strong>timergauge.lua</strong></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>timergauge.lua</h2>
+<pre>
+<span class="comment">--- Animated countdown timer, extends &lt;a href="https://www.mudlet.org/geyser/files/geyser/GeyserGauge.html"&gt;Geyser.Gauge&lt;/a&gt;
+</span><span class="comment">-- @classmod TimerGauge
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span><span class="keyword">local</span> TimerGauge = {
+  name = <span class="string">"TimerGaugeClass"</span>,
+  active = <span class="keyword">true</span>,
+  showTime = <span class="keyword">true</span>,
+  prefix = <span class="string">""</span>,
+  timeFormat = <span class="string">"S.t"</span>,
+  suffix = <span class="string">""</span>,
+  updateTime = <span class="string">"10"</span>,
+  autoHide = <span class="keyword">true</span>,
+  autoShow = <span class="keyword">true</span>,
+  manageContainer = <span class="keyword">false</span>,
+}
+
+<span class="keyword">function</span> TimerGauge:<span class="function-name">setStyleSheet</span>(cssFront, cssBack, cssText)
+  cssFront = cssFront <span class="keyword">or</span> self.cssFront
+  cssBack = cssBack <span class="keyword">or</span> self.cssBack
+  cssBack = cssBack <span class="keyword">or</span> self.cssFront .. <span class="string">"background-color: black;"</span>
+  cssText = cssText <span class="keyword">or</span> self.cssText
+  <span class="keyword">if</span> cssFront <span class="keyword">then</span>
+    self.front:<span class="function-name">setStyleSheet</span>(cssFront)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> cssBack <span class="keyword">then</span>
+    self.back:<span class="function-name">setStyleSheet</span>(cssBack)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> cssText <span class="keyword">then</span>
+    self.text:<span class="function-name">setStyleSheet</span>(cssText)
+  <span class="keyword">end</span>
+  <span class="comment">-- self.gauge:setStyleSheet(cssFront, cssBack, cssText)
+</span>  self.cssFront = cssFront
+  self.cssBack = cssBack
+  self.cssText = cssText
+<span class="keyword">end</span>
+
+<a id="40"></a><span class="comment">--- Shows the TimerGauge. If the manageContainer property is true, then will add it back to its container
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">show2</span>()
+  <span class="keyword">if</span> self.manageContainer <span class="keyword">and</span> self.savedContainer <span class="keyword">then</span>
+    self.savedContainer:<span class="function-name">add</span>(self)
+    self.savedContainer = <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+  self:<span class="function-name">show</span>()
+<span class="keyword">end</span>
+
+<a id="49"></a><span class="comment">--- Hides the TimerGauge. If manageContainer property is true, then it will remove it from its container and if the container is an HBox or VBox it will initiate size/position management
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">hide2</span>()
+  <span class="keyword">if</span> self.manageContainer <span class="keyword">and</span> self.container.name ~= Geyser.name <span class="keyword">then</span>
+    self.savedContainer = self.container
+    Geyser:<span class="function-name">add</span>(self)
+    self.savedContainer:<span class="function-name">remove</span>(self)
+    <span class="keyword">if</span> self.savedContainer.<span class="global">type</span> == <span class="string">"VBox"</span> <span class="keyword">or</span> self.savedContainer.<span class="global">type</span> == <span class="string">"HBox"</span> <span class="keyword">then</span>
+      <span class="keyword">if</span> self.savedContainer.organize <span class="keyword">then</span>
+        self.savedContainer:<span class="function-name">organize</span>()
+      <span class="keyword">else</span>
+        self.savedContainer:<span class="function-name">reposition</span>()
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  self:<span class="function-name">hide</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Starts the timergauge. Works whether the timer is stopped or not. Does not start a timer which is already at 0
+</span><span class="comment">-- @tparam[opt] boolean show override the autoShow property. True will always show, false will never show.
+</span><span class="comment">-- @usage myTimerGauge:start() --starts the timer, will show or not based on autoShow property
+</span><span class="comment">-- myTimerGauge:start(false) --starts the timer, will not change hidden status, regardless of autoShow property
+</span><a id="70"></a><span class="comment">-- myTimerGauge:start(true) --starts the timer, will show it regardless of autoShow property
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">start</span>(show)
+  <span class="keyword">if</span> show == <span class="keyword">nil</span> <span class="keyword">then</span>
+    show = self.autoShow
+  <span class="keyword">end</span>
+  self.active = <span class="keyword">true</span>
+  <span class="keyword">if</span> self.timer <span class="keyword">then</span>
+    <span class="function-name">killTimer</span>(self.timer)
+    self.timer = <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+  <span class="function-name">startStopWatch</span>(self.stopWatchName)
+  self:<span class="function-name">update</span>()
+  self.timer = <span class="function-name">tempTimer</span>(self.updateTime / <span class="number">1000</span>, <span class="keyword">function</span>()
+    self:<span class="function-name">update</span>()
+  <span class="keyword">end</span>, <span class="keyword">true</span>)
+  <span class="keyword">if</span> show <span class="keyword">then</span>
+    self:<span class="function-name">show2</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Stops the timergauge. Works whether the timer is started or not.
+</span><span class="comment">-- @tparam[opt] boolean hide override the autoHide property. True will always hide, false will never hide.
+</span><span class="comment">-- @usage myTimerGauge:stop() --stops the timer, will hide or not based on autoHide property
+</span><span class="comment">-- myTimerGauge:stop(false) --stops the timer, will not change hidden status, regardless of autoHide property
+</span><a id="94"></a><span class="comment">-- myTimerGauge:stop(true) --stops the timer, will hide it regardless of autoHide property
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">stop</span>(hide)
+  <span class="keyword">if</span> hide == <span class="keyword">nil</span> <span class="keyword">then</span>
+    hide = self.autoHide
+  <span class="keyword">end</span>
+  self.active = <span class="keyword">false</span>
+  <span class="keyword">if</span> self.timer <span class="keyword">then</span>
+    <span class="function-name">killTimer</span>(self.timer)
+    self.timer = <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+  <span class="function-name">stopStopWatch</span>(self.stopWatchName)
+  <span class="keyword">if</span> hide <span class="keyword">then</span>
+    self:<span class="function-name">hide2</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Alias for stop.
+</span><a id="111"></a><span class="comment">-- @tparam[opt] boolean hide override the autoHide property. True will always hide, false will never hide.
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">pause</span>(hide)
+  self:<span class="function-name">stop</span>(hide)
+<span class="keyword">end</span>
+
+<a id="116"></a><span class="comment">--- Resets the time on the timergauge to its original value. Does not alter the running state of the timer
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">reset</span>()
+  <span class="function-name">resetStopWatch</span>(self.stopWatchName)
+  <span class="function-name">adjustStopWatch</span>(self.stopWatchName, self.time * -<span class="number">1</span>)
+  self:<span class="function-name">update</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Resets and starts the timergauge.
+</span><span class="comment">-- @tparam[opt] boolean show override the autoShow property. true will always show, false will never show
+</span><span class="comment">-- @usage myTimerGauge:restart() --restarts the timer, will show or not based on autoShow property
+</span><span class="comment">-- myTimerGauge:restart(false) --restarts the timer, will not change hidden status, regardless of autoShow property
+</span><a id="127"></a><span class="comment">-- myTimerGauge:restart(true) --restarts the timer, will show it regardless of autoShow property
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">restart</span>(show)
+  self:<span class="function-name">reset</span>()
+  self:<span class="function-name">start</span>(show)
+<span class="keyword">end</span>
+
+<span class="comment">--- Get the amount of time remaining on the timer, in seconds
+</span><span class="comment">-- @tparam string format Format string for how to return the time. If not provided defaults to self.timeFormat(which defaults to "S.t").&lt;br&gt;
+</span><span class="comment">--                      If "" is passed will return "" as the time. See below table for formatting codes&lt;br&gt;
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;th&gt;format code&lt;/th&gt;
+</span><span class="comment">--  &lt;th&gt;what it is replaced with&lt;/th&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;S&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;Time left in seconds, unbroken down. Does not include milliseconds.&lt;br&gt;
+</span><span class="comment">--      IE a timer with 2 minutes left it would replace S with 120
+</span><span class="comment">--  &lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;dd&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;Days, with 1 leading 0 (0, 01, 02-...)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;d&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;Days, with no leading 0 (1,2,3-...)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;hh&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;hours, with leading 0 (00-24)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;h&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;hours, without leading 0 (0-24)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;MM&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;minutes, with a leading 0 (00-59)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;M&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;minutes, no leading 0 (0-59)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;ss&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;seconds, with leading 0 (00-59)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;s&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;seconds, no leading 0 (0-59)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;t&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;tenths of a second&lt;br&gt;
+</span><span class="comment">--      timer with 12.345 seconds left, t would&lt;br&gt;
+</span><span class="comment">--      br replaced by 3.
+</span><span class="comment">--  &lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;mm&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;milliseconds with leadings 0s (000-999)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;m&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;milliseconds with no leading 0s (0-999)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;/table&gt;&lt;br&gt;
+</span><span class="comment">-- @usage myTimerGauge:getTime() --returns the time using myTimerGauge.format
+</span><span class="comment">-- myTimerGauge:getTime("hh:MM:ss") --returns the time as hours, minutes, and seconds, with leading 0s (01:23:04)
+</span><a id="197"></a><span class="comment">-- myTimerGauge:getTime("S.mm") --returns the time as the total number of seconds, including milliseconds (114.004)
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">getTime</span>(format)
+  format = format <span class="keyword">or</span> self.timeFormat
+  <span class="keyword">local</span> time = <span class="function-name">getStopWatchTime</span>(self.stopWatchName)
+  <span class="keyword">local</span> timerTable = <span class="function-name">getStopWatchBrokenDownTime</span>(self.stopWatchName)
+  <span class="keyword">if</span> time &gt; <span class="number">0</span> <span class="keyword">then</span>
+    self:<span class="function-name">stop</span>(self.autoHide)
+    <span class="function-name">resetStopWatch</span>(self.stopWatchName)
+    time = <span class="function-name">getStopWatchTime</span>(self.stopWatchName)
+    timerTable = <span class="function-name">getStopWatchBrokenDownTime</span>(self.stopWatchName)
+    self.active = <span class="keyword">false</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> format == <span class="string">""</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> format
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> totalSeconds = <span class="global">string</span>.<span class="function-name">split</span>(<span class="global">math</span>.<span class="function-name">abs</span>(time), <span class="string">"%."</span>)[<span class="number">1</span>]
+  <span class="keyword">local</span> tenths = <span class="global">string</span>.<span class="function-name">sub</span>(<span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%03d"</span>, timerTable.milliSeconds), <span class="number">1</span>, <span class="number">1</span>)
+  format = format:<span class="function-name">gsub</span>(<span class="string">"S"</span>, totalSeconds)
+  format = format:<span class="function-name">gsub</span>(<span class="string">"t"</span>, tenths)
+  format = format:<span class="function-name">gsub</span>(<span class="string">"mm"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%03d"</span>, timerTable.milliSeconds))
+  format = format:<span class="function-name">gsub</span>(<span class="string">"m"</span>, timerTable.milliSeconds)
+  format = format:<span class="function-name">gsub</span>(<span class="string">"MM"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%02d"</span>, timerTable.minutes))
+  format = format:<span class="function-name">gsub</span>(<span class="string">"M"</span>, timerTable.minutes)
+  format = format:<span class="function-name">gsub</span>(<span class="string">"dd"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%02d"</span>, timerTable.days))
+  format = format:<span class="function-name">gsub</span>(<span class="string">"d"</span>, timerTable.days)
+  format = format:<span class="function-name">gsub</span>(<span class="string">"ss"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%02d"</span>, timerTable.seconds))
+  format = format:<span class="function-name">gsub</span>(<span class="string">"s"</span>, timerTable.seconds)
+  format = format:<span class="function-name">gsub</span>(<span class="string">"hh"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%02d"</span>, timerTable.hours))
+  format = format:<span class="function-name">gsub</span>(<span class="string">"h"</span>, timerTable.hours)
+  <span class="keyword">return</span> format
+<span class="keyword">end</span>
+
+<span class="comment">-- Execute the timer's hook, if there is one. Internal function
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">executeHook</span>()
+  <span class="keyword">local</span> hook = self.hook
+  <span class="keyword">if</span> <span class="keyword">not</span> hook <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> hooktype = <span class="global">type</span>(hook)
+  <span class="keyword">if</span> hooktype == <span class="string">"string"</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> f, e = <span class="global">loadstring</span>(<span class="string">"return "</span> .. hook)
+    <span class="keyword">if</span> <span class="keyword">not</span> f <span class="keyword">then</span>
+      f, e = <span class="global">loadstring</span>(hook)
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> f <span class="keyword">then</span>
+      <span class="function-name">debugc</span>(<span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"TimerGauge encountered an error while executing the hook for TimerGauge with name: %s error: %s"</span>, self.name, <span class="global">tostring</span>(e)))
+      <span class="keyword">return</span>
+    <span class="keyword">end</span>
+    hook = f
+  <span class="keyword">end</span>
+  hooktype = <span class="global">type</span>(hook)
+  <span class="keyword">if</span> hooktype ~= <span class="string">"function"</span> <span class="keyword">then</span>
+    <span class="function-name">debugc</span>(<span class="global">string</span>.<span class="function-name">format</span>(
+             <span class="string">"TimerGauge with name: %s was given a hook which is neither a function nor a string which can be made into one. Provided type was %s"</span>,
+             self.name, hooktype))
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> worked, err = <span class="global">pcall</span>(hook)
+  <span class="keyword">if</span> <span class="keyword">not</span> worked <span class="keyword">then</span>
+    <span class="function-name">debugc</span>(<span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"TimerGauge named %s encountered the following error while executing its hook: %s"</span>, self.name, err))
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the timer's remaining time to 0, stops it, and executes the hook if one exists.
+</span><span class="comment">-- @tparam[opt] boolean skipHook use true to have it set the timer to 0 and stop, but not execute the hook.
+</span><span class="comment">-- @usage myTimerGauge:finish() --executes the hook if it has one
+</span><a id="263"></a><span class="comment">-- myTimerGauge:finish(false) --will not execute the hook
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">finish</span>(skipHook)
+  <span class="function-name">resetStopWatch</span>(self.stopWatchName)
+  self:<span class="function-name">update</span>(skipHook)
+<span class="keyword">end</span>
+
+<span class="comment">-- Internal function, no ldoc
+</span><span class="comment">-- Updates the gauge based on time remaining.
+</span><span class="comment">-- @tparam[opt] boolean skipHook use true if you do not want to execute the hook if the timer is at 0.
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">update</span>(skipHook)
+  <span class="keyword">local</span> time = self.showTime <span class="keyword">and</span> self:<span class="function-name">getTime</span>(self.timeFormat) <span class="keyword">or</span> <span class="string">""</span>
+  <span class="keyword">local</span> current = <span class="global">tonumber</span>(self:<span class="function-name">getTime</span>(<span class="string">"S.mm"</span>))
+  <span class="keyword">local</span> suffix = self.suffix <span class="keyword">or</span> <span class="string">""</span>
+  <span class="keyword">local</span> prefix = self.prefix <span class="keyword">or</span> <span class="string">""</span>
+  <span class="keyword">local</span> text = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s%s%s"</span>, prefix, time, suffix)
+  self:<span class="function-name">setValue</span>(current, self.time, text)
+  <span class="keyword">if</span> current == <span class="number">0</span> <span class="keyword">then</span>
+    <span class="keyword">if</span> self.timer <span class="keyword">then</span>
+      <span class="function-name">killTimer</span>(self.timer)
+      self.timer = <span class="keyword">nil</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> skipHook <span class="keyword">then</span>
+      self:<span class="function-name">executeHook</span>()
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the amount of time the timer will run for. Make sure to call :reset() or :restart()
+</span><span class="comment">-- if you want to cause the timer to run for that amount of time. If you set it to a time lower
+</span><span class="comment">-- than the time left on the timer currently, it will reset the current time, otherwise it is left alone
+</span><span class="comment">-- @tparam number time how long in seconds the timer should run for
+</span><a id="294"></a><span class="comment">-- @usage myTimerGauge:setTime(50) -- sets myTimerGauge's max time to 50.
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">setTime</span>(time)
+  <span class="keyword">local</span> timetype = <span class="global">type</span>(time)
+  <span class="keyword">if</span> timetype ~= <span class="string">"number"</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> err = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"TimerGauge:setTime(time): time as number expected, got %s"</span>, timetype)
+    <span class="function-name">debugc</span>(err)
+    <span class="keyword">return</span> <span class="keyword">nil</span>, err
+  <span class="keyword">end</span>
+  time = <span class="global">math</span>.<span class="function-name">abs</span>(time)
+  <span class="keyword">if</span> time == <span class="number">0</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> err = <span class="string">"TimerGauge:setTime(time): you cannot pass in 0 as the max time for the timer"</span>
+    <span class="function-name">debugc</span>(err)
+    <span class="keyword">return</span> <span class="keyword">nil</span>, err
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> currentTime = <span class="global">tonumber</span>(self:<span class="function-name">getTime</span>(<span class="string">"S.t"</span>))
+  self.time = time
+  <span class="keyword">if</span> time &lt; currentTime <span class="keyword">then</span>
+    self:<span class="function-name">reset</span>()
+  <span class="keyword">else</span>
+    self:<span class="function-name">update</span>(currentTime == <span class="number">0</span>)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Changes the time between gauge updates.
+</span><a id="318"></a><span class="comment">-- @tparam number updateTime amount of time in milliseconds between gauge updates. Must be a positive number.
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">setUpdateTime</span>(updateTime)
+  <span class="keyword">local</span> updateTimeType = <span class="global">type</span>(updateTime)
+  <span class="global">assert</span>(updateTimeType == <span class="string">"number"</span>,
+         <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"TimerGauge:setUpdateTime(updateTime): name: %s updateTime as number expected, got %s"</span>, self.name, updateTimeType))
+  <span class="global">assert</span>(updateTime &gt; <span class="number">0</span>,
+         <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"TimerGauge:setUpdateTime(updateTime): name: %s updateTime must be a positive number. You gave %d"</span>, self.name, updateTime))
+  self.updateTime = updateTime
+  <span class="keyword">if</span> self.timer <span class="keyword">then</span>
+    <span class="function-name">killTimer</span>(self.timer)
+    self.timer = <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.active <span class="keyword">then</span>
+    self.timer = <span class="function-name">tempTimer</span>(updateTime / <span class="number">1000</span>, <span class="keyword">function</span>()
+      self:<span class="function-name">update</span>()
+    <span class="keyword">end</span>, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+TimerGauge.parent = Geyser.Gauge
+<span class="global">setmetatable</span>(TimerGauge, Geyser.Gauge)
+<span class="comment">--- Creates a new TimerGauge instance.
+</span><span class="comment">-- @tparam table cons a table of options (or constraints) for how the TimerGauge will behave. Valid options include:
+</span><span class="comment">-- &lt;br&gt;
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;th&gt;name&lt;/th&gt;
+</span><span class="comment">--  &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--  &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;time&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;how long the timer should run for&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;active&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;whether the timer should run or not&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;true&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;showTime&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;should we show the time remaining on the gauge?&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;prefix&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;text you want shown before the time.&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;""&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;suffix&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;text you want shown after the time.&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;""&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;timerCaption&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;Alias for suffix. Deprecated and may be remove in the future&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"/&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;updateTime&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;number of milliseconds between gauge updates.&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;10&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;autoHide&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;should the timer :hide() itself when it runs out/you stop it?&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;true&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;autoShow&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;should the timer :show() itself when you start it?&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;manageContainer&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;should the timer remove itself from its container when you call &lt;br&gt;:hide() and add itself back when you call :show()?&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;timeFormat&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;how should the time be displayed/returned if you call :getTime()? &lt;br&gt;See table below for more information&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;"S.t"&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;/table&gt;
+</span><span class="comment">-- &lt;br&gt;Table of time format options
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;th&gt;format code&lt;/th&gt;
+</span><span class="comment">--  &lt;th&gt;what it is replaced with&lt;/th&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;S&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;Time left in seconds, unbroken down. Does not include milliseconds.&lt;br&gt;
+</span><span class="comment">--      IE a timer with 2 minutes left it would replace S with 120
+</span><span class="comment">--  &lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;dd&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;Days, with 1 leading 0 (0, 01, 02-...)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;d&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;Days, with no leading 0 (1,2,3-...)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;hh&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;hours, with leading 0 (00-24)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;h&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;hours, without leading 0 (0-24)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;MM&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;minutes, with a leading 0 (00-59)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;M&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;minutes, no leading 0 (0-59)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;ss&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;seconds, with leading 0 (00-59)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;s&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;seconds, no leading 0 (0-59)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;t&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;tenths of a second&lt;br&gt;
+</span><span class="comment">--      timer with 12.345 seconds left, t would&lt;br&gt;
+</span><span class="comment">--      br replaced by 3.
+</span><span class="comment">--  &lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;mm&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;milliseconds with leadings 0s (000-999)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;m&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;milliseconds with no leading 0s (0-999)&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;/table&gt;&lt;br&gt;
+</span><span class="comment">-- @param parent The Geyser parent for this TimerGauge
+</span><span class="comment">-- @usage
+</span><span class="comment">-- local TimerGauge = require("MDK.timergauge")
+</span><span class="comment">-- myTimerGauge = TimerGauge:new({
+</span><span class="comment">--   name = "testGauge",
+</span><span class="comment">--   x = 100,
+</span><span class="comment">--   y = 100,
+</span><span class="comment">--   height = 40,
+</span><span class="comment">--   width = 200,
+</span><span class="comment">--   time = 10
+</span><a id="474"></a><span class="comment">-- })
+</span><span class="keyword">function</span> TimerGauge:<span class="function-name">new</span>(cons, parent)
+  <span class="comment">-- type checking and error handling
+</span>  <span class="keyword">local</span> consType = <span class="global">type</span>(cons)
+  <span class="keyword">if</span> consType ~= <span class="string">"table"</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> err = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"TimerGauge:new(options, parent): options must be provided as a table, received: %s"</span>, consType)
+    <span class="function-name">debugc</span>(err)
+    <span class="keyword">return</span> <span class="keyword">nil</span>, err
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> timetype = <span class="global">type</span>(cons.time)
+  <span class="keyword">local</span> time = <span class="global">tonumber</span>(cons.time)
+  <span class="keyword">if</span> <span class="keyword">not</span> time <span class="keyword">then</span>
+    <span class="keyword">local</span> err = <span class="global">string</span>.<span class="function-name">format</span>(
+                  <span class="string">"TimerGauge:new(options, parent): options table must include a time entry, which must be a number. We received: %s which is type: %s"</span>,
+                  cons.time <span class="keyword">or</span> <span class="global">tostring</span>(cons.time), timetype)
+    <span class="function-name">debugc</span>(err)
+    <span class="keyword">return</span> <span class="keyword">nil</span>, err
+  <span class="keyword">end</span>
+  cons.time = <span class="global">math</span>.<span class="function-name">abs</span>(time)
+  <span class="keyword">if</span> cons.time == <span class="number">0</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> err = <span class="string">"TimerGauge:new(options, parent): time entry in options table must be non-0"</span>
+    <span class="function-name">debugc</span>(err)
+    <span class="keyword">return</span> <span class="keyword">nil</span>, err
+  <span class="keyword">end</span>
+
+  <span class="keyword">if</span> cons.timerCaption <span class="keyword">and</span> (<span class="keyword">not</span> cons.suffix) <span class="keyword">then</span>
+    cons.suffix = cons.timerCaption
+  <span class="keyword">end</span>
+  cons.<span class="global">type</span> = cons.<span class="global">type</span> <span class="keyword">or</span> <span class="string">"timergauge"</span>
+  <span class="comment">-- call parent constructor
+</span>  <span class="keyword">local</span> me = self.parent:<span class="function-name">new</span>(cons, parent)
+  <span class="comment">-- add TimerGauge as the metatable/index
+</span>  <span class="global">setmetatable</span>(me, self)
+  self.__index = self
+
+  <span class="comment">-- apply any styling requested
+</span>  <span class="keyword">if</span> me.cssFront <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> me.cssBack <span class="keyword">then</span>
+      me.cssBack = me.cssFront .. <span class="string">"background-color: black;"</span>
+    <span class="keyword">end</span>
+    me:<span class="function-name">setStyleSheet</span>(me.cssFront, me.cssBack, me.cssText)
+  <span class="keyword">end</span>
+
+  <span class="comment">-- create and reset the driving stopwatch
+</span>  me.stopWatchName = me.name .. <span class="string">"_timergauge"</span>
+  <span class="function-name">createStopWatch</span>(me.stopWatchName)
+  me:<span class="function-name">reset</span>()
+
+  <span class="comment">-- start it up?
+</span>  <span class="keyword">if</span> me.active <span class="keyword">then</span>
+    me:<span class="function-name">start</span>()
+  <span class="keyword">end</span>
+  me:<span class="function-name">update</span>()
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+
+<span class="keyword">return</span> TimerGauge</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><strong>echofile.lua</strong></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>echofile.lua</h2>
+<pre>
+<span class="comment">--- set of functions for echoing files to things. Uses a slightly hacked up version of f-strings for interpolation/templating
+</span><span class="comment">-- @module echofile
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2021 Damian Monogue
+</span><span class="comment">-- @copyright 2016 Hisham Muhammad (https://github.com/hishamhm/f-strings/blob/master/LICENSE)
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span><span class="keyword">local</span> echofile = {}
+
+<span class="comment">-- following functions fiddled with from https://github.com/hishamhm/f-strings/blob/master/F.lua and https://hisham.hm/2016/01/04/string-interpolation-in-lua/
+</span><span class="comment">-- it seems to work :shrug:
+</span><span class="keyword">local</span> <span class="global">load</span> = <span class="global">load</span>
+
+<span class="keyword">if</span> _VERSION == <span class="string">"Lua 5.1"</span> <span class="keyword">then</span>
+  <span class="global">load</span> = <span class="keyword">function</span>(code, name, _, env)
+    <span class="keyword">local</span> fn, err = <span class="global">loadstring</span>(code, name)
+    <span class="keyword">if</span> fn <span class="keyword">then</span>
+      <span class="global">setfenv</span>(fn, env)
+      <span class="keyword">return</span> fn
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> <span class="keyword">nil</span>, err
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">f</span>(str)
+  <span class="keyword">local</span> outer_env = _ENV <span class="keyword">or</span> <span class="global">getfenv</span>(<span class="number">1</span>)
+  <span class="keyword">return</span> (str:<span class="function-name">gsub</span>(<span class="string">"%b{}"</span>, <span class="keyword">function</span>(block)
+    <span class="keyword">local</span> code = block:<span class="function-name">match</span>(<span class="string">"{(.*)}"</span>)
+    <span class="keyword">local</span> exp_env = {}
+    <span class="global">setmetatable</span>(exp_env, {
+      __index = <span class="keyword">function</span>(_, k)
+        <span class="keyword">local</span> stack_level = <span class="number">5</span>
+        <span class="keyword">while</span> <span class="global">debug</span>.<span class="function-name">getinfo</span>(stack_level, <span class="string">""</span>) ~= <span class="keyword">nil</span> <span class="keyword">do</span>
+          <span class="keyword">local</span> i = <span class="number">1</span>
+          <span class="keyword">repeat</span>
+            <span class="keyword">local</span> name, value = <span class="global">debug</span>.<span class="function-name">getlocal</span>(stack_level, i)
+            <span class="keyword">if</span> name == k <span class="keyword">then</span>
+              <span class="keyword">return</span> value
+            <span class="keyword">end</span>
+            i = i + <span class="number">1</span>
+          <span class="keyword">until</span> name == <span class="keyword">nil</span>
+          stack_level = stack_level + <span class="number">1</span>
+        <span class="keyword">end</span>
+        <span class="keyword">return</span> <span class="global">rawget</span>(outer_env, k)
+      <span class="keyword">end</span>,
+    })
+    <span class="keyword">local</span> fn, err = <span class="global">load</span>(<span class="string">"return "</span> .. code, <span class="string">"expression `"</span> .. code .. <span class="string">"`"</span>, <span class="string">"t"</span>, exp_env)
+    <span class="keyword">if</span> fn <span class="keyword">then</span>
+      <span class="keyword">return</span> <span class="global">tostring</span>(<span class="function-name">fn</span>())
+    <span class="keyword">else</span>
+      <span class="global">error</span>(err, <span class="number">0</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>))
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">xechoFile</span>(options)
+  <span class="keyword">local</span> filename = options.filename
+  <span class="keyword">local</span> window = options.window
+  <span class="keyword">local</span> func = options.func
+  <span class="keyword">local</span> functionName = options.functionName
+  <span class="keyword">local</span> fntype = <span class="global">type</span>(filename)
+  <span class="keyword">if</span> fntype ~= <span class="string">"string"</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">nil</span>, <span class="function-name">f</span>(<span class="string">"{functionName}: filename as string expected, got {fnType}"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">io</span>.<span class="function-name">exists</span>(filename) <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">nil</span>, <span class="function-name">f</span>(<span class="string">"{functionName}: {filename} not found"</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> file, err = <span class="global">io</span>.<span class="function-name">open</span>(filename, <span class="string">"r"</span>)
+  <span class="keyword">if</span> <span class="keyword">not</span> file <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">nil</span>, err
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> lines = file:<span class="function-name">read</span>(<span class="string">"*a"</span>)
+  <span class="keyword">if</span> options.ansi <span class="keyword">then</span>
+    lines = <span class="function-name">ansi2decho</span>(lines)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> options.filter <span class="keyword">then</span>
+    lines = <span class="function-name">f</span>(lines)
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> <span class="function-name">func</span>(window, lines)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">getOptions</span>(etype, filter, window, filename)
+  <span class="keyword">if</span> filename == <span class="keyword">nil</span> <span class="keyword">then</span>
+    filename = window
+    window = <span class="string">"main"</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> ansi = <span class="keyword">false</span>
+  <span class="keyword">if</span> etype == <span class="string">"a"</span> <span class="keyword">then</span>
+    etype = <span class="string">'d'</span>
+    ansi = <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> options = {
+    filename = filename,
+    window = window,
+    func = _G[etype .. <span class="string">"echo"</span>],
+    functionName = etype .. <span class="string">"echoFile([window,] filename)"</span>,
+    ansi = ansi,
+    filter = filter,
+  }
+  <span class="keyword">return</span> options
+<span class="keyword">end</span>
+
+<span class="comment">--- Takes a string and performs interpolation
+</span><span class="comment">--- Uses {} as the delimiter. Expressions will be evaluated
+</span><span class="comment">---@param str string: The string to interpolate
+</span><span class="comment">---@usage echofile = require("MDK.echofile")
+</span><span class="comment">--- echofile.f("{1+1}") -- returns "2"
+</span><span class="comment">--- local x = 4
+</span><a id="109"></a><span class="comment">--- echofile.f"4+3 = {x+3}" -- returns "4+3 = 7"
+</span><span class="keyword">function</span> echofile.<span class="function-name">f</span>(str)
+  <span class="keyword">return</span> <span class="function-name">f</span>(str)
+<span class="keyword">end</span>
+
+<span class="comment">--- reads the contents of a file, converts it to decho and then dechos it
+</span><span class="comment">---@param window string: Optional window to cecho to
+</span><span class="comment">---@param filename string: Full path to file
+</span><span class="comment">---@see echofile.f
+</span><span class="comment">---@see echofile.cechoFile
+</span><span class="comment">---@usage local ec = require("MDK.echofile")
+</span><span class="comment">--- local cechoFile,f = ec.cechoFile, ec.f
+</span><span class="comment">--- cechoFile("C:/path/to/file") -- windows1
+</span><span class="comment">--- cechoFile("C:\\path\\to\\file") -- windows2
+</span><span class="comment">--- cechoFile("/path/to/file") -- Linux/MacOS
+</span><a id="124"></a><span class="comment">--- cechoFile("aMiniConsole", f"{getMudletHomeDir()}/myPkgName/helpfile") -- cecho a file from your pkg to a miniconsole
+</span><span class="keyword">function</span> echofile.<span class="function-name">aechoFile</span>(window, filename)
+  <span class="keyword">local</span> options = <span class="function-name">getOptions</span>(<span class="string">"a"</span>, <span class="keyword">false</span>, window, filename)
+  <span class="keyword">return</span> <span class="function-name">xechoFile</span>(options)
+<span class="keyword">end</span>
+
+<span class="comment">--- reads the contents of a file and then cechos it
+</span><span class="comment">---@param window string: Optional window to cecho to
+</span><span class="comment">---@param filename string: Full path to file
+</span><span class="comment">---@see echofile.f
+</span><span class="comment">---@see echofile.cechoFilef
+</span><span class="comment">---@usage local ec = require("MDK.echofile")
+</span><span class="comment">--- local cechoFile,f = ec.cechoFile, ec.f
+</span><span class="comment">--- cechoFile("C:/path/to/file") -- windows1
+</span><span class="comment">--- cechoFile("C:\\path\\to\\file") -- windows2
+</span><span class="comment">--- cechoFile("/path/to/file") -- Linux/MacOS
+</span><a id="140"></a><span class="comment">--- cechoFile("aMiniConsole", f"{getMudletHomeDir()}/myPkgName/helpfile") -- cecho a file from your pkg to a miniconsole
+</span><span class="keyword">function</span> echofile.<span class="function-name">aechoFilef</span>(window, filename)
+  <span class="keyword">local</span> options = <span class="function-name">getOptions</span>(<span class="string">"a"</span>, <span class="keyword">true</span>, window, filename)
+  <span class="keyword">return</span> <span class="function-name">xechoFile</span>(options)
+<span class="keyword">end</span>
+
+<span class="comment">--- reads the contents of a file and then cechos it
+</span><span class="comment">---@param window string: Optional window to cecho to
+</span><span class="comment">---@param filename string: Full path to file
+</span><span class="comment">---@see echofile.f
+</span><span class="comment">---@usage local ec = require("MDK.echofile")
+</span><span class="comment">--- local cechoFile,f = ec.cechoFile, ec.f
+</span><span class="comment">--- cechoFile("C:/path/to/file") -- windows1
+</span><span class="comment">--- cechoFile("C:\\path\\to\\file") -- windows2
+</span><span class="comment">--- cechoFile("/path/to/file") -- Linux/MacOS
+</span><a id="155"></a><span class="comment">--- cechoFile("aMiniConsole", f"{getMudletHomeDir()}/myPkgName/helpfile") -- cecho a file from your pkg to a miniconsole
+</span><span class="keyword">function</span> echofile.<span class="function-name">cechoFile</span>(window, filename)
+  <span class="keyword">local</span> options = <span class="function-name">getOptions</span>(<span class="string">"c"</span>, <span class="keyword">false</span>, window, filename)
+  <span class="keyword">return</span> <span class="function-name">xechoFile</span>(options)
+<span class="keyword">end</span>
+
+<span class="comment">--- reads the contents of a file, interpolates it as per echofile.f and then cechos it
+</span><span class="comment">---@param window string: Optional window to cecho to
+</span><span class="comment">---@param filename string: Full path to file
+</span><span class="comment">---@see echofile.f
+</span><span class="comment">---@usage local ec = require("MDK.echofile")
+</span><span class="comment">--- local cechoFile,f = ec.cechoFile, ec.f
+</span><span class="comment">--- cechoFile("C:/path/to/file") -- windows1
+</span><span class="comment">--- cechoFile("C:\\path\\to\\file") -- windows2
+</span><span class="comment">--- cechoFile("/path/to/file") -- Linux/MacOS
+</span><a id="170"></a><span class="comment">--- cechoFile("aMiniConsole", f"{getMudletHomeDir()}/myPkgName/helpfile") -- cecho a file from your pkg to a miniconsole
+</span><span class="keyword">function</span> echofile.<span class="function-name">cechoFilef</span>(window, filename)
+  <span class="keyword">local</span> options = <span class="function-name">getOptions</span>(<span class="string">"c"</span>, <span class="keyword">true</span>, window, filename)
+  <span class="keyword">return</span> <span class="function-name">xechoFile</span>(options)
+<span class="keyword">end</span>
+
+<span class="comment">--- reads the contents of a file and then dechos it
+</span><span class="comment">---@param window string: Optional window to decho to
+</span><span class="comment">---@param filename string: Full path to file
+</span><span class="comment">---@see echofile.f
+</span><a id="180"></a><span class="comment">---@see echofile.cechoFile
+</span><span class="keyword">function</span> echofile.<span class="function-name">dechoFile</span>(window, filename)
+  <span class="keyword">local</span> options = <span class="function-name">getOptions</span>(<span class="string">"d"</span>, <span class="keyword">false</span>, window, filename)
+  <span class="keyword">return</span> <span class="function-name">xechoFile</span>(options)
+<span class="keyword">end</span>
+
+<span class="comment">--- reads the contents of a file, interpolates it as per echofile.f and then dechos it
+</span><span class="comment">---@param window string: Optional window to decho to
+</span><span class="comment">---@param filename string: Full path to file
+</span><span class="comment">---@see echofile.f
+</span><a id="190"></a><span class="comment">---@see echofile.cechoFile
+</span><span class="keyword">function</span> echofile.<span class="function-name">dechoFilef</span>(window, filename)
+  <span class="keyword">local</span> options = <span class="function-name">getOptions</span>(<span class="string">"d"</span>, <span class="keyword">true</span>, window, filename)
+  <span class="keyword">return</span> <span class="function-name">xechoFile</span>(options)
+<span class="keyword">end</span>
+
+<span class="comment">--- reads the contents of a file and then hechos it
+</span><span class="comment">---@param window string: Optional window to hecho to
+</span><span class="comment">---@param filename string: Full path to file
+</span><span class="comment">---@see echofile.f
+</span><a id="200"></a><span class="comment">---@see echofile.cechoFile
+</span><span class="keyword">function</span> echofile.<span class="function-name">hechoFile</span>(window, filename)
+  <span class="keyword">local</span> options = <span class="function-name">getOptions</span>(<span class="string">"h"</span>, <span class="keyword">false</span>, window, filename)
+  <span class="keyword">return</span> <span class="function-name">xechoFile</span>(options)
+<span class="keyword">end</span>
+
+<span class="comment">--- reads the contents of a file, interpolates it as per echofile.f and then hechos it
+</span><span class="comment">---@param window string: Optional window to hecho to
+</span><span class="comment">---@param filename string: Full path to file
+</span><span class="comment">---@see echofile.f
+</span><a id="210"></a><span class="comment">---@see echofile.cechoFile
+</span><span class="keyword">function</span> echofile.<span class="function-name">hechoFilef</span>(window, filename)
+  <span class="keyword">local</span> options = <span class="function-name">getOptions</span>(<span class="string">"h"</span>, <span class="keyword">true</span>, window, filename)
+  <span class="keyword">return</span> <span class="function-name">xechoFile</span>(options)
+<span class="keyword">end</span>
+
+<span class="comment">--- reads the contents of a file, interpolates it as per echofile.f and then echos it
+</span><span class="comment">---@param window string: Optional window to echo to
+</span><span class="comment">---@param filename string: Full path to file
+</span><span class="comment">---@see echofile.f
+</span><a id="220"></a><span class="comment">---@see echofile.cechoFile
+</span><span class="keyword">function</span> echofile.<span class="function-name">echoFile</span>(window, filename)
+  <span class="keyword">local</span> options = <span class="function-name">getOptions</span>(<span class="string">""</span>, <span class="keyword">false</span>, window, filename)
+  <span class="keyword">return</span> <span class="function-name">xechoFile</span>(options)
+<span class="keyword">end</span>
+
+<span class="comment">--- reads the contents of a file, interpolates it as per echofile.f and then echos it
+</span><span class="comment">---@param window string: Optional window to echo to
+</span><span class="comment">---@param filename string: Full path to file
+</span><span class="comment">---@see echofile.f
+</span><a id="230"></a><span class="comment">---@see echofile.cechoFile
+</span><span class="keyword">function</span> echofile.<span class="function-name">echoFilef</span>(window, filename)
+  <span class="keyword">local</span> options = <span class="function-name">getOptions</span>(<span class="string">""</span>, <span class="keyword">true</span>, window, filename)
+  <span class="keyword">return</span> <span class="function-name">xechoFile</span>(options)
+<span class="keyword">end</span>
+
+<span class="comment">--- Adds c/d/h/echoFile functions to Geyser miniconsole and userwindow objects
+</span><span class="comment">---@usage require("MDK.echofile").patchGeyser()
+</span><span class="comment">--- myMC = Geyser.MiniConsole:new({name = "myMC"})
+</span><a id="239"></a><span class="comment">--- myMC:cechoFile(f"{getMudletHomeDir()}/helpfile")
+</span><span class="keyword">function</span> echofile.<span class="function-name">patchGeyser</span>()
+  <span class="keyword">if</span> Geyser.MiniConsole.echoFile <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">echoFile</span>(filename)
+    <span class="keyword">return</span> echofile.<span class="function-name">echoFile</span>(self.name, filename)
+  <span class="keyword">end</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">echoFilef</span>(filename)
+    <span class="keyword">return</span> echofile.<span class="function-name">echoFilef</span>(self.name, filename)
+  <span class="keyword">end</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">aechoFile</span>(filename)
+    <span class="keyword">return</span> echofile.<span class="function-name">aechoFile</span>(self.name, filename)
+  <span class="keyword">end</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">aechoFilef</span>(filename)
+    <span class="keyword">return</span> echofile.<span class="function-name">aechoFilef</span>(self.name, filename)
+  <span class="keyword">end</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">cechoFile</span>(filename)
+    <span class="keyword">return</span> echofile.<span class="function-name">cechoFile</span>(self.name, filename)
+  <span class="keyword">end</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">cechoFilef</span>(filename)
+    <span class="keyword">return</span> echofile.<span class="function-name">cechoFilef</span>(self.name, filename)
+  <span class="keyword">end</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">dechoFile</span>(filename)
+    <span class="keyword">return</span> echofile.<span class="function-name">dechoFile</span>(self.name, filename)
+  <span class="keyword">end</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">dechoFilef</span>(filename)
+    <span class="keyword">return</span> echofile.<span class="function-name">dechoFilef</span>(self.name, filename)
+  <span class="keyword">end</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">hechoFile</span>(filename)
+    <span class="keyword">return</span> echofile.<span class="function-name">hechoFile</span>(self.name, filename)
+  <span class="keyword">end</span>
+  <span class="keyword">function</span> Geyser.MiniConsole:<span class="function-name">hechoFilef</span>(filename)
+    <span class="keyword">return</span> echofile.<span class="function-name">hechoFilef</span>(self.name, filename)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Installs c/d/h/echoFile and f to the global namespace, and adds functions to Geyser
+</span><span class="comment">---@usage require("MDK.echofile").installGlobal()
+</span><span class="comment">--- f"{1+2}" -- returns "2"
+</span><span class="comment">--- dechoFile(f"{getMudletHomeDir()}/fileWithDechoLines.txt")
+</span><span class="comment">--- -- reads contents of fileWithDechoLines.txt from profile directory
+</span><a id="281"></a><span class="comment">--- -- and dechos them to the main console
+</span><span class="keyword">function</span> echofile.<span class="function-name">installGlobal</span>()
+  _G.f = f
+  _G.echoFile = echofile.echoFile
+  _G.echoFilef = echofile.echoFilef
+  _G.aechoFile = echofile.aechoFile
+  _G.aechoFilef = echofile.aechoFilef
+  _G.cechoFile = echofile.cechoFile
+  _G.cechoFilef = echofile.cechoFilef
+  _G.dechoFile = echofile.dechoFile
+  _G.dechoFilef = echofile.dechoFilef
+  _G.hechoFile = echofile.hechoFile
+  _G.hechoFilef = echofile.hechoFilef
+  echofile.<span class="function-name">patchGeyser</span>()
+<span class="keyword">end</span>
+
+<span class="keyword">return</span> echofile</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

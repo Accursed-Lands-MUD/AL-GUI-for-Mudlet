@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><strong>figlet.lua</strong></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>figlet.lua</h2>
+<pre>
+<span class="comment">--- Figlet
+</span><span class="comment">-- A module to read figlet fonts and produce figlet ascii art from text
+</span><span class="comment">-- @module figlet
+</span><span class="comment">-- @copyright 2010,2011 Nick Gammon
+</span><span class="comment">-- @copyright 2022 Damian Monogue
+</span><span class="keyword">local</span> Figlet = {}
+
+<span class="comment">--[[
+  Based on figlet.
+
+  FIGlet Copyright 1991, 1993, 1994 Glenn Chappell and Ian Chai
+  FIGlet Copyright 1996, 1997 John Cowan
+  Portions written by Paul Burton
+  Internet: &lt;ianchai@usa.net&gt;
+  FIGlet, along with the various FIGlet fonts and documentation, is
+    copyrighted under the provisions of the Artistic License (as listed
+    in the file "artistic.license" which is included in this package.
+
+--]]</span>
+
+<span class="comment">--[[
+   Latin-1 codes for German letters, respectively:
+     LATIN CAPITAL LETTER A WITH DIAERESIS = A-umlaut
+     LATIN CAPITAL LETTER O WITH DIAERESIS = O-umlaut
+     LATIN CAPITAL LETTER U WITH DIAERESIS = U-umlaut
+     LATIN SMALL LETTER A WITH DIAERESIS = a-umlaut
+     LATIN SMALL LETTER O WITH DIAERESIS = o-umlaut
+     LATIN SMALL LETTER U WITH DIAERESIS = u-umlaut
+     LATIN SMALL LETTER SHARP S = ess-zed
+--]]</span>
+
+<span class="keyword">local</span> deutsch = {<span class="number">196</span>, <span class="number">214</span>, <span class="number">220</span>, <span class="number">228</span>, <span class="number">246</span>, <span class="number">252</span>, <span class="number">223</span>}
+<span class="keyword">local</span> fcharlist = {}
+<span class="keyword">local</span> magic, hardblank, charheight, maxlen, smush, cmtlines, ffright2left, smush2
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">readfontchar</span>(fontfile, theord)
+
+  <span class="keyword">local</span> t = {}
+  fcharlist[theord] = t
+
+  <span class="comment">-- read each character line
+</span>
+  <span class="comment">--[[
+
+  eg.
+
+  __  __ @
+ |  \/  |@
+ | \  / |@
+ | |\/| |@
+ | |  | |@
+ |_|  |_|@
+         @
+         @@
+--]]</span>
+
+  <span class="keyword">for</span> i = <span class="number">1</span>, charheight <span class="keyword">do</span>
+    <span class="keyword">local</span> line = <span class="global">assert</span>(fontfile:<span class="function-name">read</span>(<span class="string">"*l"</span>), <span class="string">"Not enough character lines for character "</span> .. theord)
+    <span class="keyword">local</span> line = <span class="global">string</span>.<span class="function-name">gsub</span>(line, <span class="string">"%s+$"</span>, <span class="string">""</span>) <span class="comment">-- remove trailing spaces
+</span>    <span class="global">assert</span>(line ~= <span class="string">""</span>, <span class="string">"Unexpected empty line"</span>)
+
+    <span class="comment">-- find the last character (eg. @)
+</span>    <span class="keyword">local</span> endchar = line:<span class="function-name">sub</span>(-<span class="number">1</span>) <span class="comment">-- last character
+</span>
+    <span class="comment">-- trim one or more of the last character from the end
+</span>    <span class="keyword">while</span> line:<span class="function-name">sub</span>(-<span class="number">1</span>) == endchar <span class="keyword">do</span>
+      line = line:<span class="function-name">sub</span>(<span class="number">1</span>, #line - <span class="number">1</span>)
+    <span class="keyword">end</span> <span class="comment">-- while line ends with endchar
+</span>
+    <span class="global">table</span>.<span class="function-name">insert</span>(t, line)
+
+  <span class="keyword">end</span> <span class="comment">-- for each line
+</span>
+<span class="keyword">end</span> <span class="comment">-- readfontchar
+</span>
+<span class="comment">--- Reads a figlet font file (.flf) into memory and readies it for use by the next figlet
+</span><span class="comment">-- These files are cached in memory so that future calls to load a font just read from there.
+</span><a id="79"></a><span class="comment">-- @param filename the full path to the file to read the font from
+</span><span class="keyword">function</span> Figlet.<span class="function-name">readfont</span>(filename)
+  <span class="keyword">local</span> fontfile = <span class="global">assert</span>(<span class="global">io</span>.<span class="function-name">open</span>(filename, <span class="string">"r"</span>))
+  <span class="keyword">local</span> s
+
+  fcharlist = {}
+
+  <span class="comment">-- header line
+</span>  s = <span class="global">assert</span>(fontfile:<span class="function-name">read</span>(<span class="string">"*l"</span>), <span class="string">"Empty FIGlet file"</span>)
+
+  <span class="comment">-- eg.  flf2a$ 8 6          59     15     10        0             24463   153
+</span>  <span class="comment">--      magic  charheight  maxlen  smush  cmtlines  ffright2left  smush2  ??
+</span>
+  <span class="comment">-- configuration line
+</span>  magic, hardblank, charheight, maxlen, smush, cmtlines, ffright2left, smush2 = <span class="global">string</span>.<span class="function-name">match</span>(s,
+                                                                                             <span class="string">"^(flf2).(.) (%d+) %d+ (%d+) (%-?%d+) (%d+) ?(%d*) ?(%d*) ?(%-?%d*)"</span>)
+
+  <span class="global">assert</span>(magic, <span class="string">"Not a FIGlet 2 font file"</span>)
+
+  <span class="comment">-- convert to numbers
+</span>  charheight = <span class="global">tonumber</span>(charheight)
+  maxlen = <span class="global">tonumber</span>(maxlen)
+  smush = <span class="global">tonumber</span>(smush)
+  cmtlines = <span class="global">tonumber</span>(cmtlines)
+
+  <span class="comment">-- sanity check
+</span>  <span class="keyword">if</span> charheight &lt; <span class="number">1</span> <span class="keyword">then</span>
+    charheight = <span class="number">1</span>
+  <span class="keyword">end</span> <span class="comment">-- if
+</span>
+  <span class="comment">-- skip comment lines
+</span>  <span class="keyword">for</span> i = <span class="number">1</span>, cmtlines <span class="keyword">do</span>
+    <span class="global">assert</span>(fontfile:<span class="function-name">read</span>(<span class="string">"*l"</span>), <span class="string">"Not enough comment lines"</span>)
+  <span class="keyword">end</span> <span class="comment">-- for
+</span>
+  <span class="comment">-- get characters space to tilde
+</span>  <span class="keyword">for</span> theord = <span class="global">string</span>.<span class="function-name">byte</span>(<span class="string">' '</span>), <span class="global">string</span>.<span class="function-name">byte</span>(<span class="string">'~'</span>) <span class="keyword">do</span>
+    <span class="function-name">readfontchar</span>(fontfile, theord)
+  <span class="keyword">end</span> <span class="comment">-- for
+</span>
+  <span class="comment">-- get 7 German characters
+</span>  <span class="keyword">for</span> theord = <span class="number">1</span>, <span class="number">7</span> <span class="keyword">do</span>
+    <span class="function-name">readfontchar</span>(fontfile, deutsch[theord])
+  <span class="keyword">end</span> <span class="comment">-- for
+</span>
+  <span class="comment">-- get extra ones like:
+</span>  <span class="comment">-- 0x0395  GREEK CAPITAL LETTER EPSILON
+</span>  <span class="comment">-- 246  LATIN SMALL LETTER O WITH DIAERESIS
+</span>
+  <span class="keyword">repeat</span>
+    <span class="keyword">local</span> extra = fontfile:<span class="function-name">read</span>(<span class="string">"*l"</span>)
+    <span class="keyword">if</span> <span class="keyword">not</span> extra <span class="keyword">then</span>
+      <span class="keyword">break</span>
+    <span class="keyword">end</span> <span class="comment">-- if eof
+</span>
+    <span class="keyword">local</span> negative, theord = <span class="global">string</span>.<span class="function-name">match</span>(extra, <span class="string">"^(%-?)0[xX](%x+)"</span>)
+    <span class="keyword">if</span> theord <span class="keyword">then</span>
+      theord = <span class="global">tonumber</span>(theord, <span class="number">16</span>)
+      <span class="keyword">if</span> negative == <span class="string">"-"</span> <span class="keyword">then</span>
+        theord = -theord
+      <span class="keyword">end</span> <span class="comment">-- if negative
+</span>    <span class="keyword">else</span>
+      theord = <span class="global">string</span>.<span class="function-name">match</span>(extra, <span class="string">"^%d+"</span>)
+      <span class="global">assert</span>(theord, <span class="string">"Unexpected line:"</span> .. extra)
+      theord = <span class="global">tonumber</span>(theord)
+    <span class="keyword">end</span> <span class="comment">-- if
+</span>
+    <span class="function-name">readfontchar</span>(fontfile, theord)
+
+  <span class="keyword">until</span> <span class="keyword">false</span>
+
+  fontfile:<span class="function-name">close</span>()
+
+  <span class="comment">-- remove leading/trailing spaces
+</span>
+  <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">pairs</span>(fcharlist) <span class="keyword">do</span>
+
+    <span class="comment">-- first see if all lines have a leading space or a trailing space
+</span>    <span class="keyword">local</span> leading_space = <span class="keyword">true</span>
+    <span class="keyword">local</span> trailing_space = <span class="keyword">true</span>
+    <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(v) <span class="keyword">do</span>
+      <span class="keyword">if</span> line:<span class="function-name">sub</span>(<span class="number">1</span>, <span class="number">1</span>) ~= <span class="string">" "</span> <span class="keyword">then</span>
+        leading_space = <span class="keyword">false</span>
+      <span class="keyword">end</span> <span class="comment">-- if
+</span>      <span class="keyword">if</span> line:<span class="function-name">sub</span>(-<span class="number">1</span>, -<span class="number">1</span>) ~= <span class="string">" "</span> <span class="keyword">then</span>
+        trailing_space = <span class="keyword">false</span>
+      <span class="keyword">end</span> <span class="comment">-- if
+</span>    <span class="keyword">end</span> <span class="comment">-- for each line
+</span>
+    <span class="comment">-- now remove them if necessary
+</span>    <span class="keyword">for</span> i, line <span class="keyword">in</span> <span class="global">ipairs</span>(v) <span class="keyword">do</span>
+      <span class="keyword">if</span> leading_space <span class="keyword">then</span>
+        v[i] = line:<span class="function-name">sub</span>(<span class="number">2</span>)
+      <span class="keyword">end</span> <span class="comment">-- removing leading space
+</span>      <span class="keyword">if</span> trailing_space <span class="keyword">then</span>
+        v[i] = line:<span class="function-name">sub</span>(<span class="number">1</span>, -<span class="number">2</span>)
+      <span class="keyword">end</span> <span class="comment">-- removing trailing space
+</span>    <span class="keyword">end</span> <span class="comment">-- for each line
+</span>  <span class="keyword">end</span> <span class="comment">-- for each character
+</span><span class="keyword">end</span> <span class="comment">-- readfont
+</span>
+<span class="comment">-- add one character to output lines
+</span><span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">addchar</span>(which, output, kern, smush)
+  <span class="keyword">local</span> c = fcharlist[<span class="global">string</span>.<span class="function-name">byte</span>(which)]
+  <span class="keyword">if</span> <span class="keyword">not</span> c <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span> <span class="comment">-- if doesn't exist
+</span>
+  <span class="keyword">for</span> i = <span class="number">1</span>, charheight <span class="keyword">do</span>
+
+    <span class="keyword">if</span> smush <span class="keyword">and</span> output[i] ~= <span class="string">""</span> <span class="keyword">and</span> which ~= <span class="string">" "</span> <span class="keyword">then</span>
+      <span class="keyword">local</span> lhc = output[i]:<span class="function-name">sub</span>(-<span class="number">1</span>)
+      <span class="keyword">local</span> rhc = c[i]:<span class="function-name">sub</span>(<span class="number">1</span>, <span class="number">1</span>)
+      output[i] = output[i]:<span class="function-name">sub</span>(<span class="number">1</span>, -<span class="number">2</span>) <span class="comment">-- remove last character
+</span>      <span class="keyword">if</span> rhc ~= <span class="string">" "</span> <span class="keyword">then</span>
+        output[i] = output[i] .. rhc
+      <span class="keyword">else</span>
+        output[i] = output[i] .. lhc
+      <span class="keyword">end</span>
+      output[i] = output[i] .. c[i]:<span class="function-name">sub</span>(<span class="number">2</span>)
+
+    <span class="keyword">else</span>
+      output[i] = output[i] .. c[i]
+    <span class="keyword">end</span> <span class="comment">-- if
+</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> (kern <span class="keyword">or</span> smush) <span class="keyword">or</span> which == <span class="string">" "</span> <span class="keyword">then</span>
+      output[i] = output[i] .. <span class="string">" "</span>
+    <span class="keyword">end</span> <span class="comment">-- if
+</span>  <span class="keyword">end</span> <span class="comment">-- for
+</span>
+<span class="keyword">end</span> <span class="comment">-- addchar
+</span>
+<span class="comment">--- Returns a table of lines representing a string as figlet
+</span><span class="comment">-- @tparam string s the text to make into a figlet
+</span><span class="comment">-- @tparam boolean kern should we reduce spacing
+</span><a id="214"></a><span class="comment">-- @tparam boolean smush causes the letters to share edges, condensing it even further
+</span><span class="keyword">function</span> Figlet.<span class="function-name">ascii_art</span>(s, kern, smush)
+  <span class="global">assert</span>(fcharlist)
+  <span class="global">assert</span>(charheight &gt; <span class="number">0</span>)
+
+  <span class="comment">-- make table of output lines
+</span>  <span class="keyword">local</span> output = {}
+  <span class="keyword">for</span> i = <span class="number">1</span>, charheight <span class="keyword">do</span>
+    output[i] = <span class="string">""</span>
+  <span class="keyword">end</span> <span class="comment">-- for
+</span>
+  <span class="keyword">for</span> i = <span class="number">1</span>, #s <span class="keyword">do</span>
+    <span class="keyword">local</span> c = s:<span class="function-name">sub</span>(i, i)
+
+    <span class="keyword">if</span> c &gt;= <span class="string">" "</span> <span class="keyword">and</span> c &lt; <span class="string">"\127"</span> <span class="keyword">then</span>
+      <span class="function-name">addchar</span>(c, output, kern, smush)
+    <span class="keyword">end</span> <span class="comment">-- if in range
+</span>
+  <span class="keyword">end</span> <span class="comment">-- for
+</span>
+  <span class="comment">-- fix up blank character so we can do a string.gsub on it
+</span>  <span class="keyword">local</span> fixedblank = <span class="global">string</span>.<span class="function-name">gsub</span>(hardblank, <span class="string">"[%%%]%^%-$().[*+?]"</span>, <span class="string">"%%%1"</span>)
+
+  <span class="keyword">for</span> i, line <span class="keyword">in</span> <span class="global">ipairs</span>(output) <span class="keyword">do</span>
+    output[i] = <span class="global">string</span>.<span class="function-name">gsub</span>(line, fixedblank, <span class="string">" "</span>)
+  <span class="keyword">end</span> <span class="comment">-- for
+</span>
+  <span class="keyword">return</span> output
+<span class="keyword">end</span> <span class="comment">-- function ascii_art
+</span>
+<span class="comment">--- Returns the figlet as a string, rather than a table
+</span><span class="comment">-- @tparam string str the string the make into a figlet
+</span><span class="comment">-- @tparam boolean kern should we reduce the space between letters?
+</span><span class="comment">-- @tparam boolean smush should the letters share edges, further condensing the output?
+</span><a id="248"></a><span class="comment">-- @see ascii_art
+</span><span class="keyword">function</span> Figlet.<span class="function-name">getString</span>(str, kern, smush)
+  <span class="keyword">local</span> tbl = Figlet.<span class="function-name">ascii_art</span>(str, kern, smush)
+  <span class="keyword">return</span> <span class="global">table</span>.<span class="function-name">concat</span>(tbl, <span class="string">"\n"</span>)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns a figlet as a string, with kern set to true.
+</span><span class="comment">-- @tparam string str The string to turn into a figlet
+</span><a id="256"></a><span class="comment">-- @see getString
+</span><span class="keyword">function</span> Figlet.<span class="function-name">getKern</span>(str)
+  <span class="keyword">return</span> Figlet.<span class="function-name">getString</span>(str, <span class="keyword">true</span>)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns a figlet as a string, with smush set to true.
+</span><span class="comment">-- @tparam string str The string to turn into a figlet
+</span><a id="263"></a><span class="comment">-- @see getString
+</span><span class="keyword">function</span> Figlet.<span class="function-name">getSmush</span>(str)
+  <span class="keyword">return</span> Figlet.<span class="function-name">getString</span>(str, <span class="keyword">true</span>, <span class="keyword">true</span>)
+<span class="keyword">end</span>
+
+<span class="keyword">return</span> Figlet</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

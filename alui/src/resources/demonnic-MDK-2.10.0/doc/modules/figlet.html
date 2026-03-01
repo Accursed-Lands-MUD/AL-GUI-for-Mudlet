@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><strong>figlet</strong></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>figlet</code></h1>
+<p>Figlet
+ A module to read figlet fonts and produce figlet ascii art from text</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2010,2011 Nick Gammon,2022 Damian Monogue</li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Figlet.readfont">Figlet.readfont(filename)</a></td>
+	<td class="summary">Reads a figlet font file (.flf) into memory and readies it for use by the next figlet
+ These files are cached in memory so that future calls to load a font just read from there.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Figlet.ascii_art">Figlet.ascii_art(s, kern, smush)</a></td>
+	<td class="summary">Returns a table of lines representing a string as figlet</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Figlet.getString">Figlet.getString(str, kern, smush)</a></td>
+	<td class="summary">Returns the figlet as a string, rather than a table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Figlet.getKern">Figlet.getKern(str)</a></td>
+	<td class="summary">Returns a figlet as a string, with kern set to true.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Figlet.getSmush">Figlet.getSmush(str)</a></td>
+	<td class="summary">Returns a figlet as a string, with smush set to true.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Figlet.readfont"></a>
+    <strong>Figlet.readfont(filename)</strong>
+    <a style="float:right;" href="../source/figlet.lua.html#79">line 79</a>
+    </dt>
+    <dd>
+    Reads a figlet font file (.flf) into memory and readies it for use by the next figlet
+ These files are cached in memory so that future calls to load a font just read from there.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">filename</span>
+         the full path to the file to read the font from
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Figlet.ascii_art"></a>
+    <strong>Figlet.ascii_art(s, kern, smush)</strong>
+    <a style="float:right;" href="../source/figlet.lua.html#214">line 214</a>
+    </dt>
+    <dd>
+    Returns a table of lines representing a string as figlet
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">s</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the text to make into a figlet
+        </li>
+        <li><span class="parameter">kern</span>
+            <span class="types"><span class="type">boolean</span></span>
+         should we reduce spacing
+        </li>
+        <li><span class="parameter">smush</span>
+            <span class="types"><span class="type">boolean</span></span>
+         causes the letters to share edges, condensing it even further
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Figlet.getString"></a>
+    <strong>Figlet.getString(str, kern, smush)</strong>
+    <a style="float:right;" href="../source/figlet.lua.html#248">line 248</a>
+    </dt>
+    <dd>
+    Returns the figlet as a string, rather than a table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         the string the make into a figlet
+        </li>
+        <li><span class="parameter">kern</span>
+            <span class="types"><span class="type">boolean</span></span>
+         should we reduce the space between letters?
+        </li>
+        <li><span class="parameter">smush</span>
+            <span class="types"><span class="type">boolean</span></span>
+         should the letters share edges, further condensing the output?
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/figlet.html#Figlet.ascii_art">ascii_art</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Figlet.getKern"></a>
+    <strong>Figlet.getKern(str)</strong>
+    <a style="float:right;" href="../source/figlet.lua.html#256">line 256</a>
+    </dt>
+    <dd>
+    Returns a figlet as a string, with kern set to true.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The string to turn into a figlet
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/figlet.html#Figlet.getString">getString</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Figlet.getSmush"></a>
+    <strong>Figlet.getSmush(str)</strong>
+    <a style="float:right;" href="../source/figlet.lua.html#263">line 263</a>
+    </dt>
+    <dd>
+    Returns a figlet as a string, with smush set to true.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The string to turn into a figlet
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/figlet.html#Figlet.getString">getString</a>
+    </ul>
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

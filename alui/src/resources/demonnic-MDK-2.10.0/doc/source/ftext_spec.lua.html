@@ -1,0 +1,546 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><strong>ftext_spec.lua</strong></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>ftext_spec.lua</h2>
+<pre>
+<span class="keyword">local</span> ftext = <span class="global">require</span>(<span class="string">"MDK.ftext"</span>)
+
+<span class="function-name">describe</span>(<span class="string">"ftext:"</span>, <span class="keyword">function</span>()
+  <span class="function-name">describe</span>(<span class="string">"ftext.fText:"</span>, <span class="keyword">function</span>()
+    <span class="keyword">local</span> fText = ftext.fText
+
+    <span class="function-name">it</span>(<span class="string">"Should properly center text"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> expected = <span class="string">"     some text      "</span>
+      <span class="keyword">local</span> actual = <span class="function-name">fText</span>(<span class="string">"some text"</span>, {width = <span class="number">20</span>})
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should properly pad left aligned text"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> expected = <span class="string">"some text           "</span>
+      <span class="keyword">local</span> actual = <span class="function-name">fText</span>(<span class="string">"some text"</span>, {width = <span class="number">20</span>, alignment = <span class="string">"left"</span>})
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should properly pad right aligned text"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> expected = <span class="string">"           some text"</span>
+      <span class="keyword">local</span> actual = <span class="function-name">fText</span>(<span class="string">"some text"</span>, {width = <span class="number">20</span>, alignment = <span class="string">"right"</span>})
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should wrap lines to the correct length"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> str = <span class="string">"This is a test of the emergency broadcast system. This is only a test"</span>
+      <span class="keyword">local</span> options = {width = <span class="number">10</span>, alignment = <span class="string">"centered"</span>}
+      <span class="keyword">local</span> actual = <span class="function-name">fText</span>(str, options)
+      <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(actual:<span class="function-name">split</span>(<span class="string">"\n"</span>)) <span class="keyword">do</span>
+        <span class="global">assert</span>.<span class="function-name">equals</span>(line:<span class="function-name">len</span>(), <span class="number">10</span>)
+      <span class="keyword">end</span>
+      options.width = <span class="number">15</span>
+      actual = <span class="function-name">fText</span>(str, options)
+      <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(actual:<span class="function-name">split</span>(<span class="string">"\n"</span>)) <span class="keyword">do</span>
+        <span class="global">assert</span>.<span class="function-name">equals</span>(line:<span class="function-name">len</span>(), <span class="number">15</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>)
+
+    <span class="function-name">describe</span>(<span class="string">"non-space spacer character:"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> str = <span class="string">"some text"</span>
+      <span class="keyword">local</span> options = {width = <span class="string">"20"</span>, alignment = <span class="string">"left"</span>, spacer = <span class="string">"="</span>}
+      <span class="function-name">it</span>(<span class="string">"Should work with left align"</span>, <span class="keyword">function</span>()
+        <span class="keyword">local</span> expected = <span class="string">"some text =========="</span>
+        <span class="keyword">local</span> actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+      <span class="keyword">end</span>)
+
+      <span class="function-name">it</span>(<span class="string">"Should work with right align"</span>, <span class="keyword">function</span>()
+        <span class="keyword">local</span> expected = <span class="string">"========== some text"</span>
+        options.alignment = <span class="string">"right"</span>
+        <span class="keyword">local</span> actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+      <span class="keyword">end</span>)
+
+      <span class="function-name">it</span>(<span class="string">"Should work with center align"</span>, <span class="keyword">function</span>()
+        <span class="keyword">local</span> expected = (<span class="string">"==== some text ====="</span>)
+        options.alignment = <span class="string">"center"</span>
+        <span class="keyword">local</span> actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+      <span class="keyword">end</span>)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">describe</span>(<span class="string">"nogap option:"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> str = <span class="string">"some text"</span>
+      <span class="keyword">local</span> options = {width = <span class="string">"20"</span>, alignment = <span class="string">"left"</span>, spacer = <span class="string">"="</span>, nogap = <span class="keyword">true</span>}
+
+      <span class="function-name">it</span>(<span class="string">"Should work with left align"</span>, <span class="keyword">function</span>()
+        <span class="keyword">local</span> expected = <span class="string">"some text==========="</span>
+        <span class="keyword">local</span> actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+      <span class="keyword">end</span>)
+
+      <span class="function-name">it</span>(<span class="string">"Should work with right align"</span>, <span class="keyword">function</span>()
+        <span class="keyword">local</span> expected = <span class="string">"===========some text"</span>
+        options.alignment = <span class="string">"right"</span>
+        <span class="keyword">local</span> actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+      <span class="keyword">end</span>)
+
+      <span class="function-name">it</span>(<span class="string">"Should work with center align"</span>, <span class="keyword">function</span>()
+        <span class="keyword">local</span> expected = <span class="string">"=====some text======"</span>
+        options.alignment = <span class="string">"center"</span>
+        <span class="keyword">local</span> actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+      <span class="keyword">end</span>)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">describe</span>(<span class="string">"cap functionality"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> str = <span class="string">"some text"</span>
+      <span class="keyword">local</span> options = {width = <span class="number">20</span>, spacer = <span class="string">"="</span>, cap = <span class="string">"|"</span>}
+
+      <span class="function-name">it</span>(<span class="string">"Should place the spacer outside the cap by default"</span>, <span class="keyword">function</span>()
+        <span class="keyword">local</span> expected = <span class="string">"===| some text |===="</span>
+        <span class="keyword">local</span> actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+      <span class="keyword">end</span>)
+
+      <span class="function-name">it</span>(<span class="string">"Should place it inside the cap if inside option is true"</span>, <span class="keyword">function</span>()
+        <span class="keyword">local</span> expected = <span class="string">"|=== some text ====|"</span>
+        options.inside = <span class="keyword">true</span>
+        <span class="keyword">local</span> actual = <span class="function-name">fText</span>(str, options)
+        options.inside = <span class="keyword">nil</span>
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actual:<span class="function-name">len</span>())
+      <span class="keyword">end</span>)
+
+      <span class="function-name">it</span>(<span class="string">"Should mirror certain characters with their opposites"</span>, <span class="keyword">function</span>()
+        <span class="keyword">local</span> expected = <span class="string">"===[ some text ]===="</span>
+        options.mirror = <span class="keyword">true</span>
+        options.cap = <span class="string">"["</span>
+        <span class="keyword">local</span> actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        options.inside = <span class="keyword">true</span>
+        expected = <span class="string">"[=== some text ====]"</span>
+        actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        options.inside = <span class="keyword">nil</span>
+        options.cap = <span class="string">"&lt;"</span>
+        expected = <span class="string">"===&lt; some text &gt;===="</span>
+        actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        options.cap = <span class="string">"{"</span>
+        expected = <span class="string">"==={ some text }===="</span>
+        actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        options.cap = <span class="string">"("</span>
+        expected = <span class="string">"===( some text )===="</span>
+        actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+        options.cap = <span class="string">"|"</span>
+        expected = <span class="string">"===| some text |===="</span>
+        actual = <span class="function-name">fText</span>(str, options)
+        <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="keyword">end</span>)
+    <span class="keyword">end</span>)
+  <span class="keyword">end</span>)
+
+  <span class="function-name">describe</span>(<span class="string">"ftext.cfText"</span>, <span class="keyword">function</span>()
+    <span class="keyword">local</span> cfText = ftext.cfText
+    <span class="keyword">local</span> str = <span class="string">"some text"</span>
+    <span class="keyword">local</span> options = {
+      width = <span class="number">20</span>,
+      spacer = <span class="string">"="</span>,
+      cap = <span class="string">"["</span>,
+      inside = <span class="keyword">true</span>,
+      mirror = <span class="keyword">true</span>,
+      capColor = <span class="string">"&lt;purple&gt;"</span>,
+      spacerColor = <span class="string">"&lt;green&gt;"</span>,
+      textColor = <span class="string">"&lt;red&gt;"</span>,
+    }
+    <span class="function-name">it</span>(<span class="string">"Should handle cecho colored text"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> expectedStripped = <span class="string">"[=== some text ====]"</span>
+      <span class="keyword">local</span> expected = <span class="string">"&lt;purple&gt;[&lt;reset&gt;&lt;green&gt;===&lt;reset&gt;&lt;red&gt; some text &lt;reset&gt;&lt;green&gt;====&lt;reset&gt;&lt;purple&gt;]&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = <span class="function-name">cfText</span>(str, options)
+      <span class="keyword">local</span> actualStripped = <span class="function-name">cecho2string</span>(actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expectedStripped, actualStripped)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actualStripped:<span class="function-name">len</span>())
+      expectedStripped = <span class="string">"===[ some text ]===="</span>
+      expected = <span class="string">"&lt;green&gt;===&lt;reset&gt;&lt;purple&gt;[&lt;reset&gt;&lt;red&gt; some text &lt;reset&gt;&lt;purple&gt;]&lt;reset&gt;&lt;green&gt;====&lt;reset&gt;"</span>
+      options.inside = <span class="keyword">false</span>
+      actual = <span class="function-name">cfText</span>(str, options)
+      actualStripped = <span class="function-name">cecho2string</span>(actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expectedStripped, actualStripped)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actualStripped:<span class="function-name">len</span>())
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should wrap cecho lines to the correct length"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> str = <span class="string">"This is a test of the emergency broadcast system. This is only a test"</span>
+      <span class="keyword">local</span> options = {width = <span class="number">10</span>, alignment = <span class="string">"centered"</span>}
+      <span class="keyword">local</span> actual = <span class="function-name">cfText</span>(str, options)
+      <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(actual:<span class="function-name">split</span>(<span class="string">"\n"</span>)) <span class="keyword">do</span>
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="function-name">cecho2string</span>(line):<span class="function-name">len</span>(), <span class="number">10</span>)
+      <span class="keyword">end</span>
+      options.width = <span class="number">15</span>
+      actual = <span class="function-name">cfText</span>(str, options)
+      <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(actual:<span class="function-name">split</span>(<span class="string">"\n"</span>)) <span class="keyword">do</span>
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="function-name">cecho2string</span>(line):<span class="function-name">len</span>(), <span class="number">15</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>)
+
+  <span class="keyword">end</span>)
+
+  <span class="function-name">describe</span>(<span class="string">"ftext.dfText"</span>, <span class="keyword">function</span>()
+    <span class="keyword">local</span> dfText = ftext.dfText
+    <span class="keyword">local</span> str = <span class="string">"some text"</span>
+    <span class="keyword">local</span> options = {
+      width = <span class="number">20</span>,
+      spacer = <span class="string">"="</span>,
+      cap = <span class="string">"["</span>,
+      inside = <span class="keyword">true</span>,
+      mirror = <span class="keyword">true</span>,
+      capColor = <span class="string">"&lt;160,32,240&gt;"</span>,
+      spacerColor = <span class="string">"&lt;0,255,0&gt;"</span>,
+      textColor = <span class="string">"&lt;255,0,0&gt;"</span>,
+    }
+    <span class="function-name">it</span>(<span class="string">"Should handle decho colored text"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> expectedStripped = <span class="string">"[=== some text ====]"</span>
+      <span class="keyword">local</span> expected = <span class="string">"&lt;160,32,240&gt;[&lt;r&gt;&lt;0,255,0&gt;===&lt;r&gt;&lt;255,0,0&gt; some text &lt;r&gt;&lt;0,255,0&gt;====&lt;r&gt;&lt;160,32,240&gt;]&lt;r&gt;"</span>
+      <span class="keyword">local</span> actual = <span class="function-name">dfText</span>(str, options)
+      <span class="keyword">local</span> actualStripped = <span class="function-name">decho2string</span>(actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expectedStripped, actualStripped)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actualStripped:<span class="function-name">len</span>())
+      expectedStripped = <span class="string">"===[ some text ]===="</span>
+      expected = <span class="string">"&lt;0,255,0&gt;===&lt;r&gt;&lt;160,32,240&gt;[&lt;r&gt;&lt;255,0,0&gt; some text &lt;r&gt;&lt;160,32,240&gt;]&lt;r&gt;&lt;0,255,0&gt;====&lt;r&gt;"</span>
+      options.inside = <span class="keyword">false</span>
+      actual = <span class="function-name">dfText</span>(str, options)
+      actualStripped = <span class="function-name">decho2string</span>(actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expectedStripped, actualStripped)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actualStripped:<span class="function-name">len</span>())
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should wrap decho lines to the correct length"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> str = <span class="string">"This is a test of the emergency broadcast system. This is only a test"</span>
+      <span class="keyword">local</span> options = {width = <span class="number">10</span>, alignment = <span class="string">"centered"</span>}
+      <span class="keyword">local</span> actual = <span class="function-name">dfText</span>(str, options)
+      <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(actual:<span class="function-name">split</span>(<span class="string">"\n"</span>)) <span class="keyword">do</span>
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="function-name">decho2string</span>(line):<span class="function-name">len</span>(), <span class="number">10</span>)
+      <span class="keyword">end</span>
+      options.width = <span class="number">15</span>
+      actual = <span class="function-name">dfText</span>(str, options)
+      <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(actual:<span class="function-name">split</span>(<span class="string">"\n"</span>)) <span class="keyword">do</span>
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="function-name">decho2string</span>(line):<span class="function-name">len</span>(), <span class="number">15</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>)
+  <span class="keyword">end</span>)
+
+  <span class="function-name">describe</span>(<span class="string">"ftext.hfText"</span>, <span class="keyword">function</span>()
+    <span class="keyword">local</span> hfText = ftext.hfText
+    <span class="keyword">local</span> str = <span class="string">"some text"</span>
+    <span class="keyword">local</span> options = {
+      width = <span class="number">20</span>,
+      spacer = <span class="string">"="</span>,
+      cap = <span class="string">"["</span>,
+      inside = <span class="keyword">true</span>,
+      mirror = <span class="keyword">true</span>,
+      capColor = <span class="string">"#a020f0"</span>,
+      spacerColor = <span class="string">"#00ff00"</span>,
+      textColor = <span class="string">"#ff0000"</span>,
+    }
+    <span class="function-name">it</span>(<span class="string">"Should handle hecho colored text"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> expectedStripped = <span class="string">"[=== some text ====]"</span>
+      <span class="keyword">local</span> expected = <span class="string">"#a020f0[#r#00ff00===#r#ff0000 some text #r#00ff00====#r#a020f0]#r"</span>
+      <span class="keyword">local</span> actual = <span class="function-name">hfText</span>(str, options)
+      <span class="keyword">local</span> actualStripped = <span class="function-name">hecho2string</span>(actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expectedStripped, actualStripped)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actualStripped:<span class="function-name">len</span>())
+      expectedStripped = <span class="string">"===[ some text ]===="</span>
+      expected = <span class="string">"#00ff00===#r#a020f0[#r#ff0000 some text #r#a020f0]#r#00ff00====#r"</span>
+      options.inside = <span class="keyword">false</span>
+      actual = <span class="function-name">hfText</span>(str, options)
+      actualStripped = <span class="function-name">hecho2string</span>(actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expectedStripped, actualStripped)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actualStripped:<span class="function-name">len</span>())
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should wrap hecho lines to the correct length"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> str = <span class="string">"This is a test of the emergency broadcast system. This is only a test"</span>
+      <span class="keyword">local</span> options = {width = <span class="number">10</span>, alignment = <span class="string">"centered"</span>}
+      <span class="keyword">local</span> actual = <span class="function-name">hfText</span>(str, options)
+      <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(actual:<span class="function-name">split</span>(<span class="string">"\n"</span>)) <span class="keyword">do</span>
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="function-name">hecho2string</span>(line):<span class="function-name">len</span>(), <span class="number">10</span>)
+      <span class="keyword">end</span>
+      options.width = <span class="number">15</span>
+      actual = <span class="function-name">hfText</span>(str, options)
+      <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(actual:<span class="function-name">split</span>(<span class="string">"\n"</span>)) <span class="keyword">do</span>
+        <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="function-name">hecho2string</span>(line):<span class="function-name">len</span>(), <span class="number">15</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>)
+  <span class="keyword">end</span>)
+
+  <span class="function-name">describe</span>(<span class="string">"ftext.TextFormatter"</span>, <span class="keyword">function</span>()
+    <span class="keyword">local</span> tf = ftext.TextFormatter
+    <span class="keyword">local</span> str = <span class="string">"some text"</span>
+    <span class="keyword">local</span> formatter
+
+    <span class="function-name">before_each</span>(<span class="keyword">function</span>()
+      formatter = tf:<span class="function-name">new</span>({width = <span class="number">20</span>})
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should let you change width using :setWidth"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setWidth</span>(<span class="number">80</span>)
+      <span class="keyword">local</span> expected =
+        <span class="string">"&lt;white&gt;&lt;reset&gt;&lt;white&gt;                                  &lt;reset&gt;&lt;white&gt; some text &lt;reset&gt;&lt;white&gt;                                   &lt;reset&gt;&lt;white&gt;&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">80</span>, <span class="function-name">cecho2string</span>(actual):<span class="function-name">len</span>())
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should format for cecho by default"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> expected = <span class="string">"&lt;white&gt;&lt;reset&gt;&lt;white&gt;    &lt;reset&gt;&lt;white&gt; some text &lt;reset&gt;&lt;white&gt;     &lt;reset&gt;&lt;white&gt;&lt;reset&gt;"</span>
+      <span class="keyword">local</span> expectedStripped = <span class="string">"     some text      "</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="keyword">local</span> actualStripped = <span class="function-name">cecho2string</span>(actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expectedStripped, actualStripped)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(<span class="number">20</span>, actualStripped:<span class="function-name">len</span>())
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should produce the same line as cfText given the same options"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> expected = ftext.<span class="function-name">cfText</span>(str, formatter.options)
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should let you change type using :setType"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setType</span>(<span class="string">"h"</span>)
+      <span class="keyword">local</span> expected = ftext.<span class="function-name">hfText</span>(str, formatter.options)
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      formatter:<span class="function-name">setType</span>(<span class="string">"d"</span>)
+      expected = ftext.<span class="function-name">dfText</span>(str, formatter.options)
+      actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      formatter:<span class="function-name">setType</span>(<span class="string">""</span>)
+      expected = ftext.<span class="function-name">fText</span>(str, formatter.options)
+      actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should default to word wrapping, and let you change it with :setWrap"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setWidth</span>(<span class="number">10</span>)
+      <span class="keyword">local</span> expected =
+        <span class="string">"&lt;white&gt;&lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;white&gt; some &lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;white&gt;&lt;reset&gt;\n&lt;white&gt;&lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;white&gt; text &lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;white&gt;&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      expected = <span class="string">"&lt;white&gt;&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt; some text &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;&lt;reset&gt;"</span>
+      formatter:<span class="function-name">setWrap</span>(<span class="keyword">false</span>)
+      actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should allow you to change the cap using :setCap"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setCap</span>(<span class="string">'|'</span>)
+      <span class="keyword">local</span> expected = <span class="string">"&lt;white&gt;|&lt;reset&gt;&lt;white&gt;   &lt;reset&gt;&lt;white&gt; some text &lt;reset&gt;&lt;white&gt;    &lt;reset&gt;&lt;white&gt;|&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should allow you to change the capColor using :setCapColor"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setCapColor</span>(<span class="string">'&lt;red&gt;'</span>)
+      <span class="keyword">local</span> expected = <span class="string">"&lt;red&gt;&lt;reset&gt;&lt;white&gt;    &lt;reset&gt;&lt;white&gt; some text &lt;reset&gt;&lt;white&gt;     &lt;reset&gt;&lt;red&gt;&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should allow you to change the spacer color using :setSpacerColor"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setSpacerColor</span>(<span class="string">"&lt;red&gt;"</span>)
+      <span class="keyword">local</span> expected = <span class="string">"&lt;white&gt;&lt;reset&gt;&lt;red&gt;    &lt;reset&gt;&lt;white&gt; some text &lt;reset&gt;&lt;red&gt;     &lt;reset&gt;&lt;white&gt;&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should allow you to change the text color using :setTextColor"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setTextColor</span>(<span class="string">"&lt;red&gt;"</span>)
+      <span class="keyword">local</span> expected = <span class="string">"&lt;white&gt;&lt;reset&gt;&lt;white&gt;    &lt;reset&gt;&lt;red&gt; some text &lt;reset&gt;&lt;white&gt;     &lt;reset&gt;&lt;white&gt;&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should allow you to change the spacer using :setSpacer"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setSpacer</span>(<span class="string">"="</span>)
+      <span class="comment">-- local expected = "&lt;white&gt;&lt;reset&gt;&lt;white&gt;    &lt;reset&gt;&lt;white&gt; some text &lt;reset&gt;&lt;white&gt;     &lt;reset&gt;&lt;white&gt;&lt;reset&gt;"
+</span>      <span class="keyword">local</span> expected = <span class="string">"&lt;white&gt;&lt;reset&gt;&lt;white&gt;====&lt;reset&gt;&lt;white&gt; some text &lt;reset&gt;&lt;white&gt;=====&lt;reset&gt;&lt;white&gt;&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should allow you to set the alignment using :setAlignment"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setAlignment</span>(<span class="string">"left"</span>)
+      <span class="keyword">local</span> expected = <span class="string">"&lt;white&gt;&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;some text &lt;reset&gt;&lt;white&gt;          &lt;reset&gt;&lt;white&gt;&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+      formatter:<span class="function-name">setAlignment</span>(<span class="string">"right"</span>)
+      expected = <span class="string">"&lt;white&gt;&lt;reset&gt;&lt;white&gt;          &lt;reset&gt;&lt;white&gt; some text&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;&lt;reset&gt;"</span>
+      actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should allow you to change the 'inside' option using :setInside"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setInside</span>(<span class="keyword">false</span>)
+      <span class="keyword">local</span> expected = <span class="string">"&lt;white&gt;    &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt; some text &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;     &lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should allow you to change the mirror option using :setMirror"</span>, <span class="keyword">function</span>()
+      formatter:<span class="function-name">setCap</span>(<span class="string">'&lt;'</span>)
+      formatter:<span class="function-name">setMirror</span>(<span class="keyword">true</span>)
+      <span class="keyword">local</span> expected = <span class="string">"&lt;white&gt;&lt;&lt;reset&gt;&lt;white&gt;   &lt;reset&gt;&lt;white&gt; some text &lt;reset&gt;&lt;white&gt;    &lt;reset&gt;&lt;white&gt;&gt;&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actual = formatter:<span class="function-name">format</span>(str)
+      <span class="global">assert</span>.<span class="function-name">equal</span>(expected, actual)
+    <span class="keyword">end</span>)
+  <span class="keyword">end</span>)
+
+  <span class="function-name">describe</span>(<span class="string">"ftext.TableMaker"</span>, <span class="keyword">function</span>()
+    <span class="keyword">local</span> TableMaker = ftext.TableMaker
+    <span class="keyword">local</span> tm
+    <span class="function-name">before_each</span>(<span class="keyword">function</span>()
+      tm = TableMaker:<span class="function-name">new</span>()
+      tm:<span class="function-name">addColumn</span>({name = <span class="string">"col1"</span>, width = <span class="number">15</span>, textColor = <span class="string">"&lt;red&gt;"</span>})
+      tm:<span class="function-name">addColumn</span>({name = <span class="string">"col2"</span>, width = <span class="number">15</span>, textColor = <span class="string">"&lt;blue&gt;"</span>})
+      tm:<span class="function-name">addColumn</span>({name = <span class="string">"col3"</span>, width = <span class="number">15</span>, textColor = <span class="string">"&lt;green&gt;"</span>})
+      tm:<span class="function-name">addRow</span>({<span class="string">"some text"</span>, <span class="string">"more text"</span>, <span class="string">"other text"</span>})
+      tm:<span class="function-name">addRow</span>({<span class="string">"little text"</span>, <span class="string">"bigger text"</span>, <span class="string">"text"</span>})
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"Should assemble a formatted table given default options"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> expected = <span class="string">[[&lt;white&gt;*************************************************&lt;reset&gt;
+&lt;white&gt;*&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;    &lt;reset&gt;&lt;red&gt; col1 &lt;reset&gt;&lt;white&gt;     &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;|&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;    &lt;reset&gt;&lt;blue&gt; col2 &lt;reset&gt;&lt;white&gt;     &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;|&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;    &lt;reset&gt;&lt;green&gt; col3 &lt;reset&gt;&lt;white&gt;     &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;*&lt;reset&gt;
+&lt;white&gt;*&lt;reset&gt;&lt;white&gt;---------------&lt;reset&gt;&lt;white&gt;|&lt;reset&gt;&lt;white&gt;---------------&lt;reset&gt;&lt;white&gt;|&lt;reset&gt;&lt;white&gt;---------------&lt;reset&gt;&lt;white&gt;*&lt;reset&gt;
+&lt;white&gt;*&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;red&gt; some text &lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;|&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;blue&gt; more text &lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;|&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt; &lt;reset&gt;&lt;green&gt; other text &lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;*&lt;reset&gt;
+&lt;white&gt;*&lt;reset&gt;&lt;white&gt;---------------&lt;reset&gt;&lt;white&gt;|&lt;reset&gt;&lt;white&gt;---------------&lt;reset&gt;&lt;white&gt;|&lt;reset&gt;&lt;white&gt;---------------&lt;reset&gt;&lt;white&gt;*&lt;reset&gt;
+&lt;white&gt;*&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt; &lt;reset&gt;&lt;red&gt; little text &lt;reset&gt;&lt;white&gt; &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;|&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt; &lt;reset&gt;&lt;blue&gt; bigger text &lt;reset&gt;&lt;white&gt; &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;|&lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;    &lt;reset&gt;&lt;green&gt; text &lt;reset&gt;&lt;white&gt;     &lt;reset&gt;&lt;white&gt;&lt;reset&gt;&lt;white&gt;*&lt;reset&gt;
+&lt;white&gt;*************************************************&lt;reset&gt;
+]]</span>
+      <span class="keyword">local</span> actual = tm:<span class="function-name">assemble</span>()
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expected, actual)
+    <span class="keyword">end</span>)
+
+    <span class="function-name">it</span>(<span class="string">"TableMaker:getCell should return the text and formatter for a specific cell"</span>, <span class="keyword">function</span>()
+      <span class="keyword">local</span> expectedText = <span class="string">"more text"</span>
+      <span class="keyword">local</span> expectedFormatter = tm.columns[<span class="number">2</span>]
+      <span class="keyword">local</span> actualText, actualFormatter = tm:<span class="function-name">getCell</span>(<span class="number">1</span>, <span class="number">2</span>)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expectedText, actualText)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expectedFormatter, actualFormatter)
+      <span class="keyword">local</span> expectedFormatted = <span class="string">"&lt;white&gt;&lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;blue&gt; more text &lt;reset&gt;&lt;white&gt;  &lt;reset&gt;&lt;white&gt;&lt;reset&gt;"</span>
+      <span class="keyword">local</span> actualFormatted = actualFormatter:<span class="function-name">format</span>(actualText)
+      <span class="global">assert</span>.<span class="function-name">equals</span>(expectedFormatted, actualFormatted)
+    <span class="keyword">end</span>)
+  <span class="keyword">end</span>)
+<span class="keyword">end</span>)</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

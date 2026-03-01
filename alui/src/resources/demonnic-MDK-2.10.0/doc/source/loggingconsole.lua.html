@@ -1,0 +1,560 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><strong>loggingconsole.lua</strong></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>loggingconsole.lua</h2>
+<pre>
+<span class="comment">--- MiniConsole with logging capabilities
+</span><span class="comment">-- @classmod LoggingConsole
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span><span class="keyword">local</span> homedir = <span class="function-name">getMudletHomeDir</span>():<span class="function-name">gsub</span>(<span class="string">"\\", "</span>/<span class="string">")
+local pathOfThisFile = (...):match("</span>(.-)[^%.]+$<span class="string">")
+local dt = require(pathOfThisFile .. "</span><span class="function-name">demontools</span><span class="string">")
+local exists, htmlHeader, htmlHeaderPattern = dt.exists, dt.htmlHeader, dt.htmlHeaderPattern
+
+local LoggingConsole = {log = true, logFormat = "</span><span class="function-name">h</span><span class="string">", path = "</span>|h/log/consoleLogs/|y/|m/|d/<span class="string">", fileName = "</span>|n.|<span class="function-name">e</span><span class="string">"}
+
+--- Creates and returns a new LoggingConsole.
+-- @param cons table of constraints. Includes all the valid Geyser.MiniConsole constraints, plus
+-- &lt;table class="</span><span class="function-name">tg</span><span class="string">"&gt;
+-- &lt;thead&gt;
+--   &lt;tr&gt;
+--     &lt;th&gt;option name&lt;/th&gt;
+--     &lt;th&gt;description&lt;/th&gt;
+--     &lt;th&gt;default&lt;/th&gt;
+--   &lt;/tr&gt;
+-- &lt;/thead&gt;
+-- &lt;tbody&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;log&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;Should the miniconsole be logging?&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;true&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;logFormat&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;"</span><span class="function-name">h</span><span class="string">" for html, "</span><span class="function-name">t</span><span class="string">" for plaintext, "</span><span class="function-name">l</span><span class="string">" for log (with ansi)&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;h&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;path&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;The path the file lives in. It is templated.&lt;br&gt;|h is replaced by the profile homedir.&lt;br&gt;|y by 4 digit year.&lt;br&gt;|m by 2 digit month&lt;br&gt;|d by 2 digit day&lt;br&gt;|n by the name constraint&lt;br&gt;|e by the file extension (html for h logType, log for others)&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">1</span><span class="string">"&gt;"</span>|h/log/consoleLogs/|y/|m/|d/<span class="string">"&lt;/td&gt;
+--   &lt;/tr&gt;
+--   &lt;tr&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;fileName&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;The name of the log file. It is templated, same as path above&lt;/td&gt;
+--     &lt;td class="</span>tg-<span class="number">2</span><span class="string">"&gt;"</span>|n.|<span class="function-name">e</span><span class="string">"&lt;/td&gt;
+--   &lt;/tr&gt;
+-- &lt;/tbody&gt;
+-- &lt;/table&gt;
+-- @param container the container for the console
+-- @usage
+-- local LoggingConsole = require("</span>MDK.<span class="function-name">loggingconsole</span><span class="string">")
+-- myLoggingConsole = LoggingConsole:new({
+-- name = "</span>my logging <span class="function-name">console</span><span class="string">",
+--   x = 0,
+--   y = 0,
+--   height = 200,
+--   width = 400,
+-- }) -- just like making a miniconsole, really
+function LoggingConsole:new(cons, container)
+  cons = cons or {}
+  local consType = type(cons)
+  assert(consType == "</span><span class="global">table</span><span class="string">", "</span>LoggingConsole:<span class="function-name">new</span>(cons, container): cons must be a valid <span class="global">table</span> of constraints. Got: <span class="string">" .. consType)
+  local me = Geyser.MiniConsole:new(cons, container)
+  setmetatable(me, self)
+  self.__index = self
+  return me
+end
+
+--- Returns the file extension of the logfile this console will log to
+function LoggingConsole:getExtension()
+  local extension = "</span><span class="function-name">log</span><span class="string">"
+  if table.contains({"</span><span class="function-name">h</span><span class="string">", "</span><span class="function-name">html</span><span class="string">"}, self.logFormat) then
+    extension = "</span><span class="function-name">html</span><span class="string">"
+  end
+  return extension
+end
+
+--- Returns a string with all templated items replaced
+---@tparam string str The templated string to transform
+---@local
+function LoggingConsole:transformTemplate(str)
+  local ttbl = getTime()
+  local year = ttbl.year
+  local month = string.format("</span>%<span class="number">02</span><span class="function-name">d</span><span class="string">", ttbl.month)
+  local day = string.format("</span>%<span class="number">02</span><span class="function-name">d</span><span class="string">", ttbl.day)
+  local name = self.name
+  local extension = self:getExtension()
+  str = str:gsub("</span>|<span class="function-name">h</span><span class="string">", homedir)
+  str = str:gsub("</span>|<span class="function-name">y</span><span class="string">", year)
+  str = str:gsub("</span>|<span class="function-name">m</span><span class="string">", month)
+  str = str:gsub("</span>|<span class="function-name">d</span><span class="string">", day)
+  str = str:gsub("</span>|<span class="function-name">n</span><span class="string">", name)
+  str = str:gsub("</span>|<span class="function-name">e</span><span class="string">", extension)
+  return str
+end
+
+--- Returns the path to the logfile for this console
+function LoggingConsole:getPath()
+  local path = self:transformTemplate(self.path)
+  if not path:ends("</span>/<span class="string">") then
+    path = path .. "</span>/<span class="string">"
+  end
+  return path
+end
+
+--- Sets the path to use for the log file.
+-- @param path the path to put the log file in. It is templated.&lt;br&gt;|h is replaced by the profile homedir.&lt;br&gt;|y by 4 digit year.&lt;br&gt;|m by 2 digit month&lt;br&gt;|d by 2 digit day&lt;br&gt;|n by the name constraint&lt;br&gt;|e by the file extension (html for h logType, log for others)
+function LoggingConsole:setPath(path)
+  self.path = path
+end
+
+--- Returns the filename for the logfile for this console
+function LoggingConsole:getFileName()
+  local fileName = self:transformTemplate(self.fileName)
+  fileName = fileName:gsub("</span>[&lt;&gt;:<span class="string">'\"/\\?*]", "_")
+  return fileName
+end
+
+--- Sets the fileName to use for the log file.
+-- @param fileName the fileName to use for the logfile. It is templated.&lt;br&gt;|h is replaced by the profile homedir.&lt;br&gt;|y by 4 digit year.&lt;br&gt;|m by 2 digit month&lt;br&gt;|d by 2 digit day&lt;br&gt;|n by the name constraint&lt;br&gt;|e by the file extension (html for h logType, log for others)
+function LoggingConsole:setFileName(fileName)
+  self.fileName = fileName
+end
+
+--- Returns the pull path and filename for the logfile for this console
+function LoggingConsole:getFullFilename()
+  local path = self:getPath()
+  local fileName = self:getFileName()
+  local fullPath = path .. fileName
+  fullPath = fullPath:gsub("|", "_")
+  return fullPath
+end
+
+--- Turns logging for this console on
+function LoggingConsole:enableLogging()
+  self.log = true
+end
+
+--- Turns logging for this console off
+function LoggingConsole:disableLogging()
+  self.log = false
+end
+
+--- Creates the path for the logfile for this console if necessary
+---@local
+function LoggingConsole:createPathIfNotExists()
+  local path = self:transformTemplate(self.path)
+  if not path:ends("/") then
+    path = path .. "/"
+  end
+  if not exists(path) then
+    local ok, err = dt.mkdir_p(path)
+    if not ok then
+      assert(false, "Could not create directory for log files:" .. path .. "\n Reason was: " .. err)
+    end
+  end
+  return true
+end
+
+--- Handles actually writing to the log file
+---@local
+function LoggingConsole:writeToLog(str)
+  local fileName = self:getFullFilename()
+  self:createPathIfNotExists()
+  if self:getExtension() == "html" then
+    if not io.exists(fileName) then
+      str = htmlHeader .. str
+    end
+    str = str
+  end
+  local file, err = io.open(fileName, "a")
+  if not file then
+    echo(err .. "\n")
+    return
+  end
+  file:write(str)
+  file:close()
+end
+
+local parent = Geyser.MiniConsole
+--- Handler function which does the lifting for c/d/h/echo and appendBuffer to provide the logfile writing functionality
+---@param str the string to echo. Use "" for appends
+---@param etype the type of echo. Valid are "c", "d", "h", "e", and "a"
+---@param log Allows you to override the default behaviour defined by the .log property. Pass true to definitely log, false to skip logging.
+---@local
+function LoggingConsole:xEcho(str, etype, log)
+  if log == nil then
+    log = self.log
+  end
+  local logStr
+  local logType = self.logFormat
+  if logType:find("h") then
+    logType = "h"
+  elseif logType ~= "t" then
+    logType = "l"
+  end
+  if etype == "d" then -- decho
+    if logType == "h" then
+      logStr = dt.decho2html(str)
+    elseif logType == "t" then
+      logStr = dt.decho2string(str)
+    else
+      logStr = dt.decho2ansi(str)
+    end
+    parent.decho(self, str)
+  elseif etype == "c" then -- cecho
+    if logType == "h" then
+      logStr = dt.cecho2html(str)
+    elseif logType == "t" then
+      logStr = dt.cecho2string(str)
+    else
+      logStr = dt.cecho2ansi(str)
+    end
+    parent.cecho(self, str)
+  elseif etype == "h" then -- hecho
+    if logType == "h" then
+      logStr = dt.hecho2html(str)
+    elseif logType == "t" then
+      logStr = dt.hecho2string(str)
+    else
+      logStr = dt.hecho2ansi(str)
+    end
+    parent.hecho(self, str)
+  elseif etype == "a" then -- append
+    str = dt.append2decho()
+    str = str .. "\n"
+    if logType == "h" then
+      logStr = dt.decho2html(str)
+    elseif logType == "t" then
+      logStr = dt.decho2string(str)
+    else
+      logStr = dt.decho2ansi(str)
+    end
+    parent.appendBuffer(self)
+  elseif etype == "e" then -- echo
+    if logType == "h" then
+      logStr = dt.decho2html(str)
+    else
+      logStr = str
+    end
+    parent.echo(self, str)
+  end
+  if log then
+    self:writeToLog(logStr)
+  end
+end
+
+--- Does the actual lifting of echoing links/popups
+-- @local
+function LoggingConsole:xEchoLink(text, lType, command, hint, useFormat, log)
+  if log == nil then
+    log = self.log
+  end
+  local logStr = ""
+  if lType:starts("c") then
+    if self.logFormat == "h" then
+      logStr = dt.cecho2html(text)
+    elseif self.logFormat == "l" then
+      logStr = dt.cecho2ansi(text)
+    elseif self.logFormat == "t" then
+      logStr = dt.cecho2string(text)
+    end
+    if lType:ends("p") then
+      parent.cechoPopup(self, text, command, hint, useFormat)
+    else
+      parent.cechoLink(self, text, command, hint, useFormat)
+    end
+  elseif lType:starts("d") then
+    if self.logFormat == "h" then
+      logStr = dt.decho2html(text)
+    elseif self.logFormat == "l" then
+      logStr = dt.decho2ansi(text)
+    elseif self.logFormat == "t" then
+      logStr = dt.decho2string(text)
+    end
+    if lType:ends("p") then
+      parent.dechoPopup(self, text, command, hint, useFormat)
+    else
+      parent.dechoLink(self, text, command, hint, useFormat)
+    end
+  elseif lType:starts("h") then
+    if self.logFormat == "h" then
+      logStr = dt.hecho2html(text)
+    elseif self.logFormat == "l" then
+      logStr = dt.hecho2ansi(text)
+    elseif self.logFormat == "t" then
+      logStr = dt.hecho2string(text)
+    end
+    if lType:ends("p") then
+      parent.hechoPopup(self, text, command, hint, useFormat)
+    else
+      parent.hechoLink(self, text, command, hint, useFormat)
+    end
+  elseif lType:starts("e") then
+    logStr = text
+    if lType:ends("p") then
+      parent.echoPopup(self, text, command, hint, useFormat)
+    else
+      parent.echoLink(self, text, command, hint, useFormat)
+    end
+  end
+  if log then
+    self:writeToLog(logStr)
+  end
+end
+
+--- cechoLink for LoggingConsole
+-- @param text the text to use for the link
+-- @param command the command to send when the link is clicked, as text. IE [[send("sleep")]]
+-- @param hint A tooltip which is displayed when the mouse is over the link
+-- @param log Should we log this line? Defaults to self.log if not passed.
+function LoggingConsole:cechoLink(text, command, hint, log)
+  self:xEchoLink(text, "c", command, hint, true, log)
+end
+
+--- dechoLink for LoggingConsole
+-- @param text the text to use for the link
+-- @param command the command to send when the link is clicked, as text. IE [[send("sleep")]]
+-- @param hint A tooltip which is displayed when the mouse is over the link
+-- @param log Should we log this line? Defaults to self.log if not passed.
+function LoggingConsole:dechoLink(text, command, hint, log)
+  self:xEchoLink(text, "d", command, hint, true, log)
+end
+
+--- hechoLink for LoggingConsole
+-- @param text the text to use for the link
+-- @param command the command to send when the link is clicked, as text. IE [[send("sleep")]]
+-- @param hint A tooltip which is displayed when the mouse is over the link
+-- @param log Should we log this line? Defaults to self.log if not passed.
+function LoggingConsole:hechoLink(text, command, hint, log)
+  self:xEchoLink(text, "h", command, hint, true, log)
+end
+
+--- echoLink for LoggingConsole
+-- @param text the text to use for the link
+-- @param command the command to send when the link is clicked, as text. IE [[send("sleep")]]
+-- @param hint A tooltip which is displayed when the mouse is over the link
+-- @param useCurrentFormat If set to true, will look like the text around it. If false it will be blue and underline.
+-- @param log Should we log this line? Defaults to self.log if not passed. If you want to pass this you must pass in useCurrentFormat
+-- @usage myLoggingConsole:echoLink("This is a link!", [[send("sleep")]], "sleep") -- text "This is a link" will send("sleep") when clicked and be blue w/ underline. Defaut log behaviour (self.log)
+-- @usage myLoggingConsole:echoLink("This is a link!", [[send("sleep")]], "sleep", false, false) -- same as above, but forces it not to log regardless of self.log setting
+-- @usage myLoggingConsole:echoLink("This is a link!", [[send("sleep")]], "sleep", true, true) -- same as above, but forces it to log regardless of self.log setting and the text will look like anything else echoed to the console.
+function LoggingConsole:echoLink(text, command, hint, useCurrentFormat, log)
+  self:xEchoLink(text, "e", command, hint, useCurrentFormat, log)
+end
+
+--- cechoPopup for LoggingConsole
+-- @param text the text to use for the link
+-- @param commands the commands to send when the popup is activated, as table. IE {[[send("sleep")]], [[send("stand")]]}
+-- @param hints A tooltip which is displayed when the mouse is over the link. IE {{"sleep", "stand"}}
+-- @param log Should we log this line? Defaults to self.log if not passed.
+function LoggingConsole:cechoPopup(text, commands, hints, log)
+  self:xEchoLink(text, "cp", commands, hints, true, log)
+end
+
+--- dechoPopup for LoggingConsole
+-- @param text the text to use for the link
+-- @param commands the commands to send when the popup is activated, as table. IE {[[send("sleep")]], [[send("stand")]]}
+-- @param hints A tooltip which is displayed when the mouse is over the link. IE {{"sleep", "stand"}}
+-- @param log Should we log this line? Defaults to self.log if not passed.
+function LoggingConsole:dechoPopup(text, commands, hints, log)
+  self:xEchoLink(text, "dp", commands, hints, true, log)
+end
+
+--- hechoPopup for LoggingConsole
+-- @param text the text to use for the link
+-- @param commands the commands to send when the popup is activated, as table. IE {[[send("sleep")]], [[send("stand")]]}
+-- @param hints A tooltip which is displayed when the mouse is over the link. IE {{"sleep", "stand"}}
+-- @param log Should we log this line? Defaults to self.log if not passed.
+function LoggingConsole:hechoPopup(text, commands, hints, log)
+  self:xEchoLink(text, "hp", commands, hints, true, log)
+end
+
+--- echoPopup for LoggingConsole
+-- @param text the text to use for the link
+-- @param commands the commands to send when the popup is activated, as table. IE {[[send("sleep")]], [[send("stand")]]}
+-- @param hints A tooltip which is displayed when the mouse is over the link. IE {{"sleep", "stand"}}
+-- @param useCurrentFormat If set to true, will look like the text around it. If false it will be blue and underline.
+-- @param log Should we log this line? Defaults to self.log if not passed. If you want to pass this you must pass in useCurrentFormat
+-- @usage myLoggingConsole:echoPopup("This is a link!", {[[send("sleep")]], [[send("stand")]], {"sleep", "stand"}) -- text "This is a link" will send("sleep") when clicked and be blue w/ underline. Defaut log behaviour (self.log)
+-- @usage myLoggingConsole:echoPopup("This is a link!", {[[send("sleep")]], [[send("stand")]], {"sleep", "stand"}, false, false) -- same as above, but forces it not to log regardless of self.log setting
+-- @usage myLoggingConsole:echoPopup("This is a link!", {[[send("sleep")]], [[send("stand")]], {"sleep", "stand"}, true, true) -- same as above, but forces it to log regardless of self.log setting and the text will look like anything else echoed to the console.
+function LoggingConsole:echoPopup(text, commands, hints, useCurrentFormat, log)
+  self:xEchoLink(text, "ep", commands, hints, useCurrentFormat, log)
+end
+
+--- Append copy()ed text to the console
+-- @param log should we log this?
+function LoggingConsole:appendBuffer(log)
+  self:xEcho("", "a", log)
+end
+
+--- Append copy()ed text to the console
+-- @param log should we log this?
+function LoggingConsole:append(log)
+  self:xEcho("", "a", log)
+end
+
+--- echo'</span>s a <span class="global">string</span> to the console.
+<span class="comment">-- @param str the string to echo
+</span><span class="comment">-- @param log should this be logged? Used to override the .log constraint
+</span><span class="keyword">function</span> LoggingConsole:<span class="function-name">echo</span>(str, log)
+  self:<span class="function-name">xEcho</span>(str, <span class="string">"e"</span>, log)
+<span class="keyword">end</span>
+
+<span class="comment">--- hecho's a string to the console.
+</span><span class="comment">-- @param str the string to hecho
+</span><span class="comment">-- @param log should this be logged? Used to override the .log constraint
+</span><span class="keyword">function</span> LoggingConsole:<span class="function-name">hecho</span>(str, log)
+  self:<span class="function-name">xEcho</span>(str, <span class="string">"h"</span>, log)
+<span class="keyword">end</span>
+
+<span class="comment">--- decho's a string to the console.
+</span><span class="comment">-- @param str the string to decho
+</span><span class="comment">-- @param log should this be logged? Used to override the .log constraint
+</span><span class="keyword">function</span> LoggingConsole:<span class="function-name">decho</span>(str, log)
+  self:<span class="function-name">xEcho</span>(str, <span class="string">"d"</span>, log)
+<span class="keyword">end</span>
+
+<span class="comment">--- cecho's a string to the console.
+</span><span class="comment">-- @param str the string to cecho
+</span><span class="comment">-- @param log should this be logged? Used to override the .log constraint
+</span><span class="keyword">function</span> LoggingConsole:<span class="function-name">cecho</span>(str, log)
+  self:<span class="function-name">xEcho</span>(str, <span class="string">"c"</span>, log)
+<span class="keyword">end</span>
+
+<span class="comment">--- Replays the last X lines from the console's log file, if it exists
+</span><span class="comment">-- @param numberOfLines The number of lines to replay from the end of the file
+</span><span class="keyword">function</span> LoggingConsole:<span class="function-name">replay</span>(numberOfLines)
+  <span class="keyword">local</span> fileName = self:<span class="function-name">getFullFilename</span>()
+  <span class="keyword">if</span> <span class="keyword">not</span> <span class="function-name">exists</span>(fileName) <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> file = <span class="global">io</span>.<span class="function-name">open</span>(fileName, <span class="string">"r"</span>)
+  <span class="keyword">local</span> lines = file:<span class="function-name">read</span>(<span class="string">"*a"</span>)
+  <span class="keyword">if</span> self:<span class="function-name">getExtension</span>() == <span class="string">"html"</span> <span class="keyword">then</span>
+    <span class="keyword">for</span> _, line <span class="keyword">in</span> <span class="global">ipairs</span>(htmlHeaderPattern:<span class="function-name">split</span>(<span class="string">"\n"</span>)) <span class="keyword">do</span>
+      <span class="keyword">if</span> line ~= <span class="string">""</span> <span class="keyword">then</span>
+        lines = lines:<span class="function-name">gsub</span>(line .. <span class="string">"\n"</span>, <span class="string">""</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    lines = dt.<span class="function-name">html2decho</span>(lines)
+  <span class="keyword">else</span>
+    lines = <span class="function-name">ansi2decho</span>(lines)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> linesTbl = lines:<span class="function-name">split</span>(<span class="string">"\n"</span>)
+  <span class="keyword">local</span> result
+  <span class="keyword">if</span> #linesTbl &lt;= numberOfLines <span class="keyword">then</span><a id="56"></a>
+    result = lines
+  <span class="keyword">else</span>
+    result = <span class="string">""</span>
+    <span class="keyword">local</span> start = #linesTbl - numberOfLines
+    <span class="keyword">for</span> index, str <span class="keyword">in</span> <span class="global">ipairs</span>(linesTbl) <span class="keyword">do</span>
+      <span class="keyword">if</span> index &gt;= start <span class="keyword">then</span>
+        result = <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s\n%s"</span>, result, str)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  self:<span class="function-name">decho</span>(result, <span class="keyword">false</span>)<a id="67"></a>
+<span class="keyword">end</span>
+
+<span class="global">setmetatable</span>(LoggingConsole, parent)
+
+<span class="keyword">return</span> LoggingConsole</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

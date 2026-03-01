@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><a href="../source/sortbox.lua.html">sortbox.lua</a></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><strong>sug.lua</strong></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>sug.lua</h2>
+<pre>
+<span class="comment">--- Self Updating Gauge, extends &lt;a href="https://www.mudlet.org/geyser/files/geyser/GeyserGauge.html"&gt;Geyser.Gauge&lt;/a&gt;
+</span><span class="comment">-- @classmod SUG
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span><span class="keyword">local</span> SUG = {
+  name = <span class="string">"SelfUpdatingGaugeClass"</span>,
+  active = <span class="keyword">true</span>,
+  updateTime = <span class="number">333</span>,
+  currentVariable = <span class="string">""</span>,
+  maxVariable = <span class="string">""</span>,
+  defaultCurrent = <span class="number">50</span>,
+  defaultMax = <span class="number">100</span>,
+  textTemplate = <span class="string">" |c/|m |p%"</span>,
+  strict = <span class="keyword">true</span>,
+}
+
+<span class="comment">-- Internal function, used to turn a string variable name into a value
+</span><span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">getValueAt</span>(accessString)
+  <span class="keyword">local</span> ok, err = <span class="global">pcall</span>(<span class="global">loadstring</span>(<span class="string">"return "</span> .. <span class="global">tostring</span>(accessString)))
+  <span class="keyword">if</span> ok <span class="keyword">then</span> <span class="keyword">return</span> err <span class="keyword">end</span>
+  <span class="keyword">return</span> <span class="keyword">nil</span>, err
+<span class="keyword">end</span>
+
+<span class="comment">-- ========== End section copied from demontools.lua
+</span>
+<span class="comment">--- Creates a new Self Updating Gauge.
+</span><span class="comment">-- @tparam table cons table of options which control the Gauge's behaviour. In addition to all valid contraints for Geyser.Gauge, SUG adds:
+</span><span class="comment">-- &lt;br&gt;
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;th&gt;name&lt;/th&gt;
+</span><span class="comment">--  &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--  &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;active&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;boolean, if true starts the timer updating&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;updateTime&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;How often should the gauge autoupdate? Milliseconds. 0 to disable the timer but still allow event updates&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;333&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;currentVariable&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;What variable will hold the 'current' value of the gauge? Pass the name as a string, IE "currentHP" or "gmcp.Char.Vitals.hp"&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;""&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;maxVariable&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;What variable will hold the 'current' value of the gauge? Pass the name as a string, IE "maxHP" or "gmcp.Char.Vitals.maxhp"&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;""&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;textTemplate&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;Template to use for the text on the gauge. "|c" replaced with current value, "|m" replaced with max value, "|p" replaced with the % full the gauge should be&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;" |c/|m |p%"&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;defaultCurrent&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;What value to use if the currentVariable points to nil or something which cannot be made a number?&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;50&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;defaultMax&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;What value to use if the maxVariable points to nil or something which cannot be made a number?&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;100&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;updateEvent&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;The name of an event to listen for to perform an update. Can be run alongside or instead of the timer updates. Empty string to turn off&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-2"&gt;""&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;tr&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;updateHook&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;A function which is run each time the gauge updates. Should take 3 arguments, the gauge itself, current value, and max value. You can return new current and max values to be used, for example `return 34, 120` would cause the gauge to use 34 for current and 120 for max regardless of what the variables it reads say.&lt;/td&gt;
+</span><span class="comment">--  &lt;td class="tg-1"&gt;&lt;/td&gt;
+</span><span class="comment">-- &lt;/tr&gt;
+</span><span class="comment">-- &lt;/table&gt;
+</span><span class="comment">-- @param container The Geyser container for this gauge
+</span><span class="comment">-- @usage
+</span><span class="comment">-- local SUG = require("MDK.sug") --the following will watch "gmcp.Char.Vitals.hp" and "gmcp.Char.Vitals.maxhp" and update itself every 333 milliseconds
+</span><span class="comment">-- myGauge = SUG:new({
+</span><span class="comment">--   name = "myGauge",
+</span><span class="comment">--   currentVariable = "gmcp.Char.Vitals.hp", --if this is nil, it will use the defaultCurrent of 50
+</span><span class="comment">--   maxVariable = "gmcp.Char.Vitals.maxhp",  --if this is nil, it will use the defaultMax of 100.
+</span><span class="comment">--   height = 50,
+</span><a id="91"></a><span class="comment">-- })
+</span><span class="keyword">function</span> SUG:<span class="function-name">new</span>(cons, container)
+  <span class="keyword">local</span> funcName = <span class="string">"SUG:new(cons, container)"</span>
+  cons = cons <span class="keyword">or</span> {}
+  <span class="keyword">local</span> consType = <span class="global">type</span>(cons)
+  <span class="global">assert</span>(consType == <span class="string">"table"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s: cons as table expected, got %s"</span>, funcName, consType))
+  <span class="keyword">local</span> me = SUG.parent:<span class="function-name">new</span>(cons, container)
+  <span class="global">setmetatable</span>(me, self)
+  self.__index = self
+  <span class="comment">-- apply any styling requested
+</span>  <span class="keyword">if</span> me.cssFront <span class="keyword">then</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> me.cssBack <span class="keyword">then</span>
+      me.cssBack = me.cssFront .. <span class="string">"background-color: black;"</span>
+    <span class="keyword">end</span>
+    me:<span class="function-name">setStyleSheet</span>(me.cssFront, me.cssBack, me.cssText)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> me.active <span class="keyword">then</span>
+    me:<span class="function-name">start</span>()
+  <span class="keyword">end</span>
+  me:<span class="function-name">update</span>()
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+
+<span class="comment">--- Set how often to update the gauge on a timer
+</span><a id="115"></a><span class="comment">-- @tparam number time time in milliseconds. 0 to disable the timer
+</span><span class="keyword">function</span> SUG:<span class="function-name">setUpdateTime</span>(time)
+  <span class="keyword">if</span> <span class="global">type</span>(time) ~= <span class="string">"number"</span> <span class="keyword">then</span>
+    <span class="function-name">debugc</span>(<span class="string">"SUG:setUpdateTime(time) time as number expected, got "</span> .. <span class="global">type</span>(time))
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  self.updateTime = time
+  <span class="keyword">if</span> self.active <span class="keyword">then</span> self:<span class="function-name">start</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Set the event to listen for to update the gauge
+</span><a id="126"></a><span class="comment">-- @tparam string event the name of the event to listen for, use "" to disable events without stopping any existing timers
+</span><span class="keyword">function</span> SUG:<span class="function-name">setUpdateEvent</span>(event)
+  <span class="keyword">if</span> <span class="global">type</span>(event) ~= <span class="global">string</span> <span class="keyword">then</span>
+    <span class="function-name">debugc</span>(<span class="string">"SUG:setUpdateEvent(event) event name as string expected, got "</span> .. <span class="global">type</span>(event))
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  self.updateEvent = event
+  <span class="keyword">if</span> self.active <span class="keyword">then</span> self:<span class="function-name">start</span>() <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Set the name of the variable the Self Updating Gauge watches for the 'current' value of the gauge
+</span><a id="137"></a><span class="comment">-- @tparam string variableName The name of the variable to get the current value for the gauge. For instance "currentHP", "gmcp.Char.Vitals.hp" etc
+</span><span class="keyword">function</span> SUG:<span class="function-name">setCurrentVariable</span>(variableName)
+  <span class="keyword">local</span> nameType = <span class="global">type</span>(variableName)
+  <span class="keyword">local</span> funcName = <span class="string">"SUG:setCurrentVariable(variableName)"</span>
+  <span class="global">assert</span>(nameType == <span class="string">"string"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s: variableName as string expected, got: %s"</span>, funcName, nameType))
+  <span class="keyword">local</span> val = <span class="function-name">getValueAt</span>(variableName)
+  <span class="keyword">local</span> valType = <span class="global">type</span>(<span class="global">tonumber</span>(val))
+  <span class="global">assert</span>(valType == <span class="string">"number"</span>,
+         <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s: variableName must point to a variable which is a number or coercable into one. %s points to a %s"</span>, funcName, variableName,
+                       <span class="global">type</span>(val)))
+  self.currentVariable = variableName
+  self:<span class="function-name">update</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Set the name of the variable the Self Updating Gauge watches for the 'max' value of the gauge
+</span><a id="152"></a><span class="comment">-- @tparam string variableName The name of the variable to get the max value for the gauge. For instance "maxHP", "gmcp.Char.Vitals.maxhp" etc. Set to "" to only check the current value
+</span><span class="keyword">function</span> SUG:<span class="function-name">setMaxVariable</span>(variableName)
+  <span class="keyword">if</span> variableName == <span class="string">""</span> <span class="keyword">then</span>
+    self.maxVariable = variableName
+    self:<span class="function-name">update</span>()
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> nameType = <span class="global">type</span>(variableName)
+  <span class="keyword">local</span> funcName = <span class="string">"SUG:setMaxVariable(variableName)"</span>
+  <span class="global">assert</span>(nameType == <span class="string">"string"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s: variableName as string expected, got: %s"</span>, funcName, nameType))
+  <span class="keyword">local</span> val = <span class="function-name">getValueAt</span>(variableName)
+  <span class="keyword">local</span> valType = <span class="global">type</span>(<span class="global">tonumber</span>(val))
+  <span class="global">assert</span>(valType == <span class="string">"number"</span>,
+         <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s: variableName must point to a variable which is a number or coercable into one. %s points to a %s"</span>, funcName, variableName,
+                       <span class="global">type</span>(val)))
+  self.maxVariable = variableName
+  self:<span class="function-name">update</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Set the template for the Self Updating Gauge to set the text with. "|c" is replaced by the current value, "|m" is replaced by the max value, and "|p" is replaced by the percentage current/max
+</span><a id="172"></a><span class="comment">-- @tparam string template The template to use for the text on the gauge. If the max value is 200 and current is 68, then |c will be replace by 68, |m replaced by 200, and |p replaced by 34.
+</span><span class="keyword">function</span> SUG:<span class="function-name">setTextTemplate</span>(template)
+  <span class="keyword">local</span> templateType = <span class="global">type</span>(template)
+  <span class="keyword">local</span> funcName = <span class="string">"SUG:setTextTemplate(template)"</span>
+  <span class="global">assert</span>(templateType == <span class="string">"string"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"%s: template as string expected, got %s"</span>, funcName, templateType))
+  self.textTemplate = template
+  self:<span class="function-name">update</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- Set the updateHook function which is run just prior to the gauge updating
+</span><a id="182"></a><span class="comment">-- @tparam function func The function which will be called when the gauge updates. It should take 3 arguments, the gauge itself, the current value, and the max value. If you wish to override the current or max values used for the gauge, you can return new current and max values, like `return newCurrent newMax`
+</span><span class="keyword">function</span> SUG:<span class="function-name">setUpdateHook</span>(func)
+  <span class="keyword">local</span> funcType = <span class="global">type</span>(func)
+  <span class="keyword">if</span> funcType ~= <span class="string">"function"</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> <span class="keyword">nil</span>, <span class="string">"setUpdateHook only takes functions, no strings or anything like that. You passed in: "</span> .. funcType
+  <span class="keyword">end</span>
+  self.updateHook = func
+<span class="keyword">end</span>
+
+<a id="191"></a><span class="comment">--- Stops the Self Updating Gauge from updating
+</span><span class="keyword">function</span> SUG:<span class="function-name">stop</span>()
+  self.active = <span class="keyword">false</span>
+  <span class="keyword">if</span> self.timer <span class="keyword">then</span>
+    <span class="function-name">killTimer</span>(self.timer)
+    self.timer = <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.eventHandler <span class="keyword">then</span>
+    <span class="function-name">killAnonymousEventHandler</span>(self.eventHandler)
+    self.eventHandler = <span class="keyword">nil</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="204"></a><span class="comment">--- Starts the Self Updating Gauge updating. If it is already updating, it will restart it.
+</span><span class="keyword">function</span> SUG:<span class="function-name">start</span>()
+  self:<span class="function-name">stop</span>()
+  self.active = <span class="keyword">true</span>
+  <span class="keyword">local</span> update = <span class="keyword">function</span>() self:<span class="function-name">update</span>() <span class="keyword">end</span>
+  <span class="keyword">if</span> self.updateTime &gt; <span class="number">0</span> <span class="keyword">then</span>
+    self.timer = <span class="function-name">tempTimer</span>(self.updateTime / <span class="number">1000</span>, update, <span class="keyword">true</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> updateEvent = self.updateEvent
+  <span class="keyword">if</span> updateEvent <span class="keyword">and</span> updateEvent ~= <span class="string">""</span> <span class="keyword">and</span> updateEvent ~= <span class="string">"*"</span> <span class="keyword">then</span>
+    self.eventHandler = <span class="function-name">registerAnonymousEventHandler</span>(self.updateEvent, update)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="218"></a><span class="comment">--- Reads the values from currentVariable and maxVariable, and updates the gauge's value and text.
+</span><span class="keyword">function</span> SUG:<span class="function-name">update</span>()
+  <span class="keyword">local</span> current = <span class="function-name">getValueAt</span>(self.currentVariable)
+  <span class="keyword">local</span> max = <span class="function-name">getValueAt</span>(self.maxVariable)
+  current = <span class="global">tonumber</span>(current)
+  max = <span class="global">tonumber</span>(max)
+  <span class="keyword">if</span> current == <span class="keyword">nil</span> <span class="keyword">then</span>
+    current = self.defaultCurrent
+    <span class="function-name">debugc</span>(<span class="global">string</span>.<span class="function-name">format</span>(
+             <span class="string">"Self Updating Gauge named %s is trying to update with an invalid current value. Using the defaultCurrent instead. currentVariable: '%s' maxVariable: '%s'"</span>,
+             self.name, self.currentVariable, self.maxVariable))
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> max == <span class="keyword">nil</span> <span class="keyword">then</span>
+    max = self.defaultMax
+    <span class="keyword">if</span> self.maxVariable ~= <span class="string">""</span> <span class="keyword">then</span>
+      <span class="function-name">debugc</span>(<span class="global">string</span>.<span class="function-name">format</span>(
+               <span class="string">"Self Updating Gauge named %s is trying to update with an invalid max value. Using the defaultCurrent instead. currentVariable: '%s' maxVariable: '%s'"</span>,
+               self.name, self.currentVariable, self.maxVariable))
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.updateHook <span class="keyword">and</span> <span class="global">type</span>(self.updateHook) == <span class="string">"function"</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> ok, newcur, newmax = <span class="global">pcall</span>(self.updateHook, self, current, max)
+    <span class="keyword">if</span> ok <span class="keyword">and</span> newcur <span class="keyword">then</span>
+      current = newcur
+      max = newmax <span class="keyword">and</span> newmax <span class="keyword">or</span> self.defaultMax
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> text = self.textTemplate
+  <span class="keyword">local</span> percent = <span class="global">math</span>.<span class="function-name">floor</span>((current / max * <span class="number">100</span>) + <span class="number">0.5</span>)
+  text = text:<span class="function-name">gsub</span>(<span class="string">"|c"</span>, current)
+  text = text:<span class="function-name">gsub</span>(<span class="string">"|m"</span>, max)
+  text = text:<span class="function-name">gsub</span>(<span class="string">"|p"</span>, percent)
+  self:<span class="function-name">setValue</span>(current, max, text)
+<span class="keyword">end</span>
+
+SUG.parent = Geyser.Gauge
+<span class="global">setmetatable</span>(SUG, Geyser.Gauge)
+
+<span class="keyword">return</span> SUG</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

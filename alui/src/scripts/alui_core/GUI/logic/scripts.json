@@ -1,0 +1,51 @@
+[
+  {
+    "name": "logEvent",
+    "isActive": "no",
+    "eventHandlerList": [
+      "gmcp.Room.survey"
+    ]
+  },
+  {
+    "name": "style_update",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Char.Style"
+    ]
+  },
+  {
+    "name": "status_update",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Char.Status"
+    ]
+  },
+  {
+    "name": "vitals_update",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Char.Vitals"
+    ]
+  },
+  {
+    "name": "status_window",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "ALUI status window"
+    ]
+  },
+  {
+    "name": "room_update",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Room.Info"
+    ]
+  },
+  {
+    "name": "survey_update",
+    "isActive": "yes",
+    "eventHandlerList": [
+      "gmcp.Room.survey"
+    ]
+  }
+]

@@ -1,0 +1,613 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="nowrap">
+  <li><a href="../source/LICENSE.lua.html">LICENSE.lua</a></li>
+  <li><a href="../source/aliasmgr.lua.html">aliasmgr.lua</a></li>
+  <li><a href="../source/chyron.lua.html">chyron.lua</a></li>
+  <li><a href="../source/demontools.lua.html">demontools.lua</a></li>
+  <li><a href="../source/echofile.lua.html">echofile.lua</a></li>
+  <li><a href="../source/emco.lua.html">emco.lua</a></li>
+  <li><a href="../source/figlet.lua.html">figlet.lua</a></li>
+  <li><a href="../source/ftext.lua.html">ftext.lua</a></li>
+  <li><a href="../source/gradientmaker.lua.html">gradientmaker.lua</a></li>
+  <li><a href="../source/loggingconsole.lua.html">loggingconsole.lua</a></li>
+  <li><a href="../source/loginator.lua.html">loginator.lua</a></li>
+  <li><a href="../source/mastermindsolver.lua.html">mastermindsolver.lua</a></li>
+  <li><a href="../source/revisionator.lua.html">revisionator.lua</a></li>
+  <li><a href="../source/schema.lua.html">schema.lua</a></li>
+  <li><strong>sortbox.lua</strong></li>
+  <li><a href="../source/spinbox.lua.html">spinbox.lua</a></li>
+  <li><a href="../source/sug.lua.html">sug.lua</a></li>
+  <li><a href="../source/ftext_spec.lua.html">ftext_spec.lua</a></li>
+  <li><a href="../source/textgauge.lua.html">textgauge.lua</a></li>
+  <li><a href="../source/timergauge.lua.html">timergauge.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>sortbox.lua</h2>
+<pre>
+<span class="comment">---An H/VBox alternative which can be set to either vertical or horizontal, and will autosort the windows
+</span><span class="comment">-- @classmod SortBox
+</span><span class="comment">-- @author Damian Monogue &lt;demonnic@gmail.com&gt;
+</span><span class="comment">-- @copyright 2020 Damian Monogue
+</span><span class="comment">-- @license MIT, see LICENSE.lua
+</span><span class="keyword">local</span> SortBox = Geyser.Container:<span class="function-name">new</span>({
+  name = <span class="string">"SortBoxClass"</span>,
+  autoSort = <span class="keyword">true</span>,
+  timerSort = <span class="keyword">true</span>,
+  sortInterval = <span class="number">500</span>,
+  elastic = <span class="keyword">false</span>,
+  maxHeight = <span class="number">0</span>,
+  maxWidth = <span class="number">0</span>,
+  boxType = <span class="string">"v"</span>,
+  sortFunction = <span class="string">"gaugeValue"</span>,
+})
+<span class="keyword">local</span> BIGNUMBER = <span class="number">999999999</span>
+
+<span class="comment">--- Sorting functions for spairs, should you wish
+</span><span class="comment">-- @table SortFunctions
+</span><span class="comment">-- @field gaugeValue sorts Geyser gauges by value, ascending
+</span><span class="comment">-- @field reverseGaugeValue sorts Geyser gauges by value, descending
+</span><span class="comment">-- @field timeLeft sorts TimerGauges by how much time is left, ascending
+</span><span class="comment">-- @field reverseTimeLeft sorts TimerGauges by how much time is left, descending.
+</span><span class="comment">-- @field name sorts Geyser objects by name, ascending
+</span><span class="comment">-- @field reverseName sorts Geyser objects by name, descending
+</span><span class="comment">-- @field message sorts Geyser labels and gauges by their echoed text, ascending
+</span><a id="29"></a><span class="comment">-- @field reverseMessage sorts Geyser labels and gauges by their echoed text, descending
+</span>SortBox.SortFunctions = {
+  gaugeValue = <span class="keyword">function</span>(t, a, b)
+    <span class="keyword">local</span> avalue = t[a].value <span class="keyword">or</span> BIGNUMBER
+    <span class="keyword">local</span> bvalue = t[b].value <span class="keyword">or</span> BIGNUMBER
+    <span class="keyword">return</span> avalue &lt; bvalue
+  <span class="keyword">end</span>,
+  reverseGaugeValue = <span class="keyword">function</span>(t, a, b)
+    <span class="keyword">local</span> avalue = t[a].value <span class="keyword">or</span> BIGNUMBER
+    <span class="keyword">local</span> bvalue = t[b].value <span class="keyword">or</span> BIGNUMBER
+    <span class="keyword">return</span> avalue &gt; bvalue
+  <span class="keyword">end</span>,
+  timeLeft = <span class="keyword">function</span>(t, a, b)
+    a = t[a]
+    b = t[b]
+    <span class="keyword">local</span> avalue = a.getTime <span class="keyword">and</span> <span class="global">tonumber</span>(a:<span class="function-name">getTime</span>(<span class="string">"S.mm"</span>)) <span class="keyword">or</span> BIGNUMBER
+    <span class="keyword">local</span> bvalue = b.getTime <span class="keyword">and</span> <span class="global">tonumber</span>(b:<span class="function-name">getTime</span>(<span class="string">"S.mm"</span>)) <span class="keyword">or</span> BIGNUMBER
+    <span class="keyword">return</span> avalue &lt; bvalue
+  <span class="keyword">end</span>,
+  reverseTimeLeft = <span class="keyword">function</span>(t, a, b)
+    a = t[a]
+    b = t[b]
+    <span class="keyword">local</span> avalue = a.getTime <span class="keyword">and</span> <span class="global">tonumber</span>(a:<span class="function-name">getTime</span>(<span class="string">"S.mm"</span>)) <span class="keyword">or</span> BIGNUMBER
+    <span class="keyword">local</span> bvalue = b.getTime <span class="keyword">and</span> <span class="global">tonumber</span>(b:<span class="function-name">getTime</span>(<span class="string">"S.mm"</span>)) <span class="keyword">or</span> BIGNUMBER
+    <span class="keyword">return</span> avalue &gt; bvalue
+  <span class="keyword">end</span>,
+  name = <span class="keyword">function</span>(t, a, b)
+    <span class="keyword">return</span> t[a].name &lt; t[b].name
+  <span class="keyword">end</span>,
+  reverseName = <span class="keyword">function</span>(t, a, b)
+    <span class="keyword">return</span> t[a].name &gt; t[b].name
+  <span class="keyword">end</span>,
+  message = <span class="keyword">function</span>(t, a, b)
+    a = t[a]
+    b = t[b]
+    <span class="keyword">local</span> avalue = a.text <span class="keyword">and</span> a.text.message <span class="keyword">or</span> a.message
+    <span class="keyword">local</span> bvalue = b.text <span class="keyword">and</span> b.text.message <span class="keyword">or</span> b.message
+    avalue = avalue <span class="keyword">or</span> <span class="string">""</span>
+    bvalue = bvalue <span class="keyword">or</span> <span class="string">""</span>
+    <span class="keyword">return</span> avalue &lt; bvalue
+  <span class="keyword">end</span>,
+  reverseMessage = <span class="keyword">function</span>(t, a, b)
+    a = t[a]
+    b = t[b]
+    <span class="keyword">local</span> avalue = a.text <span class="keyword">and</span> a.text.message <span class="keyword">or</span> a.message
+    <span class="keyword">local</span> bvalue = b.text <span class="keyword">and</span> b.text.message <span class="keyword">or</span> b.message
+    avalue = avalue <span class="keyword">or</span> <span class="string">""</span>
+    bvalue = bvalue <span class="keyword">or</span> <span class="string">""</span>
+    <span class="keyword">return</span> avalue &gt; bvalue
+  <span class="keyword">end</span>,
+}
+<span class="comment">--- Creates a new SortBox
+</span><span class="comment">-- @usage
+</span><span class="comment">-- local SortBox = require("MDK.sortbox")
+</span><span class="comment">-- mySortBox = SortBox:new({
+</span><span class="comment">--   name = "mySortBox",
+</span><span class="comment">--   x = 400,
+</span><span class="comment">--   y = 100,
+</span><span class="comment">--   height = 150,
+</span><span class="comment">--   width = 300,
+</span><span class="comment">--   sortFunction = "timeLeft"
+</span><span class="comment">-- })
+</span><span class="comment">-- @tparam table options the options to use for the SortBox. See table below for added options
+</span><span class="comment">-- @param[opt] container the container to add the SortBox into
+</span><span class="comment">-- &lt;br&gt;&lt;br&gt;Table of new options
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;option name&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;default&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;autoSort&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;should the SortBox perform function based sorting? If false, will behave like a normal H/VBox&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;timerSort&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;should the SortBox automatically perform sorting on a timer?&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;true&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;sortInterval&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;how frequently should we sort on a timer if timerSort is true, in milliseconds&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;500&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;boxType&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Should we stack like an HBox or VBox? use 'h' for hbox and 'v' for vbox&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;v&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;sortFunction&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;how should we sort the items in the SortBox? see setSortFunction for valid options&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;gaugeValue&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;elastic&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;Should this container stretch to fit its contents? boxType v stretches in height, h stretches in width.&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;false&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;maxHeight&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;If elastic, what's the biggest a 'v' style box should grow in height? Use 0 for unlimited&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;0&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;maxWidth&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;If elastic, what's the biggest a 'h' style box should grow in width? Use 0 for unlimited&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;0&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/tbody&gt;
+</span><a id="144"></a><span class="comment">-- &lt;/table&gt;
+</span><span class="keyword">function</span> SortBox:<span class="function-name">new</span>(options, container)
+  options = options <span class="keyword">or</span> {}
+  options.<span class="global">type</span> = options.<span class="global">type</span> <span class="keyword">or</span> <span class="string">"SortBox"</span>
+  <span class="keyword">local</span> me = self.parent:<span class="function-name">new</span>(options, container)
+  <span class="global">setmetatable</span>(me, self)
+  self.__index = self
+  <span class="keyword">if</span> me.timerSort <span class="keyword">then</span>
+    me:<span class="function-name">enableTimer</span>()
+  <span class="keyword">end</span>
+  me:<span class="function-name">setBoxType</span>(me.boxType)
+  <span class="keyword">return</span> me
+<span class="keyword">end</span>
+
+<span class="comment">--- Iterates a key:value pair table in a sorted fashion
+</span><span class="comment">-- @local
+</span><span class="comment">-- I first found this on https://stackoverflow.com/questions/15706270/sort-a-table-in-lua
+</span><span class="comment">-- modified slightly, as Mudlet already has table.keys to collect keys, and I don't want
+</span><span class="comment">-- to sort if no function to sort with is given. In this case, I want it to work like pairs.
+</span><span class="keyword">local</span> <span class="keyword">function</span> <span class="function-name">spairs</span>(t, order)
+  <span class="keyword">local</span> keys = <span class="global">table</span>.<span class="function-name">keys</span>(t)
+  <span class="keyword">if</span> order <span class="keyword">then</span>
+    <span class="global">table</span>.<span class="function-name">sort</span>(keys, <span class="keyword">function</span>(a, b)
+      <span class="keyword">return</span> <span class="function-name">order</span>(t, a, b)
+    <span class="keyword">end</span>)
+  <span class="keyword">end</span>
+
+  <span class="keyword">local</span> i = <span class="number">0</span>
+  <span class="keyword">return</span> <span class="keyword">function</span>()
+    i = i + <span class="number">1</span>
+    <span class="keyword">if</span> keys[i] <span class="keyword">then</span>
+      <span class="keyword">return</span> keys[i], t[keys[i]]
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> SortBox:<span class="function-name">add</span>(window, cons)
+  <span class="keyword">if</span> self.useAdd2 <span class="keyword">then</span>
+    Geyser.<span class="function-name">add2</span>(self, window, cons)
+  <span class="keyword">else</span>
+    Geyser.<span class="function-name">add</span>(self, window, cons)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> <span class="keyword">not</span> self.defer_updates <span class="keyword">then</span>
+    self:<span class="function-name">organize</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> SortBox:<span class="function-name">remove</span>(window)
+  Geyser.<span class="function-name">remove</span>(self, window)
+  self:<span class="function-name">organize</span>()
+<span class="keyword">end</span>
+
+<a id="196"></a><span class="comment">--- Calling this will cause the SortBox to reposition/resize everything
+</span><span class="keyword">function</span> SortBox:<span class="function-name">organize</span>()
+  <span class="comment">-- make sure we don't divide by zero later
+</span>  <span class="keyword">if</span> self:<span class="function-name">get_width</span>() == <span class="number">0</span> <span class="keyword">then</span>
+    self:<span class="function-name">resize</span>(<span class="string">"0.9px"</span>, <span class="keyword">nil</span>)
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self:<span class="function-name">get_height</span>() == <span class="number">0</span> <span class="keyword">then</span>
+    self:<span class="function-name">resize</span>(<span class="keyword">nil</span>, <span class="string">"0.9px"</span>)
+  <span class="keyword">end</span>
+  <span class="comment">-- handle the individual boxType organization
+</span>  <span class="keyword">if</span> self.boxType == <span class="string">"v"</span> <span class="keyword">then</span>
+    self:<span class="function-name">vorganize</span>()
+  <span class="keyword">else</span>
+    self:<span class="function-name">horganize</span>()
+  <span class="keyword">end</span>
+  <span class="comment">-- shrink/grow if needed
+</span>  self:<span class="function-name">handleElastic</span>()
+<span class="keyword">end</span>
+
+<span class="comment">--- replicates Geyser.HBox functionality, but with the option of sorting
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> SortBox:<span class="function-name">horganize</span>()
+  <span class="keyword">local</span> window_width = (self:<span class="function-name">calculate_dynamic_window_size</span>().width / self:<span class="function-name">get_width</span>()) * <span class="number">100</span>
+  <span class="keyword">local</span> start_x = <span class="number">0</span>
+  <span class="keyword">local</span> sortFunction = (self.autoSort <span class="keyword">and</span> self.sortFunction) <span class="keyword">and</span> SortBox.SortFunctions[self.sortFunction] <span class="keyword">or</span> <span class="keyword">nil</span>
+  <span class="keyword">if</span> sortFunction <span class="keyword">then</span>
+    <span class="keyword">for</span> _, window <span class="keyword">in</span> <span class="function-name">spairs</span>(self.windowList, sortFunction) <span class="keyword">do</span>
+      start_x = start_x + self:<span class="function-name">handleWindow</span>(window, start_x, window_width)
+    <span class="keyword">end</span>
+  <span class="keyword">else</span>
+    <span class="keyword">for</span> _, window_name <span class="keyword">in</span> <span class="global">ipairs</span>(self.windows) <span class="keyword">do</span>
+      <span class="keyword">local</span> window = self.windowList[window_name]
+      start_x = start_x + self:<span class="function-name">handleWindow</span>(window, start_x, window_width)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- replicates Geyser.VBox functionality, but with the option of sorting
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> SortBox:<span class="function-name">vorganize</span>()
+  <span class="keyword">local</span> window_height = (self:<span class="function-name">calculate_dynamic_window_size</span>().height / self:<span class="function-name">get_height</span>()) * <span class="number">100</span>
+  <span class="keyword">local</span> start_y = <span class="number">0</span>
+  <span class="keyword">local</span> sortFunction = (self.autoSort <span class="keyword">and</span> self.sortFunction) <span class="keyword">and</span> SortBox.SortFunctions[self.sortFunction] <span class="keyword">or</span> <span class="keyword">nil</span>
+  <span class="keyword">if</span> sortFunction <span class="keyword">then</span>
+    <span class="keyword">for</span> _, window <span class="keyword">in</span> <span class="function-name">spairs</span>(self.windowList, sortFunction) <span class="keyword">do</span>
+      start_y = start_y + self:<span class="function-name">handleWindow</span>(window, start_y, window_height)
+    <span class="keyword">end</span>
+  <span class="keyword">else</span>
+    <span class="keyword">for</span> _, window_name <span class="keyword">in</span> <span class="global">ipairs</span>(self.windows) <span class="keyword">do</span>
+      <span class="keyword">local</span> window = self.windowList[window_name]
+      start_y = start_y + self:<span class="function-name">handleWindow</span>(window, start_y, window_height)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- handles a single window during the shuffle process
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> SortBox:<span class="function-name">handleWindow</span>(window, start, window_dimension)
+  <span class="keyword">local</span> width = (window:<span class="function-name">get_width</span>() / self:<span class="function-name">get_width</span>()) * <span class="number">100</span>
+  <span class="keyword">local</span> height = (window:<span class="function-name">get_height</span>() / self:<span class="function-name">get_height</span>()) * <span class="number">100</span>
+  <span class="keyword">if</span> window.h_policy == Geyser.Fixed <span class="keyword">or</span> window.v_policy == Geyser.Fixed <span class="keyword">then</span>
+    self.contains_fixed = <span class="keyword">true</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.boxType == <span class="string">"v"</span> <span class="keyword">then</span>
+    window:<span class="function-name">move</span>(<span class="string">"0%"</span>, start .. <span class="string">"%"</span>)
+    <span class="keyword">if</span> window.h_policy == Geyser.Dynamic <span class="keyword">then</span>
+      width = <span class="number">100</span>
+      <span class="keyword">if</span> window.width ~= width <span class="keyword">then</span>
+        window:<span class="function-name">resize</span>(width .. <span class="string">"%"</span>, <span class="keyword">nil</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> window.v_policy == Geyser.Dynamic <span class="keyword">then</span>
+      height = window_dimension * window.v_stretch_factor
+      <span class="keyword">if</span> window.height ~= height <span class="keyword">then</span>
+        window:<span class="function-name">resize</span>(<span class="keyword">nil</span>, height .. <span class="string">"%"</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> height
+  <span class="keyword">else</span>
+    window:<span class="function-name">move</span>(start .. <span class="string">"%"</span>, <span class="string">"0%"</span>)
+    <span class="keyword">if</span> window.h_policy == Geyser.Dynamic <span class="keyword">then</span>
+      width = window_dimension * window.h_stretch_factor
+      <span class="keyword">if</span> window.width ~= width <span class="keyword">then</span>
+        window:<span class="function-name">resize</span>(width .. <span class="string">"%"</span>, <span class="keyword">nil</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> window.v_policy == Geyser.Dynamic <span class="keyword">then</span>
+      height = <span class="number">100</span>
+      <span class="keyword">if</span> window.height ~= height <span class="keyword">then</span>
+        window:<span class="function-name">resize</span>(<span class="keyword">nil</span>, height .. <span class="string">"%"</span>)
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> width
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">---handles actually resizing the window if elastic
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> SortBox:<span class="function-name">handleElastic</span>()
+  <span class="keyword">if</span> <span class="keyword">not</span> self.elastic <span class="keyword">or</span> <span class="global">table</span>.<span class="function-name">is_empty</span>(self.windows) <span class="keyword">then</span>
+    <span class="keyword">return</span>
+  <span class="keyword">end</span>
+  <span class="keyword">if</span> self.boxType == <span class="string">"v"</span> <span class="keyword">then</span>
+    <span class="keyword">local</span> contentHeight, canElastic = self:<span class="function-name">getContentHeight</span>()
+    <span class="keyword">if</span> <span class="keyword">not</span> canElastic <span class="keyword">then</span>
+      <span class="function-name">debugc</span>(<span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"SortBox named %s cannot properly elasticize, as it contains at least one item with a dynamic v_policy"</span>, self.name))
+      <span class="keyword">return</span>
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> currentHeight = self:<span class="function-name">get_height</span>()
+    <span class="keyword">local</span> maxHeight = self.maxHeight
+    <span class="keyword">if</span> maxHeight &gt; <span class="number">0</span> <span class="keyword">and</span> contentHeight &gt; maxHeight <span class="keyword">then</span>
+      contentHeight = maxHeight
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> contentHeight ~= currentHeight <span class="keyword">then</span>
+      self:<span class="function-name">resize</span>(<span class="keyword">nil</span>, contentHeight)
+    <span class="keyword">end</span>
+  <span class="keyword">else</span>
+    <span class="keyword">local</span> contentWidth, canElastic = self:<span class="function-name">getContentWidth</span>()
+    <span class="keyword">if</span> <span class="keyword">not</span> canElastic <span class="keyword">then</span>
+      <span class="function-name">debugc</span>(<span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"SortBox named %s cannot properly elasticize, as it contains at least one item with a dynamic h_policy"</span>, self.name))
+      <span class="keyword">return</span>
+    <span class="keyword">end</span>
+    <span class="keyword">local</span> currentWidth = self:<span class="function-name">get_width</span>()
+    <span class="keyword">local</span> maxWidth = self.maxWidth
+    <span class="keyword">if</span> maxWidth &gt; <span class="number">0</span> <span class="keyword">and</span> contentWidth &gt; maxWidth <span class="keyword">then</span>
+      contentWidth = maxWidth
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> contentWidth ~= currentWidth <span class="keyword">then</span>
+      self:<span class="function-name">resize</span>(contentWidth, <span class="keyword">nil</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">---prevents gaps from forming during resize if it doesn't autoorganize on a timer.
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> SortBox:<span class="function-name">reposition</span>()
+  Geyser.Container.<span class="function-name">reposition</span>(self)
+  <span class="keyword">if</span> self.contains_fixed <span class="keyword">then</span>
+    self:<span class="function-name">organize</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns the sum of the heights of the contents, and whether this SortBox can be elastic in height
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> SortBox:<span class="function-name">getContentHeight</span>()
+  <span class="keyword">if</span> self.boxType ~= <span class="string">"v"</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> self:<span class="function-name">get_height</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> canElastic = <span class="keyword">true</span>
+  <span class="keyword">local</span> contentHeight = <span class="number">0</span>
+  <span class="keyword">for</span> _, window <span class="keyword">in</span> <span class="global">pairs</span>(self.windowList) <span class="keyword">do</span>
+    contentHeight = contentHeight + window:<span class="function-name">get_height</span>()
+    <span class="keyword">if</span> window.v_policy == Geyser.Dynamic <span class="keyword">then</span>
+      canElastic = <span class="keyword">false</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> contentHeight, canElastic
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns the sum of the widths of the contents, and whether this SortBox can be elastic in width.
+</span><span class="comment">-- @local
+</span><span class="keyword">function</span> SortBox:<span class="function-name">getContentWidth</span>()
+  <span class="keyword">if</span> self.boxType == <span class="string">"v"</span> <span class="keyword">then</span>
+    <span class="keyword">return</span> self:<span class="function-name">get_width</span>()
+  <span class="keyword">end</span>
+  <span class="keyword">local</span> canElastic = <span class="keyword">true</span>
+  <span class="keyword">local</span> contentWidth = <span class="number">0</span>
+  <span class="keyword">for</span> _, window <span class="keyword">in</span> <span class="global">pairs</span>(self.windowList) <span class="keyword">do</span>
+    contentWidth = contentWidth + window:<span class="function-name">get_width</span>()
+    <span class="keyword">if</span> window.h_policy == Geyser.Dynamic <span class="keyword">then</span>
+      canElastic = <span class="keyword">false</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  <span class="keyword">return</span> contentWidth, canElastic
+<span class="keyword">end</span>
+
+<a id="372"></a><span class="comment">--- Enables elasticity for the SortBox.
+</span><span class="keyword">function</span> SortBox:<span class="function-name">enableElastic</span>()
+  self:<span class="function-name">setElastic</span>(<span class="keyword">true</span>)
+<span class="keyword">end</span>
+
+<a id="377"></a><span class="comment">--- Disables elasticity for the SortBox
+</span><span class="keyword">function</span> SortBox:<span class="function-name">disableElastic</span>()
+  self:<span class="function-name">setElastic</span>(<span class="keyword">false</span>)
+<span class="keyword">end</span>
+
+<span class="comment">--- Set elasticity specifically
+</span><a id="383"></a><span class="comment">-- @tparam boolean enabled if true, enable elasticity. If false, disable it.
+</span><span class="keyword">function</span> SortBox:<span class="function-name">setElastic</span>(enabled)
+  self.elastic = enabled <span class="keyword">and</span> <span class="keyword">true</span> <span class="keyword">or</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Set the max width of the SortBox if it's elastic
+</span><a id="389"></a><span class="comment">-- @tparam number maxWidth The maximum width in pixels to resize the SortBox to. Use 0 for unlimited.
+</span><span class="keyword">function</span> SortBox:<span class="function-name">setMaxWidth</span>(maxWidth)
+  <span class="keyword">local</span> mwtype = <span class="global">type</span>(maxWidth)
+  <span class="global">assert</span>(mwtype == <span class="string">"number"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"SortBox:setMaxWidth(maxWidth): SortBox: %s maxWidth as number expected, got %s"</span>, self.name, mwtype))
+  <span class="global">assert</span>(maxWidth &gt;= <span class="number">0</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"SortBox:setMaxWidth(maxWidth): SortBox: %s maxWidth must be &gt;= 0, %d"</span>, self.name, maxWidth))
+  self.maxWidth = maxWidth
+<span class="keyword">end</span>
+
+<span class="comment">--- Set the max height of the SortBox if it's elastic
+</span><a id="398"></a><span class="comment">-- @tparam number maxHeight The maximum height in pixels to resize the SortBox to. Use 0 for unlimited.
+</span><span class="keyword">function</span> SortBox:<span class="function-name">setMaxHeight</span>(maxHeight)
+  <span class="keyword">local</span> mhtype = <span class="global">type</span>(maxHeight)
+  <span class="global">assert</span>(mhtype == <span class="string">"number"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"SortBox:setMaxHeight(maxHeight): SortBox: %s maxHeight as number expected, got %s"</span>, self.name, mhtype))
+  <span class="global">assert</span>(maxHeight &gt;= <span class="number">0</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"SortBox:setMaxHeight(maxHeight): SortBox: %s maxHeight must be &gt;= 0, %d"</span>, self.name, maxHeight))
+  self.maxHeight = maxHeight
+<span class="keyword">end</span>
+
+<a id="406"></a><span class="comment">--- Starts the SortBox sorting and organizing itself on a timer
+</span><span class="keyword">function</span> SortBox:<span class="function-name">enableTimer</span>()
+  <span class="keyword">if</span> self.timerID <span class="keyword">then</span>
+    self:<span class="function-name">disableTimer</span>()
+  <span class="keyword">end</span>
+  self.timerSort = <span class="keyword">true</span>
+  self.timerID = <span class="function-name">tempTimer</span>(self.sortInterval / <span class="number">1000</span>, <span class="keyword">function</span>()
+    self:<span class="function-name">organize</span>()
+  <span class="keyword">end</span>, <span class="keyword">true</span>)
+<span class="keyword">end</span>
+
+<a id="417"></a><span class="comment">--- Stops the SortBox from sorting and organizing itself on a timer
+</span><span class="keyword">function</span> SortBox:<span class="function-name">disableTimer</span>()
+  <span class="function-name">killTimer</span>(self.timerID)
+  self.timerID = <span class="keyword">nil</span>
+  self.timerSort = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the sortInterval, or amount of time in milliseconds between auto sorting on a timer if timerSort is true
+</span><a id="425"></a><span class="comment">-- @tparam number sortInterval time in milliseconds between auto sorting if timerSort is true
+</span><span class="keyword">function</span> SortBox:<span class="function-name">setSortInterval</span>(sortInterval)
+  <span class="keyword">local</span> sitype = <span class="global">type</span>(sortInterval)
+  <span class="global">assert</span>(sitype == <span class="string">"number"</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"SortBox:setSortInterval(sortInterval): sortInterval as number expected, got %s"</span>, sitype))
+  <span class="global">assert</span>(sortInterval &gt; <span class="number">0</span>, <span class="global">string</span>.<span class="function-name">format</span>(<span class="string">"SortBox:setSortInterval(sortInterval): sortInterval must be positive"</span>))
+  self.sortInterval = sortInterval
+  <span class="keyword">if</span> self.timerSort <span class="keyword">then</span>
+    self:<span class="function-name">enableTimer</span>()
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<a id="436"></a><span class="comment">--- Enables sorting when items are added/removed, or if timerSort is true, every sortInterval milliseconds
+</span><span class="keyword">function</span> SortBox:<span class="function-name">enableSort</span>()
+  self.autoSort = <span class="keyword">true</span>
+  self:<span class="function-name">organize</span>()
+<span class="keyword">end</span>
+
+<a id="442"></a><span class="comment">--- Disables sorting when items are added or removed
+</span><span class="keyword">function</span> SortBox:<span class="function-name">disableSort</span>()
+  self.autoSort = <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">---Set whether the SortBox acts as a VBox or HBox.
+</span><span class="comment">-- @tparam string boxType If you pass 'h' or 'horizontal' it will act like an HBox. Anything else it will act like a VBox.
+</span><span class="comment">-- @usage mySortBox:setBoxType("v") -- behave like a VBox
+</span><span class="comment">-- mySortBox:setBoxType("h") -- behave like an HBox
+</span><a id="451"></a><span class="comment">-- mySortBox:setBoxType("beeblebrox") -- why?! Why would you do this? It'll behave like a VBox
+</span><span class="keyword">function</span> SortBox:<span class="function-name">setBoxType</span>(boxType)
+  boxType = boxType:<span class="function-name">lower</span>()
+  <span class="keyword">if</span> boxType == <span class="string">"h"</span> <span class="keyword">or</span> boxType == <span class="string">"horizontal"</span> <span class="keyword">then</span>
+    self.boxType = <span class="string">"h"</span>
+  <span class="keyword">else</span>
+    self.boxType = <span class="string">"v"</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">---Sets the type of sorting in use by this SortBox.
+</span><span class="comment">-- &lt;br&gt;If an item in the box does not have the appropriate property or function, then 999999999 is used for sorting except as otherwise noted.
+</span><span class="comment">-- &lt;br&gt;If an invalid option is given, then existing H/VBox behaviour is maintained, just like if autoSort is false.
+</span><span class="comment">-- @usage mySortBox:setSortFunction("gaugeValue")
+</span><span class="comment">-- @tparam string functionName what type of sorting should we use? See table below for valid options and their descriptions.
+</span><span class="comment">-- &lt;table class="tg"&gt;
+</span><span class="comment">-- &lt;thead&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;th&gt;sort type&lt;/th&gt;
+</span><span class="comment">--     &lt;th&gt;description&lt;/th&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/thead&gt;
+</span><span class="comment">-- &lt;tbody&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;gaugeValue&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;sort gauges based on how full the gauge is, from less full to more&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;reverseGaugeValue&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;sort gauges based on how full the gauge is, from more full to less&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;timeLeft&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;sort TimerGauges based on the total time left in the gauge, from less time to more&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;reverseTimeLeft&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;sort TimerGauges based on the total time left in the gauge, from more time to less&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;name&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;sort any item (and mixed types) by name, alphabetically.&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;reverseName&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;sort any item (and mixed types) by name, reverse alphabetically.&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;message&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-1"&gt;sorts Labels based on their echoed message, alphabetically. If not a label, the empty string will be used&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">--   &lt;tr&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;reverseMessage&lt;/td&gt;
+</span><span class="comment">--     &lt;td class="tg-2"&gt;sorts Labels based on their echoed message, reverse alphabetically. If not a label, the empty string will be used&lt;/td&gt;
+</span><span class="comment">--   &lt;/tr&gt;
+</span><span class="comment">-- &lt;/tbody&gt;
+</span><span class="comment">-- &lt;/table&gt;
+</span><a id="508"></a>
+<span class="keyword">function</span> SortBox:<span class="function-name">setSortFunction</span>(functionName)
+  self.sortFunction = functionName
+<span class="keyword">end</span>
+
+SortBox.parent = Geyser.Container
+
+<span class="keyword">return</span> SortBox</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

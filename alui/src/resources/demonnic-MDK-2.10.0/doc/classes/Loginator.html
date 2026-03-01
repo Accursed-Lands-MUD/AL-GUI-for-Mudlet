@@ -1,0 +1,546 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><strong>Loginator</strong></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><a href="../modules/GradientMaker.html">GradientMaker</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>Loginator</code></h1>
+<p>Loginator creates an object which allows you to log things to file at
+ various severity levels, with the ability to only log items above a specific
+ severity to file.</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2021 Damian Monogue</li>
+        <li><strong>License</strong>: MIT, see LICENSE.lua</li>
+        <li><strong>Author</strong>: Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#loginator:new">loginator:new(options)</a></td>
+	<td class="summary">Creates a new Loginator object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loginator:setColorForLevel">loginator:setColorForLevel(color, level)</a></td>
+	<td class="summary">Set the color to associate with a logging level post-creation</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loginator:getFullFilename">loginator:getFullFilename()</a></td>
+	<td class="summary">Returns the full path and filename to the logfile</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loginator:error">loginator:error(msg)</a></td>
+	<td class="summary">Write an error level message to the logfile.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loginator:warn">loginator:warn(msg)</a></td>
+	<td class="summary">Write a warn level message to the logfile.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loginator:info">loginator:info(msg)</a></td>
+	<td class="summary">Write an info level message to the logfile.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loginator:debug">loginator:debug(msg)</a></td>
+	<td class="summary">Write a debug level message to the logfile.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loginator:log">loginator:log(msg, level)</a></td>
+	<td class="summary">Write a message to the log file and optionally specify the level</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loginator:open">loginator:open()</a></td>
+	<td class="summary">Uses openUrl() to request your OS open the logfile in the appropriate application.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loginator:openDir">loginator:openDir()</a></td>
+	<td class="summary">Uses openUrl() to request your OS open the directory the logfile resides in.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loginator:getPath">loginator:getPath(filename)</a></td>
+	<td class="summary">Returns the path to the log file (directory in which the file resides) as a string</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "loginator:new"></a>
+    <strong>loginator:new(options)</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#214">line 214</a>
+    </dt>
+    <dd>
+    Creates a new Loginator object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">options</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table of options for the logger
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>option name</th>
+     <th>description</th>
+     <th>default</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">format</td>
+     <td class="tg-1">What format to log in? "h" for html, "a" for ansi, anything else for plaintext.</td>
+     <td class="tg-1">"h"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">name</td>
+     <td class="tg-2">What is the name of the logger? Will replace |n in templates</td>
+     <td class="tg-2">logname</td>
+   </tr>
+   <tr>
+     <td class="tg-1">level</td>
+     <td class="tg-1">What level should the logger operate at? This will control what level the log function defaults to, as well as what logs will actually be written<br>
+                        Only items of an equal or higher severity to this will be written to the log file.</td>
+     <td class="tg-1">"info"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">bgColor</td>
+     <td class="tg-2">What background color to use for html logs</td>
+     <td class="tg-2">"black"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">fgColor</td>
+     <td class="tg-1">What color to use for the main text in html logs</td>
+     <td class="tg-1">"white"</td>
+   </tr>
+   <tr>
+     <td class="tg-2">fontSize</td>
+     <td class="tg-2">What font size to use in html logs</td>
+     <td class="tg-2">12</td>
+   </tr>
+   <tr>
+     <td class="tg-1">levelColors</td>
+     <td class="tg-1">Table with the log level as the key, and the color which corresponds to it as the value</td>
+     <td class="tg-1">{ error = "red", warn = "DarkOrange", info = "ForestGreen", debug = "ansi_yellow" }</td>
+   </tr>
+   <tr>
+     <td class="tg-2">fileNameTemplate</td>
+     <td class="tg-2">A template which will be transformed into the full filename, with path. See template options below for replacements</td>
+     <td class="tg-2">"|p/log/Loginator/|y-|M-|d-|n.|e"</td>
+   </tr>
+   <tr>
+     <td class="tg-1">entryTemplate</td>
+     <td class="tg-1">The template which controls the look of each log entry. See template options below for replacements</td>
+     <td class="tg-1">"|y-|M-|d |h:|m:|s.|x [|c|l|r] |t"</td>
+   </tr>
+ </tbody>
+ </table><br>
+ Table of template options
+ <table class="tg">
+ <thead>
+   <tr>
+     <th>template code</th>
+     <th>what it is replaced with</th>
+     <th>example</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr>
+     <td class="tg-1">|y</td>
+     <td class="tg-1">the year in 4 digits</td>
+     <td class="tg-1">2021</td>
+   </tr>
+   <tr>
+     <td class="tg-2">|p</td>
+     <td class="tg-2">getMudletHomeDir()</td>
+     <td class="tg-2">/home/demonnic/.config/mudlet/profiles/testprofile</td>
+   </tr>
+   <tr>
+     <td class="tg-1">|M</td>
+     <td class="tg-1">Month as 2 digits</td>
+     <td class="tg-1">05</td>
+   </tr>
+   <tr>
+     <td class="tg-2">|d</td>
+     <td class="tg-2">day, as 2 digits</td>
+     <td class="tg-2">23</td>
+   </tr>
+   <tr>
+     <td class="tg-1">|h</td>
+     <td class="tg-1">hour in 24hr time format, 2 digits</td>
+     <td class="tg-1">03</td>
+   </tr>
+   <tr>
+     <td class="tg-2">|m</td>
+     <td class="tg-2">minute as 2 digits</td>
+     <td class="tg-2">42</td>
+   </tr>
+   <tr>
+     <td class="tg-1">|s</td>
+     <td class="tg-1">seconds as 2 digits</td>
+     <td class="tg-1">34</td>
+   </tr>
+   <tr>
+     <td class="tg-2">|x</td>
+     <td class="tg-2">milliseconds as 3 digits</td>
+     <td class="tg-2">194</td>
+   </tr>
+   <tr>
+     <td class="tg-1">|e</td>
+     <td class="tg-1">Filename extension expected. "html" for html format, "log" for everything else</td>
+     <td class="tg-1">html</td>
+   </tr>
+   <tr>
+     <td class="tg-2">|l</td>
+     <td class="tg-2">The logging level of the entry, in ALLCAPS</td>
+     <td class="tg-2">WARN</td>
+   </tr>
+   <tr>
+     <td class="tg-1">|c</td>
+     <td class="tg-1">The color which corresponds with the logging level. Set via the levelColors table in the options. Example not included.</td>
+     <td class="tg-1"></td>
+   </tr>
+   <tr>
+     <td class="tg-2">|r</td>
+     <td class="tg-2">Reset back to standard color. Used to close |c. Example not included</td>
+     <td class="tg-2"></td>
+   </tr>
+   <tr>
+     <td class="tg-1">|n</td>
+     <td class="tg-1">The name of the logger, set via the options when you have Loginator create it.</td>
+     <td class="tg-1">CoolPackageLog</td>
+   </tr>
+</tbody>
+</table>
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        newly created logger object
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loginator:setColorForLevel"></a>
+    <strong>loginator:setColorForLevel(color, level)</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#288">line 288</a>
+    </dt>
+    <dd>
+    Set the color to associate with a logging level post-creation
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">color</span>
+         The color to set for the level, as a string. Can be any valid color string for cecho, decho, or hecho.
+        </li>
+        <li><span class="parameter">level</span>
+         The level to set the color for. Must be one of 'error', 'warn', 'info', or 'debug'
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if the color is updated, or nil+error if it could not be updated for some reason.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loginator:getFullFilename"></a>
+    <strong>loginator:getFullFilename()</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#332">line 332</a>
+    </dt>
+    <dd>
+    Returns the full path and filename to the logfile
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loginator:error"></a>
+    <strong>loginator:error(msg)</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#339">line 339</a>
+    </dt>
+    <dd>
+    Write an error level message to the logfile.  Error level messages are always written.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">msg</span>
+         the message to log
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if msg written, nil+error if error
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loginator:warn"></a>
+    <strong>loginator:warn(msg)</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#349">line 349</a>
+    </dt>
+    <dd>
+    Write a warn level message to the logfile.
+ Msg is only written if the logger level is <= warn
+ From most to least severe the levels are:
+ error > warn > info > debug
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">msg</span>
+         the message to log
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if msg written, false if skipped due to level, nil+error if error
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loginator:info"></a>
+    <strong>loginator:info(msg)</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#359">line 359</a>
+    </dt>
+    <dd>
+    Write an info level message to the logfile.
+ Msg is only written if the logger level is <= info
+ From most to least severe the levels are:
+ error > warn > info > debug
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">msg</span>
+         the message to log
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if msg written, false if skipped due to level, nil+error if error
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loginator:debug"></a>
+    <strong>loginator:debug(msg)</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#369">line 369</a>
+    </dt>
+    <dd>
+    Write a debug level message to the logfile.
+ Msg is only written if the logger level is debug
+ From most to least severe the levels are:
+ error > warn > info > debug
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">msg</span>
+         the message to log
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if msg written, false if skipped due to level, nil+error if error
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loginator:log"></a>
+    <strong>loginator:log(msg, level)</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#377">line 377</a>
+    </dt>
+    <dd>
+    Write a message to the log file and optionally specify the level
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">msg</span>
+         the message to log
+        </li>
+        <li><span class="parameter">level</span>
+         the level to log the message at. Defaults to the level of the logger itself if not provided.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if msg written, false if skipped due to level, nil+error if error
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loginator:open"></a>
+    <strong>loginator:open()</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#409">line 409</a>
+    </dt>
+    <dd>
+    Uses openUrl() to request your OS open the logfile in the appropriate application.  Usually your web browser for html and text editor for all others.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loginator:openDir"></a>
+    <strong>loginator:openDir()</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#414">line 414</a>
+    </dt>
+    <dd>
+    Uses openUrl() to request your OS open the directory the logfile resides in.  This allows for easier browsing if you have more than one file.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loginator:getPath"></a>
+    <strong>loginator:getPath(filename)</strong>
+    <a style="float:right;" href="../source/Loginator.lua.html#420">line 420</a>
+    </dt>
+    <dd>
+    Returns the path to the log file (directory in which the file resides) as a string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">filename</span>
+         optional filename to return the path of. If not supplied, with use the logger's current filename
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

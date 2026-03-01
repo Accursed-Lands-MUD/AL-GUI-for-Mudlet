@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>MDK</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/demontools.html">demontools</a></li>
+  <li><a href="../modules/echofile.html">echofile</a></li>
+  <li><a href="../modules/figlet.html">figlet</a></li>
+  <li><a href="../modules/ftext.html">ftext</a></li>
+  <li><strong>GradientMaker</strong></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/aliasmgr.html">aliasmgr</a></li>
+  <li><a href="../classes/Chyron.html">Chyron</a></li>
+  <li><a href="../classes/EMCO.html">EMCO</a></li>
+  <li><a href="../classes/LoggingConsole.html">LoggingConsole</a></li>
+  <li><a href="../classes/Loginator.html">Loginator</a></li>
+  <li><a href="../classes/MasterMindSolver.html">MasterMindSolver</a></li>
+  <li><a href="../classes/revisionator.html">revisionator</a></li>
+  <li><a href="../classes/SortBox.html">SortBox</a></li>
+  <li><a href="../classes/spinbox.html">spinbox</a></li>
+  <li><a href="../classes/SUG.html">SUG</a></li>
+  <li><a href="../classes/TextGauge.html">TextGauge</a></li>
+  <li><a href="../classes/TimerGauge.html">TimerGauge</a></li>
+</ul>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>GradientMaker</code></h1>
+<p>Module which provides for creating color gradients for your text.</p>
+<p>
+ Original functions found on <a href="https://forums.lusternia.com/discussion/3261/anyone-want-text-gradients">the Lusternia Forums</a>
+ <br> I added functions to work with hecho.
+ <br> I also made performance enhancements by storing already calculated gradients after first use for the session and only including the colorcode in the returned string if the color changed.</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2018 Sylphas,2020 Damian Monogue</li>
+        <li><strong>Author</strong>: Sylphas on the Lusternia forums,Damian Monogue <demonnic@gmail.com></li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#color_name">color_name(r, g, b)</a></td>
+	<td class="summary">Returns the closest color name to a given r,g,b color</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#dgradient">dgradient(text, first_color, second_color, next_color)</a></td>
+	<td class="summary">Returns the text, with the defined color gradients applied and formatted for us with decho.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cgradient">cgradient(text, first_color, second_color, next_color)</a></td>
+	<td class="summary">Returns the text, with the defined color gradients applied and formatted for us with cecho.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#hgradient">hgradient(text, first_color, second_color, next_color)</a></td>
+	<td class="summary">Returns the text, with the defined color gradients applied and formatted for us with hecho.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cgradient_table">cgradient_table(text, first_color, second_color, next_color)</a></td>
+	<td class="summary">Returns a table, each element of which is a table, the first element of which is the color name to use and the character which should be that color</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#dgradient_table">dgradient_table(text, first_color, second_color, next_color)</a></td>
+	<td class="summary">Returns a table, each element of which is a table, the first element of which is the color({r,g,b} format) to use and the character which should be that color</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#hgradient_table">hgradient_table(text, first_color, second_color, next_color)</a></td>
+	<td class="summary">Returns a table, each element of which is a table, the first element of which is the color(in hex) to use and the second element of which is the character which should be that color</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#install_global">install_global()</a></td>
+	<td class="summary">Creates global copies of the c/d/hgradient(_table) functions and color_name for use without accessing the module table</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "color_name"></a>
+    <strong>color_name(r, g, b)</strong>
+    <a style="float:right;" href="../source/GradientMaker.lua.html#228">line 228</a>
+    </dt>
+    <dd>
+    Returns the closest color name to a given r,g,b color
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+         The red component. Can also pass the full color as a table, IE { 255, 0, 0 }
+        </li>
+        <li><span class="parameter">g</span>
+         The green component. If you pass the color as a table as noted above, this param should be empty
+        </li>
+        <li><span class="parameter">b</span>
+         the blue components. If you pass the color as a table as noted above, this param should be empty
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">closest_color = GradientMaker.<span class="function-name">color_name</span>(<span class="number">128</span>,<span class="number">200</span>,<span class="number">30</span>) <span class="comment">-- returns "ansi_149"
+</span>closest_color = GradientMaker.<span class="function-name">color_name</span>({<span class="number">128</span>, <span class="number">200</span>, <span class="number">30</span>}) <span class="comment">-- this is functionally equivalent to the first one</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "dgradient"></a>
+    <strong>dgradient(text, first_color, second_color, next_color)</strong>
+    <a style="float:right;" href="../source/GradientMaker.lua.html#244">line 244</a>
+    </dt>
+    <dd>
+    Returns the text, with the defined color gradients applied and formatted for us with decho.  Usage example below produces the following text
+ <br><img src="https://demonnic.github.io/mdk/images/dechogradient.png" alt="dgradient example">
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The text you want to apply the color gradients to
+        </li>
+        <li><span class="parameter">first_color</span>
+         The color you want it to start at. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">second_color</span>
+         The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">next_color</span>
+         Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/GradientMaker.html#cgradient">cgradient</a></li>
+         <li><a href="../modules/GradientMaker.html#hgradient">hgradient</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="function-name">decho</span>(GradientMaker.<span class="function-name">dgradient</span>(<span class="string">"a luminescent butterly floats about lazily on brillant blue and lilac wings\n"</span>, {<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>}, {<span class="number">255</span>,<span class="number">128</span>,<span class="number">0</span>}, {<span class="number">255</span>,<span class="number">255</span>,<span class="number">0</span>}, {<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>}, {<span class="number">0</span>,<span class="number">255</span>,<span class="number">255</span>}, {<span class="number">0</span>,<span class="number">128</span>,<span class="number">255</span>}, {<span class="number">128</span>,<span class="number">0</span>,<span class="number">255</span>}))
+<span class="function-name">decho</span>(GradientMaker.<span class="function-name">dgradient</span>(<span class="string">"a luminescent butterly floats about lazily on brillant blue and lilac wings\n"</span>, {<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>}, {<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>}))
+<span class="function-name">decho</span>(GradientMaker.<span class="function-name">dgradient</span>(<span class="string">"a luminescent butterly floats about lazily on brillant blue and lilac wings\n"</span>, {<span class="number">50</span>,<span class="number">50</span>,<span class="number">50</span>}, {<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>}, {<span class="number">50</span>,<span class="number">50</span>,<span class="number">50</span>}))</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "cgradient"></a>
+    <strong>cgradient(text, first_color, second_color, next_color)</strong>
+    <a style="float:right;" href="../source/GradientMaker.lua.html#260">line 260</a>
+    </dt>
+    <dd>
+    Returns the text, with the defined color gradients applied and formatted for us with cecho.  Usage example below produces the following text
+ <br><img src="https://demonnic.github.io/mdk/images/cechogradient.png" alt="cgradient example">
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The text you want to apply the color gradients to
+        </li>
+        <li><span class="parameter">first_color</span>
+         The color you want it to start at. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">second_color</span>
+         The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">next_color</span>
+         Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/GradientMaker.html#dgradient">dgradient</a></li>
+         <li><a href="../modules/GradientMaker.html#hgradient">hgradient</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="function-name">cecho</span>(GradientMaker.<span class="function-name">cgradient</span>(<span class="string">"a luminescent butterly floats about lazily on brillant blue and lilac wings\n"</span>, {<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>}, {<span class="number">255</span>,<span class="number">128</span>,<span class="number">0</span>}, {<span class="number">255</span>,<span class="number">255</span>,<span class="number">0</span>}, {<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>}, {<span class="number">0</span>,<span class="number">255</span>,<span class="number">255</span>}, {<span class="number">0</span>,<span class="number">128</span>,<span class="number">255</span>}, {<span class="number">128</span>,<span class="number">0</span>,<span class="number">255</span>}))
+<span class="function-name">cecho</span>(GradientMaker.<span class="function-name">cgradient</span>(<span class="string">"a luminescent butterly floats about lazily on brillant blue and lilac wings\n"</span>, {<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>}, {<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>}))
+<span class="function-name">cecho</span>(GradientMaker.<span class="function-name">cgradient</span>(<span class="string">"a luminescent butterly floats about lazily on brillant blue and lilac wings\n"</span>, {<span class="number">50</span>,<span class="number">50</span>,<span class="number">50</span>}, {<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>}, {<span class="number">50</span>,<span class="number">50</span>,<span class="number">50</span>}))</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "hgradient"></a>
+    <strong>hgradient(text, first_color, second_color, next_color)</strong>
+    <a style="float:right;" href="../source/GradientMaker.lua.html#276">line 276</a>
+    </dt>
+    <dd>
+    Returns the text, with the defined color gradients applied and formatted for us with hecho.  Usage example below produces the following text
+ <br><img src="https://demonnic.github.io/mdk/images/hechogradient.png" alt="hgradient example">
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The text you want to apply the color gradients to
+        </li>
+        <li><span class="parameter">first_color</span>
+         The color you want it to start at. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">second_color</span>
+         The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">next_color</span>
+         Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/GradientMaker.html#cgradient">cgradient</a></li>
+         <li><a href="../modules/GradientMaker.html#dgradient">dgradient</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="function-name">hecho</span>(GradientMaker.<span class="function-name">hgradient</span>(<span class="string">"a luminescent butterly floats about lazily on brillant blue and lilac wings\n"</span>, {<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>}, {<span class="number">255</span>,<span class="number">128</span>,<span class="number">0</span>}, {<span class="number">255</span>,<span class="number">255</span>,<span class="number">0</span>}, {<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>}, {<span class="number">0</span>,<span class="number">255</span>,<span class="number">255</span>}, {<span class="number">0</span>,<span class="number">128</span>,<span class="number">255</span>}, {<span class="number">128</span>,<span class="number">0</span>,<span class="number">255</span>}))
+<span class="function-name">hecho</span>(GradientMaker.<span class="function-name">hgradient</span>(<span class="string">"a luminescent butterly floats about lazily on brillant blue and lilac wings\n"</span>, {<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>}, {<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>}))
+<span class="function-name">hecho</span>(GradientMaker.<span class="function-name">hgradient</span>(<span class="string">"a luminescent butterly floats about lazily on brillant blue and lilac wings\n"</span>, {<span class="number">50</span>,<span class="number">50</span>,<span class="number">50</span>}, {<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>}, {<span class="number">50</span>,<span class="number">50</span>,<span class="number">50</span>}))</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "cgradient_table"></a>
+    <strong>cgradient_table(text, first_color, second_color, next_color)</strong>
+    <a style="float:right;" href="../source/GradientMaker.lua.html#286">line 286</a>
+    </dt>
+    <dd>
+    Returns a table, each element of which is a table, the first element of which is the color name to use and the character which should be that color
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The text you want to apply the color gradients to
+        </li>
+        <li><span class="parameter">first_color</span>
+         The color you want it to start at. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">second_color</span>
+         The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">next_color</span>
+         Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/GradientMaker.html#cgradient">cgradient</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "dgradient_table"></a>
+    <strong>dgradient_table(text, first_color, second_color, next_color)</strong>
+    <a style="float:right;" href="../source/GradientMaker.lua.html#296">line 296</a>
+    </dt>
+    <dd>
+    Returns a table, each element of which is a table, the first element of which is the color({r,g,b} format) to use and the character which should be that color
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The text you want to apply the color gradients to
+        </li>
+        <li><span class="parameter">first_color</span>
+         The color you want it to start at. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">second_color</span>
+         The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">next_color</span>
+         Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/GradientMaker.html#dgradient">dgradient</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "hgradient_table"></a>
+    <strong>hgradient_table(text, first_color, second_color, next_color)</strong>
+    <a style="float:right;" href="../source/GradientMaker.lua.html#306">line 306</a>
+    </dt>
+    <dd>
+    Returns a table, each element of which is a table, the first element of which is the color(in hex) to use and the second element of which is the character which should be that color
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The text you want to apply the color gradients to
+        </li>
+        <li><span class="parameter">first_color</span>
+         The color you want it to start at. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">second_color</span>
+         The color you want the gradient to transition to first. Table of colors in { r, g, b } format
+        </li>
+        <li><span class="parameter">next_color</span>
+         Keep repeating if you want it to transition from the second color to a third, then a third to a fourth, etc
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/GradientMaker.html#hgradient">hgradient</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "install_global"></a>
+    <strong>install_global()</strong>
+    <a style="float:right;" href="../source/GradientMaker.lua.html#314">line 314</a>
+    </dt>
+    <dd>
+    Creates global copies of the c/d/hgradient(_table) functions and color_name for use without accessing the module table
+
+
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">GradientMaker.<span class="function-name">install_global</span>()
+<span class="function-name">cecho</span>(<span class="function-name">cgradient</span>(...)) <span class="comment">-- use cgradient directly now</span></pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-05-29 18:41:27 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

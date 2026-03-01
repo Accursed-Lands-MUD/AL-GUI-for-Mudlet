@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run muddle.bat",
+            "type": "shell",
+            "command": "C:\\Programs\\Muddler\\bin\\muddle.bat",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "runOptions": {
+                "runOn": "fileSave"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/alui"
+            }
+        }
+    ]
+}
