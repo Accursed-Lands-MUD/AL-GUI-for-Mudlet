@@ -6,20 +6,20 @@ on:
   pull_request:
     branches: [main]
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-      steps:
-        - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-        - name: Muddle
-          uses: demonnic/build-with-muddler@main
-          with:
-            workingDir: ${{ github.workspace }}/alui
+      - name: Muddle
+        uses: demonnic/build-with-muddler@main
+        with:
+          workingDir: ${{ github.workspace }}/alui
 
-        - name: Upload Artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: alui.mpackage
-            path: alui/build/alui.mpackage
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: alui.mpackage
+          path: alui/build/alui.mpackage
